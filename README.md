@@ -1,3 +1,191 @@
+# CliProCo - Mon Application de Gestion des Clients et Prospects
+
+Salut ! Je suis ravi de vous présenter CliProCo, une application que j'ai développée pour gérer mes clients et prospects. J'ai créé cette application en utilisant Spring MVC et en suivant les bonnes pratiques de développement.
+
+## Ce que j'ai mis en place
+
+J'ai développé une application web qui me permet de :
+- Gérer mes clients et prospects efficacement
+- Suivre mes relations commerciales
+- Avoir un aperçu rapide des conditions météo pour chaque contact
+- Gérer les utilisateurs de l'application
+- Assurer la conformité RGPD et RGAA
+
+## Les technologies que j'ai choisies
+
+J'ai utilisé :
+- Java 17 pour le développement
+- Spring MVC pour l'architecture
+- JPA/Hibernate pour la persistance des données
+- MySQL pour la base de données
+- JSP/JSTL pour les vues
+- Bootstrap 5 pour le design
+- JavaScript pour les interactions côté client
+- Maven pour la gestion du projet
+
+## Comment installer l'application
+
+Pour faire fonctionner l'application, il vous faut :
+1. Java 17 ou plus récent
+2. Maven
+3. Une base de données MySQL
+4. Tomcat 10.x
+
+Ensuite, c'est simple :
+1. Clonez le projet
+2. Configurez la base de données dans src/main/resources/application.properties
+3. Lancez mvn clean install
+4. Déployez sur Tomcat
+
+## Comment j'ai organisé le code
+
+Voici comment j'ai structuré mon projet :
+
+src/
+├── main/
+│   ├── java/
+│   │   └── com/cliproco/
+│   │       ├── controller/  (mes contrôleurs)
+│   │       ├── service/     (la logique métier)
+│   │       ├── dao/         (l'accès aux données)
+│   │       ├── model/       (mes entités)
+│   │       ├── command/     (le pattern Command)
+│   │       └── util/        (mes utilitaires)
+│   ├── resources/
+│   └── webapp/
+│       ├── WEB-INF/
+│       └── resources/
+└── test/
+    └── java/
+        └── com/cliproco/
+            └── service/
+
+## Les tests
+
+J'ai mis en place des tests unitaires et d'intégration. Pour les lancer :
+- Tests unitaires : mvn test
+- Tests d'intégration : mvn verify
+
+## La conformité
+
+J'ai fait attention à :
+- La conformité RGPD pour la gestion des données personnelles
+- L'accessibilité RGAA pour que l'application soit utilisable par tous
+
+## Comment contribuer
+
+Si vous voulez m'aider à améliorer l'application :
+1. Forkez le projet
+2. Créez une branche pour votre fonctionnalité
+3. Committez vos changements
+4. Poussez vers la branche
+5. Créez une Pull Request
+
+## Licence
+
+Le projet est sous licence MIT. N'hésitez pas à l'utiliser et à le modifier selon vos besoins !
+
+## En cas de problème
+
+Si vous rencontrez des difficultés, voici quelques solutions :
+
+1. Vérifiez que Java 17 est bien installé :
+java -version
+
+2. Assurez-vous que Maven est installé :
+mvn -version
+
+3. Si le serveur ne démarre pas :
+   - Vérifiez que le port 8080 est libre
+   - Assurez-vous que les identifiants de la base de données sont corrects
+   - Redémarrez Tomcat
+
+4. Pour le développement local :
+mvn tomcat7:run
+
+L'application sera accessible sur http://localhost:8080/cliproco
+
+N'hésitez pas à me contacter si vous avez des questions !
+
+# Cliproco - Application de Gestion des Clients et Prospects
+
+## Description
+Application de gestion des clients et prospects développée en Java avec Spring MVC, utilisant le pattern Command et suivant les normes RGPD/RGAA.
+
+## Technologies utilisées
+- Java 17
+- Spring MVC
+- JPA/Hibernate
+- MySQL/PostgreSQL
+- JSP/JSTL
+- Bootstrap 5
+- JavaScript
+- Maven
+
+## Fonctionnalités
+- Gestion des clients
+- Gestion des prospects
+- Gestion des utilisateurs
+- Pattern Command pour les opérations CRUD
+- Validation des données
+- Gestion des cookies (RGPD)
+- Interface accessible (RGAA)
+- Tests unitaires
+
+## Installation
+
+### Prérequis
+- JDK 17 ou supérieur
+- Maven
+- Base de données MySQL ou PostgreSQL
+- Serveur Tomcat 10.x
+
+### Configuration
+1. Cloner le repository
+2. Configurer la base de données dans `src/main/resources/application.properties`
+3. Compiler le projet : `mvn clean install`
+4. Déployer l'application sur Tomcat
+
+## Structure du projet
+```
+src/
+├── main/
+│   ├── java/
+│   │   └── com/cliproco/
+│   │       ├── controller/
+│   │       ├── service/
+│   │       ├── dao/
+│   │       ├── model/
+│   │       ├── command/
+│   │       └── util/
+│   ├── resources/
+│   └── webapp/
+│       ├── WEB-INF/
+│       └── resources/
+└── test/
+    └── java/
+        └── com/cliproco/
+            └── service/
+```
+
+## Tests
+- Tests unitaires : `mvn test`
+- Tests d'intégration : `mvn verify`
+
+## Conformité
+- RGPD : Gestion des cookies et des données personnelles
+- RGAA : Interface accessible et responsive
+
+## Contribution
+1. Fork le projet
+2. Créer une branche pour votre fonctionnalité
+3. Commiter vos changements
+4. Pousser vers la branche
+5. Créer une Pull Request
+
+## Licence
+Ce projet est sous licence MIT.
+
 # Application de Gestion des Clients et Prospects
 
 Cette application web Jakarta EE permet de gérer des clients et des prospects. Elle est construite avec le pattern MVC et utilise les technologies suivantes :

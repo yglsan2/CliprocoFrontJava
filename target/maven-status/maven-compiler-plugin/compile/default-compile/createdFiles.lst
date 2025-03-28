@@ -1,7 +1,0 @@
-com\cliproco\controller\ProspectController.class
-com\cliproco\models\Prospect.class
-com\cliproco\servlet\FrontController.class
-com\cliproco\models\Client.class
-com\cliproco\controller\PageAccueilController.class
-com\cliproco\controller\ClientController.class
-com\cliproco\controller\ICommand.class

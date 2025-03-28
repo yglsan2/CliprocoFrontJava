@@ -24,14 +24,23 @@ public class Utilisateur {
     @Size(min = 8, message = "Le mot de passe doit contenir au moins 8 caractères")
     private String motDePasse;
 
-    @NotBlank(message = "Le rôle est obligatoire")
-    @Size(max = 20, message = "Le rôle ne doit pas dépasser 20 caractères")
-    private String role;
+    @NotNull(message = "Le rôle est obligatoire")
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @NotNull(message = "La date de création est obligatoire")
     private LocalDateTime dateCreation;
 
-    // Constructeurs
+    private LocalDateTime dateModification;
+
+    private LocalDateTime dernierLogin;
+
+    public enum Role {
+        ADMIN,
+        COMMERCIAL,
+        MANAGER
+    }
+
     public Utilisateur() {
         this.dateCreation = LocalDateTime.now();
     }
@@ -69,11 +78,11 @@ public class Utilisateur {
         this.motDePasse = motDePasse;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -85,14 +94,24 @@ public class Utilisateur {
         this.dateCreation = dateCreation;
     }
 
-    @Override
-    public String toString() {
-        return "Utilisateur{" +
-                "id=" + id +
-                ", nom='" + nom + '\'' +
-                ", email='" + email + '\'' +
-                ", role='" + role + '\'' +
-                ", dateCreation=" + dateCreation +
-                '}';
+    public LocalDateTime getDateModification() {
+        return dateModification;
+    }
+
+    public void setDateModification(LocalDateTime dateModification) {
+        this.dateModification = dateModification;
+    }
+
+    public LocalDateTime getDernierLogin() {
+        return dernierLogin;
+    }
+
+    public void setDernierLogin(LocalDateTime dernierLogin) {
+        this.dernierLogin = dernierLogin;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        dateModification = LocalDateTime.now();
     }
 } 

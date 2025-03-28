@@ -16,30 +16,29 @@ public class Client {
     private String nom;
 
     @NotBlank(message = "L'adresse est obligatoire")
-    @Size(max = 500, message = "L'adresse ne doit pas dépasser 500 caractères")
+    @Size(max = 200, message = "L'adresse ne peut pas dépasser 200 caractères")
     private String adresse;
 
     @NotBlank(message = "L'email est obligatoire")
     @Email(message = "L'email doit être valide")
+    @Column(unique = true)
     private String email;
 
-    @NotBlank(message = "Le numéro de téléphone est obligatoire")
-    @Pattern(regexp = "^[0-9+\\s-()]{10,20}$", message = "Le numéro de téléphone doit être valide")
+    @Pattern(regexp = "^(?:(?:\\+|00)33|0)\\s*[1-9](?:[\\s.-]*\\d{2}){4}$", message = "Le numéro de téléphone doit être un numéro français valide")
     private String telephone;
 
     @NotBlank(message = "Le secteur d'activité est obligatoire")
-    @Size(max = 50, message = "Le secteur d'activité ne doit pas dépasser 50 caractères")
     private String secteurActivite;
 
     @NotNull(message = "La date de création est obligatoire")
     private LocalDateTime dateCreation;
 
     @NotNull(message = "Le chiffre d'affaires est obligatoire")
-    @DecimalMin(value = "0.0", message = "Le chiffre d'affaires doit être positif")
-    @DecimalMax(value = "999999999.99", message = "Le chiffre d'affaires ne doit pas dépasser 999 999 999,99")
+    @Min(value = 0, message = "Le chiffre d'affaires ne peut pas être négatif")
     private Double chiffreAffaires;
 
-    // Constructeurs
+    private LocalDateTime dateModification;
+
     public Client() {
         this.dateCreation = LocalDateTime.now();
     }
@@ -109,17 +108,16 @@ public class Client {
         this.chiffreAffaires = chiffreAffaires;
     }
 
-    @Override
-    public String toString() {
-        return "Client{" +
-                "id=" + id +
-                ", nom='" + nom + '\'' +
-                ", adresse='" + adresse + '\'' +
-                ", email='" + email + '\'' +
-                ", telephone='" + telephone + '\'' +
-                ", secteurActivite='" + secteurActivite + '\'' +
-                ", dateCreation=" + dateCreation +
-                ", chiffreAffaires=" + chiffreAffaires +
-                '}';
+    public LocalDateTime getDateModification() {
+        return dateModification;
+    }
+
+    public void setDateModification(LocalDateTime dateModification) {
+        this.dateModification = dateModification;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        dateModification = LocalDateTime.now();
     }
 } 

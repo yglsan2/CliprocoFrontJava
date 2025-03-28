@@ -4,45 +4,58 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
 
-    <display-name>CliProCo - Gestion des Clients et Prospects</display-name>
+    <display-name>CliProCo</display-name>
 
     <!-- Configuration des filtres -->
     <filter>
-        <filter-name>AuthFilter</filter-name>
-        <filter-class>com.cliproco.filter.AuthFilter</filter-class>
+        <filter-name>characterEncodingFilter</filter-name>
+        <filter-class>com.cliproco.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
     </filter>
     <filter-mapping>
-        <filter-name>AuthFilter</filter-name>
+        <filter-name>characterEncodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!-- Configuration des servlets -->
-    <servlet>
-        <servlet-name>FrontController</servlet-name>
-        <servlet-class>com.cliproco.controller.FrontController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>FrontController</servlet-name>
+    <!-- Filtre RGPD -->
+    <filter>
+        <filter-name>gdprFilter</filter-name>
+        <filter-class>com.cliproco.filter.GDPRFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>gdprFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </servlet-mapping>
+    </filter-mapping>
 
-    <!-- Configuration des pages d'erreur -->
+    <!-- Filtre RGAA -->
+    <filter>
+        <filter-name>rgaaFilter</filter-name>
+        <filter-class>com.cliproco.filter.RGAAFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>rgaaFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Page d'erreur -->
     <error-page>
         <error-code>404</error-code>
-        <location>/WEB-INF/JSP/erreur.jsp</location>
+        <location>/WEB-INF/views/error/404.jsp</location>
     </error-page>
     <error-page>
         <error-code>500</error-code>
-        <location>/WEB-INF/JSP/erreur.jsp</location>
+        <location>/WEB-INF/views/error/500.jsp</location>
     </error-page>
 
     <!-- Configuration de la session -->
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
-
-    <!-- Configuration des pages de bienvenue -->
-    <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
-    </welcome-file-list>
 </web-app> 

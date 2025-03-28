@@ -3,53 +3,43 @@ package com.cliproco.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.LocalDateTime;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "prospects")
-public class Prospect implements Serializable {
-    private static final long serialVersionUID = 1L;
-
+public class Prospect {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @NotBlank(message = "Le nom est obligatoire")
     @Size(min = 2, max = 100, message = "Le nom doit contenir entre 2 et 100 caractères")
-    @Column(name = "nom", length = 100, nullable = false)
     private String nom;
 
     @NotBlank(message = "L'adresse est obligatoire")
-    @Size(max = 500, message = "L'adresse ne doit pas dépasser 500 caractères")
+    @Size(max = 200, message = "L'adresse ne peut pas dépasser 200 caractères")
     private String adresse;
 
     @NotBlank(message = "L'email est obligatoire")
-    @Email(message = "L'email n'est pas valide")
-    @Column(name = "email", length = 100, nullable = false, unique = true)
+    @Email(message = "L'email doit être valide")
+    @Column(unique = true)
     private String email;
 
-    @NotBlank(message = "Le téléphone est obligatoire")
-    @Size(min = 10, max = 20, message = "Le numéro de téléphone n'est pas valide")
-    @Column(name = "telephone", length = 20, nullable = false)
+    @Pattern(regexp = "^(?:(?:\\+|00)33|0)\\s*[1-9](?:[\\s.-]*\\d{2}){4}$", message = "Le numéro de téléphone doit être un numéro français valide")
     private String telephone;
 
     @NotBlank(message = "Le secteur d'activité est obligatoire")
-    @Column(name = "secteur_activite", length = 100, nullable = false)
     private String secteurActivite;
 
     @NotNull(message = "La date de création est obligatoire")
-    @Column(name = "date_creation", nullable = false, updatable = false)
     private LocalDateTime dateCreation;
 
-    @NotNull(message = "Le statut est obligatoire")
     @Enumerated(EnumType.STRING)
-    @Column(name = "statut", length = 50, nullable = false)
+    @NotNull(message = "Le statut est obligatoire")
     private Statut statut;
 
-    @Column(name = "commentaires", columnDefinition = "TEXT")
+    @Size(max = 1000, message = "Les commentaires ne peuvent pas dépasser 1000 caractères")
     private String commentaires;
 
-    @Column(name = "date_modification")
     private LocalDateTime dateModification;
 
     public enum Statut {
@@ -59,27 +49,17 @@ public class Prospect implements Serializable {
         PERDU
     }
 
-    // Constructeurs
     public Prospect() {
         this.dateCreation = LocalDateTime.now();
         this.statut = Statut.NOUVEAU;
     }
 
-    public Prospect(String nom, String email, String telephone, String secteurActivite, Statut statut, String commentaires) {
-        this.nom = nom;
-        this.email = email;
-        this.telephone = telephone;
-        this.secteurActivite = secteurActivite;
-        this.statut = statut;
-        this.commentaires = commentaires;
-    }
-
     // Getters et Setters
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -89,7 +69,6 @@ public class Prospect implements Serializable {
 
     public void setNom(String nom) {
         this.nom = nom;
-        this.dateModification = LocalDateTime.now();
     }
 
     public String getAdresse() {
@@ -106,7 +85,6 @@ public class Prospect implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-        this.dateModification = LocalDateTime.now();
     }
 
     public String getTelephone() {
@@ -115,7 +93,6 @@ public class Prospect implements Serializable {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
-        this.dateModification = LocalDateTime.now();
     }
 
     public String getSecteurActivite() {
@@ -124,15 +101,14 @@ public class Prospect implements Serializable {
 
     public void setSecteurActivite(String secteurActivite) {
         this.secteurActivite = secteurActivite;
-        this.dateModification = LocalDateTime.now();
     }
 
     public LocalDateTime getDateCreation() {
         return dateCreation;
     }
 
-    public LocalDateTime getDateModification() {
-        return dateModification;
+    public void setDateCreation(LocalDateTime dateCreation) {
+        this.dateCreation = dateCreation;
     }
 
     public Statut getStatut() {
@@ -141,7 +117,6 @@ public class Prospect implements Serializable {
 
     public void setStatut(Statut statut) {
         this.statut = statut;
-        this.dateModification = LocalDateTime.now();
     }
 
     public String getCommentaires() {
@@ -150,21 +125,18 @@ public class Prospect implements Serializable {
 
     public void setCommentaires(String commentaires) {
         this.commentaires = commentaires;
-        this.dateModification = LocalDateTime.now();
     }
 
-    @Override
-    public String toString() {
-        return "Prospect{" +
-                "id=" + id +
-                ", nom='" + nom + '\'' +
-                ", adresse='" + adresse + '\'' +
-                ", email='" + email + '\'' +
-                ", telephone='" + telephone + '\'' +
-                ", secteurActivite='" + secteurActivite + '\'' +
-                ", dateCreation=" + dateCreation +
-                ", statut=" + statut +
-                ", commentaires='" + commentaires + '\'' +
-                '}';
+    public LocalDateTime getDateModification() {
+        return dateModification;
+    }
+
+    public void setDateModification(LocalDateTime dateModification) {
+        this.dateModification = dateModification;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        dateModification = LocalDateTime.now();
     }
 } 
