@@ -1,0 +1,33 @@
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Fichiers de build
+target/
+build/
+*.class
+*.jar
+
+# Fichiers d'IDE
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+
+# Fichiers de logs
+*.log
+logs/
+
+# Fichiers de configuration locale
+application-local.properties
+application-dev.properties
+
+# Fichiers de dépendances
+node_modules/
+package-lock.json
+
+# Fichiers temporaires
+*.tmp
+*.temp
+temp/
