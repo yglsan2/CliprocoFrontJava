@@ -4,47 +4,52 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
 
-    <display-name>CliProCo</display-name>
+    <display-name>Cliproco</display-name>
+
+    <!-- Configuration de la page d'accueil -->
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
 
     <!-- Configuration des filtres -->
     <filter>
-        <filter-name>characterEncodingFilter</filter-name>
-        <filter-class>com.cliproco.filter.CharacterEncodingFilter</filter-class>
-        <init-param>
-            <param-name>encoding</param-name>
-            <param-value>UTF-8</param-value>
-        </init-param>
-        <init-param>
-            <param-name>forceEncoding</param-name>
-            <param-value>true</param-value>
-        </init-param>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>com.cliproco.filter.AuthFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>characterEncodingFilter</filter-name>
+        <filter-name>AuthFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!-- Filtre RGPD -->
     <filter>
-        <filter-name>gdprFilter</filter-name>
+        <filter-name>GDPRFilter</filter-name>
         <filter-class>com.cliproco.filter.GDPRFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>gdprFilter</filter-name>
+        <filter-name>GDPRFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!-- Filtre RGAA -->
     <filter>
-        <filter-name>rgaaFilter</filter-name>
+        <filter-name>RGAAFilter</filter-name>
         <filter-class>com.cliproco.filter.RGAAFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>rgaaFilter</filter-name>
+        <filter-name>RGAAFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!-- Page d'erreur -->
+    <!-- Configuration du FrontController -->
+    <servlet>
+        <servlet-name>FrontController</servlet-name>
+        <servlet-class>com.cliproco.servlet.FrontController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FrontController</servlet-name>
+        <url-pattern>/app/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- Configuration des pages d'erreur -->
     <error-page>
         <error-code>404</error-code>
         <location>/WEB-INF/views/error/404.jsp</location>
@@ -58,4 +63,24 @@
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
+
+    <!-- Configuration de la sécurité -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Protected Area</web-resource-name>
+            <url-pattern>/app/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>user</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>Cliproco Realm</realm-name>
+        <form-login-config>
+            <form-login-page>/WEB-INF/JSP/login.jsp</form-login-page>
+            <form-error-page>/WEB-INF/JSP/erreur.jsp</form-error-page>
+        </form-login-config>
+    </login-config>
 </web-app> 

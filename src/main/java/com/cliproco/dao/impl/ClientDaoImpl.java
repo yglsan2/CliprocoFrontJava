@@ -1,52 +1,54 @@
 package com.cliproco.dao.impl;
 
-import com.cliproco.dao.ClientDao;
+import com.cliproco.dao.ClientDAO;
 import com.cliproco.model.Client;
-import org.hibernate.Session;
-import org.springframework.stereotype.Repository;
-
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import java.util.List;
 
-@Repository
-public class ClientDaoImpl extends HibernateDaoImpl<Client> implements ClientDao {
+@ApplicationScoped
+public class ClientDaoImpl implements ClientDAO {
+    
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    public ClientDaoImpl() {
-        super(Client.class);
+    @Override
+    public Client create(Client client) {
+        entityManager.persist(client);
+        return client;
     }
 
     @Override
-    public List<Client> findBySecteurActivite(String secteurActivite) {
-        try {
-            beginTransaction();
-            return session.createQuery("from Client c where c.secteurActivite = :secteur", Client.class)
-                    .setParameter("secteur", secteurActivite)
-                    .list();
-        } finally {
-            closeSession();
+    public Client findById(Long id) {
+        return entityManager.find(Client.class, id);
+    }
+
+    @Override
+    public List<Client> findAll() {
+        TypedQuery<Client> query = entityManager.createQuery("SELECT c FROM Client c", Client.class);
+        return query.getResultList();
+    }
+
+    @Override
+    public Client update(Client client) {
+        return entityManager.merge(client);
+    }
+
+    @Override
+    public void delete(Long id) {
+        Client client = findById(id);
+        if (client != null) {
+            entityManager.remove(client);
         }
     }
 
     @Override
-    public Client findByEmail(String email) {
-        try {
-            beginTransaction();
-            return session.createQuery("from Client c where c.email = :email", Client.class)
-                    .setParameter("email", email)
-                    .uniqueResult();
-        } finally {
-            closeSession();
-        }
-    }
-
-    @Override
-    public List<Client> findByChiffreAffairesMin(double chiffreAffaires) {
-        try {
-            beginTransaction();
-            return session.createQuery("from Client c where c.chiffreAffaires >= :chiffre", Client.class)
-                    .setParameter("chiffre", chiffreAffaires)
-                    .list();
-        } finally {
-            closeSession();
-        }
+    public List<Client> findByNom(String nom) {
+        TypedQuery<Client> query = entityManager.createQuery(
+            "SELECT c FROM Client c WHERE c.nom LIKE :nom", Client.class);
+        query.setParameter("nom", "%" + nom + "%");
+        return query.getResultList();
     }
 } 
