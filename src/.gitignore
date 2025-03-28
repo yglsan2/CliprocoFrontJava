@@ -1,0 +1,34 @@
+# Fichiers compilés
+target/
+*.class
+*.jar
+
+# Fichiers IDE
+.idea/
+.vscode/
+*.iml
+.project
+.classpath
+.settings/
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Fichiers de logs
+*.log
+logs/
+
+# Fichiers de configuration locaux
+application-local.properties
+application-dev.properties
+
+# Fichiers de build
+build/
+out/
+bin/
+
+# Fichiers temporaires
+*.tmp
+*.temp
+*.swp 
