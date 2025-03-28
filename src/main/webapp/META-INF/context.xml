@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context>
+    <Resource
+        name="jdbc/cliproco"
+        auth="Container"
+        type="javax.sql.DataSource"
+        driverClassName="com.mysql.cj.jdbc.Driver"
+        username="${mysql.user}"
+        password="${mysql.password}"
+        url="${mysql.url}cliproco?serverTimezone=UTC"
+    />
+</Context> 

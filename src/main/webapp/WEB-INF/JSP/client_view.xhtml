@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <title>Détails du Client</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="#{request.contextPath}/css/styles.css"/>
+</h:head>
+<h:body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#{request.contextPath}/accueil">
+                <img src="#{request.contextPath}/Image/logo.svg" alt="Logo" height="30"/>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"/>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <h:link outcome="/client/list" styleClass="nav-link">Clients</h:link>
+                    </li>
+                    <li class="nav-item">
+                        <h:link outcome="/prospect/list" styleClass="nav-link">Prospects</h:link>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h2>Détails du Client</h2>
+                <div>
+                    <h:commandLink action="#{clientBean.initEdit(clientBean.client.id)}" 
+                                 styleClass="btn btn-warning">
+                        <i class="bi bi-pencil"/> Modifier
+                    </h:commandLink>
+                    <h:link outcome="/client/list" styleClass="btn btn-secondary">
+                        <i class="bi bi-arrow-left"/> Retour
+                    </h:link>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Nom :</strong> #{clientBean.client.nom}</p>
+                        <p><strong>Email :</strong> #{clientBean.client.email}</p>
+                        <p><strong>Téléphone :</strong> #{clientBean.client.telephone}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Secteur d'activité :</strong> #{clientBean.client.secteurActivite}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3>Contrats</h3>
+                <h:commandLink action="#{contratBean.initCreate}" 
+                             styleClass="btn btn-primary">
+                    <i class="bi bi-plus-circle"/> Nouveau Contrat
+                </h:commandLink>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <h:dataTable value="#{clientBean.contrats}" 
+                                var="contrat"
+                                styleClass="table table-striped">
+                        <h:column>
+                            <f:facet name="header">ID</f:facet>
+                            #{contrat.id}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Libellé</f:facet>
+                            #{contrat.libelle}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Montant</f:facet>
+                            <h:outputText value="#{contrat.montant}">
+                                <f:convertNumber type="currency" currencySymbol="€"/>
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Actions</f:facet>
+                            <h:commandLink action="#{contratBean.initEdit(contrat.id)}" 
+                                         styleClass="btn btn-sm btn-warning">
+                                <i class="bi bi-pencil"/>
+                            </h:commandLink>
+                            <h:commandLink action="#{contratBean.delete(contrat.id)}" 
+                                         styleClass="btn btn-sm btn-danger"
+                                         onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce contrat ?')">
+                                <i class="bi bi-trash"/>
+                            </h:commandLink>
+                        </h:column>
+                    </h:dataTable>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"/>
+</h:body>
+</html> 
