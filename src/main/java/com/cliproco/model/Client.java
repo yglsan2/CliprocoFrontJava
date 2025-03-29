@@ -11,15 +11,13 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Le nom est obligatoire")
+    @NotNull(message = "Le nom est obligatoire")
     @Size(min = 2, max = 100, message = "Le nom doit contenir entre 2 et 100 caractères")
     private String nom;
 
-    @NotBlank(message = "L'adresse est obligatoire")
     @Size(max = 200, message = "L'adresse ne peut pas dépasser 200 caractères")
     private String adresse;
 
-    @NotBlank(message = "L'email est obligatoire")
     @Email(message = "L'email doit être valide")
     @Column(unique = true)
     private String email;
@@ -41,6 +39,15 @@ public class Client {
 
     public Client() {
         this.dateCreation = LocalDateTime.now();
+    }
+
+    public Client(String nom, String adresse, String email, String telephone, Double chiffreAffaires) {
+        this.nom = nom;
+        this.adresse = adresse;
+        this.email = email;
+        this.telephone = telephone;
+        this.dateCreation = LocalDateTime.now();
+        this.chiffreAffaires = chiffreAffaires;
     }
 
     // Getters et Setters
@@ -119,5 +126,18 @@ public class Client {
     @PreUpdate
     protected void onUpdate() {
         dateModification = LocalDateTime.now();
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", adresse='" + adresse + '\'' +
+                ", email='" + email + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", dateCreation=" + dateCreation +
+                ", chiffreAffaires=" + chiffreAffaires +
+                '}';
     }
 } 

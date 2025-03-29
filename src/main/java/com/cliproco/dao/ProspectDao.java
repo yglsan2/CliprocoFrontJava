@@ -1,13 +1,15 @@
 package com.cliproco.dao;
 
-import com.cliproco.model.Prospect;
+import com.cliproco.models.Prospect;
 import java.util.List;
 
-public interface ProspectDAO {
-    Prospect create(Prospect prospect);
+public interface ProspectDao {
+    void create(Prospect prospect);
     Prospect findById(Long id);
     List<Prospect> findAll();
-    Prospect update(Prospect prospect);
-    void delete(Long id);
     List<Prospect> findByNom(String nom);
+    List<Prospect> findByEntreprise(String entreprise);
+    void update(Prospect prospect);
+    void delete(Long id);
+    void close();
 } 
