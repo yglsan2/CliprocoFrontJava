@@ -1,6 +1,6 @@
 ### CliProCo - Mon Application de Gestion des Clients et Prospects ###
 
-Salut ! Je suis ravi de vous présenter CliProCo, une application que j'ai développée pour gérer mes clients et prospects. J'ai créé cette application en utilisant Spring MVC et en suivant les bonnes pratiques de développement.
+Salut ! Je suis ravi de vous présenter CliProCo, une application que j'ai développée pour gérer mes clients et prospects. J'ai créé cette application en utilisant MVC et en suivant les bonnes pratiques de développement.
 
 ### Ce que j'ai mis en place ###
 
