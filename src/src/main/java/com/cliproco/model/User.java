@@ -15,6 +15,9 @@ public class User {
     @Column(nullable = false)
     private String pwd;
 
+    @Column(name = "remember_token")
+    private String rememberToken;
+
     public User() {
     }
 
@@ -40,5 +43,13 @@ public class User {
 
     public void setPwd(String pwd) {
         this.pwd = pwd;
+    }
+
+    public String getRememberToken() {
+        return rememberToken;
+    }
+
+    public void setRememberToken(String rememberToken) {
+        this.rememberToken = rememberToken;
     }
 } 

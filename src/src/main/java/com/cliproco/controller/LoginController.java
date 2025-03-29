@@ -36,6 +36,16 @@ public class LoginController extends HttpServlet {
             return;
         }
 
+        // Récupérer le sel et le poivre depuis les variables d'environnement
+        String appSecret = System.getenv("APP_SECRET");
+        String appPepper = System.getenv("APP_PEPPER");
+        
+        if (appSecret == null || appPepper == null) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
+                "Variables d'environnement APP_SECRET ou APP_PEPPER non définies");
+            return;
+        }
+
         // Vérifier les identifiants dans la base de données
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("cliproco");
         EntityManager em = emf.createEntityManager();
@@ -45,7 +55,14 @@ public class LoginController extends HttpServlet {
                     .setParameter("user", form.getUser())
                     .getResultList();
 
-            if (users.isEmpty() || !argon2.verify(users.get(0).getPwd(), form.getPwd().toCharArray())) {
+            if (users.isEmpty()) {
+                response.sendRedirect("login.jsp?error=true");
+                return;
+            }
+
+            // Vérifier le mot de passe avec le sel et le poivre
+            String saltedPepperedPassword = form.getPwd() + appSecret + appPepper;
+            if (!argon2.verify(users.get(0).getPwd(), saltedPepperedPassword.toCharArray())) {
                 response.sendRedirect("login.jsp?error=true");
                 return;
             }

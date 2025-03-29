@@ -25,20 +25,24 @@ public class AdminCreationController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Récupérer le sel depuis la variable d'environnement
+        // Récupérer le sel et le poivre depuis les variables d'environnement
         String appSecret = System.getenv("APP_SECRET");
-        if (appSecret == null) {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Variable d'environnement APP_SECRET non définie");
+        String appPepper = System.getenv("APP_PEPPER");
+        
+        if (appSecret == null || appPepper == null) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
+                "Variables d'environnement APP_SECRET ou APP_PEPPER non définies");
             return;
         }
 
         // Créer l'utilisateur admin
         User admin = new User();
         admin.setUser("admin");
-        
-        // Hasher le mot de passe avec Argon2
+
+        // Hasher le mot de passe avec Argon2 en utilisant le sel et le poivre
         String password = "admin123"; // À changer en production
-        String hashedPassword = argon2.hash(2, 65536, 1, password.toCharArray());
+        String saltedPepperedPassword = password + appSecret + appPepper;
+        String hashedPassword = argon2.hash(2, 65536, 1, saltedPepperedPassword.toCharArray());
         admin.setPwd(hashedPassword);
 
         // Sauvegarder l'utilisateur dans la base de données
