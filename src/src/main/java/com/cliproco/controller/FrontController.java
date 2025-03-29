@@ -1,72 +1,106 @@
 package com.cliproco.controller;
 
+import com.cliproco.dao.DaoClient;
+import com.cliproco.model.Client;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
-@WebServlet("/*")
+@WebServlet("/")
 public class FrontController extends HttpServlet {
-    private Map<String, String> urlMappings;
-    private Map<String, Boolean> adminUrls;
+    private EntityManagerFactory entityManagerFactory;
+    private EntityManager entityManager;
+    private DaoClient daoClient;
 
     @Override
     public void init() throws ServletException {
-        urlMappings = new HashMap<>();
-        urlMappings.put("home", "/WEB-INF/views/home.jsp");
-        urlMappings.put("login", "/WEB-INF/views/login.jsp");
-        urlMappings.put("logout", "/logout");
-        urlMappings.put("admin", "/admin");
-        urlMappings.put("createAdmin", "/createAdmin"); // À supprimer après la création de l'admin
-        urlMappings.put("clients", "/WEB-INF/views/clients/list.jsp");
-        urlMappings.put("createClient", "/WEB-INF/views/clients/create.jsp");
-        urlMappings.put("editClient", "/WEB-INF/views/clients/edit.jsp");
-        urlMappings.put("deleteClient", "/clients/delete");
-
-        // URLs qui nécessitent une authentification
-        adminUrls = new HashMap<>();
-        adminUrls.put("admin", true);
-        adminUrls.put("clients", true);
-        adminUrls.put("createClient", true);
-        adminUrls.put("editClient", true);
-        adminUrls.put("deleteClient", true);
+        try {
+            entityManagerFactory = Persistence.createEntityManagerFactory("cliprocoPU");
+            entityManager = entityManagerFactory.createEntityManager();
+            daoClient = new DaoClient(entityManager);
+        } catch (Exception e) {
+            throw new ServletException("Erreur lors de l'initialisation de JPA", e);
+        }
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         String cmd = request.getParameter("cmd");
-        if (cmd == null) {
-            cmd = "home"; // Page par défaut
-        }
-
-        // Vérifier si l'URL nécessite une authentification
-        if (adminUrls.containsKey(cmd) && adminUrls.get(cmd)) {
-            HttpSession session = request.getSession(false);
-            if (session == null || session.getAttribute("user") == null) {
-                // Stocker l'URL demandée pour rediriger après la connexion
-                session = request.getSession(true);
-                session.setAttribute("redirectUrl", request.getRequestURI() + "?" + request.getQueryString());
-                response.sendRedirect(request.getContextPath() + "/?cmd=login");
-                return;
+        
+        try {
+            switch (cmd) {
+                case "clients":
+                    List<Client> clients = daoClient.findAll();
+                    request.setAttribute("clients", clients);
+                    request.getRequestDispatcher("/WEB-INF/views/clients/list.jsp").forward(request, response);
+                    break;
+                    
+                case "createClient":
+                    request.getRequestDispatcher("/WEB-INF/views/clients/create.jsp").forward(request, response);
+                    break;
+                    
+                case "editClient":
+                    Long id = Long.parseLong(request.getParameter("id"));
+                    Client client = daoClient.findById(id);
+                    request.setAttribute("client", client);
+                    request.getRequestDispatcher("/WEB-INF/views/clients/edit.jsp").forward(request, response);
+                    break;
+                    
+                default:
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Commande non trouvée");
             }
-        }
-
-        if (urlMappings.containsKey(cmd)) {
-            request.getRequestDispatcher(urlMappings.get(cmd)).forward(request, response);
-        } else {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Commande non trouvée");
+        } catch (Exception e) {
+            throw new ServletException("Erreur lors du traitement de la requête", e);
         }
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        doGet(request, response);
+        String cmd = request.getParameter("cmd");
+        
+        try {
+            switch (cmd) {
+                case "createClient":
+                case "editClient":
+                    Client client = new Client();
+                    if (cmd.equals("editClient")) {
+                        client.setId(Long.parseLong(request.getParameter("id")));
+                    }
+                    client.setNom(request.getParameter("nom"));
+                    client.setPrenom(request.getParameter("prenom"));
+                    client.setEmail(request.getParameter("email"));
+                    client.setTelephone(request.getParameter("telephone"));
+                    client.setEntreprise(request.getParameter("entreprise"));
+                    client.setAdresse(request.getParameter("adresse"));
+                    
+                    daoClient.save(client);
+                    response.sendRedirect(request.getContextPath() + "/?cmd=clients");
+                    break;
+                    
+                default:
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Commande non trouvée");
+            }
+        } catch (Exception e) {
+            throw new ServletException("Erreur lors du traitement de la requête", e);
+        }
+    }
+
+    @Override
+    public void destroy() {
+        if (entityManager != null) {
+            entityManager.close();
+        }
+        if (entityManagerFactory != null) {
+            entityManagerFactory.close();
+        }
     }
 } 

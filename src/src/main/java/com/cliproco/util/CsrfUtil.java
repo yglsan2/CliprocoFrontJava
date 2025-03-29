@@ -3,10 +3,14 @@ package com.cliproco.util;
 import jakarta.servlet.http.HttpSession;
 
 public class CsrfUtil {
-    private static final String CSRF_TOKEN_ATTRIBUTE = "csrfToken";
+    private static final String CSRF_TOKEN_ATTR = "_csrf";
 
     public static String getToken(HttpSession session) {
-        return (String) session.getAttribute(CSRF_TOKEN_ATTRIBUTE);
+        return (String) session.getAttribute(CSRF_TOKEN_ATTR);
+    }
+
+    public static String getTokenInput() {
+        return "<input type=\"hidden\" name=\"_csrf\" value=\"${sessionScope._csrf}\">";
     }
 
     public static String generateTokenInput() {

@@ -22,7 +22,7 @@
                             </div>
                         </c:if>
                         <form action="<c:url value='/?cmd=login'/>" method="post">
-                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            <input type="hidden" name="_csrf" value="${sessionScope._csrf}"/>
                             <div class="mb-3">
                                 <label for="user" class="form-label">Nom d'utilisateur</label>
                                 <input type="text" class="form-control" id="user" name="user" value="${form.user}" required>
