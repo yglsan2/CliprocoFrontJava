@@ -1,11 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.cliproco.util.CsrfUtil" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Connexion - Cliproco</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <%= CsrfUtil.generateTokenMeta() %>
 </head>
 <body>
     <div class="container mt-5">
@@ -22,14 +20,13 @@
                             </div>
                         <% } %>
                         <form action="login" method="post">
-                            <%= CsrfUtil.generateTokenInput() %>
                             <div class="mb-3">
-                                <label for="username" class="form-label">Nom d'utilisateur</label>
-                                <input type="text" class="form-control" id="username" name="username" required>
+                                <label for="user" class="form-label">Utilisateur</label>
+                                <input type="text" class="form-control" id="user" name="user" required>
                             </div>
                             <div class="mb-3">
-                                <label for="password" class="form-label">Mot de passe</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
+                                <label for="pwd" class="form-label">Mot de passe</label>
+                                <input type="password" class="form-control" id="pwd" name="pwd" required>
                             </div>
                             <div class="mb-3 form-check">
                                 <input type="checkbox" class="form-check-input" id="remember" name="remember">
