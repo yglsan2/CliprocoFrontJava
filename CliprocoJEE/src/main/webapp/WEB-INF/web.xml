@@ -3,14 +3,25 @@
          xmlns="https://jakarta.ee/xml/ns/jakartaee"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
+    <display-name>CliprocoJEE</display-name>
+    <context-param>
+        <param-name>jakarta.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
+    <context-param>
+        <param-name>jakarta.faces.DEFAULT_SUFFIX</param-name>
+        <param-value>.xhtml</param-value>
+    </context-param>
     <jsp-config>
         <jsp-property-group>
             <url-pattern>*.jsp</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
         </jsp-property-group>
     </jsp-config>
 
     <welcome-file-list>
-        <welcome-file>front</welcome-file>
+        <welcome-file>index.xhtml</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
     <session-config>
         <session-timeout>30</session-timeout> <!-- En minutes -->
@@ -62,4 +73,20 @@
         <exception-type>java.lang.Throwable</exception-type>
         <location>/WEB-INF/jsp/error.jsp</location>
     </error-page>
+
+    <!-- Configuration de Jakarta Faces -->
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+
+    <!-- Configuration de Weld (CDI) -->
+    <listener>
+        <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
+    </listener>
 </web-app>

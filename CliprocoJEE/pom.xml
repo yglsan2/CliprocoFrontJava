@@ -30,6 +30,7 @@
         <maven.compiler.target>21</maven.compiler.target>
         <maven.compiler.source>21</maven.compiler.source>
         <junit.version>5.11.0</junit.version>
+        <jakarta.ee.version>11.0.0-M4</jakarta.ee.version>
     </properties>
 
     <!-- Configuration des dépôts Maven -->
@@ -46,11 +47,11 @@
 
     <!-- Dépendances principales -->
     <dependencies>
-        <!-- Jakarta EE -->
+        <!-- Jakarta EE API -->
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-api</artifactId>
-            <version>11.0.0-M4</version>
+            <version>${jakarta.ee.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -100,7 +101,7 @@
         <dependency>
             <groupId>jakarta.servlet.jsp.jstl</groupId>
             <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-            <version>3.0.2</version>
+            <version>3.0.0</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.glassfish.web/jakarta.servlet.jsp.jstl -->
         <dependency>
@@ -112,7 +113,7 @@
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
-            <version>9.2.0</version>
+            <version>8.0.33</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/de.mkammerer/argon2-jvm -->
         <dependency>
@@ -144,16 +145,52 @@
             <version>6.4.4.Final</version>
         </dependency>
 
-        <!-- Spring Framework -->
+        <!-- Jakarta Faces -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>6.1.3</version>
+            <groupId>jakarta.faces</groupId>
+            <artifactId>jakarta.faces-api</artifactId>
+            <version>4.1.0</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>6.1.3</version>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.faces</artifactId>
+            <version>4.1.0</version>
+        </dependency>
+        
+        <!-- Jakarta CDI -->
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <version>4.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.weld.servlet</groupId>
+            <artifactId>weld-servlet-core</artifactId>
+            <version>5.1.2.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.weld</groupId>
+            <artifactId>weld-core-impl</artifactId>
+            <version>5.1.2.Final</version>
+        </dependency>
+        
+        <!-- Jakarta Expression Language -->
+        <dependency>
+            <groupId>jakarta.el</groupId>
+            <artifactId>jakarta.el-api</artifactId>
+            <version>5.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.el</artifactId>
+            <version>5.0.0-M1</version>
+        </dependency>
+        
+        <!-- Support BeanValidation pour CDI -->
+        <dependency>
+            <groupId>org.jboss.weld</groupId>
+            <artifactId>weld-bean-validation</artifactId>
+            <version>5.1.2.Final</version>
         </dependency>
     </dependencies>
 
@@ -192,7 +229,7 @@
              *   <li>type: embedded - Conteneur intégré à Maven (pas d'installation externe)</li>
              *   <li>configuration.type: standalone - Instance Tomcat autonome</li>
              *   <li>cargo.servlet.port: 8080 - Port HTTP standard</li>
-             *   <li>cargo.servlet.uri: / - Chemin racine de l'application</li>
+             *   <li>cargo.servlet.uri: /CliprocoJEE - Chemin racine de l'application</li>
              *   <li>cargo.tomcat.ajp.port: 8009 - Port AJP pour la communication avec Apache</li>
              * </ul>
              * 
@@ -218,7 +255,7 @@
                         <type>standalone</type>
                         <properties>
                             <cargo.servlet.port>8080</cargo.servlet.port>
-                            <cargo.servlet.uri>/</cargo.servlet.uri>
+                            <cargo.servlet.uri>/CliprocoJEE</cargo.servlet.uri>
                             <cargo.tomcat.ajp.port>8009</cargo.tomcat.ajp.port>
                         </properties>
                     </configuration>
