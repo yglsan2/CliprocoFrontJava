@@ -29,7 +29,7 @@ public class SigninController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp/signin.jsp").forward(request, response);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class SigninController extends HttpServlet {
 
                 dao.save(user);
                 LogManager.LOGS.log(Level.INFO, "User created successfully: {0}", user.getUsername());
-                response.sendRedirect(request.getContextPath() + "/login");
+                response.sendRedirect(request.getContextPath() + "/signin");
             } else {
                 request.setAttribute("violations", violations);
                 request.getRequestDispatcher("/WEB-INF/jsp/signin.jsp").forward(request, response);

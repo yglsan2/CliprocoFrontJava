@@ -210,59 +210,40 @@
                 </configuration>
             </plugin>
 
-            <!--
-             * Configuration du déploiement Tomcat avec Cargo
-             * 
-             * @description Cette configuration utilise un conteneur Tomcat embarqué qui offre plusieurs avantages :
-             * <ul>
-             *   <li>Pas besoin d'installation externe de Tomcat (CATALINA_HOME)</li>
-             *   <li>Configuration isolée et reproductible</li>
-             *   <li>Démarrage/arrêt simplifié via Maven</li>
-             * </ul>
-             * 
-             * @configuration Détails de la configuration :
-             * <ul>
-             *   <li>containerId: tomcat10x - Version 10.x de Tomcat (compatible Jakarta EE 11)</li>
-             *   <li>type: embedded - Conteneur intégré à Maven (pas d'installation externe)</li>
-             *   <li>configuration.type: standalone - Instance Tomcat autonome</li>
-             *   <li>cargo.servlet.port: 8080 - Port HTTP standard</li>
-             *   <li>cargo.servlet.uri: /CliprocoJEE - Chemin racine de l'application</li>
-             *   <li>cargo.tomcat.ajp.port: 8009 - Port AJP pour la communication avec Apache</li>
-             * </ul>
-             * 
-             * @commands Commandes principales :
-             * <ul>
-             *   <li>mvn cargo:run - Démarre le conteneur et déploie l'application</li>
-             *   <li>mvn cargo:stop - Arrête proprement le conteneur</li>
-             *   <li>mvn clean package cargo:run - Reconstruit et redéploie l'application</li>
-             * </ul>
-             * 
-             * @see <a href="https://codehaus-cargo.github.io/cargo/Home.html">Documentation Cargo</a>
-             -->
+            <!-- Configuration de Cargo -->
             <plugin>
                 <groupId>org.codehaus.cargo</groupId>
                 <artifactId>cargo-maven3-plugin</artifactId>
-                <version>1.10.11</version>
+                <version>1.10.12</version>
                 <configuration>
                     <container>
                         <containerId>tomcat10x</containerId>
-                        <type>embedded</type>
-                        <systemProperties>
-                            <cargo.servlet.port>8080</cargo.servlet.port>
-                            <cargo.servlet.uri>/CliprocoJEE</cargo.servlet.uri>
-                            <cargo.tomcat.ajp.port>8009</cargo.tomcat.ajp.port>
-                        </systemProperties>
+                        <type>installed</type>
+                        <home>${env.CATALINA_HOME}</home>
                     </container>
                     <configuration>
+                        <type>existing</type>
+                        <home>${env.CATALINA_HOME}</home>
                         <properties>
                             <cargo.servlet.port>8080</cargo.servlet.port>
-                            <cargo.servlet.uri>/CliprocoJEE</cargo.servlet.uri>
                             <cargo.tomcat.ajp.port>8009</cargo.tomcat.ajp.port>
-                            <cargo.tomcat.ajp.protocol>HTTP/1.1</cargo.tomcat.ajp.protocol>
-                            <cargo.tomcat.ajp.redirectPort>8443</cargo.tomcat.ajp.redirectPort>
-                            <cargo.tomcat.ajp.connectionTimeout>20000</cargo.tomcat.ajp.connectionTimeout>
+                            <cargo.rmi.port>8205</cargo.rmi.port>
+                            <cargo.logging>high</cargo.logging>
+                            <cargo.servlet.uriEncoding>UTF-8</cargo.servlet.uriEncoding>
+                            <cargo.debug>true</cargo.debug>
+                            <cargo.debug.suspend>n</cargo.debug.suspend>
                         </properties>
                     </configuration>
+                    <deployables>
+                        <deployable>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>${project.artifactId}</artifactId>
+                            <type>war</type>
+                            <properties>
+                                <context>/CliprocoJEE</context>
+                            </properties>
+                        </deployable>
+                    </deployables>
                 </configuration>
             </plugin>
 
