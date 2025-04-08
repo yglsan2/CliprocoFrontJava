@@ -43,6 +43,10 @@
             <id>jakarta</id>
             <url>https://jakarta.oss.sonatype.org/content/repositories/releases/</url>
         </repository>
+        <repository>
+            <id>jboss</id>
+            <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
+        </repository>
     </repositories>
 
     <!-- Dépendances principales -->
@@ -166,12 +170,12 @@
         <dependency>
             <groupId>org.jboss.weld.servlet</groupId>
             <artifactId>weld-servlet-core</artifactId>
-            <version>5.1.2.Final</version>
+            <version>4.0.3.Final</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.weld</groupId>
             <artifactId>weld-core-impl</artifactId>
-            <version>5.1.2.Final</version>
+            <version>4.0.3.Final</version>
         </dependency>
         
         <!-- Jakarta Expression Language -->
@@ -238,14 +242,17 @@
             <plugin>
                 <groupId>org.codehaus.cargo</groupId>
                 <artifactId>cargo-maven3-plugin</artifactId>
-                <version>1.10.3</version>
+                <version>1.10.11</version>
                 <configuration>
                     <container>
                         <containerId>tomcat10x</containerId>
                         <type>embedded</type>
+                        <systemProperties>
+                            <cargo.servlet.port>8080</cargo.servlet.port>
+                            <cargo.servlet.uri>/CliprocoJEE</cargo.servlet.uri>
+                        </systemProperties>
                     </container>
                     <configuration>
-                        <type>standalone</type>
                         <properties>
                             <cargo.servlet.port>8080</cargo.servlet.port>
                             <cargo.servlet.uri>/CliprocoJEE</cargo.servlet.uri>
