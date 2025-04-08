@@ -1,0 +1,33 @@
+@use "../../../../node_modules/bootstrap/scss/functions" as *;
+@use "../../../../node_modules/bootstrap/scss/variables" as bootstrap;
+
+// Couleurs personnalisées
+$primary-color: #2c3e50;
+$secondary-color: #3498db;
+$accent-color: #e74c3c;
+$background-color: #f5f6fa;
+$text-color: #2c3e50;
+
+// Variables Bootstrap personnalisées
+$font-family-base: 'Roboto', sans-serif;
+$primary: $secondary-color;
+$secondary: $primary-color;
+
+// Autres variables
+$border-radius: 8px;
+$box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+$transition-base: all 0.3s ease;
+
+// Typographie
+$font-size-base: 16px;
+$line-height-base: 1.5;
+
+// Espacements
+$spacing-unit: 8px;
+$container-padding: $spacing-unit * 2;
+
+// Breakpoints
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px; 
