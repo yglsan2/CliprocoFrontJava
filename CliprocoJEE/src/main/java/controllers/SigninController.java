@@ -5,6 +5,9 @@ import de.mkammerer.argon2.Argon2Factory;
 import dao.jpa.UserJpaDAO;
 import logs.LogManager;
 import models.User;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ConstraintViolation;
@@ -13,27 +16,25 @@ import jakarta.validation.Validator;
 import org.jetbrains.annotations.Contract;
 import utilities.Security;
 
+import java.io.IOException;
 import java.util.Set;
 import java.util.logging.Level;
 
 /**
  *
  */
-public class SigninController implements ICommand {
+@WebServlet("/signin")
+public class SigninController extends HttpServlet {
 
-    /**
-     *
-     * @param request La requete à répondre.
-     * @param response La réponse à la requête.
-     * @return
-     * @throws Exception
-     */
-    @Contract(pure = true)
     @Override
-    public String execute(final HttpServletRequest request,
-                          final HttpServletResponse response)
-            throws Exception {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
+    }
 
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
@@ -65,15 +66,15 @@ public class SigninController implements ICommand {
 
                 dao.save(user);
                 LogManager.LOGS.log(Level.INFO, "User created successfully: {0}", user.getUsername());
-                return "login";
+                response.sendRedirect(request.getContextPath() + "/login");
             } else {
                 request.setAttribute("violations", violations);
-                return "signin";
+                request.getRequestDispatcher("/WEB-INF/jsp/signin.jsp").forward(request, response);
             }
         } catch (Exception e) {
             LogManager.LOGS.log(Level.SEVERE, "Erreur lors de la création de l'utilisateur", e);
             request.setAttribute("error", e.getMessage());
-            return "signin";
+            request.getRequestDispatcher("/WEB-INF/jsp/signin.jsp").forward(request, response);
         }
     }
 }

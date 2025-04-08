@@ -250,6 +250,7 @@
                         <systemProperties>
                             <cargo.servlet.port>8080</cargo.servlet.port>
                             <cargo.servlet.uri>/CliprocoJEE</cargo.servlet.uri>
+                            <cargo.tomcat.ajp.port>8009</cargo.tomcat.ajp.port>
                         </systemProperties>
                     </container>
                     <configuration>
@@ -257,6 +258,9 @@
                             <cargo.servlet.port>8080</cargo.servlet.port>
                             <cargo.servlet.uri>/CliprocoJEE</cargo.servlet.uri>
                             <cargo.tomcat.ajp.port>8009</cargo.tomcat.ajp.port>
+                            <cargo.tomcat.ajp.protocol>HTTP/1.1</cargo.tomcat.ajp.protocol>
+                            <cargo.tomcat.ajp.redirectPort>8443</cargo.tomcat.ajp.redirectPort>
+                            <cargo.tomcat.ajp.connectionTimeout>20000</cargo.tomcat.ajp.connectionTimeout>
                         </properties>
                     </configuration>
                 </configuration>
