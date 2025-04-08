@@ -17,8 +17,9 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
 
     /**
      * Constructor.
+     * @throws SocieteEntityException si une erreur survient lors de la création
      */
-    public ProspectBuilder() {
+    public ProspectBuilder() throws SocieteEntityException {
         super(createInstance());
     }
 
@@ -42,9 +43,10 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
      * New builder from static call.
      *
      * @return new ProspectBuilder.
+     * @throws SocieteEntityException si une erreur survient lors de la création
      */
     @Contract(" -> new")
-    public static @NotNull ProspectBuilder getNewProspectBuilder() {
+    public static @NotNull ProspectBuilder getNewProspectBuilder() throws SocieteEntityException {
         return new ProspectBuilder();
     }
 
@@ -157,8 +159,9 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
      *
      * @param commentaires Nouveaux commentaires.
      * @return This builder.
+     * @throws SocieteEntityException Exception set by commentaires setter.
      */
-    public ProspectBuilder deCommentaires(final String commentaires) {
+    public ProspectBuilder deCommentaires(final String commentaires) throws SocieteEntityException {
         setField("commentaires", commentaires);
         return this;
     }
@@ -168,8 +171,9 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
      *
      * @param date Nouvelle date.
      * @return This builder.
+     * @throws SocieteEntityException Exception set by date setter.
      */
-    public ProspectBuilder deDateProspection(final LocalDate date) {
+    public ProspectBuilder deDateProspection(final LocalDate date) throws SocieteEntityException {
         setField("dateProspection", date);
         return this;
     }
@@ -179,8 +183,9 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
      *
      * @param date Nouvelle date.
      * @return This builder.
+     * @throws SocieteEntityException Exception set by date setter.
      */
-    public ProspectBuilder deDateProspection(@NotNull final Date date) {
+    public ProspectBuilder deDateProspection(@NotNull final Date date) throws SocieteEntityException {
         this.getEntity().setDateProspection(LocalDate
                 .ofInstant(date.toInstant(), ZoneId.systemDefault()));
         return this;
@@ -192,8 +197,9 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
      *
      * @param date Nouvelle date.
      * @return This builder.
+     * @throws SocieteEntityException Exception set by date setter.
      */
-    public ProspectBuilder deDateProspection(@NotNull final String date) {
+    public ProspectBuilder deDateProspection(@NotNull final String date) throws SocieteEntityException {
         String[] dt;
         LocalDate ldt;
         if (date.contains("-")) {

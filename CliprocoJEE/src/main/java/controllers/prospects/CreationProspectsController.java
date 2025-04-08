@@ -47,7 +47,7 @@ public final class CreationProspectsController implements ICommand {
                         .deTelephone(request.getParameter("telephone"))
                         .deMail(request.getParameter("adresseMail"))
                         .deCommentaires(request.getParameter("commentaires"))
-                        .avecAdresse(adresse)
+                        .dAdresse(adresse)
                         .deDateProspection(request
                                 .getParameter("dateProspection"))
                         .dInteresse(request.getParameter(

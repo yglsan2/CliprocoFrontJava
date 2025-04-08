@@ -292,24 +292,10 @@ public class ClientBuilder extends SocieteBuilder<Client> {
      * Build method.
      *
      * @return Built client.
-     * @throws SocieteEntityException if build fails.
      */
     @Override
-    public Client build() throws SocieteEntityException {
-        try {
-            return new Client(
-                    getRaisonSociale(),
-                    getAdresse(),
-                    getTelephone(),
-                    getMail(),
-                    getCommentaires(),
-                    getChiffreAffaires(),
-                    getNombreEmployes(),
-                    getContrats()
-            );
-        } catch (Exception e) {
-            throw new SocieteEntityException("Erreur lors de la construction du client", e);
-        }
+    public Client build() {
+        return this.getEntity();
     }
 
     /**

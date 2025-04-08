@@ -23,15 +23,14 @@ public class ContratBuilder extends Builder<Contrat> {
      * Crée une instance de Contrat via réflexion.
      *
      * @return nouvelle instance de Contrat
-     * @throws SocieteEntityException si une erreur survient
      */
-    private static Contrat createInstance() throws SocieteEntityException {
+    private static Contrat createInstance() {
         try {
             Constructor<Contrat> constructor = Contrat.class.getDeclaredConstructor();
             constructor.setAccessible(true);
             return constructor.newInstance();
         } catch (Exception e) {
-            throw new SocieteEntityException("Erreur lors de la création de l'instance de Contrat", e);
+            throw new RuntimeException("Erreur lors de la création de l'instance de Contrat", e);
         }
     }
 
@@ -135,6 +134,7 @@ public class ContratBuilder extends Builder<Contrat> {
      * Getter Contrat construit.
      * @return Contrat construit.
      */
+    @Override
     public Contrat build() {
         return this.getEntity();
     }

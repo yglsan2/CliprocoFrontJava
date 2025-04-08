@@ -14,6 +14,7 @@ import org.jetbrains.annotations.Contract;
 import utilities.Security;
 
 import java.util.Set;
+import java.util.logging.Level;
 
 /**
  *
@@ -63,14 +64,14 @@ public class SigninController implements ICommand {
                 user.setPassword(hash);
 
                 dao.save(user);
-                LogManager.LOGS.info("User created successfully: {}", user.getUsername());
+                LogManager.LOGS.log(Level.INFO, "User created successfully: {0}", user.getUsername());
                 return "login";
             } else {
                 request.setAttribute("violations", violations);
                 return "signin";
             }
         } catch (Exception e) {
-            LogManager.LOGS.error("Erreur lors de la création de l'utilisateur", e);
+            LogManager.LOGS.log(Level.SEVERE, "Erreur lors de la création de l'utilisateur", e);
             request.setAttribute("error", e.getMessage());
             return "signin";
         }

@@ -86,6 +86,21 @@ public final class User {
     }
 
     /**
+     * Constructs a User with basic information.
+     *
+     * @param usernameParam Unique username
+     * @param passwordParam User's password
+     * @param emailParam User's email
+     */
+    public User(final String usernameParam,
+               final String passwordParam,
+               final String emailParam) {
+        this.username = usernameParam;
+        this.password = passwordParam;
+        this.role = "USER";
+    }
+
+    /**
      * Returns the authentication timer.
      *
      * @return LocalDate authentication timer
