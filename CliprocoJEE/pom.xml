@@ -185,13 +185,6 @@
             <artifactId>jakarta.el</artifactId>
             <version>5.0.0-M1</version>
         </dependency>
-        
-        <!-- Support BeanValidation pour CDI -->
-        <dependency>
-            <groupId>org.jboss.weld</groupId>
-            <artifactId>weld-bean-validation</artifactId>
-            <version>5.1.2.Final</version>
-        </dependency>
     </dependencies>
 
     <build>
