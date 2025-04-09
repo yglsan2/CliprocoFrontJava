@@ -42,18 +42,18 @@ public final class CreationClientsController implements ICommand {
                         .deVille(request.getParameter("ville"))
                         .build();
 
-                // Set Client fields
-                client = ClientBuilder.getNewClientBuilder()
-                        .deRaisonSociale(request
-                                        .getParameter("raisonSociale"))
+                // Build client with specific fields
+                ClientBuilder builder = ClientBuilder.getNewClientBuilder()
+                        .deRaisonSociale(request.getParameter("raisonSociale"))
                         .deTelephone(request.getParameter("telephone"))
-                        .deMail(request.getParameter("adresseMail"))
-                        .deCommentaires(request.getParameter("commentaires"))
+                        .dEmail(request.getParameter("adresseMail"))
+                        .deCommentaire(request.getParameter("commentaires"))
                         .dAdresse(adresse)
-                        .deChiffreAffaires(Double.parseDouble(request
-                                        .getParameter("chiffreAffaires")))
-                        .deNombreEmployes(Integer.parseInt(request.getParameter("nbEmployes")))
-                        .build();
+                        .avecChiffreAffaires(Double.parseDouble(
+                                request.getParameter("chiffreAffaires")))
+                        .avecNombreEmployes(Integer.parseInt(
+                                request.getParameter("nombreEmployes")));
+                client = builder.build();
 
                 Validator validator = Validation.buildDefaultValidatorFactory()
                                                 .getValidator();

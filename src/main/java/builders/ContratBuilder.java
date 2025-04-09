@@ -140,13 +140,13 @@ public class ContratBuilder extends Builder<Contrat> {
     }
 
     /**
-     * Utilise la réflexion pour définir un champ.
+     * Définit la valeur d'un champ via réflexion.
      *
-     * @param fieldName Nom du champ
-     * @param value Valeur à définir
+     * @param fieldName Nom du champ.
+     * @param value Valeur à définir.
      * @throws SocieteEntityException Si une erreur survient
      */
-    private void setField(String fieldName, Object value) throws SocieteEntityException {
+    protected void setField(String fieldName, Object value) throws SocieteEntityException {
         try {
             Field field = Contrat.class.getDeclaredField(fieldName);
             field.setAccessible(true);

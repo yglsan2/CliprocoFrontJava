@@ -27,8 +27,9 @@
     <!-- Configuration globale du projet -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.target>21</maven.compiler.target>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <junit.version>5.11.0</junit.version>
         <jakarta.ee.version>11.0.0-M4</jakarta.ee.version>
     </properties>

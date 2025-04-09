@@ -42,17 +42,17 @@ public final class CreationProspectsController implements ICommand {
                         .build();
 
                 // Build prospect with specific fields
-                prospect = ProspectBuilder.getNewProspectBuilder()
+                ProspectBuilder builder = ProspectBuilder.getNewProspectBuilder()
                         .deRaisonSociale(request.getParameter("raisonSociale"))
                         .deTelephone(request.getParameter("telephone"))
-                        .deMail(request.getParameter("adresseMail"))
-                        .deCommentaires(request.getParameter("commentaires"))
+                        .dEmail(request.getParameter("adresseMail"))
+                        .deCommentaire(request.getParameter("commentaires"))
                         .dAdresse(adresse)
                         .deDateProspection(request
                                 .getParameter("dateProspection"))
                         .dInteresse(request.getParameter(
-                                "prospectInteresse") != null ? "oui" : "non")
-                        .build();
+                                "prospectInteresse") != null ? "oui" : "non");
+                prospect = builder.build();
 
                 // Validation
                 Validator validator = Validation.buildDefaultValidatorFactory()
