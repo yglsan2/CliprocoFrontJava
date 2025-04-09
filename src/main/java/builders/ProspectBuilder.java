@@ -1,5 +1,6 @@
 package builders;
 
+import models.Adresse;
 import models.Prospect;
 import models.SocieteEntityException;
 import utilities.DateConverter;
@@ -12,14 +13,15 @@ import java.util.Date;
 /**
  * Classe constructrice Prospect.
  */
-public class ProspectBuilder extends SocieteBuilder<Prospect> {
+public class ProspectBuilder {
+    private final Prospect prospect;
 
     /**
      * Constructor.
      * @throws SocieteEntityException si une erreur survient lors de la création
      */
     public ProspectBuilder() throws SocieteEntityException {
-        super(createInstance(Prospect.class));
+        this.prospect = new Prospect();
     }
 
     /**
@@ -34,15 +36,57 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
     }
 
     /**
-     * Setter date de prospection.
+     * Setter raison sociale.
      *
-     * @param dateProspection Nouvelle date de prospection.
+     * @param raisonSociale Nouvelle raison sociale.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by the date de prospection setter.
      */
-    public ProspectBuilder deDateProspection(final LocalDate dateProspection)
-            throws SocieteEntityException {
-        setField("dateProspection", dateProspection);
+    public ProspectBuilder deRaisonSociale(final String raisonSociale) {
+        prospect.setRaisonSociale(raisonSociale);
+        return this;
+    }
+
+    /**
+     * Setter téléphone.
+     *
+     * @param telephone Nouveau numéro de téléphone.
+     * @return This builder.
+     */
+    public ProspectBuilder deTelephone(final String telephone) {
+        prospect.setTelephone(telephone);
+        return this;
+    }
+
+    /**
+     * Setter email.
+     *
+     * @param email Nouvelle adresse email.
+     * @return This builder.
+     */
+    public ProspectBuilder dEmail(final String email) {
+        prospect.setMail(email);
+        return this;
+    }
+
+    /**
+     * Setter commentaire.
+     *
+     * @param commentaire Nouveau commentaire.
+     * @return This builder.
+     */
+    public ProspectBuilder deCommentaire(final String commentaire) {
+        prospect.setCommentaires(commentaire);
+        return this;
+    }
+
+    /**
+     * Setter adresse.
+     *
+     * @param adresse Nouvelle adresse.
+     * @return This builder.
+     */
+    public ProspectBuilder dAdresse(final Adresse adresse) {
+        prospect.setAdresse(adresse);
         return this;
     }
 
@@ -51,11 +95,9 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
      *
      * @param dateProspection Nouvelle date de prospection.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by the date de prospection setter.
      */
-    public ProspectBuilder deDateProspection(final Date dateProspection)
-            throws SocieteEntityException {
-        setField("dateProspection", DateConverter.toLocalDate(dateProspection));
+    public ProspectBuilder deDateProspection(final LocalDate dateProspection) {
+        prospect.setDateProspection(dateProspection);
         return this;
     }
 
@@ -64,11 +106,20 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
      *
      * @param dateProspection Nouvelle date de prospection.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by the date de prospection setter.
      */
-    public ProspectBuilder deDateProspection(final String dateProspection)
-            throws SocieteEntityException {
-        setField("dateProspection", DateConverter.parseDate(dateProspection));
+    public ProspectBuilder deDateProspection(final Date dateProspection) {
+        prospect.setDateProspection(DateConverter.toLocalDate(dateProspection));
+        return this;
+    }
+
+    /**
+     * Setter date de prospection.
+     *
+     * @param dateProspection Nouvelle date de prospection.
+     * @return This builder.
+     */
+    public ProspectBuilder deDateProspection(final String dateProspection) {
+        prospect.setDateProspection(DateConverter.parseDate(dateProspection));
         return this;
     }
 
@@ -77,11 +128,20 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
      *
      * @param interesse Indique si le prospect est intéressé.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by the interesse setter.
      */
-    public ProspectBuilder dInteresse(final String interesse)
-            throws SocieteEntityException {
-        setField("interesse", interesse);
+    public ProspectBuilder dInteresse(final String interesse) {
+        prospect.setProspectInteresse(interesse);
+        return this;
+    }
+
+    /**
+     * Setter identifiant.
+     *
+     * @param id Nouvel identifiant.
+     * @return This builder.
+     */
+    public ProspectBuilder dIdentifiant(final Long id) {
+        prospect.setIdentifiant(id);
         return this;
     }
 
@@ -90,8 +150,7 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
      *
      * @return Objet construit.
      */
-    @Override
     public Prospect build() {
-        return getEntity();
+        return prospect;
     }
 }

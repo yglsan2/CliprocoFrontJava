@@ -42,14 +42,13 @@ public class Client extends Societe {
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Contrat> contrats = new ArrayList<>();
 
-    @NotNull
     @Email
     @Column(nullable = false)
-    private String email;
+    private String mail;
 
     @Size(max = 1000)
     @Column(length = 1000)
-    private String commentaire;
+    private String commentaires;
 
     /**
      * Default constructor for JPA.
@@ -73,8 +72,8 @@ public class Client extends Societe {
                   final String tel, final String mail, final String commentaires,
                   final Double caValue, final Integer employesCount) {
         super(raisonSociale, adr, tel, mail, commentaires);
-        this.email = mail;
-        this.commentaire = commentaires;
+        this.mail = mail;
+        this.commentaires = commentaires;
         this.chiffreAffaires = caValue;
         this.nombreEmployes = employesCount;
     }
@@ -161,19 +160,39 @@ public class Client extends Societe {
                 + ", nombreEmployes=" + nombreEmployes;
     }
 
-    public String getEmail() {
-        return email;
+    /**
+     * Getter email.
+     *
+     * @return L'adresse email.
+     */
+    public String getMail() {
+        return mail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    /**
+     * Setter email.
+     *
+     * @param email Nouvelle adresse email.
+     */
+    public void setMail(String email) {
+        this.mail = email;
     }
 
-    public String getCommentaire() {
-        return commentaire;
+    /**
+     * Getter commentaire.
+     *
+     * @return Le commentaire.
+     */
+    public String getCommentaires() {
+        return commentaires;
     }
 
-    public void setCommentaire(String commentaire) {
-        this.commentaire = commentaire;
+    /**
+     * Setter commentaire.
+     *
+     * @param commentaire Nouveau commentaire.
+     */
+    public void setCommentaires(String commentaire) {
+        this.commentaires = commentaire;
     }
 }
