@@ -38,7 +38,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet(name = "front", value = "/front")
+@WebServlet(name = "front", urlPatterns = {"/*"})
 public final class FrontController extends HttpServlet {
 
     /**
@@ -116,6 +116,14 @@ public final class FrontController extends HttpServlet {
         String urlSuite = "";
 
         try {
+            // Vérifier si c'est une ressource statique
+            String requestURI = request.getRequestURI();
+            if (requestURI.contains("/css/") || requestURI.contains("/js/") || 
+                requestURI.contains("/img/") || requestURI.contains("/scss/")) {
+                // Laisser le conteneur gérer les ressources statiques
+                return;
+            }
+
             loadCurrentUser(request);
 
             if (request.getParameterMap().containsKey("_csrf")) {
