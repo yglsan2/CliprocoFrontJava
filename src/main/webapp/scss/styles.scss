@@ -1,0 +1,153 @@
+// Import du module color de Sass pour utiliser les fonctions modernes de manipulation des couleurs
+// Ce module fournit des fonctions comme color.adjust(), color.scale(), etc.
+// Il est nécessaire pour remplacer les anciennes fonctions dépréciées comme darken(), lighten()
+@use "sass:color";
+
+// Variables
+$primary-color: #2c3e50;
+$secondary-color: #3498db;
+$accent-color: #e74c3c;
+$background-color: #f5f6fa;
+$text-color: #2c3e50;
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Reset et styles de base
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.6;
+  color: $text-color;
+  background-color: $background-color;
+}
+
+// Navigation
+.navbar {
+  background-color: $primary-color;
+  padding: 1rem;
+  
+  .btn-light {
+    margin-right: 1rem;
+    &:hover {
+      background-color: $secondary-color;
+      color: white;
+    }
+  }
+}
+
+// Conteneur principal
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+// Logo et titre
+.logo {
+  max-width: 300px;
+  margin-bottom: 2rem;
+}
+
+.welcome-title {
+  color: $primary-color;
+  margin-bottom: 1rem;
+}
+
+// Section météo
+.weather {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin: 2rem 0;
+}
+
+// Carte
+#map {
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+// Footer
+footer {
+  background-color: $primary-color;
+  color: white;
+  padding: 3rem 0;
+  margin-top: 4rem;
+
+  a {
+    color: white;
+    text-decoration: none;
+    &:hover {
+      color: $secondary-color;
+    }
+  }
+
+  .social-links {
+    @include flex-center;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .logo {
+    max-width: 200px;
+  }
+
+  #map {
+    height: 400px;
+  }
+}
+
+// Modal
+.modal-content {
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+// Formulaires
+.form-control {
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  
+  &:focus {
+    border-color: $secondary-color;
+    box-shadow: 0 0 0 0.2rem rgba($secondary-color, 0.25);
+  }
+}
+
+// Boutons
+.btn-primary {
+  background-color: $secondary-color;
+  border: none;
+  
+  &:hover {
+    // Remplacé darken() par color.adjust() pour suivre les nouvelles recommandations SASS
+    // darken() est déprécié et sera supprimé dans Dart Sass 3.0.0
+    // La nouvelle syntaxe permet un meilleur contrôle de l'ajustement de la luminosité
+    background-color: color.adjust($secondary-color, $lightness: -10%);
+  }
+} 
