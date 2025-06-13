@@ -1,0 +1,66 @@
+// Reset et styles de base
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  color: $text-color;
+  background-color: $background-color;
+}
+
+// Container
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $container-padding;
+  
+  @include respond-to(sm) {
+    padding: 0 $spacing-unit * 3;
+  }
+}
+
+// Grid system
+.grid {
+  display: grid;
+  gap: $spacing-unit * 2;
+  
+  &--2-cols {
+    grid-template-columns: 1fr;
+    
+    @include respond-to(md) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  &--3-cols {
+    grid-template-columns: 1fr;
+    
+    @include respond-to(md) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+// Sections
+.section {
+  padding: $spacing-unit * 4 0;
+  
+  &--dark {
+    background-color: $primary-color;
+    color: white;
+  }
+}
+
+// Spacing utilities
+.mt-1 { margin-top: $spacing-unit; }
+.mt-2 { margin-top: $spacing-unit * 2; }
+.mt-3 { margin-top: $spacing-unit * 3; }
+.mb-1 { margin-bottom: $spacing-unit; }
+.mb-2 { margin-bottom: $spacing-unit * 2; }
+.mb-3 { margin-bottom: $spacing-unit * 3; } 
