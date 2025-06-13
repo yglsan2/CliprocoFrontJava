@@ -1,0 +1,55 @@
+package exceptions;
+
+/**
+ * Exception levée en cas d'erreur liée aux métriques.
+ * Cette exception est utilisée pour signaler les erreurs lors de la collecte ou du traitement des métriques.
+ * 
+ * @author Benja2
+ * @version 1.0
+ * @since 1.0
+ */
+public class MetricsException extends ApplicationException {
+    
+    private static final long serialVersionUID = 1L;
+    private static final String ERROR_CODE_PREFIX = "MET-";
+
+    /**
+     * Constructeur avec message d'erreur.
+     *
+     * @param message le message d'erreur
+     */
+    public MetricsException(String message) {
+        super(message, ERROR_CODE_PREFIX + "001");
+    }
+
+    /**
+     * Constructeur avec message d'erreur et code d'erreur.
+     *
+     * @param message le message d'erreur
+     * @param errorCode le code d'erreur
+     */
+    public MetricsException(String message, String errorCode) {
+        super(message, ERROR_CODE_PREFIX + errorCode);
+    }
+
+    /**
+     * Constructeur avec message d'erreur et cause.
+     *
+     * @param message le message d'erreur
+     * @param cause la cause de l'exception
+     */
+    public MetricsException(String message, Throwable cause) {
+        super(message, ERROR_CODE_PREFIX + "001", cause);
+    }
+
+    /**
+     * Constructeur avec message d'erreur, code d'erreur et cause.
+     *
+     * @param message le message d'erreur
+     * @param errorCode le code d'erreur
+     * @param cause la cause de l'exception
+     */
+    public MetricsException(String message, String errorCode, Throwable cause) {
+        super(message, ERROR_CODE_PREFIX + errorCode, cause);
+    }
+} 

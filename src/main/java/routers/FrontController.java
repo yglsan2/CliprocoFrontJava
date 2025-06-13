@@ -25,6 +25,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import models.User;
 import utilities.Security;
 
@@ -34,27 +35,40 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import com.mysql.cj.jdbc.MysqlDataSource;
+import exceptions.ApplicationException;
+import exceptions.DatabaseException;
+import exceptions.ValidationException;
 
-@WebServlet(name = "front", value = "/front")
+/**
+ * Contrôleur frontal de l'application.
+ * Cette classe gère le routage des requêtes HTTP vers les contrôleurs appropriés.
+ * Elle implémente le pattern Front Controller pour centraliser la gestion des requêtes.
+ *
+ * @author Benja2
+ * @version 1.0
+ * @since 1.0
+ */
+@WebServlet(name = "FrontController", urlPatterns = {"/"})
 public final class FrontController extends HttpServlet {
 
     /**
      *
      */
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    private static final long serialVersionUID = 1L;
 
     /**
      *
      */
-    private final HashMap<String, Object> commands = new HashMap<>();
+    private static final Logger logger = Logger.getLogger(FrontController.class.getName());
 
     /**
      *
      */
-    @Resource(name = "jdbc/gestionClients")
     private static DataSource datasource;
 
     /**
@@ -63,23 +77,32 @@ public final class FrontController extends HttpServlet {
     private static Connection connection;
 
     /**
-     *
+     * Map des commandes disponibles
      */
-    public void init() throws ServletException {
-        // Partie générale
-        commands.put(null, new IndexController());
-        commands.put("index", new IndexController());
-        commands.put("contact", new ContactController());
-        commands.put("connexion", new ConnexionController());
-        commands.put("deconnexion", new DeconnexionController());
-//        commands.put("signin", new SigninController());
+    private Map<String, ICommand> commands;
 
-        // Partie clients
-        commands.put("clients", new ListeClientsController());
-        commands.put("clients/add", new CreationClientsController());
-        commands.put("clients/delete", new DeleteClientsController());
-        commands.put("clients/update", new UpdateClientsController());
-        commands.put("clients/view", new ViewClientsController());
+    static {
+        try {
+            MysqlDataSource mysqlDS = new MysqlDataSource();
+            mysqlDS.setURL("jdbc:mysql://localhost:3306/cliproco");
+            mysqlDS.setUser("root");
+            mysqlDS.setPassword("");
+            datasource = mysqlDS;
+        } catch (Exception e) {
+            LogManager.logException("Erreur lors de l'initialisation de la source de données", e);
+            throw new RuntimeException("Erreur lors de l'initialisation de la source de données", e);
+        }
+    }
+
+    @Override
+    public void init() throws ServletException {
+        // Initialisation des commandes
+        commands = new HashMap<>();
+
+        // Partie connexion
+        commands.put("connexion", new ConnexionController());
+        commands.put("connexion/login", new ConnexionController());
+        commands.put("connexion/logout", new ConnexionController());
 
         // Partie prospects
         commands.put("prospects", new ListeProspectsController());
@@ -88,14 +111,40 @@ public final class FrontController extends HttpServlet {
         commands.put("prospects/update", new UpdateProspectsController());
         commands.put("prospects/view", new ViewProspectsController());
 
-        LogManager.run();
+        // Initialisation du logger
+        LogManager.info("Initialisation du FrontController");
 
         try {
             connection = datasource.getConnection();
         } catch (SQLException e) {
-            throw new ServletException(e);
+            LogManager.logException("Erreur lors de la connexion à la base de données", e);
+            throw new ServletException("Erreur lors de la connexion à la base de données", e);
         }
+    }
 
+    @Override
+    public void destroy() {
+        try {
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+            LogManager.info("Fermeture de la connexion à la base de données");
+        } catch (SQLException e) {
+            LogManager.logException("Erreur lors de la fermeture de la connexion", e);
+        }
+    }
+
+    private void handleError(final HttpServletRequest request,
+                             final HttpServletResponse response,
+                             final String errorMessage) {
+        try {
+            request.setAttribute("titlePage", "Erreur");
+            request.setAttribute("titleGroup", "Général");
+            request.setAttribute("errorMessage", errorMessage);
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+        } catch (Exception e) {
+            LogManager.logException("Erreur lors de l'affichage de la page d'erreur", e);
+        }
     }
 
     /**
@@ -116,51 +165,76 @@ public final class FrontController extends HttpServlet {
         String urlSuite = "";
 
         try {
+            LogManager.debug("Traitement de la requête: " + request.getMethod() + " " + request.getRequestURI());
             loadCurrentUser(request);
 
             if (request.getParameterMap().containsKey("_csrf")) {
+                LogManager.debug("Vérification du token CSRF");
                 if (!request.getParameter("_csrf")
                         .equals(request.getSession()
                         .getAttribute("_csrf").toString())) {
-                    throw new IllegalAccessException("Les jetons csrf ne "
-                            + "correspondent pas!");
+                    throw new ValidationException("Les jetons CSRF ne correspondent pas");
                 }
             }
 
-            // cmd correspond au nom du paramètre passé avec l'url
             String cmd = request.getParameter("cmd");
+            if (cmd == null) {
+                throw new ValidationException("Commande non spécifiée");
+            }
 
-            // on récupère l'objet de la classe du contrôleur voulu
-            ICommand com = (ICommand) commands.get(cmd);
+            LogManager.debug("Commande demandée: " + cmd);
+            ICommand com = commands.get(cmd);
+            if (com == null) {
+                throw new ValidationException("Commande inconnue: " + cmd);
+            }
 
-            // on récupère dans urlSuite la JSP à dispatcher en exécutant
-            // le contrôleur appelé par l'URL
             urlSuite = com.execute(request, response);
+            LogManager.debug("Commande exécutée avec succès, redirection vers: " + urlSuite);
+        } catch (ValidationException e) {
+            LogManager.logException("Erreur de validation", e);
+            handleError(request, response, e.getMessage());
+
+        } catch (DatabaseException e) {
+            LogManager.logException("Erreur de base de données", e);
+            handleError(request, response, "Une erreur est survenue lors de l'accès aux données");
+
+        } catch (ApplicationException e) {
+            LogManager.logException("Erreur d'application", e);
+            handleError(request, response, "Une erreur est survenue lors du traitement de la requête");
+
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Erreur : " + e.getMessage());
-            request.setAttribute("titlePage", "Erreur");
-            request.setAttribute("titleGroup", "Général");
-            urlSuite = "error.jsp";
-        } finally {
+            LogManager.logException("Erreur inattendue", e);
+            handleError(request, response, "Une erreur inattendue est survenue");
+        }
+
+        try {
+            final String keyword = "redirect:";
+
+            String csrf = UUID.randomUUID().toString();
+            request.getSession().setAttribute("_csrf", csrf);
+            request.setAttribute("_csrf", csrf);
+
+            if (urlSuite != null && urlSuite.startsWith(keyword)) {
+                urlSuite = urlSuite.substring(keyword.length());
+                response.sendRedirect(request.getContextPath()
+                        + "/" + urlSuite);
+            } else {
+                request.getRequestDispatcher("WEB-INF/jsp/"
+                        + urlSuite).forward(request, response);
+            }
+        } catch (ServletException e) {
+            LogManager.logException("Erreur Servlet", e);
             try {
-                final String keyword = "redirect:";
-
-                String csrf = UUID.randomUUID().toString();
-                request.getSession().setAttribute("_csrf", csrf);
-                request.setAttribute("_csrf", csrf);
-
-                if (urlSuite != null && urlSuite.startsWith(keyword)) {
-                    urlSuite = urlSuite.substring(keyword.length());
-                    response.sendRedirect(request.getContextPath()
-                            + "/" + urlSuite);
-                } else {
-                    request.getRequestDispatcher("WEB-INF/jsp/"
-                            + urlSuite).forward(request, response);
-                }
-            } catch (ServletException e) {
-                logger.log(Level.SEVERE, "ServletException", e);
-            } catch (IOException e) {
-                logger.log(Level.SEVERE, "IOException", e);
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Erreur de servlet");
+            } catch (IOException ex) {
+                LogManager.logException("Erreur lors de l'envoi de l'erreur HTTP", ex);
+            }
+        } catch (IOException e) {
+            LogManager.logException("Erreur I/O", e);
+            try {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Erreur I/O");
+            } catch (IOException ex) {
+                LogManager.logException("Erreur lors de l'envoi de l'erreur HTTP", ex);
             }
         }
     }
@@ -189,43 +263,22 @@ public final class FrontController extends HttpServlet {
 
     /**
      *
-     */
-    public void destroy() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        connection = null;
-
-        LogManager.stop();
-    }
-
-    /**
-     *
      * @param request
      * @throws SocieteDatabaseException
      */
     private void loadCurrentUser(final HttpServletRequest request)
-            throws SocieteDatabaseException {
-        Cookie[] cookies = request.getCookies();
-        if (request.getSession().getAttribute("currentUser") == null) {
-
-            for (Cookie cookie : cookies) {
-
-                if (cookie.getName().equals("currentUser")) {
-
-                    UserJpaDAO dao = new UserJpaDAO();
-
-                    User user = dao.findByToken(cookie.getValue());
-
-                    if (LocalDate.now().isBefore(user.getExpire())) {
-                        request.getSession()
-                                .setAttribute("currentUser", user
-                                        .getUsername());
-                    }
+            throws DatabaseException {
+        try {
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                User user = (User) session.getAttribute("user");
+                if (user != null) {
+                    request.setAttribute("currentUser", user);
                 }
             }
+        } catch (Exception e) {
+            LogManager.logException("Erreur lors du chargement de l'utilisateur courant", e);
+            throw new DatabaseException("Erreur lors du chargement de l'utilisateur", e);
         }
     }
 }
