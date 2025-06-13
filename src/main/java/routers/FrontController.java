@@ -53,7 +53,7 @@ import exceptions.ValidationException;
  * @version 1.0
  * @since 1.0
  */
-@WebServlet(name = "FrontController", urlPatterns = {"/"})
+@WebServlet(name = "FrontController", urlPatterns = {"/cliproco/*"})
 public final class FrontController extends HttpServlet {
 
     /**
@@ -79,14 +79,14 @@ public final class FrontController extends HttpServlet {
     /**
      * Map des commandes disponibles
      */
-    private Map<String, ICommand> commands;
+    private static final Map<String, ICommand> commands = new HashMap<>();
 
     static {
         try {
             MysqlDataSource mysqlDS = new MysqlDataSource();
             mysqlDS.setURL("jdbc:mysql://localhost:3306/cliproco");
             mysqlDS.setUser("root");
-            mysqlDS.setPassword("");
+            mysqlDS.setPassword("root");
             datasource = mysqlDS;
         } catch (Exception e) {
             LogManager.logException("Erreur lors de l'initialisation de la source de données", e);
@@ -96,15 +96,18 @@ public final class FrontController extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
+        try {
+            // Test de la connexion à la base de données
+            try (Connection connection = datasource.getConnection()) {
+                LogManager.info("Connexion à la base de données établie avec succès");
+            }
+        } catch (SQLException e) {
+            LogManager.logException("Erreur lors de la connexion à la base de données", e);
+            throw new ServletException("Erreur lors de la connexion à la base de données", e);
+        }
+
         // Initialisation des commandes
-        commands = new HashMap<>();
-
-        // Partie connexion
         commands.put("connexion", new ConnexionController());
-        commands.put("connexion/login", new ConnexionController());
-        commands.put("connexion/logout", new ConnexionController());
-
-        // Partie prospects
         commands.put("prospects", new ListeProspectsController());
         commands.put("prospects/add", new CreationProspectsController());
         commands.put("prospects/delete", new DeleteProspectsController());
@@ -138,12 +141,15 @@ public final class FrontController extends HttpServlet {
                              final HttpServletResponse response,
                              final String errorMessage) {
         try {
-            request.setAttribute("titlePage", "Erreur");
-            request.setAttribute("titleGroup", "Général");
             request.setAttribute("errorMessage", errorMessage);
-            request.getRequestDispatcher("error.jsp").forward(request, response);
-        } catch (Exception e) {
+            request.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);
+        } catch (ServletException | IOException e) {
             LogManager.logException("Erreur lors de l'affichage de la page d'erreur", e);
+            try {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Erreur lors de l'affichage de la page d'erreur");
+            } catch (IOException ex) {
+                LogManager.logException("Erreur lors de l'envoi de l'erreur HTTP", ex);
+            }
         }
     }
 
@@ -156,86 +162,58 @@ public final class FrontController extends HttpServlet {
     }
 
     /**
+     * Traite la requête HTTP et la route vers le contrôleur approprié.
      *
-     * @param request
-     * @param response
+     * @param request La requête HTTP
+     * @param response La réponse HTTP
+     * @throws ServletException si une erreur de servlet survient
+     * @throws IOException si une erreur d'entrée/sortie survient
      */
-    private void processRequest(final HttpServletRequest request,
-                                final HttpServletResponse response) {
-        String urlSuite = "";
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        LogManager.debug("Méthode de requête : " + request.getMethod());
+        LogManager.debug("URI demandée : " + request.getRequestURI());
 
         try {
-            LogManager.debug("Traitement de la requête: " + request.getMethod() + " " + request.getRequestURI());
-            loadCurrentUser(request);
-
-            if (request.getParameterMap().containsKey("_csrf")) {
-                LogManager.debug("Vérification du token CSRF");
-                if (!request.getParameter("_csrf")
-                        .equals(request.getSession()
-                        .getAttribute("_csrf").toString())) {
-                    throw new ValidationException("Les jetons CSRF ne correspondent pas");
-                }
+            // Vérification du token CSRF
+            String csrfToken = request.getParameter("csrfToken");
+            String sessionToken = (String) request.getSession().getAttribute("csrfToken");
+            if (csrfToken == null || !csrfToken.equals(sessionToken)) {
+                throw new ValidationException("Les jetons CSRF ne correspondent pas");
             }
 
+            // Récupération de la commande
             String cmd = request.getParameter("cmd");
             if (cmd == null) {
                 throw new ValidationException("Commande non spécifiée");
             }
 
-            LogManager.debug("Commande demandée: " + cmd);
-            ICommand com = commands.get(cmd);
-            if (com == null) {
+            LogManager.debug("Commande demandée : " + cmd);
+
+            ICommand command = commands.get(cmd);
+            if (command == null) {
                 throw new ValidationException("Commande inconnue: " + cmd);
             }
 
-            urlSuite = com.execute(request, response);
-            LogManager.debug("Commande exécutée avec succès, redirection vers: " + urlSuite);
+            // Exécution de la commande
+            String view = command.execute(request, response);
+            LogManager.debug("Commande exécutée avec succès, vue : " + view);
+
+            // Redirection vers la vue
+            request.getRequestDispatcher(view).forward(request, response);
+
         } catch (ValidationException e) {
             LogManager.logException("Erreur de validation", e);
             handleError(request, response, e.getMessage());
-
         } catch (DatabaseException e) {
             LogManager.logException("Erreur de base de données", e);
             handleError(request, response, "Une erreur est survenue lors de l'accès aux données");
-
         } catch (ApplicationException e) {
             LogManager.logException("Erreur d'application", e);
             handleError(request, response, "Une erreur est survenue lors du traitement de la requête");
-
         } catch (Exception e) {
             LogManager.logException("Erreur inattendue", e);
             handleError(request, response, "Une erreur inattendue est survenue");
-        }
-
-        try {
-            final String keyword = "redirect:";
-
-            String csrf = UUID.randomUUID().toString();
-            request.getSession().setAttribute("_csrf", csrf);
-            request.setAttribute("_csrf", csrf);
-
-            if (urlSuite != null && urlSuite.startsWith(keyword)) {
-                urlSuite = urlSuite.substring(keyword.length());
-                response.sendRedirect(request.getContextPath()
-                        + "/" + urlSuite);
-            } else {
-                request.getRequestDispatcher("WEB-INF/jsp/"
-                        + urlSuite).forward(request, response);
-            }
-        } catch (ServletException e) {
-            LogManager.logException("Erreur Servlet", e);
-            try {
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Erreur de servlet");
-            } catch (IOException ex) {
-                LogManager.logException("Erreur lors de l'envoi de l'erreur HTTP", ex);
-            }
-        } catch (IOException e) {
-            LogManager.logException("Erreur I/O", e);
-            try {
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Erreur I/O");
-            } catch (IOException ex) {
-                LogManager.logException("Erreur lors de l'envoi de l'erreur HTTP", ex);
-            }
         }
     }
 
@@ -247,7 +225,12 @@ public final class FrontController extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest request,
                          final HttpServletResponse response) {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ServletException | IOException e) {
+            LogManager.logException("Erreur lors de la gestion de la requête GET", e);
+            handleError(request, response, "Erreur lors de la gestion de la requête GET");
+        }
     }
 
     /**
@@ -258,7 +241,12 @@ public final class FrontController extends HttpServlet {
     @Override
     protected void doPost(final HttpServletRequest request,
                           final HttpServletResponse response) {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ServletException | IOException e) {
+            LogManager.logException("Erreur lors de la gestion de la requête POST", e);
+            handleError(request, response, "Erreur lors de la gestion de la requête POST");
+        }
     }
 
     /**
