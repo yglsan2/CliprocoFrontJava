@@ -6,84 +6,69 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Gestionnaire de cache pour l'application.
- * Utilise Caffeine pour fournir un cache en mémoire performant.
- * 
- * @author Benja2
- * @version 1.0
- * @since 1.0
+ * Utilise Caffeine pour la mise en cache des données.
  */
-public final class CacheManager {
-    
-    private static final int MAXIMUM_SIZE = 10_000;
-    private static final int EXPIRE_AFTER_WRITE_MINUTES = 30;
-    private static final Cache<String, Object> cache;
+public class CacheManager {
+    private static final Configuration config = Configuration.getInstance();
+    private static CacheManager instance;
+    private final Cache<String, Object> cache;
 
-    static {
-        cache = Caffeine.newBuilder()
-                .maximumSize(MAXIMUM_SIZE)
-                .expireAfterWrite(EXPIRE_AFTER_WRITE_MINUTES, TimeUnit.MINUTES)
+    private CacheManager() {
+        this.cache = Caffeine.newBuilder()
+                .maximumSize(config.getLongProperty("cache.maxSize", 1000))
+                .expireAfterWrite(config.getLongProperty("cache.expiration", 3600), TimeUnit.SECONDS)
                 .build();
     }
 
-    /**
-     * Constructeur privé pour empêcher l'instanciation de la classe utilitaire.
-     */
-    private CacheManager() {
-        throw new IllegalStateException("Classe utilitaire, ne pas instancier");
+    public static synchronized CacheManager getInstance() {
+        if (instance == null) {
+            instance = new CacheManager();
+        }
+        return instance;
     }
 
     /**
      * Récupère une valeur du cache.
-     *
-     * @param key la clé
-     * @return la valeur associée à la clé, ou null si non trouvée
+     * @param key La clé
+     * @return La valeur, ou null si non trouvée
      */
-    public static Object get(String key) {
-        return cache.getIfPresent(key);
+    @SuppressWarnings("unchecked")
+    public <T> T get(String key) {
+        return (T) cache.getIfPresent(key);
     }
 
     /**
      * Stocke une valeur dans le cache.
-     *
-     * @param key la clé
-     * @param value la valeur à stocker
+     * @param key La clé
+     * @param value La valeur
      */
-    public static void put(String key, Object value) {
+    public void put(String key, Object value) {
         cache.put(key, value);
     }
 
     /**
      * Supprime une valeur du cache.
-     *
-     * @param key la clé à supprimer
+     * @param key La clé
      */
-    public static void remove(String key) {
+    public void remove(String key) {
         cache.invalidate(key);
     }
 
     /**
      * Vide le cache.
      */
-    public static void clear() {
+    public void clear() {
         cache.invalidateAll();
     }
 
     /**
-     * Vérifie si une clé existe dans le cache.
-     *
-     * @param key la clé à vérifier
-     * @return true si la clé existe, false sinon
+     * Récupère une valeur du cache ou la calcule si non présente.
+     * @param key La clé
+     * @param supplier Le fournisseur de valeur
+     * @return La valeur
      */
-    public static boolean containsKey(String key) {
-        return cache.getIfPresent(key) != null;
-    }
-
-    /**
-     * Récupère la taille actuelle du cache.
-     *
-     * @return le nombre d'éléments dans le cache
-     */
-    public static long size() {
-        return cache.estimatedSize();
+    @SuppressWarnings("unchecked")
+    public <T> T getOrCompute(String key, java.util.function.Supplier<T> supplier) {
+        return (T) cache.get(key, k -> supplier.get());
     }
 } 

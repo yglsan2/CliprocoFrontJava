@@ -7,6 +7,6 @@ import models.Adresse;
  */
 public class AdresseJpaDAO extends AbstractJpaDAO<Adresse> {
     public AdresseJpaDAO() {
-        super();
+        super(Adresse.class);
     }
 } 

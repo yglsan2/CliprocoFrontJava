@@ -13,6 +13,8 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import org.jetbrains.annotations.NotNull;
+import exceptions.DatabaseException;
+import utilities.LogManager;
 
 import java.util.Set;
 
@@ -22,7 +24,6 @@ public final class CreationClientsController implements ICommand {
     public @NotNull String execute(final HttpServletRequest request,
                                    final HttpServletResponse response)
             throws Exception {
-
 
         request.setAttribute("titlePage", "Création");
         request.setAttribute("titleGroup", "Clients");
@@ -63,9 +64,13 @@ public final class CreationClientsController implements ICommand {
                 if (!violations.isEmpty()) {
                     request.setAttribute("violations", violations);
                 } else {
-                    (new ClientJpaDAO()).save(client);
-
-                    urlSuite = "redirect:?cmd=clients";
+                    try {
+                        (new ClientJpaDAO()).save(client);
+                        urlSuite = "redirect:?cmd=clients";
+                    } catch (DatabaseException e) {
+                        LogManager.logException("Erreur lors de la création du client", e);
+                        request.setAttribute("error", "Erreur lors de la création du client");
+                    }
                 }
             }
         }

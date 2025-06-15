@@ -2,14 +2,13 @@ package exceptions;
 
 /**
  * Exception de base pour l'application.
- * Cette classe sert de point d'entrée pour toutes les exceptions personnalisées
- * de l'application.
+ * Toutes les exceptions de l'application doivent hériter de cette classe.
  * 
  * @author Benja2
  * @version 1.0
  * @since 1.0
  */
-public class ApplicationException extends Exception {
+public class ApplicationException extends RuntimeException {
     
     private static final long serialVersionUID = 1L;
     private final String errorCode;

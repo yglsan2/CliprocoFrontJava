@@ -14,6 +14,9 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import exceptions.DatabaseException;
+import services.ClientService;
+import utilities.LogManager;
 
 import java.util.Set;
 
@@ -33,7 +36,13 @@ public final class UpdateClientsController implements ICommand {
             request.setAttribute("titleGroup", "Clients");
 
             String clientId = request.getParameter("clientId");
-            Client client = new ClientJpaDAO().findById(Long.parseLong(clientId));
+            Client client = null;
+            try {
+                client = new ClientJpaDAO().findById(Long.parseLong(clientId));
+            } catch (DatabaseException e) {
+                request.setAttribute("error", "Erreur lors de la recherche du client : " + e.getMessage());
+                return jsp;
+            }
 
             if (request.getParameterMap().containsKey("raisonSociale")) {
                 Adresse adresse;
@@ -68,9 +77,12 @@ public final class UpdateClientsController implements ICommand {
                 if (!violations.isEmpty()) {
                     request.setAttribute("violations", violations);
                 } else {
-                    (new ClientJpaDAO()).save(client);
-
-                    urlSuite = "redirect:?cmd=clients";
+                    try {
+                        (new ClientJpaDAO()).save(client);
+                        urlSuite = "redirect:?cmd=clients";
+                    } catch (DatabaseException e) {
+                        request.setAttribute("error", "Erreur lors de la mise à jour du client : " + e.getMessage());
+                    }
                 }
             }
 

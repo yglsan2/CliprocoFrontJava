@@ -15,9 +15,8 @@ import controllers.prospects.DeleteProspectsController;
 import controllers.prospects.ListeProspectsController;
 import controllers.prospects.UpdateProspectsController;
 import controllers.prospects.ViewProspectsController;
-import dao.SocieteDatabaseException;
 import dao.jpa.UserJpaDAO;
-import logs.LogManager;
+import utilities.LogManager;
 import jakarta.annotation.Resource;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -27,6 +26,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.User;
 import utilities.Security;
+import exceptions.DatabaseException;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Map;
 
 @WebServlet(name = "front", value = "/front")
 public final class FrontController extends HttpServlet {
@@ -49,7 +50,7 @@ public final class FrontController extends HttpServlet {
     /**
      *
      */
-    private final HashMap<String, Object> commands = new HashMap<>();
+    private final Map<String, ICommand> commands = new HashMap<>();
 
     /**
      *
@@ -107,12 +108,15 @@ public final class FrontController extends HttpServlet {
     }
 
     /**
+     * Traite la requête HTTP en déterminant la commande à exécuter.
      *
-     * @param request
-     * @param response
+     * @param request la requête HTTP
+     * @param response la réponse HTTP
+     * @throws ServletException si une erreur de servlet survient
+     * @throws IOException si une erreur d'entrée/sortie survient
      */
-    private void processRequest(final HttpServletRequest request,
-                                final HttpServletResponse response) {
+    private void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String urlSuite = "";
 
         try {
@@ -131,15 +135,18 @@ public final class FrontController extends HttpServlet {
             String cmd = request.getParameter("cmd");
 
             // on récupère l'objet de la classe du contrôleur voulu
-            ICommand com = (ICommand) commands.get(cmd);
+            ICommand com = commands.get(cmd);
 
             // on récupère dans urlSuite la JSP à dispatcher en exécutant
             // le contrôleur appelé par l'URL
             urlSuite = com.execute(request, response);
+        } catch (DatabaseException e) {
+            LogManager.logException("Erreur de base de données", e);
+            request.setAttribute("error", "Une erreur est survenue lors de l'accès à la base de données");
+            urlSuite = "error.jsp";
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Erreur : " + e.getMessage());
-            request.setAttribute("titlePage", "Erreur");
-            request.setAttribute("titleGroup", "Général");
+            LogManager.logException("Erreur inattendue", e);
+            request.setAttribute("error", "Une erreur inattendue est survenue");
             urlSuite = "error.jsp";
         } finally {
             try {
@@ -204,25 +211,25 @@ public final class FrontController extends HttpServlet {
     /**
      *
      * @param request
-     * @throws SocieteDatabaseException
+     * @throws DatabaseException
      */
     private void loadCurrentUser(final HttpServletRequest request)
-            throws SocieteDatabaseException {
+            throws DatabaseException {
         Cookie[] cookies = request.getCookies();
         if (request.getSession().getAttribute("currentUser") == null) {
-
-            for (Cookie cookie : cookies) {
-
-                if (cookie.getName().equals("currentUser")) {
-
-                    UserJpaDAO dao = new UserJpaDAO();
-
-                    User user = dao.findByToken(cookie.getValue());
-
-                    if (LocalDate.now().isBefore(user.getExpire())) {
-                        request.getSession()
-                                .setAttribute("currentUser", user
-                                        .getUsername());
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("token")) {
+                        UserJpaDAO userDAO = new UserJpaDAO();
+                        try {
+                            User user = userDAO.findByToken(cookie.getValue());
+                            if (user != null) {
+                                request.getSession().setAttribute("currentUser", user);
+                            }
+                        } finally {
+                            userDAO.close();
+                        }
+                        break;
                     }
                 }
             }

@@ -1,16 +1,16 @@
 package dao.jpa;
 
-import models.User;
+import dao.IDAO;
+import exceptions.DatabaseException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
-import dao.IDAO;
-import dao.SocieteDatabaseException;
-import dao.UserDAO;
+import models.User;
+import utilities.LogManager;
 
-public class UserJpaDAO extends GenericJpaDAO<User> implements IDAO<User>, UserDAO {
+public class UserJpaDAO extends GenericJpaDAO<User> implements IDAO<User> {
     private final EntityManagerFactory emf;
     private final EntityManager em;
 
@@ -20,83 +20,154 @@ public class UserJpaDAO extends GenericJpaDAO<User> implements IDAO<User>, UserD
     }
 
     @Override
-    public User findById(Long id) throws SocieteDatabaseException {
+    public User findById(Long id) throws DatabaseException {
+        EntityManager em = null;
         try {
+            em = getEntityManager();
             return em.find(User.class, id);
         } catch (Exception e) {
-            throw new SocieteDatabaseException("Erreur lors de la recherche de l'utilisateur par ID", e);
+            LogManager.logException("Erreur lors de la recherche de l'utilisateur par ID", e);
+            throw new DatabaseException("Erreur lors de la recherche de l'utilisateur par ID", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     @Override
-    public List<User> findAll() throws SocieteDatabaseException {
+    public List<User> findAll() throws DatabaseException {
+        EntityManager em = null;
         try {
+            em = getEntityManager();
             TypedQuery<User> query = em.createQuery("SELECT u FROM User u", User.class);
             return query.getResultList();
         } catch (Exception e) {
-            throw new SocieteDatabaseException("Erreur lors de la récupération de tous les utilisateurs", e);
+            LogManager.logException("Erreur lors de la récupération de tous les utilisateurs", e);
+            throw new DatabaseException("Erreur lors de la récupération de tous les utilisateurs", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     @Override
-    public void save(User user) throws SocieteDatabaseException {
+    public User save(User user) throws DatabaseException {
+        EntityManager em = null;
         try {
+            em = getEntityManager();
             em.getTransaction().begin();
             em.persist(user);
             em.getTransaction().commit();
+            return user;
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
+            if (em != null && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw new SocieteDatabaseException("Erreur lors de la sauvegarde de l'utilisateur", e);
+            LogManager.logException("Erreur lors de la sauvegarde de l'utilisateur", e);
+            throw new DatabaseException("Erreur lors de la sauvegarde de l'utilisateur", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     @Override
-    public void update(User user) throws SocieteDatabaseException {
+    public User update(User user) throws DatabaseException {
+        EntityManager em = null;
         try {
+            em = getEntityManager();
             em.getTransaction().begin();
-            em.merge(user);
+            User updatedUser = em.merge(user);
             em.getTransaction().commit();
+            return updatedUser;
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
+            if (em != null && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw new SocieteDatabaseException("Erreur lors de la mise à jour de l'utilisateur", e);
+            LogManager.logException("Erreur lors de la mise à jour de l'utilisateur", e);
+            throw new DatabaseException("Erreur lors de la mise à jour de l'utilisateur", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     @Override
-    public void delete(User user) throws SocieteDatabaseException {
+    public void delete(User user) throws DatabaseException {
+        EntityManager em = null;
         try {
+            em = getEntityManager();
             em.getTransaction().begin();
-            em.remove(user);
+            em.remove(em.contains(user) ? user : em.merge(user));
             em.getTransaction().commit();
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
+            if (em != null && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw new SocieteDatabaseException("Erreur lors de la suppression de l'utilisateur", e);
+            LogManager.logException("Erreur lors de la suppression de l'utilisateur", e);
+            throw new DatabaseException("Erreur lors de la suppression de l'utilisateur", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
-    public User findByUsername(String username) throws SocieteDatabaseException {
+    public User findByEmail(String email) throws DatabaseException {
+        EntityManager em = null;
         try {
+            em = getEntityManager();
+            TypedQuery<User> query = em.createQuery(
+                "SELECT u FROM User u WHERE u.email = :email", 
+                User.class
+            );
+            query.setParameter("email", email);
+            return query.getSingleResult();
+        } catch (Exception e) {
+            LogManager.logException("Erreur lors de la recherche de l'utilisateur par email", e);
+            throw new DatabaseException("Erreur lors de la recherche de l'utilisateur par email", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+        }
+    }
+
+    public User findByUsername(String username) throws DatabaseException {
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
             TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
             query.setParameter("username", username);
             return query.getSingleResult();
         } catch (Exception e) {
-            throw new SocieteDatabaseException("Erreur lors de la recherche de l'utilisateur par nom d'utilisateur", e);
+            LogManager.logException("Erreur lors de la recherche de l'utilisateur par nom d'utilisateur", e);
+            throw new DatabaseException("Erreur lors de la recherche de l'utilisateur par nom d'utilisateur", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
-    public User findByToken(String token) throws SocieteDatabaseException {
+    public User findByToken(String token) throws DatabaseException {
+        EntityManager em = null;
         try {
+            em = getEntityManager();
             TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.token = :token", User.class);
             query.setParameter("token", token);
             return query.getSingleResult();
         } catch (Exception e) {
-            throw new SocieteDatabaseException("Erreur lors de la recherche de l'utilisateur par token", e);
+            LogManager.logException("Erreur lors de la recherche de l'utilisateur par token", e);
+            throw new DatabaseException("Erreur lors de la recherche de l'utilisateur par token", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 

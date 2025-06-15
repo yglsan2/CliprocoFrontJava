@@ -7,7 +7,8 @@ import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
 import dao.IDAO;
-import dao.SocieteDatabaseException;
+import exceptions.DatabaseException;
+import utilities.LogManager;
 
 public class CalculFactureJpaDAO extends GenericJpaDAO<CalculFacture> implements IDAO<CalculFacture> {
     private final EntityManagerFactory emf;
@@ -19,76 +20,118 @@ public class CalculFactureJpaDAO extends GenericJpaDAO<CalculFacture> implements
     }
 
     @Override
-    public CalculFacture findById(Long id) throws SocieteDatabaseException {
+    public CalculFacture findById(Long id) throws DatabaseException {
+        EntityManager em = null;
         try {
+            em = getEntityManager();
             return em.find(CalculFacture.class, id);
         } catch (Exception e) {
-            throw new SocieteDatabaseException("Erreur lors de la recherche du calcul de facture par ID", e);
+            LogManager.logException("Erreur lors de la recherche du calcul de facture par ID", e);
+            throw new DatabaseException("Erreur lors de la recherche du calcul de facture par ID", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     @Override
-    public List<CalculFacture> findAll() throws SocieteDatabaseException {
+    public List<CalculFacture> findAll() throws DatabaseException {
+        EntityManager em = null;
         try {
-            TypedQuery<CalculFacture> query = em.createQuery("SELECT cf FROM CalculFacture cf", CalculFacture.class);
+            em = getEntityManager();
+            TypedQuery<CalculFacture> query = em.createQuery("SELECT c FROM CalculFacture c", CalculFacture.class);
             return query.getResultList();
         } catch (Exception e) {
-            throw new SocieteDatabaseException("Erreur lors de la récupération de tous les calculs de facture", e);
+            LogManager.logException("Erreur lors de la récupération de tous les calculs de facture", e);
+            throw new DatabaseException("Erreur lors de la récupération de tous les calculs de facture", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     @Override
-    public void save(CalculFacture calculFacture) throws SocieteDatabaseException {
+    public void save(CalculFacture calculFacture) throws DatabaseException {
+        EntityManager em = null;
         try {
+            em = getEntityManager();
             em.getTransaction().begin();
             em.persist(calculFacture);
             em.getTransaction().commit();
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
+            if (em != null && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw new SocieteDatabaseException("Erreur lors de la sauvegarde du calcul de facture", e);
+            LogManager.logException("Erreur lors de la sauvegarde du calcul de facture", e);
+            throw new DatabaseException("Erreur lors de la sauvegarde du calcul de facture", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     @Override
-    public void update(CalculFacture calculFacture) throws SocieteDatabaseException {
+    public void update(CalculFacture calculFacture) throws DatabaseException {
+        EntityManager em = null;
         try {
+            em = getEntityManager();
             em.getTransaction().begin();
             em.merge(calculFacture);
             em.getTransaction().commit();
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
+            if (em != null && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw new SocieteDatabaseException("Erreur lors de la mise à jour du calcul de facture", e);
+            LogManager.logException("Erreur lors de la mise à jour du calcul de facture", e);
+            throw new DatabaseException("Erreur lors de la mise à jour du calcul de facture", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     @Override
-    public void delete(CalculFacture calculFacture) throws SocieteDatabaseException {
+    public void delete(CalculFacture calculFacture) throws DatabaseException {
+        EntityManager em = null;
         try {
+            em = getEntityManager();
             em.getTransaction().begin();
-            em.remove(calculFacture);
+            em.remove(em.contains(calculFacture) ? calculFacture : em.merge(calculFacture));
             em.getTransaction().commit();
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
+            if (em != null && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw new SocieteDatabaseException("Erreur lors de la suppression du calcul de facture", e);
+            LogManager.logException("Erreur lors de la suppression du calcul de facture", e);
+            throw new DatabaseException("Erreur lors de la suppression du calcul de facture", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
-    public List<CalculFacture> findByFactureId(Long factureId) throws SocieteDatabaseException {
+    public List<CalculFacture> findByFactureId(Long factureId) throws DatabaseException {
+        EntityManager em = null;
         try {
+            em = getEntityManager();
             TypedQuery<CalculFacture> query = em.createQuery(
-                "SELECT cf FROM CalculFacture cf WHERE cf.facture.id = :factureId", 
+                "SELECT c FROM CalculFacture c WHERE c.facture.id = :factureId", 
                 CalculFacture.class
             );
             query.setParameter("factureId", factureId);
             return query.getResultList();
         } catch (Exception e) {
-            throw new SocieteDatabaseException("Erreur lors de la recherche des calculs de facture par ID facture", e);
+            LogManager.logException("Erreur lors de la recherche des calculs de facture par ID facture", e);
+            throw new DatabaseException("Erreur lors de la recherche des calculs de facture par ID facture", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 

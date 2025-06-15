@@ -6,7 +6,8 @@ import io.micrometer.core.instrument.Timer;
 import io.micrometer.prometheus.PrometheusConfig;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
 import exceptions.MetricsException;
-import logs.LogManager;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
 /**
  * Gestionnaire de métriques pour l'application.
@@ -19,6 +20,7 @@ import logs.LogManager;
 public final class MetricsManager {
     
     private static final MeterRegistry registry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
+    private static final long WARNING_THRESHOLD_MS = 1000; // 1 seconde
     
     /**
      * Constructeur privé pour empêcher l'instanciation de la classe utilitaire.
@@ -77,27 +79,48 @@ public final class MetricsManager {
     /**
      * Mesure le temps d'exécution d'une opération.
      *
-     * @param timer le timer à utiliser
-     * @param operation l'opération à mesurer
+     * @param operationName le nom de l'opération
+     * @param operation la fonction à mesurer
      * @return le résultat de l'opération
      * @throws MetricsException si une erreur survient lors de la mesure
      */
-    public static <T> T measureExecutionTime(Timer timer, ThrowingSupplier<T> operation) throws MetricsException {
+    public static <T> T measureExecutionTime(String operationName, Supplier<T> operation) {
+        long startTime = System.nanoTime();
         try {
-            return timer.record(operation::get);
+            T result = operation.get();
+            long durationMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
+            if (durationMs > WARNING_THRESHOLD_MS) {
+                LogManager.warning(operationName + " a pris " + durationMs + "ms");
+            } else {
+                LogManager.info(operationName + " a pris " + durationMs + "ms");
+            }
+            return result;
         } catch (Exception e) {
-            LogManager.logException("Erreur lors de la mesure du temps d'exécution", e);
-            throw new MetricsException("Erreur lors de la mesure du temps d'exécution", e);
+            LogManager.logException("Erreur lors de l'exécution de " + operationName, e);
+            throw e;
         }
     }
 
     /**
-     * Interface fonctionnelle pour les opérations qui peuvent lever des exceptions.
+     * Mesure le temps d'exécution d'une opération.
      *
-     * @param <T> le type de retour
+     * @param operationName le nom de l'opération
+     * @param operation la fonction à mesurer
+     * @throws MetricsException si une erreur survient lors de la mesure
      */
-    @FunctionalInterface
-    public interface ThrowingSupplier<T> {
-        T get() throws Exception;
+    public static void measureExecutionTime(String operationName, Runnable operation) {
+        long startTime = System.nanoTime();
+        try {
+            operation.run();
+            long durationMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
+            if (durationMs > WARNING_THRESHOLD_MS) {
+                LogManager.warning(operationName + " a pris " + durationMs + "ms");
+            } else {
+                LogManager.info(operationName + " a pris " + durationMs + "ms");
+            }
+        } catch (Exception e) {
+            LogManager.logException("Erreur lors de l'exécution de " + operationName, e);
+            throw e;
+        }
     }
 } 

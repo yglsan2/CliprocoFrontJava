@@ -1,14 +1,14 @@
 package exceptions;
 
 /**
- * Exception levée en cas d'erreur de validation.
+ * Exception levée lors d'une erreur de validation des données.
  * Cette exception est utilisée pour signaler les erreurs de validation des données.
  * 
  * @author Benja2
  * @version 1.0
  * @since 1.0
  */
-public class ValidationException extends ApplicationException {
+public class ValidationException extends Exception {
     
     private static final long serialVersionUID = 1L;
     private static final String ERROR_CODE_PREFIX = "VAL-";
@@ -19,7 +19,17 @@ public class ValidationException extends ApplicationException {
      * @param message le message d'erreur
      */
     public ValidationException(String message) {
-        super(message, ERROR_CODE_PREFIX + "001");
+        super(message);
+    }
+
+    /**
+     * Constructeur avec message d'erreur et cause.
+     *
+     * @param message le message d'erreur
+     * @param cause la cause de l'exception
+     */
+    public ValidationException(String message, Throwable cause) {
+        super(message, cause);
     }
 
     /**
@@ -30,16 +40,6 @@ public class ValidationException extends ApplicationException {
      */
     public ValidationException(String message, String errorCode) {
         super(message, ERROR_CODE_PREFIX + errorCode);
-    }
-
-    /**
-     * Constructeur avec message d'erreur et cause.
-     *
-     * @param message le message d'erreur
-     * @param cause la cause de l'exception
-     */
-    public ValidationException(String message, Throwable cause) {
-        super(message, ERROR_CODE_PREFIX + "001", cause);
     }
 
     /**

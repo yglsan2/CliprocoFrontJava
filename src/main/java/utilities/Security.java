@@ -1,16 +1,20 @@
 package utilities;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import de.mkammerer.argon2.Argon2;
-import de.mkammerer.argon2.Argon2Factory;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Base64;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * Classe utilitaire pour la gestion de la sécurité et de l'authentification.
  */
 public final class Security {
 
-    private static final Argon2 argon2 = Argon2Factory.create();
+    private static final SecureRandom RANDOM = new SecureRandom();
+    private static final String ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    private static final int ITERATIONS = 10000;
+    private static final int KEY_LENGTH = 256;
 
     /**
      * Constructeur privé pour empêcher l'instanciation de la classe utilitaire.
@@ -37,24 +41,33 @@ public final class Security {
         return jsp;
     }
 
-    /**
-     * Hash un mot de passe en utilisant Argon2.
-     *
-     * @param password Le mot de passe à hasher
-     * @return Le hash du mot de passe
-     */
-    public static String hashPassword(String password) {
-        return argon2.hash(2, 65536, 1, password);
+    public static String generateSalt() {
+        StringBuilder returnValue = new StringBuilder(16);
+        for (int i = 0; i < 16; i++) {
+            returnValue.append(ALPHABET.charAt(RANDOM.nextInt(ALPHABET.length())));
+        }
+        return new String(returnValue);
     }
 
-    /**
-     * Vérifie si un mot de passe correspond à un hash.
-     *
-     * @param password Le mot de passe à vérifier
-     * @param hash Le hash stocké
-     * @return true si le mot de passe correspond au hash, false sinon
-     */
-    public static boolean verifyPassword(String password, String hash) {
-        return argon2.verify(hash, password);
+    public static String hashPassword(String password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hash = md.digest(password.getBytes());
+            return Base64.getEncoder().encodeToString(hash);
+        } catch (NoSuchAlgorithmException e) {
+            LogManager.logException("Erreur lors du hachage du mot de passe", e);
+            throw new RuntimeException("Erreur lors du hachage du mot de passe", e);
+        }
+    }
+
+    public static boolean verifyPassword(String password, String hashedPassword) {
+        String hashedInput = hashPassword(password);
+        return hashedInput.equals(hashedPassword);
+    }
+
+    public static String generateToken() {
+        byte[] randomBytes = new byte[32];
+        RANDOM.nextBytes(randomBytes);
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
     }
 }

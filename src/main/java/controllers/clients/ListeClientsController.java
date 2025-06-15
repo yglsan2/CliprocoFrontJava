@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import exceptions.DatabaseException;
+import utilities.LogManager;
 
 import java.util.ArrayList;
 
@@ -26,7 +28,14 @@ public final class ListeClientsController implements ICommand {
         String urlSuite = Security.estConnecte(request, jsp);
 
         if (jsp.equals(urlSuite)) {
-            request.setAttribute("clients", new ArrayList<>(new ClientJpaDAO().findAll()));
+            try {
+                ClientJpaDAO clientJpaDAO = new ClientJpaDAO();
+                ArrayList<Client> clients = new ArrayList<>(clientJpaDAO.findAll());
+                request.setAttribute("clients", clients);
+            } catch (DatabaseException e) {
+                LogManager.logException("Erreur lors de la récupération des clients", e);
+                request.setAttribute("error", "Erreur lors de la récupération des clients");
+            }
         }
 
         return urlSuite;

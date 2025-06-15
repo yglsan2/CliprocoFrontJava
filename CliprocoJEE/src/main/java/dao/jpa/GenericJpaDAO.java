@@ -1,12 +1,12 @@
 package dao.jpa;
 
 import dao.IDAO;
-import dao.SocieteDatabaseException;
+import exceptions.DatabaseException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
-import utilities.JPAUtil;
+import utilities.LogManager;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
@@ -14,7 +14,6 @@ import java.util.List;
 public abstract class GenericJpaDAO<T> implements IDAO<T> {
     
     protected final EntityManagerFactory emf;
-    protected final EntityManager em;
     protected final Class<T> entityClass;
     
     @SuppressWarnings("unchecked")
@@ -22,31 +21,47 @@ public abstract class GenericJpaDAO<T> implements IDAO<T> {
         this.entityClass = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[0];
         this.emf = Persistence.createEntityManagerFactory("cliproco");
-        this.em = emf.createEntityManager();
+    }
+    
+    protected EntityManager getEntityManager() {
+        return emf.createEntityManager();
     }
     
     @Override
-    public T findById(Long id) throws SocieteDatabaseException {
+    public T findById(Long id) throws DatabaseException {
+        EntityManager em = getEntityManager();
         try {
             return em.find(entityClass, id);
         } catch (Exception e) {
-            throw new SocieteDatabaseException("Erreur lors de la recherche par ID", e);
+            LogManager.logException("Erreur lors de la recherche par ID", e);
+            throw new DatabaseException("Erreur lors de la recherche par ID", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
     
     @Override
-    public List<T> findAll() throws SocieteDatabaseException {
+    public List<T> findAll() throws DatabaseException {
+        EntityManager em = getEntityManager();
         try {
             String jpql = "SELECT e FROM " + entityClass.getSimpleName() + " e";
             TypedQuery<T> query = em.createQuery(jpql, entityClass);
             return query.getResultList();
         } catch (Exception e) {
-            throw new SocieteDatabaseException("Erreur lors de la récupération de toutes les entités", e);
+            LogManager.logException("Erreur lors de la récupération de toutes les entités", e);
+            throw new DatabaseException("Erreur lors de la récupération de toutes les entités", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
     
     @Override
-    public void save(T entity) throws SocieteDatabaseException {
+    public void save(T entity) throws DatabaseException {
+        EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(entity);
@@ -55,12 +70,18 @@ public abstract class GenericJpaDAO<T> implements IDAO<T> {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw new SocieteDatabaseException("Erreur lors de la sauvegarde", e);
+            LogManager.logException("Erreur lors de la sauvegarde", e);
+            throw new DatabaseException("Erreur lors de la sauvegarde", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
     
     @Override
-    public void update(T entity) throws SocieteDatabaseException {
+    public void update(T entity) throws DatabaseException {
+        EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             em.merge(entity);
@@ -69,28 +90,36 @@ public abstract class GenericJpaDAO<T> implements IDAO<T> {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw new SocieteDatabaseException("Erreur lors de la mise à jour", e);
+            LogManager.logException("Erreur lors de la mise à jour", e);
+            throw new DatabaseException("Erreur lors de la mise à jour", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
     
     @Override
-    public void delete(T entity) throws SocieteDatabaseException {
+    public void delete(T entity) throws DatabaseException {
+        EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            em.remove(entity);
+            em.remove(em.merge(entity));
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw new SocieteDatabaseException("Erreur lors de la suppression", e);
+            LogManager.logException("Erreur lors de la suppression", e);
+            throw new DatabaseException("Erreur lors de la suppression", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     public void close() {
-        if (em != null && em.isOpen()) {
-            em.close();
-        }
         if (emf != null && emf.isOpen()) {
             emf.close();
         }

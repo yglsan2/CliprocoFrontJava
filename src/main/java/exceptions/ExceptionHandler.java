@@ -1,10 +1,10 @@
 package exceptions;
 
-import logs.LogManager;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
+import utilities.LogManager;
+import java.io.IOException;
 
 /**
  * Gestionnaire centralisé des exceptions de l'application.
@@ -17,7 +17,7 @@ import java.util.List;
  */
 public final class ExceptionHandler {
 
-    private static final String ERROR_ATTRIBUTE = "errors";
+    private static final String ERROR_ATTRIBUTE = "error";
     private static final String ERROR_PAGE = "error.jsp";
     private static final String GENERIC_ERROR_MESSAGE = "Une erreur est survenue. Veuillez réessayer plus tard.";
 
@@ -34,58 +34,36 @@ public final class ExceptionHandler {
      * @param request La requête HTTP
      * @param response La réponse HTTP
      * @param exception L'exception à gérer
-     * @return L'URL de la page d'erreur
+     * @param viewPath Le chemin de la vue à afficher
+     * @throws ServletException Si une erreur survient lors de la gestion de la requête
+     * @throws IOException Si une erreur survient lors de la gestion de la réponse
      */
-    public static String handleException(HttpServletRequest request, 
-                                      HttpServletResponse response,
-                                      Exception exception) {
-        List<String> errors = new ArrayList<>();
-        
-        if (exception instanceof ApplicationException) {
-            handleApplicationException((ApplicationException) exception, errors);
-        } else {
-            handleUnexpectedException(exception, errors);
-        }
-
-        request.setAttribute(ERROR_ATTRIBUTE, errors);
-        return ERROR_PAGE;
+    public static void handleException(HttpServletRequest request, HttpServletResponse response, 
+                                     Exception exception, String viewPath) throws ServletException, IOException {
+        String message = getErrorMessage(exception);
+        logException(message, exception);
+        request.setAttribute(ERROR_ATTRIBUTE, message);
+        request.getRequestDispatcher(viewPath).forward(request, response);
     }
 
-    /**
-     * Gère une exception spécifique à l'application.
-     *
-     * @param exception L'exception à gérer
-     * @param errors La liste des erreurs à remplir
-     */
-    private static void handleApplicationException(ApplicationException exception, 
-                                                List<String> errors) {
-        String errorCode = exception.getErrorCode();
-        String message = exception.getMessage();
-        
-        LogManager.warning("Exception de l'application - Code: {}, Message: {}", 
-                         errorCode, message);
-        
+    private static String getErrorMessage(Exception exception) {
         if (exception instanceof ValidationException) {
-            errors.add(message);
+            return exception.getMessage();
         } else if (exception instanceof DatabaseException) {
-            errors.add(GENERIC_ERROR_MESSAGE);
-            LogManager.logException("Erreur de base de données", exception);
+            return "Une erreur de base de données s'est produite";
         } else {
-            errors.add(GENERIC_ERROR_MESSAGE);
-            LogManager.logException("Erreur inattendue", exception);
+            return "Une erreur inattendue s'est produite";
         }
     }
 
-    /**
-     * Gère une exception inattendue.
-     *
-     * @param exception L'exception à gérer
-     * @param errors La liste des erreurs à remplir
-     */
-    private static void handleUnexpectedException(Exception exception, 
-                                               List<String> errors) {
-        LogManager.logException("Exception inattendue", exception);
-        errors.add(GENERIC_ERROR_MESSAGE);
+    private static void logException(String message, Throwable e) {
+        if (e instanceof ValidationException) {
+            LogManager.info(message + ": " + e.getMessage());
+        } else if (e instanceof DatabaseException) {
+            LogManager.info(message + ": " + e.getMessage());
+        } else {
+            LogManager.logException(message, e);
+        }
     }
 
     /**

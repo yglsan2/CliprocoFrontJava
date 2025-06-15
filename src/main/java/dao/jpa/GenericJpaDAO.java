@@ -1,15 +1,12 @@
 package dao.jpa;
 
 import dao.IDAO;
-import dao.SocieteDatabaseException;
+import exceptions.DatabaseException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
-import models.Societe;
-import utilities.JPAUtil;
-
-import java.lang.reflect.ParameterizedType;
+import utilities.LogManager;
 import java.util.List;
 
 /**
@@ -17,101 +14,114 @@ import java.util.List;
  * @param <T> Type de l'entité
  */
 public abstract class GenericJpaDAO<T> implements IDAO<T> {
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("cliproco");
+    private final Class<T> entityClass;
     
-    protected final EntityManagerFactory emf;
-    protected final Class<T> entityClass;
-    
-    @SuppressWarnings("unchecked")
-    public GenericJpaDAO() {
-        this.entityClass = (Class<T>) ((ParameterizedType) getClass()
-                .getGenericSuperclass()).getActualTypeArguments()[0];
-        this.emf = Persistence.createEntityManagerFactory("cliproco");
+    protected GenericJpaDAO(Class<T> entityClass) {
+        this.entityClass = entityClass;
     }
     
     protected EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
     
+    protected Class<T> getEntityClass() {
+        return entityClass;
+    }
+    
     @Override
-    public T findById(Long id) throws SocieteDatabaseException {
-        EntityManager em = getEntityManager();
+    public T findById(Long id) throws DatabaseException {
+        EntityManager em = null;
         try {
+            em = getEntityManager();
             return em.find(entityClass, id);
         } catch (Exception e) {
-            throw new SocieteDatabaseException("Erreur lors de la recherche par ID", e);
+            LogManager.logException("Erreur lors de la recherche par ID", e);
+            throw new DatabaseException("Erreur lors de la recherche par ID", e);
         } finally {
-            em.close();
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
     
     @Override
-    public List<T> findAll() throws SocieteDatabaseException {
-        EntityManager em = getEntityManager();
+    public List<T> findAll() throws DatabaseException {
+        EntityManager em = null;
         try {
-            String jpql = "SELECT e FROM " + entityClass.getSimpleName() + " e";
-            TypedQuery<T> query = em.createQuery(jpql, entityClass);
+            em = getEntityManager();
+            TypedQuery<T> query = em.createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e", entityClass);
             return query.getResultList();
         } catch (Exception e) {
-            throw new SocieteDatabaseException("Erreur lors de la récupération de toutes les entités", e);
+            LogManager.logException("Erreur lors de la récupération de toutes les entités", e);
+            throw new DatabaseException("Erreur lors de la récupération de toutes les entités", e);
         } finally {
-            em.close();
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
     
     @Override
-    public void save(T entity) throws SocieteDatabaseException {
-        EntityManager em = getEntityManager();
+    public void save(T entity) throws DatabaseException {
+        EntityManager em = null;
         try {
+            em = getEntityManager();
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
+            if (em != null && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw new SocieteDatabaseException("Erreur lors de la sauvegarde", e);
+            LogManager.logException("Erreur lors de la sauvegarde", e);
+            throw new DatabaseException("Erreur lors de la sauvegarde", e);
         } finally {
-            em.close();
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
     
     @Override
-    public void update(T entity) throws SocieteDatabaseException {
-        EntityManager em = getEntityManager();
+    public void update(T entity) throws DatabaseException {
+        EntityManager em = null;
         try {
+            em = getEntityManager();
             em.getTransaction().begin();
             em.merge(entity);
             em.getTransaction().commit();
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
+            if (em != null && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw new SocieteDatabaseException("Erreur lors de la mise à jour", e);
+            LogManager.logException("Erreur lors de la mise à jour", e);
+            throw new DatabaseException("Erreur lors de la mise à jour", e);
         } finally {
-            em.close();
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
     
     @Override
-    public void delete(T entity) throws SocieteDatabaseException {
-        EntityManager em = getEntityManager();
+    public void delete(T entity) throws DatabaseException {
+        EntityManager em = null;
         try {
+            em = getEntityManager();
             em.getTransaction().begin();
-            em.remove(entity);
+            em.remove(em.merge(entity));
             em.getTransaction().commit();
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
+            if (em != null && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw new SocieteDatabaseException("Erreur lors de la suppression", e);
+            LogManager.logException("Erreur lors de la suppression", e);
+            throw new DatabaseException("Erreur lors de la suppression", e);
         } finally {
-            em.close();
-        }
-    }
-
-    public void close() {
-        if (emf != null && emf.isOpen()) {
-            emf.close();
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 } 

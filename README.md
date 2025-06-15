@@ -18,7 +18,7 @@
 - [Configuration](#-configuration)
 - [Utilisation](#-utilisation)
 - [Structure du projet](#-structure-du-projet)
-- [Sécurité](#-sécurité)
+- [Sécurité](#-sécurité)o
 - [Tests](#-tests)
 - [Contribution](#-contribution)
 - [Licence](#-licence)
@@ -409,4 +409,137 @@ Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 
 <div align="center">
   <img src="https://via.placeholder.com/800x200.png?text=Merci+de+choisir+Cliproco" alt="Cliproco Team" style="border-radius: 10px; margin-top: 20px;">
-</div> 
+</div>
+
+## Configuration du Projet
+
+### Versions utilisées
+- Java 21
+- Jakarta EE 10
+- Tomcat 10.1.19
+- Maven 3.9.6
+- Hibernate 6.4.4.Final
+- H2 Database 2.2.224
+- JUnit 5.10.2
+- Mockito 5.11.0
+
+### Configuration Jakarta EE 10
+
+Le projet utilise Jakarta EE 10 avec une configuration simplifiée pour garantir la compatibilité avec Tomcat 10.x et Cargo. Cette approche a été choisie pour résoudre les problèmes de compatibilité entre les différentes versions de Jakarta EE.
+
+#### Pourquoi cette approche ?
+
+1. **Simplicité et fiabilité** : En utilisant uniquement le BOM (Bill Of Materials) Jakarta EE 10, nous évitons les problèmes de versions incompatibles entre les différents modules.
+2. **Compatibilité garantie** : Cette configuration est testée et validée avec Tomcat 10.x et Cargo.
+3. **Maintenance simplifiée** : Moins de dépendances à gérer signifie moins de risques de conflits.
+
+#### Configuration
+
+La configuration se fait dans le `pom.xml` avec une seule dépendance Jakarta EE :
+
+```xml
+<!-- Jakarta EE Platform -->
+<dependency>
+    <groupId>jakarta.platform</groupId>
+    <artifactId>jakarta.jakartaee-api</artifactId>
+    <version>10.0.0</version>
+    <scope>provided</scope>
+</dependency>
+```
+
+Cette dépendance inclut automatiquement :
+- Jakarta Persistence (JPA)
+- Jakarta Servlet
+- Jakarta Validation
+- Jakarta JSON Binding
+- Jakarta JSON Processing
+- Et tous les autres modules Jakarta EE 10
+
+#### Eclipse Cargo Tracker
+
+Pour assurer la compatibilité avec Cargo, nous utilisons EclipseLink comme implémentation JPA :
+
+```xml
+<!-- EclipseLink (JPA Implementation) -->
+<dependency>
+    <groupId>org.eclipse.persistence</groupId>
+    <artifactId>org.eclipse.persistence.jpa</artifactId>
+    <version>4.0.3</version>
+</dependency>
+```
+
+Cette configuration est ajoutée à la fois dans les dépendances principales et dans la configuration de Cargo :
+
+```xml
+<plugin>
+    <groupId>org.codehaus.cargo</groupId>
+    <artifactId>cargo-maven3-plugin</artifactId>
+    <version>1.10.13</version>
+    <dependencies>
+        <!-- Eclipse Cargo Tracker -->
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.jpa</artifactId>
+            <version>4.0.3</version>
+        </dependency>
+    </dependencies>
+</plugin>
+```
+
+#### Avantages
+
+- Configuration minimale et robuste
+- Compatibilité garantie avec Tomcat 10.x
+- Support complet de Jakarta EE 10
+- Gestion simplifiée des dépendances
+- Meilleure performance de compilation
+
+#### Limitations
+
+- Nécessite Tomcat 10.x ou supérieur
+- Certaines fonctionnalités avancées peuvent nécessiter des dépendances supplémentaires
+
+### Installation
+
+1. Cloner le repository
+2. Exécuter `mvn clean install`
+3. Le projet sera compilé et les tests seront exécutés
+4. L'application sera déployée sur Tomcat via Cargo
+
+### Structure du Projet
+
+```
+src/
+├── main/
+│   ├── java/
+│   │   ├── controllers/
+│   │   ├── dao/
+│   │   ├── models/
+│   │   └── services/
+│   ├── resources/
+│   │   └── META-INF/
+│   │       └── persistence.xml
+│   └── webapp/
+│       └── WEB-INF/
+└── test/
+    └── java/
+        └── tests/
+```
+
+### Tests
+
+Les tests sont exécutés avec JUnit 5 et Mockito. Pour lancer les tests :
+
+```bash
+mvn test
+```
+
+### Déploiement
+
+Le déploiement est géré par Cargo Maven Plugin. Pour déployer l'application :
+
+```bash
+mvn cargo:run
+```
+
+L'application sera accessible à l'adresse : http://localhost:8080/CliprocoJEE 

@@ -15,6 +15,8 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import org.jetbrains.annotations.Contract;
 import utilities.Security;
+import services.UserService;
+import utilities.LogManager;
 
 import java.io.IOException;
 import java.util.Set;
@@ -23,58 +25,44 @@ import java.util.logging.Level;
 /**
  *
  */
-@WebServlet("/signin")
+@WebServlet(name = "SigninController", urlPatterns = {"/signin"})
 public class SigninController extends HttpServlet {
+    private static final String SIGNIN_PAGE = "/WEB-INF/views/signin.jsp";
+    private static final String LOGIN_PAGE = "/WEB-INF/views/login.jsp";
+    private static final String ERROR_PAGE = "/WEB-INF/views/error.jsp";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/jsp/signin.jsp").forward(request, response);
+        request.getRequestDispatcher(SIGNIN_PAGE).forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
         String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String confirmPassword = request.getParameter("confirmPassword");
+
+        if (!password.equals(confirmPassword)) {
+            request.setAttribute("error", "Les mots de passe ne correspondent pas");
+            request.getRequestDispatcher(SIGNIN_PAGE).forward(request, response);
+            return;
+        }
 
         try {
-            User user = new User(username, password, email);
-            final int magicNumber = 65536;
-
-            String appSecret = System.getenv("APP_SECRET");
-
-            Validator validator = Validation.buildDefaultValidatorFactory()
-                                            .getValidator();
-            Set<ConstraintViolation<User>> violations =
-                    validator.validate(user);
-
-            request.setAttribute("violations", violations);
-
-            if (violations.isEmpty()) {
-                UserJpaDAO dao = new UserJpaDAO();
-
-                Argon2 argon2 = Argon2Factory.create();
-                char[] cast = (appSecret + user.getPassword()).toCharArray();
-                String hash = argon2.hash(
-                        2, magicNumber, 1,
-                        cast
-                );
-
-                user.setPassword(hash);
-
-                dao.save(user);
-                LogManager.LOGS.log(Level.INFO, "User created successfully: {0}", user.getUsername());
-                response.sendRedirect(request.getContextPath() + "/signin");
-            } else {
-                request.setAttribute("violations", violations);
-                request.getRequestDispatcher("/WEB-INF/jsp/signin.jsp").forward(request, response);
-            }
+            UserService userService = new UserService();
+            User user = new User();
+            user.setEmail(email);
+            user.setPassword(Security.hashPassword(password));
+            
+            userService.save(user);
+            LogManager.info("Inscription réussie pour l'utilisateur: " + email);
+            response.sendRedirect(request.getContextPath() + "/login");
         } catch (Exception e) {
-            LogManager.LOGS.log(Level.SEVERE, "Erreur lors de la création de l'utilisateur", e);
-            request.setAttribute("error", e.getMessage());
-            request.getRequestDispatcher("/WEB-INF/jsp/signin.jsp").forward(request, response);
+            LogManager.logException("Erreur lors de l'inscription", e);
+            request.setAttribute("error", "Une erreur est survenue lors de l'inscription");
+            request.getRequestDispatcher(ERROR_PAGE).forward(request, response);
         }
     }
 }

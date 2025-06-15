@@ -1,43 +1,41 @@
 package services;
 
-import dao.SocieteDatabaseException;
-import dao.jpa.ClientJpaDAO;
+import exceptions.DatabaseException;
 import models.Client;
-
+import dao.jpa.ClientJpaDAO;
 import java.util.List;
 
 public class ClientService {
-    private final ClientJpaDAO clientDao;
+    private final ClientJpaDAO clientDAO;
     
     public ClientService() {
-        this.clientDao = new ClientJpaDAO();
+        this.clientDAO = new ClientJpaDAO();
     }
     
-    public Client findById(Long id) throws SocieteDatabaseException {
-        return clientDao.findById(id);
+    public Client findById(Long id) throws DatabaseException {
+        return clientDAO.findById(id);
     }
     
-    public List<Client> findAll() throws SocieteDatabaseException {
-        return clientDao.findAll();
+    public List<Client> findAll() throws DatabaseException {
+        return clientDAO.findAll();
     }
     
-    public List<Client> findByRaisonSociale(String raisonSociale) throws SocieteDatabaseException {
-        return clientDao.findByRaisonSociale(raisonSociale);
+    public List<Client> findByRaisonSociale(String raisonSociale) throws DatabaseException {
+        return clientDAO.findByRaisonSociale(raisonSociale);
     }
     
-    public void save(Client client) throws SocieteDatabaseException {
-        if (!clientDao.existsByRaisonSociale(client.getRaisonSociale())) {
-            clientDao.save(client);
-        } else {
-            throw new SocieteDatabaseException("Un client avec cette raison sociale existe déjà");
+    public void save(Client client) throws DatabaseException {
+        if (clientDAO.existsByRaisonSociale(client.getRaisonSociale())) {
+            throw new DatabaseException("Un client avec cette raison sociale existe déjà");
         }
+        clientDAO.save(client);
     }
     
-    public void update(Client client) throws SocieteDatabaseException {
-        clientDao.update(client);
+    public void update(Client client) throws DatabaseException {
+        clientDAO.update(client);
     }
     
-    public void delete(Client client) throws SocieteDatabaseException {
-        clientDao.delete(client);
+    public void delete(Client client) throws DatabaseException {
+        clientDAO.delete(client);
     }
 } 

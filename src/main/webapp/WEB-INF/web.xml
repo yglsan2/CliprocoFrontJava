@@ -1,55 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="https://jakarta.ee/xml/ns/jakartaee"
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
-    <display-name>CliprocoJEE</display-name>
-    <context-param>
-        <param-name>jakarta.faces.PROJECT_STAGE</param-name>
-        <param-value>Development</param-value>
-    </context-param>
-    <context-param>
-        <param-name>jakarta.faces.DEFAULT_SUFFIX</param-name>
-        <param-value>.xhtml</param-value>
-    </context-param>
-    <jsp-config>
-        <jsp-property-group>
-            <url-pattern>*.jsp</url-pattern>
-            <page-encoding>UTF-8</page-encoding>
-        </jsp-property-group>
-    </jsp-config>
 
-    <welcome-file-list>
-        <welcome-file>index.xhtml</welcome-file>
-        <welcome-file>index.jsp</welcome-file>
-    </welcome-file-list>
+    <display-name>Cliproco</display-name>
+
+    <!-- Configuration des filtres -->
+    <filter>
+        <filter-name>CsrfFilter</filter-name>
+        <filter-class>filters.CsrfFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CsrfFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>SessionFilter</filter-name>
+        <filter-class>filters.SessionFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SessionFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Configuration de la session -->
     <session-config>
-        <session-timeout>30</session-timeout> <!-- En minutes -->
+        <session-timeout>30</session-timeout>
+        <cookie-config>
+            <http-only>true</http-only>
+            <secure>true</secure>
+        </cookie-config>
     </session-config>
 
-    <error-page>
-        <error-code>500</error-code>
-        <location>/WEB-INF/jsp/error.jsp</location>
-    </error-page>
+    <!-- Configuration des pages d'erreur -->
     <error-page>
         <error-code>404</error-code>
-        <location>/WEB-INF/jsp/error.jsp</location>
+        <location>/WEB-INF/jsp/error/404.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/jsp/error/500.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/WEB-INF/jsp/error/500.jsp</location>
     </error-page>
 
     <!-- Configuration de la sécurité -->
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Protected Area</web-resource-name>
-            <url-pattern>/WEB-INF/*</url-pattern>
-            <url-pattern>/admin/*</url-pattern>
+            <url-pattern>/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>PUT</http-method>
+            <http-method>DELETE</http-method>
         </web-resource-collection>
-        <auth-constraint/>
+        <auth-constraint>
+            <role-name>user</role-name>
+        </auth-constraint>
     </security-constraint>
 
-    <!-- Configuration des filtres de sécurité -->
+    <!-- Configuration des rôles -->
+    <security-role>
+        <role-name>user</role-name>
+    </security-role>
+
+    <!-- Configuration du contexte -->
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
+
+    <!-- Configuration de l'encodage -->
     <filter>
         <filter-name>CharacterEncodingFilter</filter-name>
-        <filter-class>jakarta.servlet.filter.CharacterEncodingFilter</filter-class>
+        <filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
         <init-param>
             <param-name>encoding</param-name>
             <param-value>UTF-8</param-value>
@@ -64,21 +92,33 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!-- Configuration des pages d'erreur supplémentaires -->
-    <error-page>
-        <error-code>403</error-code>
-        <location>/WEB-INF/jsp/error.jsp</location>
-    </error-page>
-    <error-page>
-        <exception-type>java.lang.Throwable</exception-type>
-        <location>/WEB-INF/jsp/error.jsp</location>
-    </error-page>
+    <!-- Configuration de la sécurité -->
+    <filter>
+        <filter-name>AuthenticationFilter</filter-name>
+        <filter-class>filters.AuthenticationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
+        <url-pattern>/WEB-INF/*</url-pattern>
+        <url-pattern>/admin/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Configuration des servlets -->
+    <servlet>
+        <servlet-name>FrontController</servlet-name>
+        <servlet-class>routers.FrontController</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FrontController</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
 
     <!-- Configuration de Jakarta Faces -->
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
+        <load-on-startup>2</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
@@ -89,4 +129,21 @@
     <listener>
         <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
     </listener>
+
+    <!-- Configuration des pages d'accueil -->
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>index.xhtml</welcome-file>
+    </welcome-file-list>
+
+    <!-- Configuration JSP -->
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+            <scripting-invalid>false</scripting-invalid>
+            <include-prelude>/WEB-INF/jspf/header.jspf</include-prelude>
+            <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
+        </jsp-property-group>
+    </jsp-config>
 </web-app>

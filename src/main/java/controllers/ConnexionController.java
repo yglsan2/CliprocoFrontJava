@@ -1,23 +1,28 @@
 package controllers;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 import dao.jpa.UserJpaDAO;
-import dao.SocieteDatabaseException;
+import dao.DatabaseException;
 import logs.LogManager;
 import models.User;
 import jakarta.servlet.http.Cookie;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import utilities.Security;
-import exceptions.DatabaseException;
 import exceptions.ValidationException;
 import exceptions.ApplicationException;
 import services.UserService;
 import dao.UserMySqlDAO;
+import utilities.LogManager;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -31,181 +36,135 @@ import java.util.UUID;
  * @version 1.0
  * @since 1.0
  */
-public final class ConnexionController implements ICommand {
+@WebServlet(name = "ConnexionController", urlPatterns = {"/connexion"})
+public class ConnexionController extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+    private UserService userService;
+    private static final String LOGIN_PAGE = "/WEB-INF/views/login.jsp";
+    private static final String HOME_PAGE = "/WEB-INF/views/home.jsp";
+    private static final String ERROR_PAGE = "/WEB-INF/views/error.jsp";
 
-    private static final String USERNAME_PARAM = "username";
-    private static final String PASSWORD_PARAM = "password";
-    private static final String REMEMBER_ME_PARAM = "rememberMe";
-    private static final String CURRENT_USER_COOKIE = "currentUser";
-    private static final int REMEMBER_ME_DAYS = 7;
-    private static final String CONNEXION_PAGE = "connexion.jsp";
-    private static final String INDEX_REDIRECT = "redirect:?cmd=index";
-    private static final String ERROR_MESSAGE = "Une erreur est survenue lors de la connexion. Veuillez réessayer.";
-
-    /**
-     * Exécute la logique de connexion.
-     * Cette méthode est le point d'entrée principal du contrôleur.
-     * Elle gère le flux complet de l'authentification :
-     * 1. Récupération des paramètres
-     * 2. Validation des identifiants
-     * 3. Tentative de connexion
-     * 4. Gestion des erreurs
-     * 5. Nettoyage des ressources
-     *
-     * @param request la requête HTTP
-     * @param response la réponse HTTP
-     * @return l'URL de la page à afficher
-     * @throws Exception si une erreur survient lors du traitement
-     */
-    @Contract(pure = true)
     @Override
-    public @NotNull String execute(final HttpServletRequest request,
-                                 final HttpServletResponse response)
-            throws Exception {
-        // Variables locales pour stocker l'état
-        User user = new User();
-        ArrayList<String> errors = new ArrayList<>();
-        String urlSuite = CONNEXION_PAGE;
-        UserService userService = null;
-        UserMySqlDAO userDAO = null;
+    public void init() throws ServletException {
+        super.init();
+        userService = new UserService();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        request.getRequestDispatcher(LOGIN_PAGE).forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
 
         try {
-            // Récupération des paramètres de la requête
-            String username = request.getParameter(USERNAME_PARAM);
-            String password = request.getParameter(PASSWORD_PARAM);
+            UserService userService = new UserService();
+            User user = userService.findByEmail(email);
 
-            // Préparation de l'objet user pour la réaffichage du formulaire
-            user.setUsername(username != null ? username : "");
+            if (user != null && Security.verifyPassword(password, user.getPassword())) {
+                HttpSession session = request.getSession();
+                session.setAttribute("user", user);
+                LogManager.info("Connexion réussie pour l'utilisateur: " + email);
+                response.sendRedirect(request.getContextPath() + "/home");
+            } else {
+                LogManager.warning("Tentative de connexion échouée pour l'email: " + email);
+                request.setAttribute("error", "Email ou mot de passe incorrect");
+                request.getRequestDispatcher(LOGIN_PAGE).forward(request, response);
+            }
+        } catch (DatabaseException e) {
+            LogManager.logException("Erreur lors de la connexion", e);
+            request.setAttribute("error", "Une erreur est survenue lors de la connexion");
+            request.getRequestDispatcher(ERROR_PAGE).forward(request, response);
+        }
+    }
 
-            // Traitement de la connexion si les paramètres sont présents
-            if (username != null && password != null) {
-                // Validation des identifiants
-                validateCredentials(username, password, errors);
+    @Override
+    public void destroy() {
+        super.destroy();
+        if (userService != null) {
+            try {
+                userService.close();
+            } catch (Exception e) {
+                LogManager.logException("Erreur lors de la fermeture du service utilisateur", e);
+            }
+        }
+    }
 
-                if (errors.isEmpty()) {
-                    // Initialisation des services
-                    userService = new UserService();
-                    userDAO = new UserMySqlDAO();
+    /**
+     * Gère la tentative de connexion.
+     *
+     * @param request La requête HTTP
+     * @param response La réponse HTTP
+     * @return La page à afficher
+     */
+    private String handleLogin(HttpServletRequest request, HttpServletResponse response) {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
 
-                    // Tentative de connexion
-                    urlSuite = processLogin(request, response, username, password, errors, userService, userDAO);
-                }
-
-                if (!errors.isEmpty()) {
-                    handleErrors(request, errors, username);
-                }
+        try {
+            // Validation des paramètres
+            if (username == null || username.trim().isEmpty() || 
+                password == null || password.trim().isEmpty()) {
+                throw new ValidationException("Le nom d'utilisateur et le mot de passe sont requis");
             }
 
-            // Préparation des attributs de la requête
-            prepareRequestAttributes(request, user);
-            return urlSuite;
+            // Tentative de connexion avec gestion automatique des ressources
+            try (UserService userService = new UserService()) {
+                User user = userService.authenticate(username, password);
+                if (user == null) {
+                    LogManager.warning("Tentative de connexion échouée pour l'utilisateur: " + username);
+                    request.setAttribute("errors", new ArrayList<String>() {{ add("Identifiants invalides. Veuillez vérifier votre nom d'utilisateur et votre mot de passe."); }});
+                    return LOGIN_PAGE;
+                }
+
+                // Création de la session
+                HttpSession session = request.getSession(true);
+                session.setAttribute("user", user);
+                session.setAttribute("token", user.getToken());
+
+                LogManager.info("Connexion réussie pour l'utilisateur: " + username);
+                return HOME_PAGE;
+            }
 
         } catch (ValidationException e) {
-            // Erreur de validation (identifiants invalides, format incorrect, etc.)
             LogManager.logException("Erreur de validation lors de la connexion", e);
             request.setAttribute("errors", new ArrayList<String>() {{ add(e.getMessage()); }});
-            return CONNEXION_PAGE;
-
-        } catch (DatabaseException e) {
-            // Erreur de base de données (connexion, requête, etc.)
-            LogManager.logException("Erreur de base de données lors de la connexion", e);
-            request.setAttribute("errors", new ArrayList<String>() {{ add(ERROR_MESSAGE); }});
-            return CONNEXION_PAGE;
+            return LOGIN_PAGE;
 
         } catch (ApplicationException e) {
-            // Erreur d'application (logique métier, etc.)
             LogManager.logException("Erreur d'application lors de la connexion", e);
-            request.setAttribute("errors", new ArrayList<String>() {{ add(ERROR_MESSAGE); }});
-            return CONNEXION_PAGE;
-
-        } catch (Exception e) {
-            // Erreur inattendue (système, runtime, etc.)
-            LogManager.logException("Erreur inattendue lors de la connexion", e);
-            request.setAttribute("errors", new ArrayList<String>() {{ add(ERROR_MESSAGE); }});
-            return CONNEXION_PAGE;
-
-        } finally {
-            // Nettoyage des ressources
-            if (userService != null) {
-                try {
-                    // Fermeture des connexions si nécessaire
-                    if (userService instanceof AutoCloseable) {
-                        ((AutoCloseable) userService).close();
-                    }
-                } catch (Exception e) {
-                    LogManager.warning("Erreur lors de la fermeture du service: " + e.getMessage());
-                }
-            }
-            if (userDAO != null) {
-                try {
-                    // Fermeture des connexions si nécessaire
-                    if (userDAO instanceof AutoCloseable) {
-                        ((AutoCloseable) userDAO).close();
-                    }
-                } catch (Exception e) {
-                    LogManager.warning("Erreur lors de la fermeture du DAO: " + e.getMessage());
-                }
-            }
+            request.setAttribute("errors", new ArrayList<String>() {{ add("Une erreur est survenue lors de la connexion. Veuillez réessayer."); }});
+            return LOGIN_PAGE;
         }
     }
 
     /**
-     * Valide les identifiants de connexion.
-     * Vérifie que les identifiants ne sont pas vides et respectent les critères de validation.
+     * Gère la déconnexion.
      *
-     * @param username le nom d'utilisateur
-     * @param password le mot de passe
-     * @param errors la liste des erreurs à remplir
-     * @throws ValidationException si les identifiants sont invalides
+     * @param request La requête HTTP
+     * @param response La réponse HTTP
+     * @return La page à afficher
      */
-    private void validateCredentials(String username, String password, ArrayList<String> errors) 
-            throws ValidationException {
-        if (username.trim().isEmpty()) {
-            throw new ValidationException("Le nom d'utilisateur est requis");
-        }
-        if (password.trim().isEmpty()) {
-            throw new ValidationException("Le mot de passe est requis");
-        }
-    }
-
-    /**
-     * Traite la tentative de connexion.
-     * Gère l'authentification et la création de session.
-     *
-     * @param request la requête HTTP
-     * @param response la réponse HTTP
-     * @param username le nom d'utilisateur
-     * @param password le mot de passe
-     * @param errors la liste des erreurs à remplir
-     * @param userService le service d'authentification
-     * @param userDAO le DAO pour la mise à jour du token
-     * @return l'URL de la page à afficher
-     * @throws ApplicationException si une erreur d'application survient
-     */
-    private String processLogin(HttpServletRequest request, HttpServletResponse response,
-                              String username, String password, ArrayList<String> errors,
-                              UserService userService, UserMySqlDAO userDAO)
-            throws ApplicationException {
+    private String handleLogout(HttpServletRequest request, HttpServletResponse response) {
         try {
-            // Tentative d'authentification
-            User user = userService.authenticate(username, password);
-            if (user != null) {
-                // Génération et mise à jour du token
-                String token = UUID.randomUUID().toString();
-                user.setToken(token);
-                userDAO.update(user);
-                
-                // Création de la session
-                request.getSession().setAttribute("user", user);
-                request.getSession().setAttribute("token", token);
-                
-                return "redirect:?cmd=index";
-            } else {
-                throw new ValidationException("Nom d'utilisateur ou mot de passe incorrect");
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                User user = (User) session.getAttribute("user");
+                if (user != null) {
+                    LogManager.info("Déconnexion de l'utilisateur: " + user.getUsername());
+                }
+                session.invalidate();
             }
+            return LOGIN_PAGE;
         } catch (Exception e) {
-            LogManager.logException("Erreur inattendue lors de l'authentification", e);
-            throw new ApplicationException("Erreur lors de l'authentification", e);
+            LogManager.logException("Erreur lors de la déconnexion", e);
+            request.setAttribute("errors", new ArrayList<String>() {{ add("Une erreur est survenue lors de la déconnexion."); }});
+            return LOGIN_PAGE;
         }
     }
 
@@ -216,24 +175,24 @@ public final class ConnexionController implements ICommand {
      * @param response La réponse HTTP
      * @param user L'utilisateur connecté
      * @param dao Le DAO utilisateur
-     * @throws SocieteDatabaseException En cas d'erreur de base de données
+     * @throws DatabaseException En cas d'erreur de base de données
      */
     private void handleRememberMe(HttpServletRequest request, HttpServletResponse response,
-                                User user, UserJpaDAO dao) throws SocieteDatabaseException {
-        if (request.getParameterMap().get(REMEMBER_ME_PARAM) != null) {
+                                User user, UserJpaDAO dao) throws DatabaseException {
+        if (request.getParameter("rememberMe") != null) {
             try {
                 String token = UUID.randomUUID().toString();
-                Cookie cookie = new Cookie(CURRENT_USER_COOKIE, token);
-                cookie.setMaxAge(REMEMBER_ME_DAYS * 24 * 60 * 60);
+                Cookie cookie = new Cookie("currentUser", token);
+                cookie.setMaxAge(7 * 24 * 60 * 60);
                 cookie.setSecure(true); // Cookie sécurisé en HTTPS
                 cookie.setHttpOnly(true); // Protection contre XSS
                 response.addCookie(cookie);
 
                 user.setToken(token);
-                user.setExpire(LocalDate.now().plusDays(REMEMBER_ME_DAYS));
+                user.setExpire(LocalDate.now().plusDays(7));
                 dao.save(user);
                 LogManager.info("Cookie 'remember me' créé pour l'utilisateur: " + user.getUsername());
-            } catch (SocieteDatabaseException e) {
+            } catch (DatabaseException e) {
                 LogManager.warning("Erreur lors de la sauvegarde du token remember me: " + e.getMessage());
                 throw e;
             }
@@ -251,19 +210,17 @@ public final class ConnexionController implements ICommand {
     private void handleErrors(HttpServletRequest request, ArrayList<String> errors, String username) {
         request.setAttribute("errors", errors);
         request.setAttribute("username", username);
-        LogManager.warning("Tentative de connexion échouée pour l'utilisateur: " + username);
     }
 
     /**
-     * Prépare les attributs de la requête.
-     * Configure les attributs nécessaires pour l'affichage de la page.
+     * Prépare les attributs de la requête pour l'affichage.
      *
      * @param request la requête HTTP
-     * @param user l'utilisateur
+     * @param user l'utilisateur connecté
      */
     private void prepareRequestAttributes(HttpServletRequest request, User user) {
+        request.setAttribute("username", user.getUsername());
         request.setAttribute("user", user);
-        request.setAttribute("titlePage", "Connexion");
-        request.setAttribute("titleGroup", "Authentification");
     }
 }
+

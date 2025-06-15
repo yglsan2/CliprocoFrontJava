@@ -33,9 +33,15 @@ public final class ValidationManager {
      *
      * @param object l'objet à valider
      * @return un ensemble de violations, vide si l'objet est valide
+     * @throws ValidationException si une erreur survient lors de la validation
      */
-    public static <T> Set<ConstraintViolation<T>> validate(T object) {
-        return validator.validate(object);
+    public static <T> Set<ConstraintViolation<T>> validate(T object) throws ValidationException {
+        try {
+            return validator.validate(object);
+        } catch (Exception e) {
+            LogManager.logException("Erreur lors de la validation de l'objet", e);
+            throw new ValidationException("Erreur lors de la validation de l'objet", e);
+        }
     }
 
     /**
@@ -43,9 +49,15 @@ public final class ValidationManager {
      *
      * @param object l'objet à valider
      * @return true si l'objet est valide, false sinon
+     * @throws ValidationException si une erreur survient lors de la validation
      */
-    public static <T> boolean isValid(T object) {
-        return validator.validate(object).isEmpty();
+    public static <T> boolean isValid(T object) throws ValidationException {
+        try {
+            return validator.validate(object).isEmpty();
+        } catch (Exception e) {
+            LogManager.logException("Erreur lors de la vérification de la validité de l'objet", e);
+            throw new ValidationException("Erreur lors de la vérification de la validité de l'objet", e);
+        }
     }
 
     /**
@@ -53,28 +65,41 @@ public final class ValidationManager {
      *
      * @param object l'objet à valider
      * @return une chaîne contenant tous les messages d'erreur, ou null si l'objet est valide
+     * @throws ValidationException si une erreur survient lors de la validation
      */
-    public static <T> String getValidationMessages(T object) {
-        Set<ConstraintViolation<T>> violations = validator.validate(object);
-        if (violations.isEmpty()) {
-            return null;
+    public static <T> String getValidationMessages(T object) throws ValidationException {
+        try {
+            Set<ConstraintViolation<T>> violations = validator.validate(object);
+            if (violations.isEmpty()) {
+                return null;
+            }
+            return violations.stream()
+                    .map(violation -> violation.getPropertyPath() + ": " + violation.getMessage())
+                    .collect(Collectors.joining(", "));
+        } catch (Exception e) {
+            LogManager.logException("Erreur lors de la récupération des messages de validation", e);
+            throw new ValidationException("Erreur lors de la récupération des messages de validation", e);
         }
-        return violations.stream()
-                .map(violation -> violation.getPropertyPath() + ": " + violation.getMessage())
-                .collect(Collectors.joining(", "));
     }
 
     /**
      * Valide un objet et lance une exception si des violations sont trouvées.
      *
      * @param object l'objet à valider
-     * @throws ValidationException si l'objet n'est pas valide
+     * @throws ValidationException si l'objet n'est pas valide ou si une erreur survient
      */
     public static <T> void validateAndThrow(T object) throws ValidationException {
-        Set<ConstraintViolation<T>> violations = validator.validate(object);
-        if (!violations.isEmpty()) {
-            String messages = getValidationMessages(object);
-            throw new ValidationException("Validation failed: " + messages);
+        try {
+            Set<ConstraintViolation<T>> violations = validator.validate(object);
+            if (!violations.isEmpty()) {
+                String messages = getValidationMessages(object);
+                throw new ValidationException("Validation failed: " + messages);
+            }
+        } catch (ValidationException e) {
+            throw e;
+        } catch (Exception e) {
+            LogManager.logException("Erreur lors de la validation de l'objet", e);
+            throw new ValidationException("Erreur lors de la validation de l'objet", e);
         }
     }
 } 
