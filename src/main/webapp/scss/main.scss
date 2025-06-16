@@ -1,0 +1,13 @@
+// Import de Bootstrap
+@use "../../../../node_modules/bootstrap/scss/bootstrap.scss" as *;
+
+// Variables personnalisées
+$primary: #3498db;
+$secondary: #2c3e50;
+$font-family-base: 'Roboto', sans-serif;
+
+// Import de nos styles
+@use "variables" as *;
+@use "mixins" as *;
+@use "layout" as *;
+@use "styles" as *; 

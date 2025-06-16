@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context>
+    <Resource
+            name="jdbc/gestionClients"
+            auth="Container"
+            type="javax.sql.DataSource"
+            maxTotal="50"
+            maxIdle="20"
+            minIdle="5"
+            maxWaitMillis="30000"
+            testWhileIdle="true"
+            timeBetweenEvictionRunsMillis="30000"
+            minEvictableIdleTimeMillis="60000"
+            removeAbandoned="true"
+            removeAbandonedTimeout="60"
+            logAbandoned="true"
+            driverClassName="com.mysql.cj.jdbc.Driver"
+            username="${mysql.user}"
+            password="${mysql.password}"
+            url="${mysql.url}Cliprocobdd?serverTimezone=UTC"
+    />
+</Context>
