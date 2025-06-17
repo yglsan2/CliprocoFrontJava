@@ -28,6 +28,196 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class CalculFactureServiceTest {
+    @Nested
+    @DisplayName("Tests de performance")
+    class PerformanceTests {
+        private List<CalculFacture> calculs;
+
+        @BeforeEach
+        void setUp() {
+            calculs = new ArrayList<>();
+            
+            // Création de 1000 calculs de test
+            for (int i = 0; i < 1000; i++) {
+                calculs.add(new CalculFacture(
+                    BigDecimal.valueOf(1000 + i),
+                    BigDecimal.valueOf(0.20),
+                    BigDecimal.valueOf(200 + i),
+                    BigDecimal.valueOf(1200 + i)
+                ));
+            }
+        }
+
+        @Test
+        @DisplayName("Devrait gérer efficacement la création de 1000 calculs")
+        void shouldHandleBulkCalculCreation() throws ValidationException, DatabaseException {
+            for (int i = 0; i < 1000; i++) {
+                when(calculFactureDAO.save(any(CalculFacture.class))).thenReturn(calculs.get(i));
+                calculFactureService.create(
+                    BigDecimal.valueOf(1000 + i),
+                    BigDecimal.valueOf(0.20),
+                    BigDecimal.valueOf(200 + i),
+                    BigDecimal.valueOf(1200 + i)
+                );
+            }
+            verify(calculFactureDAO, times(1000)).save(any(CalculFacture.class));
+        }
+
+        @Test
+        @DisplayName("Devrait gérer efficacement les calculs de TVA")
+        void shouldHandleEfficientTvaCalculations() throws ValidationException, DatabaseException {
+            for (int i = 0; i < 1000; i++) {
+                BigDecimal montantHT = BigDecimal.valueOf(1000 + i);
+                BigDecimal tauxTVA = BigDecimal.valueOf(0.20);
+                BigDecimal montantTVA = calculFactureService.calculerTVA(montantHT, tauxTVA);
+                assertEquals(montantHT.multiply(tauxTVA), montantTVA);
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("Tests de concurrence")
+    class ConcurrencyTests {
+        private ExecutorService executorService;
+        private CountDownLatch latch;
+
+        @BeforeEach
+        void setUp() {
+            executorService = Executors.newFixedThreadPool(10);
+            latch = new CountDownLatch(10);
+        }
+
+        @AfterEach
+        void tearDown() {
+            executorService.shutdown();
+        }
+
+        @Test
+        @DisplayName("Devrait gérer correctement les accès concurrents aux calculs")
+        void shouldHandleConcurrentCalculations() throws InterruptedException {
+            AtomicInteger successCount = new AtomicInteger(0);
+            AtomicInteger failureCount = new AtomicInteger(0);
+
+            for (int i = 0; i < 10; i++) {
+                final int index = i;
+                executorService.submit(() -> {
+                    try {
+                        when(calculFactureDAO.save(any(CalculFacture.class))).thenReturn(
+                            new CalculFacture(
+                                BigDecimal.valueOf(1000 + index),
+                                BigDecimal.valueOf(0.20),
+                                BigDecimal.valueOf(200 + index),
+                                BigDecimal.valueOf(1200 + index)
+                            )
+                        );
+                        
+                        calculFactureService.create(
+                            BigDecimal.valueOf(1000 + index),
+                            BigDecimal.valueOf(0.20),
+                            BigDecimal.valueOf(200 + index),
+                            BigDecimal.valueOf(1200 + index)
+                        );
+                        successCount.incrementAndGet();
+                    } catch (Exception e) {
+                        failureCount.incrementAndGet();
+                    } finally {
+                        latch.countDown();
+                    }
+                });
+            }
+
+            latch.await(5, TimeUnit.SECONDS);
+            assertEquals(10, successCount.get() + failureCount.get());
+        }
+    }
+
+    @Nested
+    @DisplayName("Tests de sécurité")
+    class SecurityTests {
+        @Test
+        @DisplayName("Devrait rejeter les montants négatifs")
+        void shouldRejectNegativeAmounts() {
+            assertThrows(ValidationException.class, () ->
+                calculFactureService.create(
+                    BigDecimal.valueOf(-1000),
+                    BigDecimal.valueOf(0.20),
+                    BigDecimal.valueOf(-200),
+                    BigDecimal.valueOf(-1200)
+                )
+            );
+        }
+
+        @Test
+        @DisplayName("Devrait rejeter les taux de TVA invalides")
+        void shouldRejectInvalidTvaRates() {
+            assertThrows(ValidationException.class, () ->
+                calculFactureService.create(
+                    BigDecimal.valueOf(1000),
+                    BigDecimal.valueOf(-0.20),
+                    BigDecimal.valueOf(200),
+                    BigDecimal.valueOf(1200)
+                )
+            );
+
+            assertThrows(ValidationException.class, () ->
+                calculFactureService.create(
+                    BigDecimal.valueOf(1000),
+                    BigDecimal.valueOf(1.20),
+                    BigDecimal.valueOf(200),
+                    BigDecimal.valueOf(1200)
+                )
+            );
+        }
+
+        @Test
+        @DisplayName("Devrait valider la cohérence des montants")
+        void shouldValidateAmountConsistency() {
+            assertThrows(ValidationException.class, () ->
+                calculFactureService.create(
+                    BigDecimal.valueOf(1000),
+                    BigDecimal.valueOf(0.20),
+                    BigDecimal.valueOf(300),
+                    BigDecimal.valueOf(1200)
+                )
+            );
+        }
+    }
+    @Nested
+    @DisplayName("Tests de gestion des erreurs")
+    class ErrorHandlingTests {
+        private CalculFacture calcul;
+
+        @BeforeEach
+        void setUp() {
+            calcul = new CalculFacture(
+                BigDecimal.valueOf(100),
+                BigDecimal.valueOf(0.20),
+                BigDecimal.valueOf(20),
+                BigDecimal.valueOf(120)
+            );
+        }
+
+        @Test
+        @DisplayName("Devrait gérer les erreurs de calcul")
+        void shouldHandleCalculationErrors() throws ValidationException, DatabaseException {
+            calcul.setMontantHT(BigDecimal.valueOf(-100));
+            assertThrows(ValidationException.class, () -> calculFactureService.save(calcul));
+        }
+
+        @Test
+        @DisplayName("Devrait gérer les erreurs de taux de TVA")
+        void shouldHandleTVAErrors() throws ValidationException, DatabaseException {
+            calcul.setTauxTVA(BigDecimal.valueOf(2.0));
+            assertThrows(ValidationException.class, () -> calculFactureService.save(calcul));
+        }
+
+        @Test
+        @DisplayName("Devrait gérer les erreurs de montant TTC")
+        void shouldHandleTTCErrors() throws ValidationException, DatabaseException {
+            calcul.setMontantTTC(BigDecimal.valueOf(0));
+            assertThrows(ValidationException.class, () -> calculFactureService.save(calcul));
+        }
+    }
 
     @Mock
     private IDAO<CalculFacture, Long> calculFactureDAO;

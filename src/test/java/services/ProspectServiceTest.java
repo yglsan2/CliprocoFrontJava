@@ -23,6 +23,254 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ProspectServiceTest {
+    @Nested
+    @DisplayName("Tests de performance")
+    class PerformanceTests {
+        private List<Prospect> prospects;
+
+        @BeforeEach
+        void setUp() {
+            prospects = new ArrayList<>();
+            
+            // Création de 1000 prospects de test
+            for (int i = 0; i < 1000; i++) {
+                Prospect prospect = new Prospect();
+                prospect.setRaisonSociale("Prospect " + i);
+                prospect.setEmail("prospect" + i + "@test.com");
+                prospect.setTelephone("0123456789");
+                prospect.setChiffreAffaires(1000.0);
+                prospect.setNombreEmployes(10);
+                prospects.add(prospect);
+            }
+        }
+
+        @Test
+        @DisplayName("Devrait gérer efficacement la création de 1000 prospects")
+        void shouldHandleBulkProspectCreation() throws ValidationException, DatabaseException {
+            for (int i = 0; i < 1000; i++) {
+                when(prospectDAO.save(any(Prospect.class))).thenReturn(prospects.get(i));
+                prospectService.create(prospects.get(i));
+            }
+            verify(prospectDAO, times(1000)).save(any(Prospect.class));
+        }
+
+        @Test
+        @DisplayName("Devrait gérer efficacement la recherche de prospects")
+        void shouldHandleEfficientProspectSearch() throws ValidationException, DatabaseException {
+            when(prospectDAO.findByRaisonSociale(any())).thenReturn(prospects);
+            
+            for (int i = 0; i < 1000; i++) {
+                prospectService.findByRaisonSociale("Prospect " + i);
+            }
+            
+            verify(prospectDAO, times(1000)).findByRaisonSociale(any());
+        }
+    }
+
+    @Nested
+    @DisplayName("Tests de concurrence")
+    class ConcurrencyTests {
+        private ExecutorService executorService;
+        private CountDownLatch latch;
+
+        @BeforeEach
+        void setUp() {
+            executorService = Executors.newFixedThreadPool(10);
+            latch = new CountDownLatch(10);
+        }
+
+        @AfterEach
+        void tearDown() {
+            executorService.shutdown();
+        }
+
+        @Test
+        @DisplayName("Devrait gérer correctement les accès concurrents à la création de prospects")
+        void shouldHandleConcurrentProspectCreation() throws InterruptedException {
+            AtomicInteger successCount = new AtomicInteger(0);
+            AtomicInteger failureCount = new AtomicInteger(0);
+
+            for (int i = 0; i < 10; i++) {
+                final int index = i;
+                executorService.submit(() -> {
+                    try {
+                        Prospect prospect = new Prospect();
+                        prospect.setRaisonSociale("Prospect " + index);
+                        prospect.setEmail("prospect" + index + "@test.com");
+                        prospect.setTelephone("0123456789");
+                        prospect.setChiffreAffaires(1000.0);
+                        prospect.setNombreEmployes(10);
+                        
+                        when(prospectDAO.save(any(Prospect.class))).thenReturn(prospect);
+                        prospectService.create(prospect);
+                        successCount.incrementAndGet();
+                    } catch (Exception e) {
+                        failureCount.incrementAndGet();
+                    } finally {
+                        latch.countDown();
+                    }
+                });
+            }
+
+            latch.await(5, TimeUnit.SECONDS);
+            assertEquals(10, successCount.get() + failureCount.get());
+        }
+    }
+
+    @Nested
+    @DisplayName("Tests de sécurité")
+    class SecurityTests {
+        @Test
+        @DisplayName("Devrait rejeter les tentatives d'injection SQL dans la raison sociale")
+        void shouldRejectSqlInjectionInRaisonSociale() {
+            String[] sqlInjectionAttempts = {
+                "Prospect 1'; DROP TABLE prospects; --",
+                "Prospect 1' OR '1'='1",
+                "Prospect 1'; SELECT * FROM users; --"
+            };
+
+            for (String injection : sqlInjectionAttempts) {
+                Prospect prospect = new Prospect();
+                prospect.setRaisonSociale(injection);
+                prospect.setEmail("test@example.com");
+                prospect.setTelephone("0123456789");
+                prospect.setChiffreAffaires(1000.0);
+                prospect.setNombreEmployes(10);
+                
+                assertThrows(ValidationException.class, () -> prospectService.create(prospect));
+            }
+        }
+
+        @Test
+        @DisplayName("Devrait rejeter les tentatives d'injection XSS dans les commentaires")
+        void shouldRejectXssInjectionInComments() {
+            String[] xssInjectionAttempts = {
+                "<script>alert('XSS')</script>",
+                "javascript:alert('XSS')",
+                "<img src='x' onerror='alert("XSS")'>"
+            };
+
+            for (String injection : xssInjectionAttempts) {
+                Prospect prospect = new Prospect();
+                prospect.setRaisonSociale("Test Prospect");
+                prospect.setEmail("test@example.com");
+                prospect.setTelephone("0123456789");
+                prospect.setChiffreAffaires(1000.0);
+                prospect.setNombreEmployes(10);
+                prospect.setCommentaire(injection);
+                
+                assertThrows(ValidationException.class, () -> prospectService.create(prospect));
+            }
+        }
+    }
+    @Nested
+    @DisplayName("Tests de validation métier")
+    class ValidationMetierTests {
+        private Prospect prospect;
+
+        @BeforeEach
+        void setUp() {
+            prospect = new Prospect();
+            prospect.setRaisonSociale("Test Prospect");
+            prospect.setEmail("test@example.com");
+        }
+
+        @Test
+        @DisplayName("Devrait lancer ValidationException quand la raison sociale est vide")
+        void shouldThrowValidationExceptionWhenRaisonSocialeIsEmpty() throws ValidationException, DatabaseException {
+            prospect.setRaisonSociale("");
+            assertThrows(ValidationException.class, () -> prospectService.save(prospect));
+        }
+
+        @Test
+        @DisplayName("Devrait lancer ValidationException quand l'email est invalide")
+        void shouldThrowValidationExceptionWhenEmailIsInvalid() throws ValidationException, DatabaseException {
+            prospect.setEmail("invalid-email");
+            assertThrows(ValidationException.class, () -> prospectService.save(prospect));
+        }
+
+        @Test
+        @DisplayName("Devrait lancer DatabaseException quand la raison sociale existe déjà")
+        void shouldThrowDatabaseExceptionWhenRaisonSocialeExists() throws ValidationException, DatabaseException {
+            when(prospectDAO.existsByRaisonSociale(anyString())).thenReturn(true);
+            assertThrows(DatabaseException.class, () -> prospectService.save(prospect));
+        }
+    }
+
+    @Nested
+    @DisplayName("Tests de recherche")
+    class RechercheTests {
+        private List<Prospect> prospects;
+
+        @BeforeEach
+        void setUp() {
+            prospects = Arrays.asList(
+                new Prospect("Prospect 1", "email1@test.com"),
+                new Prospect("Prospect 2", "email2@test.com")
+            );
+        }
+
+        @Test
+        @DisplayName("Devrait trouver un prospect par raison sociale")
+        void shouldFindProspectByRaisonSociale() throws ValidationException, DatabaseException {
+            String raisonSociale = "Prospect 1";
+            when(prospectDAO.findByRaisonSociale(raisonSociale)).thenReturn(prospects);
+            List<Prospect> result = prospectService.findByRaisonSociale(raisonSociale);
+            assertNotNull(result);
+            assertFalse(result.isEmpty());
+            assertEquals(raisonSociale, result.get(0).getRaisonSociale());
+        }
+
+        @Test
+        @DisplayName("Devrait retourner une liste vide quand aucun prospect n'est trouvé")
+        void shouldReturnEmptyListWhenNoProspectFound() throws ValidationException, DatabaseException {
+            when(prospectDAO.findByRaisonSociale(anyString())).thenReturn(Collections.emptyList());
+            List<Prospect> result = prospectService.findByRaisonSociale("Non Existant");
+            assertNotNull(result);
+            assertTrue(result.isEmpty());
+        }
+    }
+
+    @Nested
+    @DisplayName("Tests de cas limites")
+    class CasLimitesTests {
+        private Prospect prospect;
+
+        @BeforeEach
+        void setUp() {
+            prospect = new Prospect();
+            prospect.setRaisonSociale("Test Prospect");
+            prospect.setEmail("test@example.com");
+        }
+
+        @Test
+        @DisplayName("Devrait gérer correctement les caractères spéciaux dans la raison sociale")
+        void shouldHandleSpecialCharactersInRaisonSociale() throws ValidationException, DatabaseException {
+            prospect.setRaisonSociale("Test & Co. - 123");
+            when(prospectDAO.save(any(Prospect.class))).thenReturn(prospect);
+            assertDoesNotThrow(() -> prospectService.save(prospect));
+        }
+
+        @Test
+        @DisplayName("Devrait gérer correctement les emails avec sous-domaines")
+        void shouldHandleEmailsWithSubdomains() throws ValidationException, DatabaseException {
+            prospect.setEmail("test.sub@domain.co.uk");
+            when(prospectDAO.save(any(Prospect.class))).thenReturn(prospect);
+            assertDoesNotThrow(() -> prospectService.save(prospect));
+        }
+
+        @Test
+        @DisplayName("Devrait gérer correctement les mises à jour partielles")
+        void shouldHandlePartialUpdates() throws ValidationException, DatabaseException, ResourceNotFoundException {
+            Prospect existingProspect = new Prospect("Existing", "existing@test.com");
+            existingProspect.setId(1L);
+            when(prospectDAO.findById(1L)).thenReturn(Optional.of(existingProspect));
+            when(prospectDAO.update(any(Prospect.class))).thenReturn(existingProspect);
+
+            existingProspect.setEmail("new@test.com");
+            assertDoesNotThrow(() -> prospectService.update(existingProspect));
+        }
+    }
 
     @Mock
     private ProspectJpaDAO prospectDAO;

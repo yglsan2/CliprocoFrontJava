@@ -20,9 +20,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -30,6 +35,488 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class FactureServiceTest {
+    @Nested
+    @DisplayName("Tests de performance")
+    class PerformanceTests {
+    @Nested
+    @DisplayName("Tests de concurrence")
+    class ConcurrencyTests {
+        private Client client;
+        private List<Produit> produits;
+        private CalculFacture calcul;
+        private ExecutorService executorService;
+        private CountDownLatch latch;
+
+        @BeforeEach
+        void setUp() {
+            client = new Client();
+            client.setRaisonSociale("Test Client");
+            client.setEmail("test@example.com");
+            client.setTelephone("0123456789");
+            client.setChiffreAffaires(1000.0);
+            client.setNombreEmployes(10);
+            
+            produits = new ArrayList<>();
+            Produit produit1 = new Produit();
+            produit1.setNom("Produit 1");
+            produit1.setDescription("Description du produit 1");
+            produit1.setPrixUnitaire(BigDecimal.valueOf(100));
+            produits.add(produit1);
+            
+            Produit produit2 = new Produit();
+            produit2.setNom("Produit 2");
+            produit2.setDescription("Description du produit 2");
+            produit2.setPrixUnitaire(BigDecimal.valueOf(200));
+            produits.add(produit2);
+            
+            calcul = new CalculFacture(
+                BigDecimal.valueOf(300),
+                BigDecimal.valueOf(0.20),
+                BigDecimal.valueOf(60),
+                BigDecimal.valueOf(360)
+            );
+            
+            executorService = Executors.newFixedThreadPool(10);
+            latch = new CountDownLatch(10);
+        }
+
+        @AfterEach
+        void tearDown() {
+            executorService.shutdown();
+        }
+
+        @Test
+        @DisplayName("Devrait gérer correctement les accès concurrents à la création de factures")
+        void shouldHandleConcurrentFactureCreation() throws InterruptedException {
+            LocalDate dateEmission = LocalDate.now();
+            LocalDate dateEcheance = dateEmission.plusDays(30);
+            AtomicInteger successCount = new AtomicInteger(0);
+            AtomicInteger failureCount = new AtomicInteger(0);
+
+            for (int i = 0; i < 10; i++) {
+                final int index = i;
+                executorService.submit(() -> {
+                    try {
+                        when(factureDAO.save(any(Facture.class))).thenReturn(
+                            new Facture("FACT-" + index, dateEmission, dateEcheance, client)
+                        );
+                        
+                        factureService.create(
+                            "FACT-" + index,
+                            dateEmission,
+                            dateEcheance,
+                            client,
+                            produits,
+                            calcul
+                        );
+                        successCount.incrementAndGet();
+                    } catch (Exception e) {
+                        failureCount.incrementAndGet();
+                    } finally {
+                        latch.countDown();
+                    }
+                });
+            }
+
+            latch.await(5, TimeUnit.SECONDS);
+            assertEquals(10, successCount.get() + failureCount.get());
+        }
+
+        @Test
+        @DisplayName("Devrait gérer correctement les mises à jour concurrentes")
+        void shouldHandleConcurrentUpdates() throws InterruptedException, ValidationException, DatabaseException {
+            Facture facture = new Facture("FACT-001", LocalDate.now(), LocalDate.now().plusDays(30), client);
+            when(factureDAO.findById(any())).thenReturn(Optional.of(facture));
+            when(factureDAO.save(any(Facture.class))).thenReturn(facture);
+            
+            AtomicInteger successCount = new AtomicInteger(0);
+            AtomicInteger failureCount = new AtomicInteger(0);
+
+            for (int i = 0; i < 10; i++) {
+                executorService.submit(() -> {
+                    try {
+                        facture.setDateEcheance(LocalDate.now().plusDays(30 + i));
+                        factureService.update(facture);
+                        successCount.incrementAndGet();
+                    } catch (Exception e) {
+                        failureCount.incrementAndGet();
+                    } finally {
+                        latch.countDown();
+                    }
+                });
+            }
+
+            latch.await(5, TimeUnit.SECONDS);
+            assertEquals(10, successCount.get() + failureCount.get());
+        }
+
+        @Test
+        @DisplayName("Devrait gérer correctement les suppressions concurrentes")
+        void shouldHandleConcurrentDeletions() throws InterruptedException, ValidationException, DatabaseException {
+            Facture facture = new Facture("FACT-001", LocalDate.now(), LocalDate.now().plusDays(30), client);
+            when(factureDAO.findById(any())).thenReturn(Optional.of(facture));
+            
+            AtomicInteger successCount = new AtomicInteger(0);
+            AtomicInteger failureCount = new AtomicInteger(0);
+
+            for (int i = 0; i < 10; i++) {
+                executorService.submit(() -> {
+                    try {
+                        factureService.delete(1L);
+                        successCount.incrementAndGet();
+                    } catch (Exception e) {
+                        failureCount.incrementAndGet();
+                    } finally {
+                        latch.countDown();
+                    }
+                });
+            }
+
+            latch.await(5, TimeUnit.SECONDS);
+            assertEquals(10, successCount.get() + failureCount.get());
+        }
+    }
+        private List<Client> clients;
+        private List<Produit> produits;
+        private List<CalculFacture> calculs;
+
+        @BeforeEach
+        void setUp() {
+            clients = new ArrayList<>();
+            produits = new ArrayList<>();
+            calculs = new ArrayList<>();
+            
+            // Création de 1000 clients de test
+            for (int i = 0; i < 1000; i++) {
+                Client client = new Client();
+                client.setRaisonSociale("Client " + i);
+                client.setEmail("client" + i + "@test.com");
+                client.setTelephone("0123456789");
+                client.setChiffreAffaires(1000.0);
+                client.setNombreEmployes(10);
+                clients.add(client);
+            }
+            
+            // Création de 100 produits de test
+            for (int i = 0; i < 100; i++) {
+                Produit produit = new Produit();
+                produit.setNom("Produit " + i);
+                produit.setDescription("Description du produit " + i);
+                produit.setPrixUnitaire(BigDecimal.valueOf(100 + i));
+                produits.add(produit);
+            }
+            
+            // Création de 100 calculs de test
+            for (int i = 0; i < 100; i++) {
+                calculs.add(new CalculFacture(
+                    BigDecimal.valueOf(1000 + i),
+                    BigDecimal.valueOf(0.20),
+                    BigDecimal.valueOf(200 + i),
+                    BigDecimal.valueOf(1200 + i)
+                ));
+            }
+        }
+
+        @Test
+        @DisplayName("Devrait gérer efficacement la création de 1000 factures")
+        void shouldHandleBulkFactureCreation() throws ValidationException, DatabaseException {
+            List<Facture> factures = new ArrayList<>();
+            LocalDate dateEmission = LocalDate.now();
+            LocalDate dateEcheance = dateEmission.plusDays(30);
+
+            for (int i = 0; i < 1000; i++) {
+                Client client = clients.get(i % clients.size());
+                List<Produit> factureProduits = produits.subList(0, 5);
+                CalculFacture calcul = calculs.get(i % calculs.size());
+                
+                when(factureDAO.save(any(Facture.class))).thenReturn(
+                    new Facture("FACT-" + i, dateEmission, dateEcheance, client)
+                );
+                
+                Facture facture = factureService.create(
+                    "FACT-" + i,
+                    dateEmission,
+                    dateEcheance,
+                    client,
+                    factureProduits,
+                    calcul
+                );
+                factures.add(facture);
+            }
+
+            assertEquals(1000, factures.size());
+            verify(factureDAO, times(1000)).save(any(Facture.class));
+        }
+
+        @Test
+        @DisplayName("Devrait gérer efficacement la recherche de factures par client")
+        void shouldHandleEfficientClientFactureSearch() throws ValidationException, DatabaseException {
+            // Création de 100 factures pour un client
+            Client client = clients.get(0);
+            List<Facture> clientFactures = new ArrayList<>();
+            
+            for (int i = 0; i < 100; i++) {
+                Facture facture = new Facture(
+                    "FACT-" + i,
+                    LocalDate.now(),
+                    LocalDate.now().plusDays(30),
+                    client
+                );
+                clientFactures.add(facture);
+            }
+            
+            when(factureDAO.findByClientId(any())).thenReturn(clientFactures);
+            
+            List<Facture> foundFactures = factureService.findByClientId(1L);
+            
+            assertEquals(100, foundFactures.size());
+            verify(factureDAO, times(1)).findByClientId(any());
+        }
+
+        @Test
+        @DisplayName("Devrait gérer efficacement la mise à jour en masse")
+        void shouldHandleBulkUpdate() throws ValidationException, ResourceNotFoundException, DatabaseException {
+            List<Facture> factures = new ArrayList<>();
+            LocalDate dateEmission = LocalDate.now();
+            LocalDate dateEcheance = dateEmission.plusDays(30);
+
+            // Création de 100 factures
+            for (int i = 0; i < 100; i++) {
+                Client client = clients.get(i % clients.size());
+                Facture facture = new Facture("FACT-" + i, dateEmission, dateEcheance, client);
+                factures.add(facture);
+            }
+
+            when(factureDAO.findById(any())).thenReturn(Optional.of(factures.get(0)));
+            when(factureDAO.save(any(Facture.class))).thenReturn(factures.get(0));
+
+            // Mise à jour de toutes les factures
+            for (Facture facture : factures) {
+                facture.setDateEcheance(dateEcheance.plusDays(15));
+                factureService.update(facture);
+            }
+
+            verify(factureDAO, times(100)).save(any(Facture.class));
+        }
+    }
+    @Nested
+    @DisplayName("Tests de transactions")
+    class TransactionTests {
+        private Facture facture;
+        private Client client;
+        private List<Produit> produits;
+        private CalculFacture calcul;
+
+        @BeforeEach
+        void setUp() {
+            client = new Client("Test Client", "test@example.com");
+            produits = Arrays.asList(
+                new Produit("Produit 1", BigDecimal.valueOf(100)),
+                new Produit("Produit 2", BigDecimal.valueOf(200))
+            );
+            calcul = new CalculFacture(
+                BigDecimal.valueOf(300),
+                BigDecimal.valueOf(0.20),
+                BigDecimal.valueOf(60),
+                BigDecimal.valueOf(360)
+            );
+            facture = new Facture("FACT-001", LocalDate.now(), LocalDate.now().plusDays(30), client);
+        }
+
+        @Test
+        @DisplayName("Devrait gérer correctement la création d'une facture avec tous ses éléments")
+        void shouldHandleFactureCreationWithAllElements() throws ValidationException, DatabaseException {
+            when(factureDAO.save(any(Facture.class))).thenReturn(facture);
+            when(produitDAO.save(any(Produit.class))).thenReturn(produits.get(0));
+            when(calculFactureDAO.save(any(CalculFacture.class))).thenReturn(calcul);
+
+            Facture savedFacture = factureService.create("FACT-001", LocalDate.now(), LocalDate.now().plusDays(30), client, produits, calcul);
+
+            assertNotNull(savedFacture);
+            assertEquals(client, savedFacture.getClient());
+            assertEquals(produits.size(), savedFacture.getProduits().size());
+            assertEquals(calcul, savedFacture.getCalcul());
+        }
+
+        @Test
+        @DisplayName("Devrait gérer correctement la suppression d'une facture et ses éléments associés")
+        void shouldHandleFactureDeletionWithAssociatedElements() throws ValidationException, DatabaseException, ResourceNotFoundException {
+            when(factureDAO.findById(any())).thenReturn(Optional.of(facture));
+
+            factureService.delete(1L);
+
+            verify(factureDAO).delete(any(Facture.class));
+        }
+    }
+    @Nested
+    @DisplayName("Tests de validation métier")
+    class ValidationMetierTests {
+    @Nested
+    @DisplayName("Tests des relations")
+    class RelationTests {
+    @Nested
+    @DisplayName("Tests de cas limites")
+    class CasLimitesTests {
+        private Client client;
+        private List<Produit> produits;
+        private CalculFacture calcul;
+
+        @BeforeEach
+        void setUp() {
+            client = new Client("Test Client", "test@example.com");
+            produits = Arrays.asList(
+                new Produit("Produit 1", BigDecimal.valueOf(100)),
+                new Produit("Produit 2", BigDecimal.valueOf(200))
+            );
+            calcul = new CalculFacture(
+                BigDecimal.valueOf(300),
+                BigDecimal.valueOf(0.20),
+                BigDecimal.valueOf(60),
+                BigDecimal.valueOf(360)
+            );
+        }
+
+        @Test
+        @DisplayName("Devrait gérer correctement les montants nuls")
+        void shouldHandleNullAmounts() throws ValidationException, DatabaseException {
+            CalculFacture calculAvecMontantsNuls = new CalculFacture(
+                null,
+                BigDecimal.valueOf(0.20),
+                null,
+                null
+            );
+            assertThrows(ValidationException.class, () ->
+                factureService.create("FACT-001", LocalDate.now(), LocalDate.now().plusDays(30), client, produits, calculAvecMontantsNuls)
+            );
+        }
+
+        @Test
+        @DisplayName("Devrait gérer correctement les dates invalides")
+        void shouldHandleInvalidDates() throws ValidationException, DatabaseException {
+            LocalDate dateEmission = LocalDate.now();
+            LocalDate dateEcheance = dateEmission.minusDays(1);
+            assertThrows(ValidationException.class, () ->
+                factureService.create("FACT-001", dateEmission, dateEcheance, client, produits, calcul)
+            );
+        }
+
+        @Test
+        @DisplayName("Devrait gérer correctement les produits avec montants négatifs")
+        void shouldHandleNegativeAmounts() throws ValidationException, DatabaseException {
+            List<Produit> produitsNegatifs = Arrays.asList(
+                new Produit("Produit 1", BigDecimal.valueOf(-100)),
+                new Produit("Produit 2", BigDecimal.valueOf(-200))
+            );
+            assertThrows(ValidationException.class, () ->
+                factureService.create("FACT-001", LocalDate.now(), LocalDate.now().plusDays(30), client, produitsNegatifs, calcul)
+            );
+        }
+    }
+        private Facture facture;
+        private Client client;
+        private List<Produit> produits;
+        private CalculFacture calcul;
+
+        @BeforeEach
+        void setUp() {
+            client = new Client("Test Client", "test@example.com");
+            produits = Arrays.asList(
+                new Produit("Produit 1", BigDecimal.valueOf(100)),
+                new Produit("Produit 2", BigDecimal.valueOf(200))
+            );
+            calcul = new CalculFacture(
+                BigDecimal.valueOf(300),
+                BigDecimal.valueOf(0.20),
+                BigDecimal.valueOf(60),
+                BigDecimal.valueOf(360)
+            );
+            facture = new Facture("FACT-001", LocalDate.now(), LocalDate.now().plusDays(30), client);
+        }
+
+        @Test
+        @DisplayName("Devrait maintenir la relation bidirectionnelle entre Facture et CalculFacture")
+        void shouldMaintainBidirectionalRelationBetweenFactureAndCalculFacture() throws ValidationException, DatabaseException {
+            when(factureDAO.save(any(Facture.class))).thenReturn(facture);
+            Facture savedFacture = factureService.create("FACT-001", LocalDate.now(), LocalDate.now().plusDays(30), client, produits, calcul);
+            assertNotNull(savedFacture.getCalcul());
+            assertEquals(calcul, savedFacture.getCalcul());
+            assertEquals(savedFacture, calcul.getFacture());
+        }
+
+        @Test
+        @DisplayName("Devrait maintenir la relation entre Facture et Produits")
+        void shouldMaintainRelationBetweenFactureAndProduits() throws ValidationException, DatabaseException {
+            when(factureDAO.save(any(Facture.class))).thenReturn(facture);
+            Facture savedFacture = factureService.create("FACT-001", LocalDate.now(), LocalDate.now().plusDays(30), client, produits, calcul);
+            assertNotNull(savedFacture.getProduits());
+            assertEquals(produits.size(), savedFacture.getProduits().size());
+            assertTrue(savedFacture.getProduits().containsAll(produits));
+        }
+
+        @Test
+        @DisplayName("Devrait maintenir la relation entre Facture et Client")
+        void shouldMaintainRelationBetweenFactureAndClient() throws ValidationException, DatabaseException {
+            when(factureDAO.save(any(Facture.class))).thenReturn(facture);
+            Facture savedFacture = factureService.create("FACT-001", LocalDate.now(), LocalDate.now().plusDays(30), client, produits, calcul);
+            assertNotNull(savedFacture.getClient());
+            assertEquals(client, savedFacture.getClient());
+        }
+    }
+        private LocalDate dateEmission;
+        private LocalDate dateEcheance;
+        private Client client;
+        private List<Produit> produits;
+        private CalculFacture calcul;
+
+        @BeforeEach
+        void setUp() {
+            dateEmission = LocalDate.now();
+            dateEcheance = LocalDate.now().plusDays(30);
+            client = new Client("Test Client", "test@example.com");
+            produits = new ArrayList<>();
+            calcul = new CalculFacture(
+                BigDecimal.valueOf(100),
+                BigDecimal.valueOf(0.20),
+                BigDecimal.valueOf(20),
+                BigDecimal.valueOf(120)
+            );
+        }
+
+        @Test
+        @DisplayName("Devrait lancer ValidationException quand la date d'échéance est antérieure à la date d'émission")
+        void shouldThrowValidationExceptionWhenDateEcheanceIsBeforeDateEmission() throws ValidationException, DatabaseException {
+            LocalDate dateEcheanceInvalide = dateEmission.minusDays(1);
+            assertThrows(ValidationException.class, () ->
+                factureService.create("FACT-001", dateEmission, dateEcheanceInvalide, client, produits, calcul)
+            );
+        }
+
+        @Test
+        @DisplayName("Devrait lancer ValidationException quand le numéro de facture est invalide")
+        void shouldThrowValidationExceptionWhenNumeroFactureIsInvalid() throws ValidationException, DatabaseException {
+            String numeroFactureInvalide = "INVALID";
+            assertThrows(ValidationException.class, () ->
+                factureService.create(numeroFactureInvalide, dateEmission, dateEcheance, client, produits, calcul)
+            );
+        }
+
+        @Test
+        @DisplayName("Devrait lancer ValidationException quand la liste de produits est vide")
+        void shouldThrowValidationExceptionWhenProduitsListIsEmpty() throws ValidationException, DatabaseException {
+            List<Produit> produitsVides = new ArrayList<>();
+            assertThrows(ValidationException.class, () ->
+                factureService.create("FACT-001", dateEmission, dateEcheance, client, produitsVides, calcul)
+            );
+        }
+
+        @Test
+        @DisplayName("Devrait lancer ValidationException quand le calcul est null")
+        void shouldThrowValidationExceptionWhenCalculIsNull() throws ValidationException, DatabaseException {
+            assertThrows(ValidationException.class, () ->
+                factureService.create("FACT-001", dateEmission, dateEcheance, client, produits, null)
+            );
+        }
+    }
 
     @Mock
     private FactureJpaDAO factureDAO;
@@ -372,8 +859,682 @@ class FactureServiceTest {
         }
     }
 
+    @Nested
+    @DisplayName("Tests de sécurité")
+    class SecurityTests {
+        private Client client;
+        private List<Produit> produits;
+        private CalculFacture calcul;
+
+        @BeforeEach
+        void setUp() {
+            client = new Client();
+            client.setRaisonSociale("Test Client");
+            client.setEmail("test@example.com");
+            client.setTelephone("0123456789");
+            client.setChiffreAffaires(1000.0);
+            client.setNombreEmployes(10);
+            
+            produits = new ArrayList<>();
+            Produit produit1 = new Produit();
+            produit1.setNom("Produit 1");
+            produit1.setDescription("Description du produit 1");
+            produit1.setPrixUnitaire(BigDecimal.valueOf(100));
+            produits.add(produit1);
+            
+            Produit produit2 = new Produit();
+            produit2.setNom("Produit 2");
+            produit2.setDescription("Description du produit 2");
+            produit2.setPrixUnitaire(BigDecimal.valueOf(200));
+            produits.add(produit2);
+            
+            calcul = new CalculFacture(
+                BigDecimal.valueOf(300),
+                BigDecimal.valueOf(0.20),
+                BigDecimal.valueOf(60),
+                BigDecimal.valueOf(360)
+            );
+        }
+
+        @Test
+        @DisplayName("Devrait rejeter les tentatives d'injection SQL dans le numéro de facture")
+        void shouldRejectSqlInjectionInFactureNumber() {
+            String[] sqlInjectionAttempts = {
+                "FACT-001'; DROP TABLE factures; --",
+                "FACT-001' OR '1'='1",
+                "FACT-001'; SELECT * FROM users; --"
+            };
+
+            for (String injection : sqlInjectionAttempts) {
+                assertThrows(ValidationException.class, () ->
+                    factureService.create(
+                        injection,
+                        LocalDate.now(),
+                        LocalDate.now().plusDays(30),
+                        client,
+                        produits,
+                        calcul
+                    )
+                );
+            }
+        }
+
+        @Test
+        @DisplayName("Devrait rejeter les tentatives d'injection XSS dans les commentaires")
+        void shouldRejectXssInjectionInComments() {
+            String[] xssInjectionAttempts = {
+                "<script>alert('XSS')</script>",
+                "javascript:alert('XSS')",
+                "<img src='x' onerror='alert(\"XSS\")'>"
+            };
+
+            for (String injection : xssInjectionAttempts) {
+                assertThrows(ValidationException.class, () -> {
+                    Facture facture = new Facture(
+                        "FACT-001",
+                        LocalDate.now(),
+                        LocalDate.now().plusDays(30),
+                        client
+                    );
+                    facture.setCommentaire(injection);
+                    factureService.update(facture);
+                });
+            }
+        }
+
+        @Test
+        @DisplayName("Devrait rejeter les tentatives d'injection de commandes système")
+        void shouldRejectCommandInjection() {
+            String[] commandInjectionAttempts = {
+                "FACT-001; rm -rf /",
+                "FACT-001 && cat /etc/passwd",
+                "FACT-001 | ls -la"
+            };
+
+            for (String injection : commandInjectionAttempts) {
+                assertThrows(ValidationException.class, () ->
+                    factureService.create(
+                        injection,
+                        LocalDate.now(),
+                        LocalDate.now().plusDays(30),
+                        client,
+                        produits,
+                        calcul
+                    )
+                );
+            }
+        }
+
+        @Test
+        @DisplayName("Devrait valider le format des montants")
+        void shouldValidateAmountFormat() {
+            String[] invalidAmounts = {
+                "100,000.00",
+                "1e6",
+                "NaN",
+                "Infinity",
+                "1.234.567,89"
+            };
+
+            for (String amount : invalidAmounts) {
+                assertThrows(ValidationException.class, () -> {
+                    Produit produit = new Produit("Produit Test", new BigDecimal(amount));
+                    List<Produit> produitsWithInvalidAmount = Arrays.asList(produit);
+                    factureService.create(
+                        "FACT-001",
+                        LocalDate.now(),
+                        LocalDate.now().plusDays(30),
+                        client,
+                        produitsWithInvalidAmount,
+                        calcul
+                    );
+                });
+            }
+        }
+    }
+
     private Client createTestClient() {
         Adresse adresse = new Adresse("123", "Rue de Test", "75000", "Paris");
         return new Client("Test Client", adresse, "0123456789", "test@example.com", "Commentaire test", 1000.0, 10);
+    }
+
+    @Nested
+    @DisplayName("Tests de performance")
+    class PerformanceTests {
+    @Nested
+    @DisplayName("Tests de concurrence")
+    class ConcurrencyTests {
+        private Client client;
+        private List<Produit> produits;
+        private CalculFacture calcul;
+        private ExecutorService executorService;
+        private CountDownLatch latch;
+
+        @BeforeEach
+        void setUp() {
+            client = new Client();
+            client.setRaisonSociale("Test Client");
+            client.setEmail("test@example.com");
+            client.setTelephone("0123456789");
+            client.setChiffreAffaires(1000.0);
+            client.setNombreEmployes(10);
+            
+            produits = new ArrayList<>();
+            Produit produit1 = new Produit();
+            produit1.setNom("Produit 1");
+            produit1.setDescription("Description du produit 1");
+            produit1.setPrixUnitaire(BigDecimal.valueOf(100));
+            produits.add(produit1);
+            
+            Produit produit2 = new Produit();
+            produit2.setNom("Produit 2");
+            produit2.setDescription("Description du produit 2");
+            produit2.setPrixUnitaire(BigDecimal.valueOf(200));
+            produits.add(produit2);
+            
+            calcul = new CalculFacture(
+                BigDecimal.valueOf(300),
+                BigDecimal.valueOf(0.20),
+                BigDecimal.valueOf(60),
+                BigDecimal.valueOf(360)
+            );
+            
+            executorService = Executors.newFixedThreadPool(10);
+            latch = new CountDownLatch(10);
+        }
+
+        @AfterEach
+        void tearDown() {
+            executorService.shutdown();
+        }
+
+        @Test
+        @DisplayName("Devrait gérer correctement les accès concurrents à la création de factures")
+        void shouldHandleConcurrentFactureCreation() throws InterruptedException {
+            LocalDate dateEmission = LocalDate.now();
+            LocalDate dateEcheance = dateEmission.plusDays(30);
+            AtomicInteger successCount = new AtomicInteger(0);
+            AtomicInteger failureCount = new AtomicInteger(0);
+
+            for (int i = 0; i < 10; i++) {
+                final int index = i;
+                executorService.submit(() -> {
+                    try {
+                        when(factureDAO.save(any(Facture.class))).thenReturn(
+                            new Facture("FACT-" + index, dateEmission, dateEcheance, client)
+                        );
+                        
+                        factureService.create(
+                            "FACT-" + index,
+                            dateEmission,
+                            dateEcheance,
+                            client,
+                            produits,
+                            calcul
+                        );
+                        successCount.incrementAndGet();
+                    } catch (Exception e) {
+                        failureCount.incrementAndGet();
+                    } finally {
+                        latch.countDown();
+                    }
+                });
+            }
+
+            latch.await(5, TimeUnit.SECONDS);
+            assertEquals(10, successCount.get() + failureCount.get());
+        }
+
+        @Test
+        @DisplayName("Devrait gérer correctement les mises à jour concurrentes")
+        void shouldHandleConcurrentUpdates() throws InterruptedException, ValidationException, DatabaseException {
+            Facture facture = new Facture("FACT-001", LocalDate.now(), LocalDate.now().plusDays(30), client);
+            when(factureDAO.findById(any())).thenReturn(Optional.of(facture));
+            when(factureDAO.save(any(Facture.class))).thenReturn(facture);
+            
+            AtomicInteger successCount = new AtomicInteger(0);
+            AtomicInteger failureCount = new AtomicInteger(0);
+
+            for (int i = 0; i < 10; i++) {
+                executorService.submit(() -> {
+                    try {
+                        facture.setDateEcheance(LocalDate.now().plusDays(30 + i));
+                        factureService.update(facture);
+                        successCount.incrementAndGet();
+                    } catch (Exception e) {
+                        failureCount.incrementAndGet();
+                    } finally {
+                        latch.countDown();
+                    }
+                });
+            }
+
+            latch.await(5, TimeUnit.SECONDS);
+            assertEquals(10, successCount.get() + failureCount.get());
+        }
+
+        @Test
+        @DisplayName("Devrait gérer correctement les suppressions concurrentes")
+        void shouldHandleConcurrentDeletions() throws InterruptedException, ValidationException, DatabaseException {
+            Facture facture = new Facture("FACT-001", LocalDate.now(), LocalDate.now().plusDays(30), client);
+            when(factureDAO.findById(any())).thenReturn(Optional.of(facture));
+            
+            AtomicInteger successCount = new AtomicInteger(0);
+            AtomicInteger failureCount = new AtomicInteger(0);
+
+            for (int i = 0; i < 10; i++) {
+                executorService.submit(() -> {
+                    try {
+                        factureService.delete(1L);
+                        successCount.incrementAndGet();
+                    } catch (Exception e) {
+                        failureCount.incrementAndGet();
+                    } finally {
+                        latch.countDown();
+                    }
+                });
+            }
+
+            latch.await(5, TimeUnit.SECONDS);
+            assertEquals(10, successCount.get() + failureCount.get());
+        }
+    }
+        private List<Client> clients;
+        private List<Produit> produits;
+        private List<CalculFacture> calculs;
+
+        @BeforeEach
+        void setUp() {
+            clients = new ArrayList<>();
+            produits = new ArrayList<>();
+            calculs = new ArrayList<>();
+            
+            // Création de 1000 clients de test
+            for (int i = 0; i < 1000; i++) {
+                Client client = new Client();
+                client.setRaisonSociale("Client " + i);
+                client.setEmail("client" + i + "@test.com");
+                client.setTelephone("0123456789");
+                client.setChiffreAffaires(1000.0);
+                client.setNombreEmployes(10);
+                clients.add(client);
+            }
+            
+            // Création de 100 produits de test
+            for (int i = 0; i < 100; i++) {
+                Produit produit = new Produit();
+                produit.setNom("Produit " + i);
+                produit.setDescription("Description du produit " + i);
+                produit.setPrixUnitaire(BigDecimal.valueOf(100 + i));
+                produits.add(produit);
+            }
+            
+            // Création de 100 calculs de test
+            for (int i = 0; i < 100; i++) {
+                calculs.add(new CalculFacture(
+                    BigDecimal.valueOf(1000 + i),
+                    BigDecimal.valueOf(0.20),
+                    BigDecimal.valueOf(200 + i),
+                    BigDecimal.valueOf(1200 + i)
+                ));
+            }
+        }
+
+        @Test
+        @DisplayName("Devrait gérer efficacement la création de 1000 factures")
+        void shouldHandleBulkFactureCreation() throws ValidationException, DatabaseException {
+            List<Facture> factures = new ArrayList<>();
+            LocalDate dateEmission = LocalDate.now();
+            LocalDate dateEcheance = dateEmission.plusDays(30);
+
+            for (int i = 0; i < 1000; i++) {
+                Client client = clients.get(i % clients.size());
+                List<Produit> factureProduits = produits.subList(0, 5);
+                CalculFacture calcul = calculs.get(i % calculs.size());
+                
+                when(factureDAO.save(any(Facture.class))).thenReturn(
+                    new Facture("FACT-" + i, dateEmission, dateEcheance, client)
+                );
+                
+                Facture facture = factureService.create(
+                    "FACT-" + i,
+                    dateEmission,
+                    dateEcheance,
+                    client,
+                    factureProduits,
+                    calcul
+                );
+                factures.add(facture);
+            }
+
+            assertEquals(1000, factures.size());
+            verify(factureDAO, times(1000)).save(any(Facture.class));
+        }
+
+        @Test
+        @DisplayName("Devrait gérer efficacement la recherche de factures par client")
+        void shouldHandleEfficientClientFactureSearch() throws ValidationException, DatabaseException {
+            // Création de 100 factures pour un client
+            Client client = clients.get(0);
+            List<Facture> clientFactures = new ArrayList<>();
+            
+            for (int i = 0; i < 100; i++) {
+                Facture facture = new Facture(
+                    "FACT-" + i,
+                    LocalDate.now(),
+                    LocalDate.now().plusDays(30),
+                    client
+                );
+                clientFactures.add(facture);
+            }
+            
+            when(factureDAO.findByClientId(any())).thenReturn(clientFactures);
+            
+            List<Facture> foundFactures = factureService.findByClientId(1L);
+            
+            assertEquals(100, foundFactures.size());
+            verify(factureDAO, times(1)).findByClientId(any());
+        }
+
+        @Test
+        @DisplayName("Devrait gérer efficacement la mise à jour en masse")
+        void shouldHandleBulkUpdate() throws ValidationException, ResourceNotFoundException, DatabaseException {
+            List<Facture> factures = new ArrayList<>();
+            LocalDate dateEmission = LocalDate.now();
+            LocalDate dateEcheance = dateEmission.plusDays(30);
+
+            // Création de 100 factures
+            for (int i = 0; i < 100; i++) {
+                Client client = clients.get(i % clients.size());
+                Facture facture = new Facture("FACT-" + i, dateEmission, dateEcheance, client);
+                factures.add(facture);
+            }
+
+            when(factureDAO.findById(any())).thenReturn(Optional.of(factures.get(0)));
+            when(factureDAO.save(any(Facture.class))).thenReturn(factures.get(0));
+
+            // Mise à jour de toutes les factures
+            for (Facture facture : factures) {
+                facture.setDateEcheance(dateEcheance.plusDays(15));
+                factureService.update(facture);
+            }
+
+            verify(factureDAO, times(100)).save(any(Facture.class));
+        }
+    }
+
+    @Nested
+    @DisplayName("Tests de concurrence")
+    class ConcurrencyTests {
+    @Nested
+    @DisplayName("Tests de sécurité")
+    class SecurityTests {
+        private Client client;
+        private List<Produit> produits;
+        private CalculFacture calcul;
+
+        @BeforeEach
+        void setUp() {
+            client = new Client();
+            client.setRaisonSociale("Test Client");
+            client.setEmail("test@example.com");
+            client.setTelephone("0123456789");
+            client.setChiffreAffaires(1000.0);
+            client.setNombreEmployes(10);
+            
+            produits = new ArrayList<>();
+            Produit produit1 = new Produit();
+            produit1.setNom("Produit 1");
+            produit1.setDescription("Description du produit 1");
+            produit1.setPrixUnitaire(BigDecimal.valueOf(100));
+            produits.add(produit1);
+            
+            Produit produit2 = new Produit();
+            produit2.setNom("Produit 2");
+            produit2.setDescription("Description du produit 2");
+            produit2.setPrixUnitaire(BigDecimal.valueOf(200));
+            produits.add(produit2);
+            
+            calcul = new CalculFacture(
+                BigDecimal.valueOf(300),
+                BigDecimal.valueOf(0.20),
+                BigDecimal.valueOf(60),
+                BigDecimal.valueOf(360)
+            );
+        }
+
+        @Test
+        @DisplayName("Devrait rejeter les tentatives d'injection SQL dans le numéro de facture")
+        void shouldRejectSqlInjectionInFactureNumber() {
+            String[] sqlInjectionAttempts = {
+                "FACT-001'; DROP TABLE factures; --",
+                "FACT-001' OR '1'='1",
+                "FACT-001'; SELECT * FROM users; --"
+            };
+
+            for (String injection : sqlInjectionAttempts) {
+                assertThrows(ValidationException.class, () ->
+                    factureService.create(
+                        injection,
+                        LocalDate.now(),
+                        LocalDate.now().plusDays(30),
+                        client,
+                        produits,
+                        calcul
+                    )
+                );
+            }
+        }
+
+        @Test
+        @DisplayName("Devrait rejeter les tentatives d'injection XSS dans les commentaires")
+        void shouldRejectXssInjectionInComments() {
+            String[] xssInjectionAttempts = {
+                "<script>alert('XSS')</script>",
+                "javascript:alert('XSS')",
+                "<img src='x' onerror='alert("XSS")'>"
+            };
+
+            for (String injection : xssInjectionAttempts) {
+                assertThrows(ValidationException.class, () -> {
+                    Facture facture = new Facture(
+                        "FACT-001",
+                        LocalDate.now(),
+                        LocalDate.now().plusDays(30),
+                        client
+                    );
+                    facture.setCommentaire(injection);
+                    factureService.update(facture);
+                });
+            }
+        }
+
+        @Test
+        @DisplayName("Devrait rejeter les tentatives d'injection de commandes système")
+        void shouldRejectCommandInjection() {
+            String[] commandInjectionAttempts = {
+                "FACT-001; rm -rf /",
+                "FACT-001 && cat /etc/passwd",
+                "FACT-001 | ls -la"
+            };
+
+            for (String injection : commandInjectionAttempts) {
+                assertThrows(ValidationException.class, () ->
+                    factureService.create(
+                        injection,
+                        LocalDate.now(),
+                        LocalDate.now().plusDays(30),
+                        client,
+                        produits,
+                        calcul
+                    )
+                );
+            }
+        }
+
+        @Test
+        @DisplayName("Devrait valider le format des montants")
+        void shouldValidateAmountFormat() {
+            String[] invalidAmounts = {
+                "100,000.00",
+                "1e6",
+                "NaN",
+                "Infinity",
+                "1.234.567,89"
+            };
+
+            for (String amount : invalidAmounts) {
+                assertThrows(ValidationException.class, () -> {
+                    Produit produit = new Produit();
+                    produit.setNom("Produit Test");
+                    produit.setDescription("Description test");
+                    produit.setPrixUnitaire(new BigDecimal(amount));
+                    List<Produit> produitsWithInvalidAmount = Arrays.asList(produit);
+                    factureService.create(
+                        "FACT-001",
+                        LocalDate.now(),
+                        LocalDate.now().plusDays(30),
+                        client,
+                        produitsWithInvalidAmount,
+                        calcul
+                    );
+                });
+            }
+        }
+    }
+        private Client client;
+        private List<Produit> produits;
+        private CalculFacture calcul;
+        private ExecutorService executorService;
+        private CountDownLatch latch;
+
+        @BeforeEach
+        void setUp() {
+            client = new Client();
+            client.setRaisonSociale("Test Client");
+            client.setEmail("test@example.com");
+            client.setTelephone("0123456789");
+            client.setChiffreAffaires(1000.0);
+            client.setNombreEmployes(10);
+            
+            produits = new ArrayList<>();
+            Produit produit1 = new Produit();
+            produit1.setNom("Produit 1");
+            produit1.setDescription("Description du produit 1");
+            produit1.setPrixUnitaire(BigDecimal.valueOf(100));
+            produits.add(produit1);
+            
+            Produit produit2 = new Produit();
+            produit2.setNom("Produit 2");
+            produit2.setDescription("Description du produit 2");
+            produit2.setPrixUnitaire(BigDecimal.valueOf(200));
+            produits.add(produit2);
+            
+            calcul = new CalculFacture(
+                BigDecimal.valueOf(300),
+                BigDecimal.valueOf(0.20),
+                BigDecimal.valueOf(60),
+                BigDecimal.valueOf(360)
+            );
+            
+            executorService = Executors.newFixedThreadPool(10);
+            latch = new CountDownLatch(10);
+        }
+
+        @AfterEach
+        void tearDown() {
+            executorService.shutdown();
+        }
+
+        @Test
+        @DisplayName("Devrait gérer correctement les accès concurrents à la création de factures")
+        void shouldHandleConcurrentFactureCreation() throws InterruptedException {
+            LocalDate dateEmission = LocalDate.now();
+            LocalDate dateEcheance = dateEmission.plusDays(30);
+            AtomicInteger successCount = new AtomicInteger(0);
+            AtomicInteger failureCount = new AtomicInteger(0);
+
+            for (int i = 0; i < 10; i++) {
+                final int index = i;
+                executorService.submit(() -> {
+                    try {
+                        when(factureDAO.save(any(Facture.class))).thenReturn(
+                            new Facture("FACT-" + index, dateEmission, dateEcheance, client)
+                        );
+                        
+                        factureService.create(
+                            "FACT-" + index,
+                            dateEmission,
+                            dateEcheance,
+                            client,
+                            produits,
+                            calcul
+                        );
+                        successCount.incrementAndGet();
+                    } catch (Exception e) {
+                        failureCount.incrementAndGet();
+                    } finally {
+                        latch.countDown();
+                    }
+                });
+            }
+
+            latch.await(5, TimeUnit.SECONDS);
+            assertEquals(10, successCount.get() + failureCount.get());
+        }
+
+        @Test
+        @DisplayName("Devrait gérer correctement les mises à jour concurrentes")
+        void shouldHandleConcurrentUpdates() throws InterruptedException, ValidationException, DatabaseException {
+            Facture facture = new Facture("FACT-001", LocalDate.now(), LocalDate.now().plusDays(30), client);
+            when(factureDAO.findById(any())).thenReturn(Optional.of(facture));
+            when(factureDAO.save(any(Facture.class))).thenReturn(facture);
+            
+            AtomicInteger successCount = new AtomicInteger(0);
+            AtomicInteger failureCount = new AtomicInteger(0);
+
+            for (int i = 0; i < 10; i++) {
+                executorService.submit(() -> {
+                    try {
+                        facture.setDateEcheance(LocalDate.now().plusDays(30 + i));
+                        factureService.update(facture);
+                        successCount.incrementAndGet();
+                    } catch (Exception e) {
+                        failureCount.incrementAndGet();
+                    } finally {
+                        latch.countDown();
+                    }
+                });
+            }
+
+            latch.await(5, TimeUnit.SECONDS);
+            assertEquals(10, successCount.get() + failureCount.get());
+        }
+
+        @Test
+        @DisplayName("Devrait gérer correctement les suppressions concurrentes")
+        void shouldHandleConcurrentDeletions() throws InterruptedException, ValidationException, DatabaseException {
+            Facture facture = new Facture("FACT-001", LocalDate.now(), LocalDate.now().plusDays(30), client);
+            when(factureDAO.findById(any())).thenReturn(Optional.of(facture));
+            
+            AtomicInteger successCount = new AtomicInteger(0);
+            AtomicInteger failureCount = new AtomicInteger(0);
+
+            for (int i = 0; i < 10; i++) {
+                executorService.submit(() -> {
+                    try {
+                        factureService.delete(1L);
+                        successCount.incrementAndGet();
+                    } catch (Exception e) {
+                        failureCount.incrementAndGet();
+                    } finally {
+                        latch.countDown();
+                    }
+                });
+            }
+
+            latch.await(5, TimeUnit.SECONDS);
+            assertEquals(10, successCount.get() + failureCount.get());
+        }
     }
 } 

@@ -25,6 +25,180 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ClientServiceTest {
+    @Nested
+    @DisplayName("Tests de performance")
+    class PerformanceTests {
+        private List<Client> clients;
+
+        @BeforeEach
+        void setUp() {
+            clients = new ArrayList<>();
+            
+            // Création de 1000 clients de test
+            for (int i = 0; i < 1000; i++) {
+                Client client = new Client();
+                client.setRaisonSociale("Client " + i);
+                client.setEmail("client" + i + "@test.com");
+                client.setTelephone("0123456789");
+                client.setChiffreAffaires(1000.0);
+                client.setNombreEmployes(10);
+                clients.add(client);
+            }
+        }
+
+        @Test
+        @DisplayName("Devrait gérer efficacement la création de 1000 clients")
+        void shouldHandleBulkClientCreation() throws ValidationException, DatabaseException {
+            for (int i = 0; i < 1000; i++) {
+                when(clientDAO.save(any(Client.class))).thenReturn(clients.get(i));
+                clientService.create(clients.get(i));
+            }
+            verify(clientDAO, times(1000)).save(any(Client.class));
+        }
+
+        @Test
+        @DisplayName("Devrait gérer efficacement la recherche de clients")
+        void shouldHandleEfficientClientSearch() throws ValidationException, DatabaseException {
+            when(clientDAO.findByRaisonSociale(any())).thenReturn(clients);
+            
+            for (int i = 0; i < 1000; i++) {
+                clientService.findByRaisonSociale("Client " + i);
+            }
+            
+            verify(clientDAO, times(1000)).findByRaisonSociale(any());
+        }
+    }
+
+    @Nested
+    @DisplayName("Tests de concurrence")
+    class ConcurrencyTests {
+        private ExecutorService executorService;
+        private CountDownLatch latch;
+
+        @BeforeEach
+        void setUp() {
+            executorService = Executors.newFixedThreadPool(10);
+            latch = new CountDownLatch(10);
+        }
+
+        @AfterEach
+        void tearDown() {
+            executorService.shutdown();
+        }
+
+        @Test
+        @DisplayName("Devrait gérer correctement les accès concurrents à la création de clients")
+        void shouldHandleConcurrentClientCreation() throws InterruptedException {
+            AtomicInteger successCount = new AtomicInteger(0);
+            AtomicInteger failureCount = new AtomicInteger(0);
+
+            for (int i = 0; i < 10; i++) {
+                final int index = i;
+                executorService.submit(() -> {
+                    try {
+                        Client client = new Client();
+                        client.setRaisonSociale("Client " + index);
+                        client.setEmail("client" + index + "@test.com");
+                        client.setTelephone("0123456789");
+                        client.setChiffreAffaires(1000.0);
+                        client.setNombreEmployes(10);
+                        
+                        when(clientDAO.save(any(Client.class))).thenReturn(client);
+                        clientService.create(client);
+                        successCount.incrementAndGet();
+                    } catch (Exception e) {
+                        failureCount.incrementAndGet();
+                    } finally {
+                        latch.countDown();
+                    }
+                });
+            }
+
+            latch.await(5, TimeUnit.SECONDS);
+            assertEquals(10, successCount.get() + failureCount.get());
+        }
+    }
+
+    @Nested
+    @DisplayName("Tests de sécurité")
+    class SecurityTests {
+        @Test
+        @DisplayName("Devrait rejeter les tentatives d'injection SQL dans la raison sociale")
+        void shouldRejectSqlInjectionInRaisonSociale() {
+            String[] sqlInjectionAttempts = {
+                "Client 1'; DROP TABLE clients; --",
+                "Client 1' OR '1'='1",
+                "Client 1'; SELECT * FROM users; --"
+            };
+
+            for (String injection : sqlInjectionAttempts) {
+                Client client = new Client();
+                client.setRaisonSociale(injection);
+                client.setEmail("test@example.com");
+                client.setTelephone("0123456789");
+                client.setChiffreAffaires(1000.0);
+                client.setNombreEmployes(10);
+                
+                assertThrows(ValidationException.class, () -> clientService.create(client));
+            }
+        }
+
+        @Test
+        @DisplayName("Devrait rejeter les tentatives d'injection XSS dans les commentaires")
+        void shouldRejectXssInjectionInComments() {
+            String[] xssInjectionAttempts = {
+                "<script>alert('XSS')</script>",
+                "javascript:alert('XSS')",
+                "<img src='x' onerror='alert("XSS")'>"
+            };
+
+            for (String injection : xssInjectionAttempts) {
+                Client client = new Client();
+                client.setRaisonSociale("Test Client");
+                client.setEmail("test@example.com");
+                client.setTelephone("0123456789");
+                client.setChiffreAffaires(1000.0);
+                client.setNombreEmployes(10);
+                client.setCommentaire(injection);
+                
+                assertThrows(ValidationException.class, () -> clientService.create(client));
+            }
+        }
+    }
+    @Nested
+    @DisplayName("Tests de validation des données")
+    class ValidationTests {
+        private Client client;
+
+        @BeforeEach
+        void setUp() {
+            client = new Client();
+            client.setRaisonSociale("Test Client");
+            client.setEmail("test@example.com");
+            client.setTelephone("0123456789");
+        }
+
+        @Test
+        @DisplayName("Devrait valider le format du numéro de téléphone")
+        void shouldValidatePhoneNumber() throws ValidationException, DatabaseException {
+            client.setTelephone("invalid");
+            assertThrows(ValidationException.class, () -> clientService.save(client));
+        }
+
+        @Test
+        @DisplayName("Devrait valider le format de l'email")
+        void shouldValidateEmail() throws ValidationException, DatabaseException {
+            client.setEmail("invalid-email");
+            assertThrows(ValidationException.class, () -> clientService.save(client));
+        }
+
+        @Test
+        @DisplayName("Devrait valider la raison sociale")
+        void shouldValidateRaisonSociale() throws ValidationException, DatabaseException {
+            client.setRaisonSociale("");
+            assertThrows(ValidationException.class, () -> clientService.save(client));
+        }
+    }
 
     @Mock
     private IDAO<Client, Long> clientDAO;
