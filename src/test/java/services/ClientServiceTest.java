@@ -14,10 +14,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.MockitoAnnotations;
+import org.junit.jupiter.api.AfterEach;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -25,6 +32,20 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ClientServiceTest {
+    @Mock
+    private IDAO<Client, Long> clientDAO;
+
+    @Mock
+    private IDAO<Adresse, Long> adresseDAO;
+
+    private ClientService clientService;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        clientService = new ClientService(clientDAO, adresseDAO);
+    }
+
     @Nested
     @DisplayName("Tests de performance")
     class PerformanceTests {
@@ -59,13 +80,13 @@ class ClientServiceTest {
         @Test
         @DisplayName("Devrait gérer efficacement la recherche de clients")
         void shouldHandleEfficientClientSearch() throws ValidationException, DatabaseException {
-            when(clientDAO.findByRaisonSociale(any())).thenReturn(clients);
+            when(clientDAO.findAll()).thenReturn(clients);
             
             for (int i = 0; i < 1000; i++) {
                 clientService.findByRaisonSociale("Client " + i);
             }
             
-            verify(clientDAO, times(1000)).findByRaisonSociale(any());
+            verify(clientDAO, times(1000)).findAll();
         }
     }
 
@@ -149,7 +170,7 @@ class ClientServiceTest {
             String[] xssInjectionAttempts = {
                 "<script>alert('XSS')</script>",
                 "javascript:alert('XSS')",
-                "<img src='x' onerror='alert("XSS")'>"
+                "<img src='x' onerror='alert(\"XSS\")'>"
             };
 
             for (String injection : xssInjectionAttempts) {
@@ -165,6 +186,7 @@ class ClientServiceTest {
             }
         }
     }
+
     @Nested
     @DisplayName("Tests de validation des données")
     class ValidationTests {
@@ -182,36 +204,22 @@ class ClientServiceTest {
         @DisplayName("Devrait valider le format du numéro de téléphone")
         void shouldValidatePhoneNumber() throws ValidationException, DatabaseException {
             client.setTelephone("invalid");
-            assertThrows(ValidationException.class, () -> clientService.save(client));
+            assertThrows(ValidationException.class, () -> clientService.create(client));
         }
 
         @Test
         @DisplayName("Devrait valider le format de l'email")
         void shouldValidateEmail() throws ValidationException, DatabaseException {
             client.setEmail("invalid-email");
-            assertThrows(ValidationException.class, () -> clientService.save(client));
+            assertThrows(ValidationException.class, () -> clientService.create(client));
         }
 
         @Test
         @DisplayName("Devrait valider la raison sociale")
         void shouldValidateRaisonSociale() throws ValidationException, DatabaseException {
             client.setRaisonSociale("");
-            assertThrows(ValidationException.class, () -> clientService.save(client));
+            assertThrows(ValidationException.class, () -> clientService.create(client));
         }
-    }
-
-    @Mock
-    private IDAO<Client, Long> clientDAO;
-
-    @Mock
-    private IDAO<Adresse, Long> adresseDAO;
-
-    private ClientService clientService;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-        clientService = new ClientService(clientDAO, adresseDAO);
     }
 
     @Nested
