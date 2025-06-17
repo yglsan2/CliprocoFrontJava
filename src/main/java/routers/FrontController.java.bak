@@ -44,7 +44,6 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Map;
-import java.util.Optional;
 import exceptions.DatabaseException;
 import exceptions.ValidationException;
 import exceptions.ResourceNotFoundException;
@@ -71,8 +70,8 @@ public class FrontController extends HttpServlet {
     private UserService userService;
 
     @Resource(name = "jdbc/gestionClients")
-    private DataSource datasource;
-    private Connection connection;
+    private static DataSource datasource;
+    private static Connection connection;
 
     @Override
     public void init() throws ServletException {
@@ -180,6 +179,10 @@ public class FrontController extends HttpServlet {
         }
     }
 
+    public static DataSource getDatasource() {
+        return datasource;
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
@@ -203,47 +206,46 @@ public class FrontController extends HttpServlet {
         if (path == null) {
             path = "/";
         }
-        LogManager.logInfo("Traitement de la requête pour le chemin: " + path);
 
         try {
             checkAuthorization(request, path);
             executeCommand(request, response, path);
         } catch (AuthorizationException e) {
-            LogManager.logWarning("Erreur d'autorisation: " + e.getMessage());
+            LogManager.logWarning("Accès non autorisé: " + e.getMessage());
             response.sendRedirect(request.getContextPath() + "/login");
         } catch (Exception e) {
             LogManager.logException("Erreur lors du traitement de la requête", e);
-            handleException(e, request, response);
+            throw new ServletException("Erreur lors du traitement de la requête", e);
         }
     }
 
     private void checkAuthorization(HttpServletRequest request, String path) throws AuthorizationException {
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("user") == null) {
-            LogManager.logWarning("Session non authentifiée");
-            throw new AuthorizationException("Session non authentifiée");
-        }
-
-        User user = (User) session.getAttribute("user");
         String requiredRole = roles.get(path);
-        if (requiredRole != null && !user.getRole().equals(requiredRole)) {
-            LogManager.logWarning("Accès non autorisé pour l'utilisateur: " + user.getUsername());
-            throw new AuthorizationException("Accès non autorisé");
+        if (requiredRole != null) {
+            HttpSession session = request.getSession(false);
+            if (session == null || session.getAttribute("user") == null) {
+                throw new AuthorizationException("Utilisateur non connecté");
+            }
+            User user = (User) session.getAttribute("user");
+            if (!user.getRole().equals(requiredRole)) {
+                throw new AuthorizationException("Rôle insuffisant");
+            }
         }
     }
 
     private void executeCommand(HttpServletRequest request, HttpServletResponse response, String path) throws ServletException, IOException {
         ICommand command = commands.get(path);
         if (command == null) {
-            LogManager.logWarning("Commande non trouvée pour le chemin: " + path);
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
 
         try {
-            String view = command.execute(request, response);
-            if (view != null) {
-                request.getRequestDispatcher(view).forward(request, response);
+            String result = command.execute(request, response);
+            if (result.startsWith("redirect:")) {
+                response.sendRedirect(request.getContextPath() + result.substring(9));
+            } else {
+                request.getRequestDispatcher(result).forward(request, response);
             }
         } catch (Exception e) {
             LogManager.logException("Erreur lors de l'exécution de la commande", e);
@@ -253,49 +255,48 @@ public class FrontController extends HttpServlet {
 
     @Override
     public void destroy() {
-        LogManager.logInfo("Destruction du FrontController");
         try {
             if (connection != null && !connection.isClosed()) {
                 connection.close();
-                LogManager.logInfo("Connexion à la base de données fermée");
             }
+            LogManager.logInfo("Connexion à la base de données fermée avec succès");
         } catch (SQLException e) {
-            LogManager.logException("Erreur lors de la fermeture de la connexion", e);
+            LogManager.logException("Erreur lors de la fermeture de la connexion à la base de données", e);
         }
     }
 
     private void loadCurrentUser(final HttpServletRequest request) throws DatabaseException {
-        HttpSession session = request.getSession(false);
-        if (session != null && session.getAttribute("username") != null) {
-            String username = (String) session.getAttribute("username");
-            try {
-                Optional<User> userOpt = userService.findByUsername(username);
-                if (userOpt.isPresent()) {
-                    session.setAttribute("user", userOpt.get());
-                    LogManager.logInfo("Utilisateur chargé: " + username);
-                } else {
-                    LogManager.logWarning("Utilisateur non trouvé: " + username);
-                    session.invalidate();
+        try {
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                String username = (String) session.getAttribute("username");
+                if (username != null) {
+                    userService.findByUsername(username).ifPresent(user -> {
+                        session.setAttribute("user", user);
+                        LogManager.logInfo("Utilisateur chargé: " + user.getUsername());
+                    });
                 }
-            } catch (Exception e) {
-                LogManager.logException("Erreur lors du chargement de l'utilisateur", e);
-                throw new DatabaseException("Erreur lors du chargement de l'utilisateur", e);
             }
+        } catch (Exception e) {
+            LogManager.logException("Erreur lors du chargement de l'utilisateur", e);
+            throw new DatabaseException("Erreur lors du chargement de l'utilisateur", e);
         }
     }
 
-    private void handleException(Exception e, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void handleException(Exception e, HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
         LogManager.logException("Erreur lors du traitement de la requête", e);
+        
         if (e instanceof AuthorizationException) {
             response.sendRedirect(request.getContextPath() + "/login");
         } else if (e instanceof ValidationException) {
             request.setAttribute("error", e.getMessage());
-            request.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(request, response);
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
         } else if (e instanceof ResourceNotFoundException) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, e.getMessage());
         } else if (e instanceof BusinessException) {
             request.setAttribute("error", e.getMessage());
-            request.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(request, response);
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
         } else {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur interne est survenue");
         }

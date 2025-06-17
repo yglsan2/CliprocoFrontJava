@@ -1,80 +1,62 @@
 package controllers.prospects;
 
-import builders.AdresseBuilder;
 import controllers.ICommand;
-import dao.jpa.ProspectJpaDAO;
-import models.Adresse;
 import models.Prospect;
+import models.Adresse;
+import services.ProspectService;
+import builders.AdresseBuilder;
+import builders.ProspectBuilder;
 import utilities.Security;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
-import java.util.Set;
 
 public final class UpdateProspectsController implements ICommand {
+    private final ProspectService prospectService;
 
-    @Contract(pure = true)
+    public UpdateProspectsController(ProspectService prospectService) {
+        this.prospectService = prospectService;
+    }
+
     @Override
     public @NotNull String execute(final HttpServletRequest request,
                                    final HttpServletResponse response)
             throws Exception {
-
-        String jsp = "prospects/view.jsp";
+        request.setAttribute("titlePage", "Modification");
+        request.setAttribute("titleGroup", "Prospects");
+        String jsp = "prospects/update.jsp";
         String urlSuite = Security.estConnecte(request, jsp);
 
         if (jsp.equals(urlSuite)) {
-            request.setAttribute("titlePage", "Mise à jour");
-            request.setAttribute("titleGroup", "Prospects");
+            Long id = Long.parseLong(request.getParameter("id"));
+            Prospect prospect = prospectService.findById(id);
 
-            String prospectId = request.getParameter("prospectId");
-            Prospect prospect = new ProspectJpaDAO()
-                    .findById(Long.parseLong(prospectId));
-
-            if (request.getParameterMap().containsKey("raisonSociale")) {
-                Adresse adresse;
-
-                // Build address from parameters
-                adresse = AdresseBuilder.getNewAdresseBuilder()
+            if (prospect != null) {
+                // Build address
+                Adresse adresse = AdresseBuilder.getNewAdresseBuilder()
                         .deNumeroRue(request.getParameter("numeroRue"))
                         .deNomRue(request.getParameter("nomRue"))
                         .deCodePostal(request.getParameter("codePostal"))
                         .deVille(request.getParameter("ville"))
                         .build();
 
-                // Update prospect fields
-                prospect.setRaisonSociale(request
-                        .getParameter("raisonSociale"));
-                prospect.setTelephone(request.getParameter("telephone"));
-                prospect.setMail(request.getParameter("adresseMail"));
-                prospect.setCommentaires(request.getParameter("commentaires"));
-                prospect.setAdresse(adresse);
-                prospect.setDateProspection(
-                        LocalDate.parse(
-                                request.getParameter("dateProspection")));
-                prospect.setProspectInteresse(request.getParameter(
-                        "prospectInteresse") != null ? "oui" : "non");
+                // Build prospect
+                Prospect updatedProspect = ProspectBuilder.getNewProspectBuilder()
+                        .dIdentifiant(id)
+                        .deRaisonSociale(request.getParameter("raisonSociale"))
+                        .deTelephone(request.getParameter("telephone"))
+                        .deMail(request.getParameter("mail"))
+                        .deCommentaires(request.getParameter("commentaires"))
+                        .dAdresse(adresse)
+                        .deDateProspection(LocalDate.parse(request.getParameter("dateProspection")))
+                        .deProspectInteresse(request.getParameter("prospectInteresse"))
+                        .build();
 
-                // Validate prospect
-                Validator validator = Validation.buildDefaultValidatorFactory()
-                        .getValidator();
-                Set<ConstraintViolation<Prospect>> violations =
-                        validator.validate(prospect);
-
-                if (!violations.isEmpty()) {
-                    request.setAttribute("violations", violations);
-                } else {
-                    (new ProspectJpaDAO()).save(prospect);
-                    urlSuite = "redirect:?cmd=prospects";
-                }
+                prospectService.update(updatedProspect);
+                urlSuite = "/prospects";
             }
-
-            request.setAttribute("prospect", prospect);
         }
 
         return urlSuite;

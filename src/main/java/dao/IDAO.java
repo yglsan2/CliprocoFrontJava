@@ -2,6 +2,9 @@ package dao;
 
 import java.util.List;
 import java.util.Optional;
+import exceptions.DatabaseException;
+import exceptions.ValidationException;
+import exceptions.ResourceNotFoundException;
 
 /**
  * Interface générique pour les opérations CRUD sur les entités.
@@ -13,32 +16,43 @@ public interface IDAO<T, ID> {
      * Sauvegarde une entité.
      * @param entity L'entité à sauvegarder
      * @return L'entité sauvegardée
+     * @throws ValidationException si l'entité n'est pas valide
+     * @throws DatabaseException si une erreur de base de données survient
      */
-    T save(T entity);
+    T save(T entity) throws ValidationException, DatabaseException;
 
     /**
      * Met à jour une entité.
      * @param entity L'entité à mettre à jour
      * @return L'entité mise à jour
+     * @throws ValidationException si l'entité n'est pas valide
+     * @throws ResourceNotFoundException si l'entité n'existe pas
+     * @throws DatabaseException si une erreur de base de données survient
      */
-    T update(T entity);
+    T update(T entity) throws ValidationException, ResourceNotFoundException, DatabaseException;
 
     /**
      * Supprime une entité.
      * @param entity L'entité à supprimer
+     * @throws ValidationException si l'entité n'est pas valide
+     * @throws ResourceNotFoundException si l'entité n'existe pas
+     * @throws DatabaseException si une erreur de base de données survient
      */
-    void delete(T entity);
+    void delete(T entity) throws ValidationException, ResourceNotFoundException, DatabaseException;
 
     /**
      * Trouve une entité par son identifiant.
      * @param id L'identifiant de l'entité
      * @return Un Optional contenant l'entité si trouvée
+     * @throws ValidationException si l'identifiant n'est pas valide
+     * @throws DatabaseException si une erreur de base de données survient
      */
-    Optional<T> findById(ID id);
+    Optional<T> findById(ID id) throws ValidationException, DatabaseException;
 
     /**
      * Récupère toutes les entités.
      * @return La liste de toutes les entités
+     * @throws DatabaseException si une erreur de base de données survient
      */
-    List<T> findAll();
+    List<T> findAll() throws DatabaseException;
 } 

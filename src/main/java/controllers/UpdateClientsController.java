@@ -10,6 +10,9 @@ import models.Client;
 import models.Adresse;
 import services.ClientService;
 import utilities.Security;
+import dao.IDAO;
+import dao.jpa.ClientJpaDAO;
+import dao.jpa.AdresseJpaDAO;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -20,7 +23,10 @@ public class UpdateClientsController extends HttpServlet {
     private final ClientService clientService;
 
     public UpdateClientsController() {
-        this.clientService = new ClientService();
+        IDAO<Client, Long> clientDAO = new ClientJpaDAO();
+        IDAO<Adresse, Long> adresseDAO = new AdresseJpaDAO();
+        this.clientService = new ClientService(clientDAO, adresseDAO);
+        LOGGER.info("UpdateClientsController initialisé avec succès");
     }
 
     @Override

@@ -3,9 +3,10 @@ package builders;
 import models.Adresse;
 import models.Client;
 import models.Contrat;
-import models.SocieteEntityException;
+import exceptions.ValidationException;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import utilities.LogManager;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Constructor;
@@ -25,21 +26,26 @@ public class ClientBuilder extends SocieteBuilder<Client> {
      */
     public ClientBuilder() {
         super(new Client());
+        LogManager.logInfo("Initialisation d'un nouveau ClientBuilder");
     }
 
     /**
      * Crée une instance de Client via réflexion.
      *
      * @return nouvelle instance de Client
-     * @throws SocieteEntityException si une erreur survient
+     * @throws ValidationException si une erreur survient
      */
-    private static Client createInstance() throws SocieteEntityException {
+    private static Client createInstance() throws ValidationException {
         try {
+            LogManager.logInfo("Création d'une nouvelle instance de Client via réflexion");
             Constructor<Client> constructor = Client.class.getDeclaredConstructor();
             constructor.setAccessible(true);
-            return constructor.newInstance();
+            Client instance = constructor.newInstance();
+            LogManager.logInfo("Instance de Client créée avec succès");
+            return instance;
         } catch (Exception e) {
-            throw new SocieteEntityException("Erreur lors de la création de l'instance de Client", e);
+            LogManager.logException("Erreur lors de la création de l'instance de Client", e);
+            throw new ValidationException("Erreur lors de la création de l'instance de Client", e);
         }
     }
 
@@ -50,6 +56,7 @@ public class ClientBuilder extends SocieteBuilder<Client> {
      */
     @Contract(" -> new")
     public static @NotNull ClientBuilder getNewClientBuilder() {
+        LogManager.logInfo("Création d'un nouveau ClientBuilder via méthode statique");
         return new ClientBuilder();
     }
 
@@ -58,11 +65,12 @@ public class ClientBuilder extends SocieteBuilder<Client> {
      *
      * @param identifiant Nouvel identifiant.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by the identifiant setter.
+     * @throws ValidationException Exception set by the identifiant setter.
      */
     @Override
     public ClientBuilder dIdentifiant(final Long identifiant)
-            throws SocieteEntityException {
+            throws ValidationException {
+        LogManager.logInfo("Définition de l'identifiant: " + identifiant);
         setField("id", identifiant);
         return this;
     }
@@ -72,11 +80,12 @@ public class ClientBuilder extends SocieteBuilder<Client> {
      *
      * @param identifiant Nouvel identifiant.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by the identifiant setter.
+     * @throws ValidationException Exception set by the identifiant setter.
      */
     @Override
     public ClientBuilder dIdentifiant(final String identifiant)
-            throws SocieteEntityException {
+            throws ValidationException {
+        LogManager.logInfo("Définition de l'identifiant (String): " + identifiant);
         setField("id", identifiant);
         return this;
     }
@@ -86,10 +95,11 @@ public class ClientBuilder extends SocieteBuilder<Client> {
      *
      * @param raisonSociale Nouvelle raison sociale.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by the raisonSociale setter.
+     * @throws ValidationException Exception set by the raisonSociale setter.
      */
     @Override
-    public ClientBuilder deRaisonSociale(String raisonSociale) throws SocieteEntityException {
+    public ClientBuilder deRaisonSociale(String raisonSociale) throws ValidationException {
+        LogManager.logInfo("Définition de la raison sociale: " + raisonSociale);
         setField("raisonSociale", raisonSociale);
         return this;
     }
@@ -99,11 +109,12 @@ public class ClientBuilder extends SocieteBuilder<Client> {
      *
      * @param adresse Nouvelle adresse.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by the adresse setter.
+     * @throws ValidationException Exception set by the adresse setter.
      */
     @Override
     public ClientBuilder dAdresse(final Adresse adresse)
-            throws SocieteEntityException {
+            throws ValidationException {
+        LogManager.logInfo("Définition de l'adresse: " + adresse);
         setField("adresse", adresse);
         return this;
     }
@@ -113,20 +124,24 @@ public class ClientBuilder extends SocieteBuilder<Client> {
      *
      * @param rue Nouvelle rue.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by the rue setter.
+     * @throws ValidationException Exception set by the rue setter.
      */
     public ClientBuilder withRue(final String rue)
-            throws SocieteEntityException {
+            throws ValidationException {
+        LogManager.logInfo("Définition de la rue: " + rue);
         Adresse adresse = (Adresse) getField("adresse");
         if (adresse == null) {
+            LogManager.logInfo("Création d'une nouvelle adresse");
             adresse = new Adresse();
             setField("adresse", adresse);
         }
         String[] parts = rue.split(" ", 2);
         if (parts.length > 1) {
+            LogManager.logInfo("Séparation du numéro et du nom de rue");
             setField("numeroRue", parts[0], adresse);
             setField("nomRue", parts[1], adresse);
         } else {
+            LogManager.logInfo("Utilisation de la rue complète comme nom de rue");
             setField("nomRue", rue, adresse);
         }
         return this;
@@ -137,15 +152,18 @@ public class ClientBuilder extends SocieteBuilder<Client> {
      *
      * @param codePostal Nouveau code postal.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by the code postal setter.
+     * @throws ValidationException Exception set by the code postal setter.
      */
     public ClientBuilder withCodePostal(final String codePostal)
-            throws SocieteEntityException {
+            throws ValidationException {
+        LogManager.logInfo("Définition du code postal: " + codePostal);
         if (codePostal == null || !codePostal.matches("\\b\\d{5}\\b")) {
-            throw new SocieteEntityException("Le code postal doit être un nombre de 5 chiffres");
+            LogManager.logWarning("Code postal invalide: " + codePostal);
+            throw new ValidationException("Le code postal doit être un nombre de 5 chiffres");
         }
         Adresse adresse = (Adresse) getField("adresse");
         if (adresse == null) {
+            LogManager.logInfo("Création d'une nouvelle adresse");
             adresse = new Adresse();
             setField("adresse", adresse);
         }
@@ -158,15 +176,18 @@ public class ClientBuilder extends SocieteBuilder<Client> {
      *
      * @param ville Nouvelle ville.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by the ville setter.
+     * @throws ValidationException Exception set by the ville setter.
      */
     public ClientBuilder withVille(final String ville)
-            throws SocieteEntityException {
+            throws ValidationException {
+        LogManager.logInfo("Définition de la ville: " + ville);
         if (ville == null || !ville.matches("\\b([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*[a-zA-Z\\u0080-\\u024F]*\\b")) {
-            throw new SocieteEntityException("La ville ne peut contenir que des lettres, espaces, tirets et points");
+            LogManager.logWarning("Ville invalide: " + ville);
+            throw new ValidationException("La ville ne peut contenir que des lettres, espaces, tirets et points");
         }
         Adresse adresse = (Adresse) getField("adresse");
         if (adresse == null) {
+            LogManager.logInfo("Création d'une nouvelle adresse");
             adresse = new Adresse();
             setField("adresse", adresse);
         }
@@ -179,15 +200,18 @@ public class ClientBuilder extends SocieteBuilder<Client> {
      *
      * @param pays Nouveau pays.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by the pays setter.
+     * @throws ValidationException Exception set by the pays setter.
      */
     public ClientBuilder withPays(final String pays)
-            throws SocieteEntityException {
+            throws ValidationException {
+        LogManager.logInfo("Définition du pays: " + pays);
         if (pays == null || !pays.matches("\\b([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*[a-zA-Z\\u0080-\\u024F]*\\b")) {
-            throw new SocieteEntityException("Le pays ne peut contenir que des lettres, espaces, tirets et points");
+            LogManager.logWarning("Pays invalide: " + pays);
+            throw new ValidationException("Le pays ne peut contenir que des lettres, espaces, tirets et points");
         }
         Adresse adresse = (Adresse) getField("adresse");
         if (adresse == null) {
+            LogManager.logInfo("Création d'une nouvelle adresse");
             adresse = new Adresse();
             setField("adresse", adresse);
         }
@@ -200,11 +224,12 @@ public class ClientBuilder extends SocieteBuilder<Client> {
      *
      * @param telephone Nouveau numéro de téléphone.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by telephone setter.
+     * @throws ValidationException Exception set by telephone setter.
      */
     @Override
     public ClientBuilder deTelephone(final String telephone)
-            throws SocieteEntityException {
+            throws ValidationException {
+        LogManager.logInfo("Définition du téléphone: " + telephone);
         setField("telephone", telephone);
         return this;
     }
@@ -214,10 +239,11 @@ public class ClientBuilder extends SocieteBuilder<Client> {
      *
      * @param mail Nouveau mail.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by mail setter.
+     * @throws ValidationException Exception set by mail setter.
      */
     @Override
-    public ClientBuilder deMail(String mail) throws SocieteEntityException {
+    public ClientBuilder deMail(String mail) throws ValidationException {
+        LogManager.logInfo("Définition du mail: " + mail);
         setField("mail", mail);
         return this;
     }
@@ -227,36 +253,39 @@ public class ClientBuilder extends SocieteBuilder<Client> {
      *
      * @param commentaires Nouveaux commentaires.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by the commentaires setter.
+     * @throws ValidationException Exception set by the commentaires setter.
      */
     @Override
-    public ClientBuilder deCommentaires(String commentaires) throws SocieteEntityException {
+    public ClientBuilder deCommentaires(String commentaires) throws ValidationException {
+        LogManager.logInfo("Définition des commentaires: " + commentaires);
         setField("commentaires", commentaires);
         return this;
     }
 
     /**
-     * Setter Chiffres d'Affaires.
+     * Setter Chiffre d'affaires.
      *
      * @param chiffreAffaires Nouveau chiffre d'affaires.
      * @return This builder.
-     * @throws SocieteEntityException Exception set par le setter.
+     * @throws ValidationException Exception set by the chiffreAffaires setter.
      */
     public ClientBuilder deChiffreAffaires(final Double chiffreAffaires)
-            throws SocieteEntityException {
+            throws ValidationException {
+        LogManager.logInfo("Définition du chiffre d'affaires: " + chiffreAffaires);
         setField("chiffreAffaires", chiffreAffaires);
         return this;
     }
 
     /**
-     * Setter Nombre Employés.
+     * Setter Nombre d'employés.
      *
      * @param nombreEmployes Nouveau nombre d'employés.
      * @return This builder.
-     * @throws SocieteEntityException Exception set par le setter.
+     * @throws ValidationException Exception set by the nombreEmployes setter.
      */
     public ClientBuilder deNombreEmployes(final Integer nombreEmployes)
-            throws SocieteEntityException {
+            throws ValidationException {
+        LogManager.logInfo("Définition du nombre d'employés: " + nombreEmployes);
         setField("nombreEmployes", nombreEmployes);
         return this;
     }
@@ -264,182 +293,200 @@ public class ClientBuilder extends SocieteBuilder<Client> {
     /**
      * Setter Contrats.
      *
-     * @param contrats Liste des contrats.
+     * @param contrats Nouveaux contrats.
      * @return This builder.
+     * @throws ValidationException Exception set by the contrats setter.
      */
-    public ClientBuilder deContrats(final ArrayList<Contrat> contrats) throws SocieteEntityException {
+    public ClientBuilder deContrats(final ArrayList<Contrat> contrats) throws ValidationException {
+        LogManager.logInfo("Définition des contrats: " + contrats);
         setField("contrats", contrats);
         return this;
     }
 
     /**
-     * Ajouter un contrat.
+     * Ajoute un contrat.
      *
-     * @param contrat Nouveau contrat.
+     * @param contrat Contrat à ajouter.
      * @return This builder.
+     * @throws ValidationException Exception set by the contrat setter.
      */
-    public ClientBuilder ajouterContrat(final Contrat contrat) throws SocieteEntityException {
-        ArrayList<Contrat> contrats = (ArrayList<Contrat>) getField("contrats");
+    public ClientBuilder ajouterContrat(final Contrat contrat) throws ValidationException {
+        LogManager.logInfo("Ajout d'un contrat: " + contrat);
+        List<Contrat> contrats = (List<Contrat>) getField("contrats");
         if (contrats == null) {
+            LogManager.logInfo("Création d'une nouvelle liste de contrats");
             contrats = new ArrayList<>();
+            setField("contrats", contrats);
         }
         contrats.add(contrat);
-        setField("contrats", contrats);
         return this;
     }
 
     /**
-     * Build method.
+     * Getter Client construit.
      *
-     * @return Built client.
+     * @return Client construit.
      */
     @Override
     public Client build() {
-        return this.getEntity();
+        LogManager.logInfo("Construction du client final");
+        Client client = this.getEntity();
+        LogManager.logInfo("Client construit: " + client);
+        return client;
     }
 
     /**
-     * Set field value using reflection.
+     * Utilise la réflexion pour définir un champ sur un objet cible.
      *
-     * @param fieldName Field name.
-     * @param value     New value.
-     * @throws SocieteEntityException if field not found or not accessible.
+     * @param fieldName Nom du champ
+     * @param value Valeur à définir
+     * @param target Objet cible
+     * @throws ValidationException Si une erreur survient
      */
-    private void setField(String fieldName, Object value, Object target) throws SocieteEntityException {
+    private void setField(String fieldName, Object value, Object target) throws ValidationException {
         try {
+            LogManager.logInfo("Définition du champ " + fieldName + " avec la valeur " + value + " sur l'objet " + target.getClass().getName());
             Field field = target.getClass().getDeclaredField(fieldName);
             field.setAccessible(true);
             field.set(target, value);
-        } catch (NoSuchFieldException e) {
-            try {
-                Field field = target.getClass().getSuperclass().getDeclaredField(fieldName);
-                field.setAccessible(true);
-                field.set(target, value);
-            } catch (Exception ex) {
-                throw new SocieteEntityException("Erreur lors de la définition du champ " + fieldName, ex);
-            }
-        } catch (Exception e) {
-            throw new SocieteEntityException("Erreur lors de la définition du champ " + fieldName, e);
+            LogManager.logInfo("Champ défini avec succès");
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            LogManager.logException("Erreur lors de la définition du champ " + fieldName, e);
+            throw new ValidationException("Erreur lors de la définition du champ " + fieldName, e);
         }
     }
 
-    private void setField(String fieldName, Object value) throws SocieteEntityException {
-        setField(fieldName, value, getEntity());
-    }
-
     /**
-     * Get field value using reflection.
+     * Utilise la réflexion pour définir un champ.
      *
-     * @param fieldName Field name.
-     * @return Field value.
-     * @throws SocieteEntityException if field not found or not accessible.
+     * @param fieldName Nom du champ
+     * @param value Valeur à définir
+     * @throws ValidationException Si une erreur survient
      */
-    private Object getField(String fieldName) throws SocieteEntityException {
+    private void setField(String fieldName, Object value) throws ValidationException {
+        LogManager.logInfo("Définition du champ " + fieldName + " avec la valeur " + value);
+        setField(fieldName, value, this.getEntity());
+    }
+
+    /**
+     * Utilise la réflexion pour obtenir un champ.
+     *
+     * @param fieldName Nom du champ
+     * @return Valeur du champ
+     * @throws ValidationException Si une erreur survient
+     */
+    private Object getField(String fieldName) throws ValidationException {
         try {
-            Field field = getEntity().getClass().getDeclaredField(fieldName);
+            LogManager.logInfo("Récupération du champ " + fieldName);
+            Field field = this.getEntity().getClass().getDeclaredField(fieldName);
             field.setAccessible(true);
-            return field.get(getEntity());
-        } catch (NoSuchFieldException e) {
-            try {
-                Field field = getEntity().getClass().getSuperclass().getDeclaredField(fieldName);
-                field.setAccessible(true);
-                return field.get(getEntity());
-            } catch (Exception ex) {
-                throw new SocieteEntityException("Erreur lors de l'accès au champ " + fieldName, ex);
-            }
-        } catch (Exception e) {
-            throw new SocieteEntityException("Erreur lors de l'accès au champ " + fieldName, e);
+            Object value = field.get(this.getEntity());
+            LogManager.logInfo("Valeur récupérée: " + value);
+            return value;
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            LogManager.logException("Erreur lors de la récupération du champ " + fieldName, e);
+            throw new ValidationException("Erreur lors de la récupération du champ " + fieldName, e);
         }
     }
 
     /**
-     * Setter Adresse complète.
+     * Configure l'adresse complète.
      *
-     * @param rue        Nouvelle rue.
-     * @param codePostal Nouveau code postal.
-     * @param ville      Nouvelle ville.
-     * @param pays       Nouveau pays.
-     * @param telephone  Nouveau téléphone.
-     * @return This builder.
+     * @param rue Rue
+     * @param codePostal Code postal
+     * @param ville Ville
+     * @param pays Pays
+     * @param telephone Téléphone
+     * @return This builder
+     * @throws ValidationException Si une erreur survient
      */
     @Override
-    public ClientBuilder avecAdresse(String rue, String codePostal, String ville, String pays, String telephone) throws SocieteEntityException {
-        try {
-            String[] parts = rue.split(" ", 2);
-            String numero = parts.length > 1 ? parts[0] : "";
-            String nomRue = parts.length > 1 ? parts[1] : rue;
-            
-            Adresse adresse = new Adresse(numero, nomRue, codePostal, ville);
-            setField("pays", pays, adresse);
-            setField("adresse", adresse);
-            setField("telephone", telephone);
-            return this;
-        } catch (Exception e) {
-            throw new SocieteEntityException("Erreur lors de la création de l'adresse", e);
-        }
+    public ClientBuilder avecAdresse(String rue, String codePostal, String ville, String pays, String telephone) throws ValidationException {
+        LogManager.logInfo("Configuration de l'adresse complète - rue: " + rue + ", codePostal: " + codePostal + ", ville: " + ville + ", pays: " + pays + ", telephone: " + telephone);
+        return this.withRue(rue)
+                .withCodePostal(codePostal)
+                .withVille(ville)
+                .withPays(pays)
+                .deTelephone(telephone);
     }
 
     /**
-     * Getter pour la raison sociale.
-     * @return La raison sociale
+     * Getter Raison Sociale.
+     *
+     * @return Raison Sociale
+     * @throws ValidationException Si une erreur survient
      */
-    protected String getRaisonSociale() throws SocieteEntityException {
+    protected String getRaisonSociale() throws ValidationException {
         return (String) getField("raisonSociale");
     }
 
     /**
-     * Getter pour l'adresse.
-     * @return L'adresse
+     * Getter Adresse.
+     *
+     * @return Adresse
+     * @throws ValidationException Si une erreur survient
      */
-    protected Adresse getAdresse() throws SocieteEntityException {
+    protected Adresse getAdresse() throws ValidationException {
         return (Adresse) getField("adresse");
     }
 
     /**
-     * Getter pour le téléphone.
-     * @return Le numéro de téléphone
+     * Getter Telephone.
+     *
+     * @return Telephone
+     * @throws ValidationException Si une erreur survient
      */
-    protected String getTelephone() throws SocieteEntityException {
+    protected String getTelephone() throws ValidationException {
         return (String) getField("telephone");
     }
 
     /**
-     * Getter pour le mail.
-     * @return L'adresse mail
+     * Getter Mail.
+     *
+     * @return Mail
+     * @throws ValidationException Si une erreur survient
      */
-    protected String getMail() throws SocieteEntityException {
+    protected String getMail() throws ValidationException {
         return (String) getField("mail");
     }
 
     /**
-     * Getter pour les commentaires.
-     * @return Les commentaires
+     * Getter Commentaires.
+     *
+     * @return Commentaires
+     * @throws ValidationException Si une erreur survient
      */
-    protected String getCommentaires() throws SocieteEntityException {
+    protected String getCommentaires() throws ValidationException {
         return (String) getField("commentaires");
     }
 
     /**
-     * Getter pour le chiffre d'affaires.
-     * @return Le chiffre d'affaires
+     * Getter Chiffre d'affaires.
+     *
+     * @return Chiffre d'affaires
+     * @throws ValidationException Si une erreur survient
      */
-    protected Double getChiffreAffaires() throws SocieteEntityException {
+    protected Double getChiffreAffaires() throws ValidationException {
         return (Double) getField("chiffreAffaires");
     }
 
     /**
-     * Getter pour le nombre d'employés.
-     * @return Le nombre d'employés
+     * Getter Nombre d'employés.
+     *
+     * @return Nombre d'employés
+     * @throws ValidationException Si une erreur survient
      */
-    protected Integer getNombreEmployes() throws SocieteEntityException {
+    protected Integer getNombreEmployes() throws ValidationException {
         return (Integer) getField("nombreEmployes");
     }
 
     /**
-     * Getter pour les contrats.
-     * @return La liste des contrats
+     * Getter Contrats.
+     *
+     * @return Contrats
+     * @throws ValidationException Si une erreur survient
      */
-    protected List<Contrat> getContrats() throws SocieteEntityException {
+    protected List<Contrat> getContrats() throws ValidationException {
         return (List<Contrat>) getField("contrats");
     }
 }

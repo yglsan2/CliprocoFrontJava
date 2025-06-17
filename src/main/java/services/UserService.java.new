@@ -59,7 +59,7 @@ public class UserService {
                 throw new ValidationException("L'utilisateur ne peut pas être null");
             }
             User savedUser = userDAO.save(user);
-            LogManager.logInfo("Utilisateur sauvegardé avec succès: " + savedUser.getId());
+            LogManager.logInfo("Utilisateur sauvegardé avec succès: " + savedUser.getIdentifiant());
             return savedUser;
         } catch (ValidationException e) {
             LogManager.logWarning("Erreur de validation lors de la sauvegarde de l'utilisateur: " + e.getMessage());
@@ -77,21 +77,21 @@ public class UserService {
                 LogManager.logWarning("Tentative de mise à jour d'un utilisateur null");
                 throw new ValidationException("L'utilisateur ne peut pas être null");
             }
-            if (user.getId() == null) {
+            if (user.getIdentifiant() == null) {
                 LogManager.logWarning("Tentative de mise à jour d'un utilisateur sans ID");
                 throw new ValidationException("L'ID de l'utilisateur ne peut pas être null");
             }
             
-            LogManager.logInfo("Recherche de l'utilisateur existant avec l'ID: " + user.getId());
-            User existingUser = userDAO.findById(user.getId())
+            LogManager.logInfo("Recherche de l'utilisateur existant avec l'ID: " + user.getIdentifiant());
+            User existingUser = userDAO.findById(user.getIdentifiant())
                 .orElseThrow(() -> {
-                    LogManager.logWarning("Utilisateur non trouvé avec l'ID: " + user.getId());
-                    return new ResourceNotFoundException("Utilisateur non trouvé avec l'ID: " + user.getId());
+                    LogManager.logWarning("Utilisateur non trouvé avec l'ID: " + user.getIdentifiant());
+                    return new ResourceNotFoundException("Utilisateur non trouvé avec l'ID: " + user.getIdentifiant());
                 });
             
             LogManager.logInfo("Mise à jour de l'utilisateur dans la base de données");
             User updatedUser = userDAO.update(user);
-            LogManager.logInfo("Utilisateur mis à jour avec succès: " + updatedUser.getId());
+            LogManager.logInfo("Utilisateur mis à jour avec succès: " + updatedUser.getIdentifiant());
             return updatedUser;
         } catch (ValidationException | ResourceNotFoundException e) {
             LogManager.logWarning("Erreur lors de la mise à jour de l'utilisateur: " + e.getMessage());
@@ -109,21 +109,21 @@ public class UserService {
                 LogManager.logWarning("Tentative de suppression d'un utilisateur null");
                 throw new ValidationException("L'utilisateur ne peut pas être null");
             }
-            if (user.getId() == null) {
+            if (user.getIdentifiant() == null) {
                 LogManager.logWarning("Tentative de suppression d'un utilisateur sans ID");
                 throw new ValidationException("L'ID de l'utilisateur ne peut pas être null");
             }
             
             LogManager.logInfo("Recherche de l'utilisateur à supprimer");
-            User existingUser = userDAO.findById(user.getId())
+            User existingUser = userDAO.findById(user.getIdentifiant())
                 .orElseThrow(() -> {
-                    LogManager.logWarning("Utilisateur non trouvé avec l'ID: " + user.getId());
-                    return new ResourceNotFoundException("Utilisateur non trouvé avec l'ID: " + user.getId());
+                    LogManager.logWarning("Utilisateur non trouvé avec l'ID: " + user.getIdentifiant());
+                    return new ResourceNotFoundException("Utilisateur non trouvé avec l'ID: " + user.getIdentifiant());
                 });
             
             LogManager.logInfo("Suppression de l'utilisateur de la base de données");
             userDAO.delete(user);
-            LogManager.logInfo("Utilisateur supprimé avec succès: " + user.getId());
+            LogManager.logInfo("Utilisateur supprimé avec succès: " + user.getIdentifiant());
         } catch (ValidationException | ResourceNotFoundException e) {
             LogManager.logWarning("Erreur lors de la suppression de l'utilisateur: " + e.getMessage());
             throw e;

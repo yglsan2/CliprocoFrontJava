@@ -1,9 +1,11 @@
 package builders;
 
+import utilities.LogManager;
+
 /**
- * Classe générique builder.
+ * Classe constructrice générique.
  *
- * @param <T> Classe de l'objet à construire.
+ * @param <T> Type d'entité à construire
  */
 public abstract class Builder<T> {
 
@@ -15,18 +17,20 @@ public abstract class Builder<T> {
     /**
      * Constructor.
      *
-     * @param obj Objet à construire.
+     * @param entity Entité à construire
      */
-    public Builder(final T obj) {
-        this.entity = obj;
+    public Builder(T entity) {
+        LogManager.logInfo("Initialisation d'un nouveau Builder pour " + entity.getClass().getSimpleName());
+        this.entity = entity;
     }
 
     /**
-     * Getter objet à construire.
+     * Getter entité en cours de construction.
      *
-     * @return Objet à construire.
+     * @return Entité en cours de construction
      */
-    public T getEntity() {
+    protected T getEntity() {
+        LogManager.logInfo("Récupération de l'entité en cours de construction: " + entity);
         return entity;
     }
 

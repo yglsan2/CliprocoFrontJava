@@ -29,8 +29,20 @@ public final class DeleteClientsController implements ICommand {
 
         if (jsp.equals(urlSuite)) {
             String clientId = request.getParameter("clientId");
-            Optional<Client> client = clientService.findById(Long.parseLong(clientId));
-            client.ifPresent(c -> clientService.delete(c.getIdentifiant()));
+            try {
+                LogManager.logInfo("Suppression du client avec l'ID : " + clientId);
+                Optional<Client> client = clientService.findById(Long.parseLong(clientId));
+                if (client.isPresent()) {
+                    LogManager.logInfo("Client trouvé, suppression en cours : " + client.get().getIdentifiant());
+                    clientService.delete(client.get().getIdentifiant());
+                    LogManager.logInfo("Client supprimé avec succès : " + client.get().getIdentifiant());
+                } else {
+                    LogManager.logWarning("Aucun client trouvé avec l'ID : " + clientId);
+                }
+            } catch (Exception e) {
+                LogManager.logException("Erreur lors de la suppression du client avec l'ID : " + clientId, e);
+                request.setAttribute("errorMessage", "Erreur lors de la suppression du client : " + e.getMessage());
+            }
         }
 
         return urlSuite;

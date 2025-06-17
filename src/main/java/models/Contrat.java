@@ -87,9 +87,6 @@ public class Contrat {
      *
      * @param client New client
      */
-    void setClient(final Client client) {
-        this.client = client;
-    }
 
     /**
      * @return Libellé du contrat.

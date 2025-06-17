@@ -1,9 +1,10 @@
 package builders;
 
 import models.Adresse;
-import models.SocieteEntityException;
+import exceptions.ValidationException;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import utilities.LogManager;
 
 import java.lang.reflect.Field;
 
@@ -17,15 +18,17 @@ public class AdresseBuilder extends Builder<Adresse> {
      */
     public AdresseBuilder() {
         super(new Adresse());
+        LogManager.logInfo("Initialisation d'un nouveau AdresseBuilder");
     }
 
     /**
      * New builder from static call.
      *
-     * @return new AdresseBuilder.
+     * @return new AdresseBuilder
      */
     @Contract(" -> new")
     public static @NotNull AdresseBuilder getNewAdresseBuilder() {
+        LogManager.logInfo("Création d'un nouveau AdresseBuilder via méthode statique");
         return new AdresseBuilder();
     }
 
@@ -34,11 +37,12 @@ public class AdresseBuilder extends Builder<Adresse> {
      *
      * @param identifiant Nouvel identifiant.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by the identifiant setter.
+     * @throws ValidationException Exception set by the identifiant setter.
      */
-    public AdresseBuilder dIdentifiant(final int identifiant)
-            throws SocieteEntityException {
-        setField("identifiant", identifiant);
+    public AdresseBuilder dIdentifiant(final Long identifiant)
+            throws ValidationException {
+        LogManager.logInfo("Définition de l'identifiant: " + identifiant);
+        setField("id", identifiant);
         return this;
     }
 
@@ -47,48 +51,57 @@ public class AdresseBuilder extends Builder<Adresse> {
      *
      * @param identifiant Nouvel identifiant.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by the identifiant setter.
+     * @throws ValidationException Exception set by the identifiant setter.
      */
     public AdresseBuilder dIdentifiant(final String identifiant)
-            throws SocieteEntityException {
-        return this.dIdentifiant(Integer.parseInt(identifiant));
+            throws ValidationException {
+        LogManager.logInfo("Définition de l'identifiant (String): " + identifiant);
+        setField("id", identifiant);
+        return this;
     }
 
     /**
-     * Setter Numéro Rue.
+     * Setter Numéro de rue.
      *
-     * @param numeroRue Nouveau numéro rue.
+     * @param numeroRue Nouveau numéro de rue.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by numRue setter.
+     * @throws ValidationException Exception set by the numeroRue setter.
      */
     public AdresseBuilder deNumeroRue(final String numeroRue)
-            throws SocieteEntityException {
+            throws ValidationException {
+        LogManager.logInfo("Définition du numéro de rue: " + numeroRue);
         setField("numeroRue", numeroRue);
         return this;
     }
 
     /**
-     * Setter Nom Rue.
+     * Setter Nom de rue.
      *
-     * @param nomRue Nouveau nom rue.
+     * @param nomRue Nouveau nom de rue.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by nomRue setter.
+     * @throws ValidationException Exception set by the nomRue setter.
      */
     public AdresseBuilder deNomRue(final String nomRue)
-            throws SocieteEntityException {
+            throws ValidationException {
+        LogManager.logInfo("Définition du nom de rue: " + nomRue);
         setField("nomRue", nomRue);
         return this;
     }
 
     /**
-     * Setter Code Postal.
+     * Setter Code postal.
      *
      * @param codePostal Nouveau code postal.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by codePostal setter.
+     * @throws ValidationException Exception set by the codePostal setter.
      */
     public AdresseBuilder deCodePostal(final String codePostal)
-            throws SocieteEntityException {
+            throws ValidationException {
+        LogManager.logInfo("Définition du code postal: " + codePostal);
+        if (codePostal == null || !codePostal.matches("\\b\\d{5}\\b")) {
+            LogManager.logWarning("Code postal invalide: " + codePostal);
+            throw new ValidationException("Le code postal doit être un nombre de 5 chiffres");
+        }
         setField("codePostal", codePostal);
         return this;
     }
@@ -98,21 +111,48 @@ public class AdresseBuilder extends Builder<Adresse> {
      *
      * @param ville Nouvelle ville.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by ville setter.
+     * @throws ValidationException Exception set by the ville setter.
      */
     public AdresseBuilder deVille(final String ville)
-            throws SocieteEntityException {
+            throws ValidationException {
+        LogManager.logInfo("Définition de la ville: " + ville);
+        if (ville == null || !ville.matches("\\b([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*[a-zA-Z\\u0080-\\u024F]*\\b")) {
+            LogManager.logWarning("Ville invalide: " + ville);
+            throw new ValidationException("La ville ne peut contenir que des lettres, espaces, tirets et points");
+        }
         setField("ville", ville);
         return this;
     }
 
     /**
-     * Getter Adresse construite.
+     * Setter Pays.
      *
-     * @return Adresse construite.
+     * @param pays Nouveau pays.
+     * @return This builder.
+     * @throws ValidationException Exception set by the pays setter.
      */
+    public AdresseBuilder dePays(final String pays)
+            throws ValidationException {
+        LogManager.logInfo("Définition du pays: " + pays);
+        if (pays == null || !pays.matches("\\b([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*[a-zA-Z\\u0080-\\u024F]*\\b")) {
+            LogManager.logWarning("Pays invalide: " + pays);
+            throw new ValidationException("Le pays ne peut contenir que des lettres, espaces, tirets et points");
+        }
+        setField("pays", pays);
+        return this;
+    }
+
+    /**
+     * Getter Adresse construit.
+     *
+     * @return Adresse construit.
+     */
+    @Override
     public Adresse build() {
-        return this.getEntity();
+        LogManager.logInfo("Construction de l'adresse final");
+        Adresse adresse = this.getEntity();
+        LogManager.logInfo("Adresse construite: " + adresse);
+        return adresse;
     }
 
     /**
@@ -120,15 +160,18 @@ public class AdresseBuilder extends Builder<Adresse> {
      *
      * @param fieldName Nom du champ
      * @param value Valeur à définir
-     * @throws SocieteEntityException Si une erreur survient
+     * @throws ValidationException Si une erreur survient
      */
-    private void setField(String fieldName, Object value) throws SocieteEntityException {
+    private void setField(String fieldName, Object value) throws ValidationException {
         try {
-            Field field = Adresse.class.getDeclaredField(fieldName);
+            LogManager.logInfo("Définition du champ " + fieldName + " avec la valeur " + value);
+            Field field = this.getEntity().getClass().getDeclaredField(fieldName);
             field.setAccessible(true);
             field.set(this.getEntity(), value);
+            LogManager.logInfo("Champ défini avec succès");
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new SocieteEntityException("Erreur lors de la définition du champ " + fieldName, e);
+            LogManager.logException("Erreur lors de la définition du champ " + fieldName, e);
+            throw new ValidationException("Erreur lors de la définition du champ " + fieldName, e);
         }
     }
 }

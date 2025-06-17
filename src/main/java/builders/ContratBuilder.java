@@ -1,7 +1,7 @@
 package builders;
 
 import models.Contrat;
-import models.SocieteEntityException;
+import exceptions.ValidationException;
 import org.jetbrains.annotations.NotNull;
 import java.math.BigDecimal;
 import java.lang.reflect.Field;
@@ -48,10 +48,10 @@ public class ContratBuilder extends Builder<Contrat> {
      *
      * @param identifiant Nouvel identifiant.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by the identifiant setter.
+     * @throws ValidationException Exception set by the identifiant setter.
      */
     public ContratBuilder dIdentifiant(final Long identifiant)
-            throws SocieteEntityException {
+            throws ValidationException {
         setField("id", identifiant);
         return this;
     }
@@ -61,10 +61,10 @@ public class ContratBuilder extends Builder<Contrat> {
      *
      * @param identifiant Nouvel identifiant.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by the identifiant setter.
+     * @throws ValidationException Exception set by the identifiant setter.
      */
     public ContratBuilder dIdentifiant(@NotNull final String identifiant)
-            throws SocieteEntityException {
+            throws ValidationException {
         return this.dIdentifiant(Long.parseLong(identifiant));
     }
 
@@ -73,10 +73,10 @@ public class ContratBuilder extends Builder<Contrat> {
      *
      * @param libelle Nouveau libellé.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by the libelle setter.
+     * @throws ValidationException Exception set by the libelle setter.
      */
     public ContratBuilder deLibelle(final String libelle)
-            throws SocieteEntityException {
+            throws ValidationException {
         setField("libelle", libelle);
         return this;
     }
@@ -86,10 +86,10 @@ public class ContratBuilder extends Builder<Contrat> {
      *
      * @param montant Nouveau montant.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by the montant setter.
+     * @throws ValidationException Exception set by the montant setter.
      */
     public ContratBuilder deMontant(final BigDecimal montant)
-            throws SocieteEntityException {
+            throws ValidationException {
         setField("montant", montant);
         return this;
     }
@@ -99,10 +99,10 @@ public class ContratBuilder extends Builder<Contrat> {
      *
      * @param montant Nouveau montant.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by the montant setter.
+     * @throws ValidationException Exception set by the montant setter.
      */
     public ContratBuilder deMontant(final String montant)
-            throws SocieteEntityException {
+            throws ValidationException {
         return this.deMontant(new BigDecimal(montant));
     }
 
@@ -111,10 +111,10 @@ public class ContratBuilder extends Builder<Contrat> {
      *
      * @param idClient Nouvel identifiant client.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by the idClient setter.
+     * @throws ValidationException Exception set by the idClient setter.
      */
     public ContratBuilder dIdClient(final int idClient)
-            throws SocieteEntityException {
+            throws ValidationException {
         setField("idClient", idClient);
         return this;
     }
@@ -123,10 +123,10 @@ public class ContratBuilder extends Builder<Contrat> {
      * Setter id client.
      * @param idClient Nouvel identifiant client.
      * @return This builder.
-     * @throws SocieteEntityException Exception set by the idClient setter.
+     * @throws ValidationException Exception set by the idClient setter.
      */
     public ContratBuilder dIdClient(final String idClient)
-            throws SocieteEntityException {
+            throws ValidationException {
         return this.dIdClient(Integer.parseInt(idClient));
     }
 
@@ -144,15 +144,15 @@ public class ContratBuilder extends Builder<Contrat> {
      *
      * @param fieldName Nom du champ
      * @param value Valeur à définir
-     * @throws SocieteEntityException Si une erreur survient
+     * @throws ValidationException Si une erreur survient
      */
-    private void setField(String fieldName, Object value) throws SocieteEntityException {
+    private void setField(String fieldName, Object value) throws ValidationException {
         try {
             Field field = Contrat.class.getDeclaredField(fieldName);
             field.setAccessible(true);
             field.set(this.getEntity(), value);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new SocieteEntityException("Erreur lors de la définition du champ " + fieldName, e);
+            throw new ValidationException("Erreur lors de la définition du champ " + fieldName, e);
         }
     }
 }
