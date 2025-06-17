@@ -70,4 +70,58 @@ public class CalculFacture {
     void setFacture(Facture facture) {
         this.facture = facture;
     }
+
+    /**
+     * Gets the ID of this calculation.
+     *
+     * @return The calculation ID
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * Gets the amount without tax.
+     *
+     * @return The amount without tax
+     */
+    public BigDecimal getMontantHT() {
+        return montantHT;
+    }
+
+    /**
+     * Gets the VAT rate.
+     *
+     * @return The VAT rate
+     */
+    public BigDecimal getTauxTVA() {
+        return tauxTVA;
+    }
+
+    /**
+     * Gets the VAT amount.
+     *
+     * @return The VAT amount
+     */
+    public BigDecimal getMontantTVA() {
+        return montantTVA;
+    }
+
+    /**
+     * Gets the total amount with tax.
+     *
+     * @return The total amount with tax
+     */
+    public BigDecimal getMontantTTC() {
+        return montantTTC;
+    }
+
+    /**
+     * Gets the invoice this calculation belongs to.
+     *
+     * @return The invoice
+     */
+    public Facture getFacture() {
+        return facture;
+    }
 }
