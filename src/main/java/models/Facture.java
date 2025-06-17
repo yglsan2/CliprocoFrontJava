@@ -84,10 +84,38 @@ public class Facture {
      *
      * @param calculFacture The calculation to set
      */
-    void setCalcul(CalculFacture calculFacture) {
+    public void setCalcul(CalculFacture calculFacture) {
         this.calcul = calculFacture;
         if (calculFacture != null) {
             calculFacture.setFacture(this);
         }
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public LocalDate getDateEmission() {
+        return dateEmission;
+    }
+
+    public LocalDate getDateEcheance() {
+        return dateEcheance;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public List<Produit> getProduits() {
+        return produits;
+    }
+
+    public CalculFacture getCalcul() {
+        return calcul;
     }
 } 

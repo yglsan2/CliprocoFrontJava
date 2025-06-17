@@ -67,7 +67,7 @@ public class CalculFacture {
      *
      * @param facture The invoice to set
      */
-    void setFacture(Facture facture) {
+    public void setFacture(Facture facture) {
         this.facture = facture;
     }
 

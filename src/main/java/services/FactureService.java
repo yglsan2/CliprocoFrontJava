@@ -1,6 +1,7 @@
 package services;
 
 import dao.IDAO;
+import dao.jpa.FactureJpaDAO;
 import models.Facture;
 import models.Produit;
 import models.CalculFacture;

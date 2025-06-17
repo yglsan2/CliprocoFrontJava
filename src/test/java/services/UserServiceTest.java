@@ -74,8 +74,24 @@ class UserServiceTest {
         @DisplayName("Devrait lever une ValidationException quand l'ID est null")
         void shouldThrowValidationExceptionWhenIdIsNull() {
             // Act & Assert
-            assertThrows(ValidationException.class, () -> userService.findById(null));
+            ValidationException exception = assertThrows(ValidationException.class, () -> {
+                userService.findById(null);
+            });
             verify(userDAO, never()).findById(any());
+        }
+
+        @Test
+        @DisplayName("Devrait lever une DatabaseException en cas d'erreur de base de données")
+        void shouldThrowDatabaseExceptionOnDatabaseError() {
+            // Arrange
+            Long userId = 1L;
+            when(userDAO.findById(userId)).thenThrow(new RuntimeException("Erreur de base de données"));
+
+            // Act & Assert
+            DatabaseException exception = assertThrows(DatabaseException.class, () -> {
+                userService.findById(userId);
+            });
+            verify(userDAO).findById(userId);
         }
     }
 
@@ -108,7 +124,23 @@ class UserServiceTest {
             when(userDAO.findAll()).thenThrow(new RuntimeException("Erreur de base de données"));
 
             // Act & Assert
-            assertThrows(DatabaseException.class, () -> userService.findAll());
+            DatabaseException exception = assertThrows(DatabaseException.class, () -> {
+                userService.findAll();
+            });
+            verify(userDAO).findAll();
+        }
+
+        @Test
+        @DisplayName("Devrait retourner une liste vide quand aucun utilisateur n'existe")
+        void shouldReturnEmptyListWhenNoUsersExist() throws DatabaseException {
+            // Arrange
+            when(userDAO.findAll()).thenReturn(Arrays.asList());
+
+            // Act
+            List<User> result = userService.findAll();
+
+            // Assert
+            assertTrue(result.isEmpty());
             verify(userDAO).findAll();
         }
     }
@@ -136,8 +168,24 @@ class UserServiceTest {
         @DisplayName("Devrait lever une ValidationException quand l'utilisateur est null")
         void shouldThrowValidationExceptionWhenUserIsNull() {
             // Act & Assert
-            assertThrows(ValidationException.class, () -> userService.save(null));
+            ValidationException exception = assertThrows(ValidationException.class, () -> {
+                userService.save(null);
+            });
             verify(userDAO, never()).save(any());
+        }
+
+        @Test
+        @DisplayName("Devrait lever une DatabaseException en cas d'erreur de base de données")
+        void shouldThrowDatabaseExceptionOnDatabaseError() {
+            // Arrange
+            User user = new User();
+            when(userDAO.save(user)).thenThrow(new RuntimeException("Erreur de base de données"));
+
+            // Act & Assert
+            DatabaseException exception = assertThrows(DatabaseException.class, () -> {
+                userService.save(user);
+            });
+            verify(userDAO).save(user);
         }
     }
 
@@ -172,9 +220,53 @@ class UserServiceTest {
             when(userDAO.findById(user.getId())).thenReturn(Optional.empty());
 
             // Act & Assert
-            assertThrows(ResourceNotFoundException.class, () -> userService.update(user));
+            ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
+                userService.update(user);
+            });
             verify(userDAO).findById(user.getId());
             verify(userDAO, never()).update(any());
+        }
+
+        @Test
+        @DisplayName("Devrait lever une ValidationException quand l'utilisateur est null")
+        void shouldThrowValidationExceptionWhenUserIsNull() {
+            // Act & Assert
+            ValidationException exception = assertThrows(ValidationException.class, () -> {
+                userService.update(null);
+            });
+            verify(userDAO, never()).findById(any());
+            verify(userDAO, never()).update(any());
+        }
+
+        @Test
+        @DisplayName("Devrait lever une ValidationException quand l'ID de l'utilisateur est null")
+        void shouldThrowValidationExceptionWhenUserIdIsNull() {
+            // Arrange
+            User user = new User();
+
+            // Act & Assert
+            ValidationException exception = assertThrows(ValidationException.class, () -> {
+                userService.update(user);
+            });
+            verify(userDAO, never()).findById(any());
+            verify(userDAO, never()).update(any());
+        }
+
+        @Test
+        @DisplayName("Devrait lever une DatabaseException en cas d'erreur de base de données")
+        void shouldThrowDatabaseExceptionOnDatabaseError() {
+            // Arrange
+            User user = new User();
+            user.setId(1L);
+            when(userDAO.findById(user.getId())).thenReturn(Optional.of(user));
+            when(userDAO.update(user)).thenThrow(new RuntimeException("Erreur de base de données"));
+
+            // Act & Assert
+            DatabaseException exception = assertThrows(DatabaseException.class, () -> {
+                userService.update(user);
+            });
+            verify(userDAO).findById(user.getId());
+            verify(userDAO).update(user);
         }
     }
 
@@ -206,9 +298,53 @@ class UserServiceTest {
             when(userDAO.findById(user.getId())).thenReturn(Optional.empty());
 
             // Act & Assert
-            assertThrows(ResourceNotFoundException.class, () -> userService.delete(user));
+            ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
+                userService.delete(user);
+            });
             verify(userDAO).findById(user.getId());
             verify(userDAO, never()).delete(any());
+        }
+
+        @Test
+        @DisplayName("Devrait lever une ValidationException quand l'utilisateur est null")
+        void shouldThrowValidationExceptionWhenUserIsNull() {
+            // Act & Assert
+            ValidationException exception = assertThrows(ValidationException.class, () -> {
+                userService.delete(null);
+            });
+            verify(userDAO, never()).findById(any());
+            verify(userDAO, never()).delete(any());
+        }
+
+        @Test
+        @DisplayName("Devrait lever une ValidationException quand l'ID de l'utilisateur est null")
+        void shouldThrowValidationExceptionWhenUserIdIsNull() {
+            // Arrange
+            User user = new User();
+
+            // Act & Assert
+            ValidationException exception = assertThrows(ValidationException.class, () -> {
+                userService.delete(user);
+            });
+            verify(userDAO, never()).findById(any());
+            verify(userDAO, never()).delete(any());
+        }
+
+        @Test
+        @DisplayName("Devrait lever une DatabaseException en cas d'erreur de base de données")
+        void shouldThrowDatabaseExceptionOnDatabaseError() {
+            // Arrange
+            User user = new User();
+            user.setId(1L);
+            when(userDAO.findById(user.getId())).thenReturn(Optional.of(user));
+            doThrow(new RuntimeException("Erreur de base de données")).when(userDAO).delete(user);
+
+            // Act & Assert
+            DatabaseException exception = assertThrows(DatabaseException.class, () -> {
+                userService.delete(user);
+            });
+            verify(userDAO).findById(user.getId());
+            verify(userDAO).delete(user);
         }
     }
 
@@ -238,8 +374,49 @@ class UserServiceTest {
         @DisplayName("Devrait lever une ValidationException quand le nom d'utilisateur est vide")
         void shouldThrowValidationExceptionWhenUsernameIsEmpty() {
             // Act & Assert
-            assertThrows(ValidationException.class, () -> userService.findByUsername(""));
+            ValidationException exception = assertThrows(ValidationException.class, () -> {
+                userService.findByUsername("");
+            });
             verify(userDAO, never()).findAll();
+        }
+
+        @Test
+        @DisplayName("Devrait lever une ValidationException quand le nom d'utilisateur est null")
+        void shouldThrowValidationExceptionWhenUsernameIsNull() {
+            // Act & Assert
+            ValidationException exception = assertThrows(ValidationException.class, () -> {
+                userService.findByUsername(null);
+            });
+            verify(userDAO, never()).findAll();
+        }
+
+        @Test
+        @DisplayName("Devrait retourner Optional.empty quand aucun utilisateur n'est trouvé")
+        void shouldReturnEmptyWhenNoUserFound() throws DatabaseException, ValidationException {
+            // Arrange
+            String username = "nonexistent";
+            when(userDAO.findAll()).thenReturn(Arrays.asList());
+
+            // Act
+            Optional<User> result = userService.findByUsername(username);
+
+            // Assert
+            assertFalse(result.isPresent());
+            verify(userDAO).findAll();
+        }
+
+        @Test
+        @DisplayName("Devrait lever une DatabaseException en cas d'erreur de base de données")
+        void shouldThrowDatabaseExceptionOnDatabaseError() {
+            // Arrange
+            String username = "testuser";
+            when(userDAO.findAll()).thenThrow(new RuntimeException("Erreur de base de données"));
+
+            // Act & Assert
+            DatabaseException exception = assertThrows(DatabaseException.class, () -> {
+                userService.findByUsername(username);
+            });
+            verify(userDAO).findAll();
         }
     }
 } 
