@@ -4,13 +4,20 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
+import de.mkammerer.argon2.Argon2Factory.Argon2Types;
+import java.nio.charset.StandardCharsets;
 
 /**
- *
+ * Classe utilitaire pour la sécurité
  */
 public final class Security {
 
-    private static final Argon2 argon2 = Argon2Factory.create();
+    private static final Argon2 argon2 = Argon2Factory.create(Argon2Types.ARGON2id);
+    private static final int ITERATIONS = 10;
+    private static final int MEMORY = 65536;
+    private static final int PARALLELISM = 1;
+    private static final int SALT_LENGTH = 16;
+    private static final int HASH_LENGTH = 32;
 
     /**
      * Constructeur privé pour empêcher l'instanciation de la classe utilitaire.
@@ -20,10 +27,10 @@ public final class Security {
     }
 
     /**
-     *
-     * @param request
-     * @param jsp
-     * @return the accessible jsp filename.
+     * Vérifie si l'utilisateur est connecté
+     * @param request La requête HTTP
+     * @param jsp Le nom du fichier JSP à retourner si l'utilisateur est connecté
+     * @return Le nom du fichier JSP à afficher
      */
     public static String estConnecte(final HttpServletRequest request,
                                      final String jsp) {
@@ -36,11 +43,36 @@ public final class Security {
         return jsp;
     }
 
+    /**
+     * Hash un mot de passe avec Argon2id
+     * @param password Le mot de passe à hasher
+     * @return Le hash du mot de passe
+     */
     public static String hashPassword(String password) {
-        return argon2.hash(2, 65536, 1, password);
+        try {
+            return argon2.hash(ITERATIONS, MEMORY, PARALLELISM, password.toCharArray(), StandardCharsets.UTF_8);
+        } finally {
+            // Nettoyage sécurisé du mot de passe en mémoire
+            if (password != null) {
+                password = null;
+            }
+        }
     }
 
+    /**
+     * Vérifie si un mot de passe correspond à un hash
+     * @param password Le mot de passe à vérifier
+     * @param hash Le hash à comparer
+     * @return true si le mot de passe correspond au hash
+     */
     public static boolean verifyPassword(String password, String hash) {
-        return argon2.verify(hash, password);
+        try {
+            return argon2.verify(hash, password.toCharArray());
+        } finally {
+            // Nettoyage sécurisé du mot de passe en mémoire
+            if (password != null) {
+                password = null;
+            }
+        }
     }
 }

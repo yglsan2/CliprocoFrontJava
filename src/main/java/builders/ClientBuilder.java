@@ -312,7 +312,8 @@ public class ClientBuilder extends SocieteBuilder<Client> {
      */
     public ClientBuilder ajouterContrat(final Contrat contrat) throws ValidationException {
         LogManager.logInfo("Ajout d'un contrat: " + contrat);
-        List<Contrat> contrats = (List<Contrat>) getField("contrats");
+        @SuppressWarnings("unchecked")
+        ArrayList<Contrat> contrats = (ArrayList<Contrat>) getField("contrats");
         if (contrats == null) {
             LogManager.logInfo("Création d'une nouvelle liste de contrats");
             contrats = new ArrayList<>();
@@ -487,6 +488,8 @@ public class ClientBuilder extends SocieteBuilder<Client> {
      * @throws ValidationException Si une erreur survient
      */
     protected List<Contrat> getContrats() throws ValidationException {
-        return (List<Contrat>) getField("contrats");
+        @SuppressWarnings("unchecked")
+        List<Contrat> contrats = (List<Contrat>) getField("contrats");
+        return contrats;
     }
 }
