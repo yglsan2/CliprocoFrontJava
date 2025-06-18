@@ -25,7 +25,7 @@ public final class ViewProspectsController implements ICommand {
         String urlSuite = Security.estConnecte(request, jsp);
 
         if (jsp.equals(urlSuite)) {
-            Long id = Long.parseLong(request.getParameter("id"));
+            Integer id = Integer.parseInt(request.getParameter("id"));
             Prospect prospect = prospectService.findById(id);
             
             if (prospect != null) {

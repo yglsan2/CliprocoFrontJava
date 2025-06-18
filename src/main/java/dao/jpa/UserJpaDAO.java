@@ -16,14 +16,14 @@ import jakarta.persistence.NoResultException;
 /**
  * Implémentation JPA du DAO pour les utilisateurs.
  */
-public class UserJpaDAO extends AbstractJpaDAO<User, Long> implements IDAO<User, Long> {
+public class UserJpaDAO extends AbstractJpaDAO<User, Integer> implements IDAO<User, Integer> {
     
     public UserJpaDAO() {
         super(User.class);
     }
 
     @Override
-    public Optional<User> findById(Long id) throws ValidationException, DatabaseException {
+    public Optional<User> findById(Integer id) throws ValidationException, DatabaseException {
         return super.findById(id);
     }
 
@@ -120,8 +120,8 @@ public class UserJpaDAO extends AbstractJpaDAO<User, Long> implements IDAO<User,
             if (email == null) {
                 throw new ValidationException("L'email ne peut pas être null");
             }
-            TypedQuery<Long> query = em.createQuery(
-                "SELECT COUNT(u) FROM User u WHERE u.email = :email", Long.class);
+            TypedQuery<Integer> query = em.createQuery(
+                "SELECT COUNT(u) FROM User u WHERE u.email = :email", Integer.class);
             query.setParameter("email", email);
             return query.getSingleResult() > 0;
         } catch (ValidationException e) {

@@ -52,7 +52,7 @@ public final class ExceptionHandler {
         try {
             String message = getErrorMessage(exception);
             String view = getErrorView(exception);
-            int statusCode = getErrorCode(exception);
+            Integer statusCode = getErrorCode(exception);
 
             logException(exception);
             request.setAttribute("error", message);
@@ -90,7 +90,7 @@ public final class ExceptionHandler {
         return ERROR_VIEWS.getOrDefault(exception.getClass(), "/WEB-INF/jsp/error/500.jsp");
     }
 
-    private static int getErrorCode(Exception exception) {
+    private static Integer getErrorCode(Exception exception) {
         return ERROR_CODES.getOrDefault(exception.getClass(), HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
 
@@ -114,7 +114,7 @@ public final class ExceptionHandler {
         return "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
     }
 
-    private static void handleAjaxError(HttpServletResponse response, String message, int statusCode) throws IOException {
+    private static void handleAjaxError(HttpServletResponse response, String message, Integer statusCode) throws IOException {
         response.setStatus(statusCode);
         response.setContentType("application/json");
         response.getWriter().write("{\"error\":\"" + message + "\"}");

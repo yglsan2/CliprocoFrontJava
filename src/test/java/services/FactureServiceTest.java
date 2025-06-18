@@ -35,10 +35,10 @@ class FactureServiceTest {
     private FactureJpaDAO factureDAO;
 
     @Mock
-    private IDAO<Produit, Long> produitDAO;
+    private IDAO<Produit, Integer> produitDAO;
 
     @Mock
-    private IDAO<CalculFacture, Long> calculFactureDAO;
+    private IDAO<CalculFacture, Integer> calculFactureDAO;
 
     private FactureService factureService;
 
@@ -51,10 +51,10 @@ class FactureServiceTest {
     @DisplayName("Tests de findById")
     class FindByIdTests {
         @Test
-        @DisplayName("Devrait retourner la facture quand l'ID existe")
-        void shouldReturnFactureWhenIdExists() throws ValidationException, DatabaseException {
+        @DisplayName("Devrait retourner une facture quand l'ID existe")
+        void shouldReturnFactureWhenIdExists() throws DatabaseException, ValidationException {
             // Arrange
-            Long id = 1L;
+            Integer id = 1L;
             Facture facture = new Facture("F001", LocalDate.now(), LocalDate.now().plusDays(30), createTestClient());
             when(factureDAO.findById(id)).thenReturn(Optional.of(facture));
             
@@ -71,7 +71,7 @@ class FactureServiceTest {
         @DisplayName("Devrait retourner Optional.empty quand l'ID n'existe pas")
         void shouldReturnEmptyWhenIdDoesNotExist() throws ValidationException, DatabaseException {
             // Arrange
-            Long id = 1L;
+            Integer id = 1L;
             when(factureDAO.findById(id)).thenReturn(Optional.empty());
             
             // Act
@@ -94,7 +94,7 @@ class FactureServiceTest {
         @DisplayName("Devrait lancer DatabaseException en cas d'erreur de base de données")
         void shouldThrowDatabaseExceptionOnDatabaseError() {
             // Arrange
-            Long id = 1L;
+            Integer id = 1L;
             when(factureDAO.findById(id)).thenThrow(new RuntimeException("Erreur DB"));
             
             // Act & Assert
@@ -107,7 +107,7 @@ class FactureServiceTest {
     @DisplayName("Tests de findAll")
     class FindAllTests {
         @Test
-        @DisplayName("Devrait retourner toutes les factures")
+        @DisplayName("Devrait retourner la liste complète des factures")
         void shouldReturnAllFactures() throws DatabaseException {
             // Arrange
             List<Facture> factures = Arrays.asList(
@@ -143,7 +143,7 @@ class FactureServiceTest {
         @DisplayName("Devrait retourner les factures du client")
         void shouldReturnClientFactures() throws ValidationException, DatabaseException {
             // Arrange
-            Long clientId = 1L;
+            Integer clientId = 1L;
             List<Facture> factures = Arrays.asList(
                 new Facture("F001", LocalDate.now(), LocalDate.now().plusDays(30), createTestClient()),
                 new Facture("F002", LocalDate.now(), LocalDate.now().plusDays(30), createTestClient())
@@ -182,8 +182,8 @@ class FactureServiceTest {
         }
         
         @Test
-        @DisplayName("Devrait créer une facture avec succès")
-        void shouldCreateFactureSuccessfully() throws ValidationException, DatabaseException {
+        @DisplayName("Devrait sauvegarder une nouvelle facture")
+        void shouldSaveNewFacture() throws DatabaseException, ValidationException {
             // Arrange
             String numero = "F001";
             Facture facture = new Facture(numero, dateEmission, dateEcheance, client);
@@ -243,10 +243,14 @@ class FactureServiceTest {
     class UpdateTests {
         @Test
         @DisplayName("Devrait mettre à jour une facture existante")
-        void shouldUpdateExistingFacture() throws ValidationException, ResourceNotFoundException, DatabaseException {
+        void shouldUpdateExistingFacture() throws DatabaseException, ValidationException, ResourceNotFoundException {
             // Arrange
-            Facture facture = new Facture("F001", LocalDate.now(), LocalDate.now().plusDays(30), createTestClient());
-            facture.setId(1L);
+            Facture facture = new Facture(
+                "FACT-001",
+                LocalDate.now(),
+                LocalDate.now().plusDays(30),
+                new Client()
+            );
             when(factureDAO.findById(1L)).thenReturn(Optional.of(facture));
             when(factureDAO.update(any(Facture.class))).thenReturn(facture);
             
@@ -272,7 +276,12 @@ class FactureServiceTest {
         @DisplayName("Devrait lancer ValidationException quand l'ID de la facture est null")
         void shouldThrowValidationExceptionWhenFactureIdIsNull() {
             // Arrange
-            Facture facture = new Facture("F001", LocalDate.now(), LocalDate.now().plusDays(30), createTestClient());
+            Facture facture = new Facture(
+                "FACT-001",
+                LocalDate.now(),
+                LocalDate.now().plusDays(30),
+                new Client()
+            );
             
             // Act & Assert
             assertThrows(ValidationException.class, () -> factureService.update(facture));
@@ -283,8 +292,12 @@ class FactureServiceTest {
         @DisplayName("Devrait lancer ResourceNotFoundException quand la facture n'existe pas")
         void shouldThrowResourceNotFoundExceptionWhenFactureDoesNotExist() {
             // Arrange
-            Facture facture = new Facture("F001", LocalDate.now(), LocalDate.now().plusDays(30), createTestClient());
-            facture.setId(1L);
+            Facture facture = new Facture(
+                "FACT-001",
+                LocalDate.now(),
+                LocalDate.now().plusDays(30),
+                new Client()
+            );
             when(factureDAO.findById(1L)).thenReturn(Optional.empty());
             
             // Act & Assert
@@ -299,9 +312,9 @@ class FactureServiceTest {
     class DeleteTests {
         @Test
         @DisplayName("Devrait supprimer une facture existante")
-        void shouldDeleteExistingFacture() throws ValidationException, ResourceNotFoundException, DatabaseException {
+        void shouldDeleteExistingFacture() throws DatabaseException, ValidationException, ResourceNotFoundException {
             // Arrange
-            Long id = 1L;
+            Integer id = 1L;
             Facture facture = new Facture("F001", LocalDate.now(), LocalDate.now().plusDays(30), createTestClient());
             when(factureDAO.findById(id)).thenReturn(Optional.of(facture));
             
@@ -325,7 +338,7 @@ class FactureServiceTest {
         @DisplayName("Devrait lancer ResourceNotFoundException quand la facture n'existe pas")
         void shouldThrowResourceNotFoundExceptionWhenFactureDoesNotExist() {
             // Arrange
-            Long id = 1L;
+            Integer id = 1L;
             when(factureDAO.findById(id)).thenReturn(Optional.empty());
             
             // Act & Assert

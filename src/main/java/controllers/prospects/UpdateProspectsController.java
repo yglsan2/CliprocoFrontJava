@@ -11,8 +11,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.jetbrains.annotations.NotNull;
 
-import java.time.LocalDate;
-
 public final class UpdateProspectsController implements ICommand {
     private final ProspectService prospectService;
 
@@ -30,7 +28,7 @@ public final class UpdateProspectsController implements ICommand {
         String urlSuite = Security.estConnecte(request, jsp);
 
         if (jsp.equals(urlSuite)) {
-            Long id = Long.parseLong(request.getParameter("id"));
+            Integer id = Integer.parseInt(request.getParameter("id"));
             Prospect prospect = prospectService.findById(id);
 
             if (prospect != null) {
@@ -50,8 +48,7 @@ public final class UpdateProspectsController implements ICommand {
                         .deMail(request.getParameter("mail"))
                         .deCommentaires(request.getParameter("commentaires"))
                         .dAdresse(adresse)
-                        .deDateProspection(LocalDate.parse(request.getParameter("dateProspection")))
-                        .deProspectInteresse(request.getParameter("prospectInteresse"))
+                        .deDateProspection(request.getParameter("dateProspection"))
                         .build();
 
                 prospectService.update(updatedProspect);

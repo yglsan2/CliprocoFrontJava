@@ -19,7 +19,7 @@ public class Adresse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int identifiant;
+    private Integer identifiant;
 
     @NotBlank
     @Pattern(regexp = "(?:\\d{0,3} +(bis|ter|quat)|\\G(?<!^))|(?:\\b\\d{0,3}"
@@ -35,9 +35,9 @@ public class Adresse {
     private String nomRue;
 
     @NotBlank
-    @Size(min = POSTAL_LENGTH, max = POSTAL_LENGTH)
+    @Size(min = 5, max = 5)
     @Pattern(regexp = "\\b\\d{5}\\b")
-    @Column(name = "code_postal", nullable = false, length = POSTAL_LENGTH)
+    @Column(name = "code_postal", nullable = false, length = 5)
     private String codePostal;
 
     @NotBlank
@@ -105,11 +105,11 @@ public class Adresse {
         this.pays = pays;
     }
 
-    public int getIdentifiant() {
+    public Integer getIdentifiant() {
         return identifiant;
     }
 
-    public void setIdentifiant(int identifiant) {
+    public void setIdentifiant(Integer identifiant) {
         this.identifiant = identifiant;
     }
 

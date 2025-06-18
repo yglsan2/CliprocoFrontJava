@@ -55,4 +55,19 @@ public interface IDAO<T, ID> {
      * @throws DatabaseException si une erreur de base de données survient
      */
     List<T> findAll() throws DatabaseException;
+
+    /**
+     * Vérifie si une entité existe avec l'identifiant donné.
+     * @param id L'identifiant de l'entité
+     * @return true si l'entité existe, false sinon
+     * @throws ValidationException si l'identifiant n'est pas valide
+     * @throws DatabaseException si une erreur de base de données survient
+     */
+    boolean existsById(ID id) throws ValidationException, DatabaseException;
+
+    /**
+     * Ferme les ressources utilisées par le DAO.
+     * @throws DatabaseException si une erreur survient lors de la fermeture des ressources
+     */
+    void close() throws DatabaseException;
 } 

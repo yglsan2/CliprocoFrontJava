@@ -2,6 +2,7 @@ package services;
 
 import dao.jpa.ProspectJpaDAO;
 import models.Prospect;
+import models.Adresse;
 import exceptions.DatabaseException;
 import exceptions.ValidationException;
 import exceptions.ResourceNotFoundException;
@@ -11,8 +12,10 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +34,7 @@ class ProspectServiceTest {
 
     @BeforeEach
     void setUp() {
+        MockitoAnnotations.openMocks(this);
         prospectService = new ProspectService(prospectDAO);
     }
 
@@ -41,7 +45,7 @@ class ProspectServiceTest {
         @DisplayName("Devrait retourner un prospect quand l'ID existe")
         void shouldReturnProspectWhenIdExists() throws ValidationException, DatabaseException, ResourceNotFoundException {
             // Arrange
-            Long id = 1L;
+            Integer id = 1;
             Prospect expectedProspect = new Prospect();
             expectedProspect.setIdentifiant(id);
             when(prospectDAO.findById(id)).thenReturn(Optional.of(expectedProspect));
@@ -59,7 +63,7 @@ class ProspectServiceTest {
         @DisplayName("Devrait lever une ResourceNotFoundException quand l'ID n'existe pas")
         void shouldThrowResourceNotFoundExceptionWhenIdDoesNotExist() throws ValidationException, DatabaseException {
             // Arrange
-            Long id = 1L;
+            Integer id = 1;
             when(prospectDAO.findById(id)).thenReturn(Optional.empty());
 
             // Act & Assert
@@ -169,7 +173,7 @@ class ProspectServiceTest {
         void shouldUpdateProspectSuccessfully() throws ValidationException, ResourceNotFoundException, DatabaseException {
             // Arrange
             Prospect prospect = new Prospect();
-            prospect.setIdentifiant(1L);
+            prospect.setIdentifiant(1);
 
             // Act
             prospectService.update(prospect);
@@ -187,7 +191,7 @@ class ProspectServiceTest {
         void shouldDeleteProspectSuccessfully() throws ValidationException, ResourceNotFoundException, DatabaseException {
             // Arrange
             Prospect prospect = new Prospect();
-            prospect.setIdentifiant(1L);
+            prospect.setIdentifiant(1);
 
             // Act
             prospectService.delete(prospect);
@@ -195,5 +199,141 @@ class ProspectServiceTest {
             // Assert
             verify(prospectDAO).delete(prospect);
         }
+    }
+
+    @Test
+    public void shouldCreateProspect() throws DatabaseException, ValidationException {
+        // Given
+        Prospect prospect = new Prospect();
+        prospect.setRaisonSociale("Test Prospect");
+        prospect.setAdresse("123 Rue Test");
+        prospect.setTelephone("0123456789");
+        prospect.setMail("test@test.com");
+        prospect.setDateProspection("2024-03-20");
+
+        doNothing().when(prospectDAO).save(any(Prospect.class));
+
+        // When
+        prospectService.save(prospect);
+
+        // Then
+        verify(prospectDAO).save(any(Prospect.class));
+    }
+
+    @Test
+    public void shouldFindProspectById() throws DatabaseException, ValidationException, ResourceNotFoundException {
+        // Given
+        Prospect prospect = new Prospect();
+        prospect.setIdentifiant(1L);
+        prospect.setRaisonSociale("Test Prospect");
+        prospect.setAdresse("123 Rue Test");
+        prospect.setTelephone("0123456789");
+        prospect.setMail("test@test.com");
+        prospect.setDateProspection("2024-03-20");
+
+        when(prospectDAO.findById(1L)).thenReturn(Optional.of(prospect));
+
+        // When
+        Prospect found = prospectService.findById(1L);
+
+        // Then
+        assertNotNull(found);
+        assertEquals(1L, found.getIdentifiant());
+        assertEquals("Test Prospect", found.getRaisonSociale());
+        assertEquals("123 Rue Test", found.getAdresse());
+        assertEquals("0123456789", found.getTelephone());
+        assertEquals("test@test.com", found.getMail());
+        assertEquals("2024-03-20", found.getDateProspection());
+        verify(prospectDAO).findById(1L);
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenProspectNotFound() {
+        // Given
+        when(prospectDAO.findById(1L)).thenReturn(Optional.empty());
+
+        // When & Then
+        assertThrows(ResourceNotFoundException.class, () -> {
+            prospectService.findById(1L);
+        });
+    }
+
+    @Test
+    public void shouldUpdateProspect() throws DatabaseException, ValidationException, ResourceNotFoundException {
+        // Given
+        Prospect prospect = new Prospect();
+        prospect.setIdentifiant(1L);
+        prospect.setRaisonSociale("Test Prospect");
+        prospect.setAdresse("123 Rue Test");
+        prospect.setTelephone("0123456789");
+        prospect.setMail("test@test.com");
+        prospect.setDateProspection("2024-03-20");
+
+        when(prospectDAO.existsById(1L)).thenReturn(true);
+        doNothing().when(prospectDAO).update(any(Prospect.class));
+
+        // When
+        prospectService.update(prospect);
+
+        // Then
+        verify(prospectDAO).update(any(Prospect.class));
+    }
+
+    @Test
+    public void shouldDeleteProspect() throws DatabaseException, ValidationException, ResourceNotFoundException {
+        // Given
+        Prospect prospect = new Prospect();
+        prospect.setIdentifiant(1L);
+        prospect.setRaisonSociale("Test Prospect");
+
+        when(prospectDAO.existsById(1L)).thenReturn(true);
+        doNothing().when(prospectDAO).delete(any(Prospect.class));
+
+        // When
+        prospectService.delete(prospect);
+
+        // Then
+        verify(prospectDAO).delete(any(Prospect.class));
+    }
+
+    @Test
+    public void shouldFindAllProspects() throws DatabaseException {
+        // Given
+        Prospect prospect1 = new Prospect();
+        prospect1.setIdentifiant(1L);
+        prospect1.setRaisonSociale("Test Prospect 1");
+
+        Prospect prospect2 = new Prospect();
+        prospect2.setIdentifiant(2);
+        prospect2.setRaisonSociale("Test Prospect 2");
+
+        when(prospectDAO.findAll()).thenReturn(Arrays.asList(prospect1L, prospect2));
+
+        // When
+        List<Prospect> prospects = prospectService.findAll();
+
+        // Then
+        assertNotNull(prospects);
+        assertEquals(0, prospects.size());
+        verify(prospectDAO).findAll();
+    }
+
+    @Test
+    public void shouldFindProspectByRaisonSociale() throws DatabaseException, ValidationException {
+        // Given
+        Prospect prospect = new Prospect();
+        prospect.setIdentifiant(1L);
+        prospect.setRaisonSociale("Test Prospect");
+
+        when(prospectDAO.findByRaisonSociale("Test Prospect")).thenReturn(Arrays.asList(prospect));
+
+        // When
+        List<Prospect> found = prospectService.findByRaisonSociale("Test Prospect");
+
+        // Then
+        assertNotNull(found);
+        assertEquals(1L, found.size());
+        assertEquals("Test Prospect", found.get(0).getRaisonSociale());
+        verify(prospectDAO).findByRaisonSociale("Test Prospect");
     }
 } 

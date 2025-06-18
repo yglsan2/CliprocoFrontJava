@@ -30,7 +30,7 @@ import static org.mockito.Mockito.*;
 class CalculFactureServiceTest {
 
     @Mock
-    private IDAO<CalculFacture, Long> calculFactureDAO;
+    private IDAO<CalculFacture, Integer> calculFactureDAO;
 
     @InjectMocks
     private CalculFactureService calculFactureService;
@@ -44,15 +44,15 @@ class CalculFactureServiceTest {
     @DisplayName("Tests de findById")
     class FindByIdTests {
         @Test
-        @DisplayName("Devrait retourner le calcul quand l'ID existe")
-        void shouldReturnCalculWhenIdExists() throws ValidationException, DatabaseException {
+        @DisplayName("Devrait retourner un calcul quand l'ID existe")
+        void shouldReturnCalculWhenIdExists() throws DatabaseException, ValidationException {
             // Arrange
-            Long id = 1L;
+            Integer id = 1L;
             CalculFacture calcul = new CalculFacture(
-                BigDecimal.valueOf(100),
-                BigDecimal.valueOf(0.20),
-                BigDecimal.valueOf(20),
-                BigDecimal.valueOf(120)
+                new BigDecimal("100.00"),
+                new BigDecimal("20.00"),
+                new BigDecimal("20.00"),
+                new BigDecimal("120.00")
             );
             when(calculFactureDAO.findById(id)).thenReturn(Optional.of(calcul));
             
@@ -69,7 +69,7 @@ class CalculFactureServiceTest {
         @DisplayName("Devrait retourner Optional.empty quand l'ID n'existe pas")
         void shouldReturnEmptyWhenIdDoesNotExist() throws ValidationException, DatabaseException {
             // Arrange
-            Long id = 1L;
+            Integer id = 1L;
             when(calculFactureDAO.findById(id)).thenReturn(Optional.empty());
             
             // Act
@@ -92,7 +92,7 @@ class CalculFactureServiceTest {
         @DisplayName("Devrait lancer DatabaseException en cas d'erreur de base de données")
         void shouldThrowDatabaseExceptionOnDatabaseError() {
             // Arrange
-            Long id = 1L;
+            Integer id = 1L;
             when(calculFactureDAO.findById(id)).thenThrow(new RuntimeException("Erreur DB"));
             
             // Act & Assert
@@ -105,21 +105,21 @@ class CalculFactureServiceTest {
     @DisplayName("Tests de findAll")
     class FindAllTests {
         @Test
-        @DisplayName("Devrait retourner tous les calculs")
+        @DisplayName("Devrait retourner la liste complète des calculs")
         void shouldReturnAllCalculs() throws DatabaseException {
             // Arrange
             List<CalculFacture> calculs = Arrays.asList(
                 new CalculFacture(
-                    BigDecimal.valueOf(100),
-                    BigDecimal.valueOf(0.20),
-                    BigDecimal.valueOf(20),
-                    BigDecimal.valueOf(120)
+                    new BigDecimal("100.00"),
+                    new BigDecimal("20.00"),
+                    new BigDecimal("20.00"),
+                    new BigDecimal("120.00")
                 ),
                 new CalculFacture(
-                    BigDecimal.valueOf(200),
-                    BigDecimal.valueOf(0.20),
-                    BigDecimal.valueOf(40),
-                    BigDecimal.valueOf(240)
+                    new BigDecimal("200.00"),
+                    new BigDecimal("20.00"),
+                    new BigDecimal("40.00"),
+                    new BigDecimal("240.00")
                 )
             );
             when(calculFactureDAO.findAll()).thenReturn(calculs);
@@ -155,16 +155,16 @@ class CalculFactureServiceTest {
         
         @BeforeEach
         void setUp() {
-            montantHT = BigDecimal.valueOf(100);
-            tauxTVA = BigDecimal.valueOf(0.20);
-            montantTVA = BigDecimal.valueOf(20);
-            montantTTC = BigDecimal.valueOf(120);
+            montantHT = new BigDecimal("100.00");
+            tauxTVA = new BigDecimal("20.00");
+            montantTVA = new BigDecimal("20.00");
+            montantTTC = new BigDecimal("120.00");
             facture = createTestFacture();
         }
         
         @Test
-        @DisplayName("Devrait créer un calcul avec succès")
-        void shouldCreateCalculSuccessfully() throws ValidationException, DatabaseException {
+        @DisplayName("Devrait sauvegarder un nouveau calcul")
+        void shouldSaveNewCalcul() throws DatabaseException, ValidationException {
             // Arrange
             CalculFacture calcul = new CalculFacture(montantHT, tauxTVA, montantTVA, montantTTC);
             when(calculFactureDAO.save(any(CalculFacture.class))).thenReturn(calcul);
@@ -232,15 +232,14 @@ class CalculFactureServiceTest {
     class UpdateTests {
         @Test
         @DisplayName("Devrait mettre à jour un calcul existant")
-        void shouldUpdateExistingCalcul() throws ValidationException, ResourceNotFoundException, DatabaseException {
+        void shouldUpdateExistingCalcul() throws DatabaseException, ValidationException, ResourceNotFoundException {
             // Arrange
             CalculFacture calcul = new CalculFacture(
-                BigDecimal.valueOf(100),
-                BigDecimal.valueOf(0.20),
-                BigDecimal.valueOf(20),
-                BigDecimal.valueOf(120)
+                new BigDecimal("100.00"),
+                new BigDecimal("20.00"),
+                new BigDecimal("20.00"),
+                new BigDecimal("120.00")
             );
-            calcul.setId(1L);
             when(calculFactureDAO.findById(1L)).thenReturn(Optional.of(calcul));
             when(calculFactureDAO.update(any(CalculFacture.class))).thenReturn(calcul);
             
@@ -267,10 +266,10 @@ class CalculFactureServiceTest {
         void shouldThrowValidationExceptionWhenCalculIdIsNull() {
             // Arrange
             CalculFacture calcul = new CalculFacture(
-                BigDecimal.valueOf(100),
-                BigDecimal.valueOf(0.20),
-                BigDecimal.valueOf(20),
-                BigDecimal.valueOf(120)
+                new BigDecimal("100.00"),
+                new BigDecimal("20.00"),
+                new BigDecimal("20.00"),
+                new BigDecimal("120.00")
             );
             
             // Act & Assert
@@ -283,12 +282,11 @@ class CalculFactureServiceTest {
         void shouldThrowResourceNotFoundExceptionWhenCalculDoesNotExist() {
             // Arrange
             CalculFacture calcul = new CalculFacture(
-                BigDecimal.valueOf(100),
-                BigDecimal.valueOf(0.20),
-                BigDecimal.valueOf(20),
-                BigDecimal.valueOf(120)
+                new BigDecimal("100.00"),
+                new BigDecimal("20.00"),
+                new BigDecimal("20.00"),
+                new BigDecimal("120.00")
             );
-            calcul.setId(1L);
             when(calculFactureDAO.findById(1L)).thenReturn(Optional.empty());
             
             // Act & Assert
@@ -303,14 +301,14 @@ class CalculFactureServiceTest {
     class DeleteTests {
         @Test
         @DisplayName("Devrait supprimer un calcul existant")
-        void shouldDeleteExistingCalcul() throws ValidationException, ResourceNotFoundException, DatabaseException {
+        void shouldDeleteExistingCalcul() throws DatabaseException, ValidationException, ResourceNotFoundException {
             // Arrange
-            Long id = 1L;
+            Integer id = 1L;
             CalculFacture calcul = new CalculFacture(
-                BigDecimal.valueOf(100),
-                BigDecimal.valueOf(0.20),
-                BigDecimal.valueOf(20),
-                BigDecimal.valueOf(120)
+                new BigDecimal("100.00"),
+                new BigDecimal("20.00"),
+                new BigDecimal("20.00"),
+                new BigDecimal("120.00")
             );
             when(calculFactureDAO.findById(id)).thenReturn(Optional.of(calcul));
             
@@ -334,7 +332,7 @@ class CalculFactureServiceTest {
         @DisplayName("Devrait lancer ResourceNotFoundException quand le calcul n'existe pas")
         void shouldThrowResourceNotFoundExceptionWhenCalculDoesNotExist() {
             // Arrange
-            Long id = 1L;
+            Integer id = 1L;
             when(calculFactureDAO.findById(id)).thenReturn(Optional.empty());
             
             // Act & Assert

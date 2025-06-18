@@ -19,7 +19,7 @@ public class Contrat {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     /**
      * Label/name of the contract (non-blank).
@@ -78,7 +78,7 @@ public class Contrat {
     /**
      * @return The contract's identifier.
      */
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 

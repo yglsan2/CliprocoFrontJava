@@ -51,7 +51,7 @@ public final class UpdateClientsController implements ICommand {
             LogManager.logInfo("ID du client à mettre à jour: " + clientId);
 
             try {
-                Client client = clientService.findById(Long.parseLong(clientId))
+                Client client = clientService.findById(Integer.parseInt(clientId))
                     .orElseThrow(() -> new ResourceNotFoundException("Client non trouvé avec l'ID: " + clientId));
                 LogManager.logInfo("Client trouvé: " + client);
 
@@ -73,7 +73,7 @@ public final class UpdateClientsController implements ICommand {
                         // Set Client fields
                         LogManager.logInfo("Construction du client");
                         Client updatedClient = ClientBuilder.getNewClientBuilder()
-                                .dIdentifiant(Long.parseLong(request.getParameter("identifiant")))
+                                .dIdentifiant(Integer.parseInt(request.getParameter("identifiant")))
                                 .deRaisonSociale(request.getParameter("raisonSociale"))
                                 .deTelephone(request.getParameter("telephone"))
                                 .deMail(request.getParameter("adresseMail"))

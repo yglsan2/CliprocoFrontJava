@@ -24,7 +24,7 @@ public interface UserDAO {
      * @return l'utilisateur trouvé, ou null si aucun utilisateur n'est trouvé
      * @throws DatabaseException si une erreur survient lors de l'accès à la base de données
      */
-    User findById(Long id) throws DatabaseException;
+    User findById(Integer id) throws DatabaseException;
 
     /**
      * Récupère tous les utilisateurs de la base de données.

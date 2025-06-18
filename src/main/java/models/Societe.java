@@ -18,34 +18,34 @@ public abstract class Societe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    protected Integer identifiant;
 
     @NotNull
     @NotBlank
     @Column(name = "raison_sociale", nullable = false, unique = true)
-    private String raisonSociale;
+    protected String raisonSociale;
 
     @NotNull
     @Valid
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "adresse_id")
-    private Adresse adresse;
+    protected Adresse adresse;
 
     @NotNull
     @Pattern(regexp = "^(?:(?:\\+|00)33|0)\\s*[1-9](?:[\\s.-]*\\d{2}){4}")
     @Column(name = "telephone")
-    private String telephone;
+    protected String telephone;
 
     @NotNull
     @Pattern(regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     @Column(name = "email")
-    private String mail;
+    protected String mail;
 
     @Column(name = "commentaire", columnDefinition = "TEXT")
-    private String commentaires;
+    protected String commentaires;
 
     /**
-     * Constructs a Societe without identifier.
+     * Constructs a Societe avec identifiant.
      *
      * @param raisonSoc Legal name
      * @param adr      Physical address
@@ -161,8 +161,8 @@ public abstract class Societe {
      *
      * @return Identifiant de la société.
      */
-    public Long getIdentifiant() {
-        return id;
+    public Integer getIdentifiant() {
+        return identifiant;
     }
 
     /**
@@ -170,8 +170,8 @@ public abstract class Societe {
      *
      * @param id New identifier
      */
-    public void setIdentifiant(final Long id) {
-        this.id = id;
+    public void setIdentifiant(final Integer id) {
+        this.identifiant = id;
     }
 
     /**
@@ -182,11 +182,13 @@ public abstract class Societe {
      */
     @Override
     public String toString() {
-        return "identifiant=" + getIdentifiant()
-                + ", raisonSociale='" + getRaisonSociale() + '\''
-                + ", adresse=" + getAdresse()
-                + ", telephone='" + getTelephone() + '\''
-                + ", mail='" + getMail() + '\''
-                + ", commentaires='" + getCommentaires() + '\'';
+        return "Societe{" +
+                "identifiant=" + getIdentifiant() +
+                ", raisonSociale='" + getRaisonSociale() + '\'' +
+                ", adresse=" + getAdresse() +
+                ", telephone='" + getTelephone() + '\'' +
+                ", mail='" + getMail() + '\'' +
+                ", commentaires='" + getCommentaires() + '\'' +
+                '}';
     }
 }

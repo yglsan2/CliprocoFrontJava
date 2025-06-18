@@ -13,11 +13,11 @@ import java.nio.charset.StandardCharsets;
 public final class Security {
 
     private static final Argon2 argon2 = Argon2Factory.create(Argon2Types.ARGON2id);
-    private static final int ITERATIONS = 10;
-    private static final int MEMORY = 65536;
-    private static final int PARALLELISM = 1;
-    private static final int SALT_LENGTH = 16;
-    private static final int HASH_LENGTH = 32;
+    private static final Integer ITERATIONS = 10;
+    private static final Integer MEMORY = 65536;
+    private static final Integer PARALLELISM = 1;
+    private static final Integer SALT_LENGTH = 16;
+    private static final Integer HASH_LENGTH = 32;
 
     /**
      * Constructeur privé pour empêcher l'instanciation de la classe utilitaire.

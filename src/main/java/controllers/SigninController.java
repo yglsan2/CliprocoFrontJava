@@ -11,7 +11,7 @@ import utilities.Security;
 import java.util.Optional;
 
 public class SigninController implements ICommand {
-    private final IDAO<User, Long> userDAO;
+    private final IDAO<User, Integer> userDAO;
 
     public SigninController() {
         this.userDAO = new UserJpaDAO();
@@ -33,7 +33,7 @@ public class SigninController implements ICommand {
         }
 
         try {
-            Optional<User> existingUser = userDAO.findById(Long.parseLong(email));
+            Optional<User> existingUser = userDAO.findById(Integer.parseInt(email));
             if (existingUser.isPresent()) {
                 request.setAttribute("error", "Cet email est déjà utilisé");
                 return "inscription.jsp";

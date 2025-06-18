@@ -21,7 +21,7 @@ public class ConnexionController extends HttpServlet {
     private static final String HOME_PAGE = "/WEB-INF/views/home.jsp";
     private static final String ERROR_PAGE = "/WEB-INF/views/error.jsp";
 
-    private final IDAO<User, Long> userDAO;
+    private final IDAO<User, Integer> userDAO;
 
     public ConnexionController() {
         this.userDAO = new UserJpaDAO();
@@ -39,7 +39,7 @@ public class ConnexionController extends HttpServlet {
         }
 
         try {
-            Optional<User> userOpt = userDAO.findById(Long.parseLong(email));
+            Optional<User> userOpt = userDAO.findById(Integer.parseInt(email));
             if (userOpt.isPresent()) {
                 User user = userOpt.get();
                 if (Security.verifyPassword(password, user.getPassword())) {

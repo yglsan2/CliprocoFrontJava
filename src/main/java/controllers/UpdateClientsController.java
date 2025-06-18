@@ -23,8 +23,8 @@ public class UpdateClientsController extends HttpServlet {
     private final ClientService clientService;
 
     public UpdateClientsController() {
-        IDAO<Client, Long> clientDAO = new ClientJpaDAO();
-        IDAO<Adresse, Long> adresseDAO = new AdresseJpaDAO();
+        IDAO<Client, Integer> clientDAO = new ClientJpaDAO();
+        IDAO<Adresse, Integer> adresseDAO = new AdresseJpaDAO();
         this.clientService = new ClientService(clientDAO, adresseDAO);
         LOGGER.info("UpdateClientsController initialisé avec succès");
     }
@@ -54,16 +54,15 @@ public class UpdateClientsController extends HttpServlet {
             adresse.setPays(request.getParameter("pays"));
 
             // Création du client
-            Client client = new Client(
-                raisonSociale,
-                adresse,
-                telephone,
-                email,
-                commentaires,
-                Double.parseDouble(chiffreAffairesStr),
-                Integer.parseInt(nombreEmployesStr)
-            );
-            client.setIdentifiant(Long.parseLong(clientId));
+Client client = new Client();
+            client.setIdentifiant(Integer.parseInt(clientId));
+            client.setRaisonSociale(raisonSociale);
+            client.setAdresse(adresse);
+            client.setTelephone(telephone);
+            client.setMail(email);
+            client.setCommentaires(commentaires);
+            client.setChiffreAffaire(Integer.parseInt(chiffreAffairesStr));
+            client.setNbrEmploye(Integer.parseInt(nombreEmployesStr));
 
             clientService.update(client);
             request.getSession().setAttribute("successMessage", "Client mis à jour avec succès");

@@ -13,14 +13,14 @@ import java.util.Optional;
  * Service pour la gestion des utilisateurs.
  */
 public class UserService {
-    private final IDAO<User, Long> userDAO;
+    private final IDAO<User, Integer> userDAO;
 
-    public UserService(IDAO<User, Long> userDAO) {
+    public UserService(IDAO<User, Integer> userDAO) {
         this.userDAO = userDAO;
         LogManager.logInfo("Initialisation du UserService avec le DAO fourni");
     }
 
-    public Optional<User> findById(Long id) throws DatabaseException, ValidationException {
+    public Optional<User> findById(Integer id) throws DatabaseException, ValidationException {
         LogManager.logInfo("Recherche de l'utilisateur avec l'ID: " + id);
         try {
             if (id == null) {

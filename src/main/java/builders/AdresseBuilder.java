@@ -39,7 +39,7 @@ public class AdresseBuilder extends Builder<Adresse> {
      * @return This builder.
      * @throws ValidationException Exception set by the identifiant setter.
      */
-    public AdresseBuilder dIdentifiant(final Long identifiant)
+    public AdresseBuilder dIdentifiant(final Integer identifiant)
             throws ValidationException {
         LogManager.logInfo("Définition de l'identifiant: " + identifiant);
         setField("id", identifiant);
@@ -56,8 +56,7 @@ public class AdresseBuilder extends Builder<Adresse> {
     public AdresseBuilder dIdentifiant(final String identifiant)
             throws ValidationException {
         LogManager.logInfo("Définition de l'identifiant (String): " + identifiant);
-        setField("id", identifiant);
-        return this;
+        return this.dIdentifiant(Integer.parseInt(identifiant));
     }
 
     /**

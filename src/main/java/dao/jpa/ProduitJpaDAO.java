@@ -6,8 +6,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
+import exceptions.ValidationException;
+import exceptions.DatabaseException;
 
-public class ProduitJpaDAO extends GenericJpaDAO<Produit, Long> {
+public class ProduitJpaDAO extends GenericJpaDAO<Produit, Integer> {
     public ProduitJpaDAO() {
         super();
     }
@@ -48,6 +50,27 @@ public class ProduitJpaDAO extends GenericJpaDAO<Produit, Long> {
             if (em != null && em.isOpen()) {
                 em.close();
             }
+        }
+    }
+
+    @Override
+    public boolean existsById(Integer id) throws ValidationException, DatabaseException {
+        try {
+            if (id == null) {
+                throw new ValidationException("L'ID ne peut pas être null");
+            }
+            EntityManager em = getEntityManager();
+            TypedQuery<Integer> query = em.createQuery(
+                "SELECT COUNT(p) FROM Produit p WHERE p.id = :id",
+                Integer.class
+            );
+            query.setParameter("id", id);
+            return query.getSingleResult() > 0;
+        } catch (ValidationException e) {
+            throw e;
+        } catch (Exception e) {
+            LogManager.logException("Erreur lors de la vérification de l'existence du produit", e);
+            throw new DatabaseException("Erreur lors de la vérification de l'existence du produit", e);
         }
     }
 } 

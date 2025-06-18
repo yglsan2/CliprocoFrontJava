@@ -1,56 +1,45 @@
 package models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
-import java.time.LocalDate;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Represents a potential customer extending Societe with prospection details.
  */
 @Entity
-@Table(name = "prospect")
+@Table(name = "prospects")
+@Access(AccessType.FIELD)
 public class Prospect extends Societe {
+    private static final Logger logger = LoggerFactory.getLogger(Prospect.class);
 
-    /**
-     * Date of prospection (must be in the past).
-     */
-    @NotNull
-    @Past
-    @Column(name = "date_prospection")
-    private LocalDate dateProspection;
-
-    /**
-     * Indicates the prospect's interest level (non-blank).
-     */
-    @NotNull
     @NotBlank
-    @Column(name = "interet")
-    private String prospectInteresse;
+    @Column(name = "date_prospection", nullable = false)
+    private String dateProspection;
 
     /**
-     * Constructs a Prospect without identifier.
+     * Constructs a Prospect avec identifiant.
      *
      * @param raisonSoc    Company name
-     * @param adr          Address
-     * @param tel          Contact number
-     * @param email        Email address
-     * @param comment      Additional comments
+     * @param adresse      Address
+     * @param telephone    Contact number
+     * @param mail         Email address
+     * @param commentaires Additional comments
      * @param dateProsp    Prospection date (past)
-     * @param interet      Interest level
      */
     public Prospect(
             final String raisonSoc,
-            final Adresse adr,
-            final String tel,
-            final String email,
-            final String comment,
-            final LocalDate dateProsp,
-            final String interet) {
-        super(raisonSoc, adr, tel, email, comment);
-        this.setDateProspection(dateProsp);
-        this.setProspectInteresse(interet);
+            final Adresse adresse,
+            final String telephone,
+            final String mail,
+            final String commentaires,
+            final String dateProsp) {
+        super(raisonSoc, adresse, telephone, mail, commentaires);
+        this.dateProspection = dateProsp;
     }
 
     /**
@@ -58,42 +47,15 @@ public class Prospect extends Societe {
      */
     public Prospect() {
         super();
+        logger.debug("Création d'un nouveau prospect");
     }
 
-    /**
-     * Returns the prospection date.
-     *
-     * @return LocalDate prospection date
-     */
-    public LocalDate getDateProspection() {
+    public String getDateProspection() {
         return dateProspection;
     }
 
-    /**
-     * Sets the prospection date.
-     *
-     * @param dateProsp New date (must be in the past)
-     */
-    public void setDateProspection(final LocalDate dateProsp) {
-        this.dateProspection = dateProsp;
-    }
-
-    /**
-     * Returns the interest level.
-     *
-     * @return String interest level
-     */
-    public String getProspectInteresse() {
-        return prospectInteresse;
-    }
-
-    /**
-     * Sets the interest level.
-     *
-     * @param interet New interest level (non-blank)
-     */
-    public void setProspectInteresse(final String interet) {
-        this.prospectInteresse = interet;
+    public void setDateProspection(String dateProspection) {
+        this.dateProspection = dateProspection;
     }
 
     /**
@@ -102,8 +64,9 @@ public class Prospect extends Societe {
      */
     @Override
     public String toString() {
-        return super.toString()
-                + " dateProspection=" + getDateProspection()
-                + ", interet='" + getProspectInteresse() + '\'';
+        return "Prospect{" +
+                super.toString() +
+                ", dateProspection='" + dateProspection + '\'' +
+                '}';
     }
 }

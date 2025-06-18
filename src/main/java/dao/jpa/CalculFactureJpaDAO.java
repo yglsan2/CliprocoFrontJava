@@ -11,7 +11,7 @@ import utilities.LogManager;
 /**
  * Implémentation JPA du DAO pour les calculs de factures.
  */
-public class CalculFactureJpaDAO extends AbstractJpaDAO<CalculFacture, Long> implements IDAO<CalculFacture, Long> {
+public class CalculFactureJpaDAO extends AbstractJpaDAO<CalculFacture, Integer> implements IDAO<CalculFacture, Integer> {
     
     public CalculFactureJpaDAO() {
         super(CalculFacture.class);
@@ -19,7 +19,7 @@ public class CalculFactureJpaDAO extends AbstractJpaDAO<CalculFacture, Long> imp
     }
 
     @Override
-    public Optional<CalculFacture> findById(Long id) throws ValidationException, DatabaseException {
+    public Optional<CalculFacture> findById(Integer id) throws ValidationException, DatabaseException {
         LogManager.logInfo("Recherche du calcul de facture avec l'ID: " + id);
         Optional<CalculFacture> result = super.findById(id);
         LogManager.logInfo("Résultat de la recherche: " + (result.isPresent() ? "trouvé" : "non trouvé"));

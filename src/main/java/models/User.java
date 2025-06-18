@@ -23,7 +23,7 @@ public final class User {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     /**
      * Unique username (non-nullable).
@@ -72,7 +72,7 @@ public final class User {
      * @param roleParam     User's role
      */
     public User(
-            final Long idParam,
+            final Integer idParam,
             final String usernameParam,
             final String passwordParam,
             final String tokenParam,
@@ -183,9 +183,9 @@ public final class User {
     /**
      * Returns the user's unique identifier.
      *
-     * @return Long identifier
+     * @return Integer identifier
      */
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -194,7 +194,7 @@ public final class User {
      *
      * @param idParam New identifier
      */
-    public void setId(final Long idParam) {
+    public void setId(final Integer idParam) {
         this.id = idParam;
     }
 

@@ -31,7 +31,7 @@ public final class DeleteClientsController implements ICommand {
             String clientId = request.getParameter("clientId");
             try {
                 LogManager.logInfo("Suppression du client avec l'ID : " + clientId);
-                Optional<Client> client = clientService.findById(Long.parseLong(clientId));
+                Optional<Client> client = clientService.findById(Integer.parseInt(clientId));
                 if (client.isPresent()) {
                     LogManager.logInfo("Client trouvé, suppression en cours : " + client.get().getIdentifiant());
                     clientService.delete(client.get().getIdentifiant());

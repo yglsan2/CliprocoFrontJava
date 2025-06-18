@@ -13,13 +13,15 @@ import java.lang.reflect.Constructor;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 /**
  * Classe constructrice Prospect.
  */
 public class ProspectBuilder extends SocieteBuilder<Prospect> {
 
-    private LocalDate dateProspection;
+    private String dateProspection;
     private String prospectInteresse;
 
     /**
@@ -69,7 +71,7 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
      * @throws ValidationException Exception set by the identifiant setter.
      */
     @Override
-    public ProspectBuilder dIdentifiant(final Long identifiant)
+    public ProspectBuilder dIdentifiant(final Integer identifiant)
             throws ValidationException {
         LogManager.logInfo("Définition de l'identifiant: " + identifiant);
         setField("id", identifiant);
@@ -127,7 +129,7 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
      * @return This builder.
      * @throws ValidationException Exception set by the rue setter.
      */
-    public ProspectBuilder withRue(final String rue)
+    public ProspectBuilder deNomRue(final String rue)
             throws ValidationException {
         LogManager.logInfo("Définition de la rue: " + rue);
         Adresse adresse = (Adresse) getField("adresse");
@@ -155,7 +157,7 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
      * @return This builder.
      * @throws ValidationException Exception set by the code postal setter.
      */
-    public ProspectBuilder withCodePostal(final String codePostal)
+    public ProspectBuilder deCodePostal(final String codePostal)
             throws ValidationException {
         LogManager.logInfo("Définition du code postal: " + codePostal);
         if (codePostal == null || !codePostal.matches("\\b\\d{5}\\b")) {
@@ -179,7 +181,7 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
      * @return This builder.
      * @throws ValidationException Exception set by the ville setter.
      */
-    public ProspectBuilder withVille(final String ville)
+    public ProspectBuilder deVille(final String ville)
             throws ValidationException {
         LogManager.logInfo("Définition de la ville: " + ville);
         if (ville == null || !ville.matches("\\b([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*[a-zA-Z\\u0080-\\u024F]*\\b")) {
@@ -203,7 +205,7 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
      * @return This builder.
      * @throws ValidationException Exception set by the pays setter.
      */
-    public ProspectBuilder withPays(final String pays)
+    public ProspectBuilder dePays(final String pays)
             throws ValidationException {
         LogManager.logInfo("Définition du pays: " + pays);
         if (pays == null || !pays.matches("\\b([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*[a-zA-Z\\u0080-\\u024F]*\\b")) {
@@ -254,7 +256,7 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
      *
      * @param commentaires Nouveaux commentaires.
      * @return This builder.
-     * @throws ValidationException Exception set by the commentaires setter.
+     * @throws ValidationException Exception set by commentaires setter.
      */
     @Override
     public ProspectBuilder deCommentaires(String commentaires) throws ValidationException {
@@ -264,16 +266,26 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
     }
 
     /**
-     * Setter Date de prospection.
+     * Setter Date Prospection.
      *
      * @param dateProspection Nouvelle date de prospection.
      * @return This builder.
-     * @throws ValidationException Exception set by the dateProspection setter.
+     * @throws ValidationException Exception set by dateProspection setter.
      */
-    public ProspectBuilder deDateProspection(final LocalDate dateProspection)
+    public ProspectBuilder deDateProspection(final String dateProspection)
             throws ValidationException {
         LogManager.logInfo("Définition de la date de prospection: " + dateProspection);
-        setField("dateProspection", dateProspection);
+        try {
+            LocalDate date = LocalDate.parse(dateProspection, DateTimeFormatter.ISO_LOCAL_DATE);
+            if (date.isAfter(LocalDate.now())) {
+                LogManager.logWarning("Date de prospection future invalide: " + dateProspection);
+                throw new ValidationException("La date de prospection ne peut pas être dans le futur");
+            }
+            setField("dateProspection", dateProspection);
+        } catch (DateTimeParseException e) {
+            LogManager.logWarning("Format de date invalide: " + dateProspection);
+            throw new ValidationException("Le format de la date doit être YYYY-MM-DD");
+        }
         return this;
     }
 
@@ -372,10 +384,10 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
     @Override
     public ProspectBuilder avecAdresse(String rue, String codePostal, String ville, String pays, String telephone) throws ValidationException {
         LogManager.logInfo("Configuration de l'adresse complète - rue: " + rue + ", codePostal: " + codePostal + ", ville: " + ville + ", pays: " + pays + ", telephone: " + telephone);
-        return this.withRue(rue)
-                .withCodePostal(codePostal)
-                .withVille(ville)
-                .withPays(pays)
+        return this.deNomRue(rue)
+                .deCodePostal(codePostal)
+                .deVille(ville)
+                .dePays(pays)
                 .deTelephone(telephone);
     }
 }

@@ -31,7 +31,7 @@ public final class ViewClientsController implements ICommand {
             request.setAttribute("titlePage", "Consultation");
             request.setAttribute("titleGroup", "Clients");
             String clientId = request.getParameter("clientId");
-            Optional<Client> client = clientService.findById(Long.parseLong(clientId));
+            Optional<Client> client = clientService.findById(Integer.parseInt(clientId));
             client.ifPresent(c -> request.setAttribute("client", c));
         }
 

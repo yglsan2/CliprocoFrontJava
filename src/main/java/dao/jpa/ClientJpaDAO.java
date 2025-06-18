@@ -10,149 +10,160 @@ import exceptions.ResourceNotFoundException;
 import exceptions.BusinessException;
 import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implémentation JPA du DAO pour les clients.
  */
-public class ClientJpaDAO extends GenericJpaDAO<Client, Long> {
-    
+public class ClientJpaDAO extends GenericJpaDAO<Client, Integer> {
+    private static final Logger logger = LoggerFactory.getLogger(ClientJpaDAO.class);
+    private final EntityManager entityManager;
+
     public ClientJpaDAO() {
         super();
+        this.entityManager = DatabaseConnection.getEntityManager();
+        logger.info("ClientJpaDAO initialisé avec l'EntityManager par défaut");
+    }
+
+    public ClientJpaDAO(EntityManager entityManager) {
+        super();
+        this.entityManager = entityManager;
+        logger.info("ClientJpaDAO initialisé avec un EntityManager personnalisé");
     }
 
     @Override
-    public Optional<Client> findById(Long id) throws ValidationException, DatabaseException {
-        EntityManager em = null;
+    public Optional<Client> findById(Integer id) throws ValidationException, DatabaseException {
+        logger.debug("Recherche du client avec l'ID: {}", id);
         try {
-            em = getEntityManager();
-            Client client = em.find(Client.class, id);
+            Client client = entityManager.find(Client.class, id);
             return Optional.ofNullable(client);
         } catch (IllegalArgumentException e) {
             LogManager.logWarning("ID invalide pour la recherche du client: " + id);
             throw new ValidationException("ID invalide", e);
         } catch (Exception e) {
-            LogManager.logException("Erreur lors de la recherche du client par ID", e);
+            logger.error("Erreur lors de la recherche du client avec l'ID: {}", id, e);
             throw new DatabaseException("Erreur lors de la recherche du client", e);
-        } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
         }
     }
 
     @Override
     public List<Client> findAll() throws DatabaseException {
-        EntityManager em = null;
+        logger.debug("Récupération de tous les clients");
         try {
-            em = getEntityManager();
-            TypedQuery<Client> query = em.createQuery("SELECT c FROM Client c", Client.class);
+            TypedQuery<Client> query = entityManager.createQuery("SELECT c FROM Client c", Client.class);
             return query.getResultList();
         } catch (Exception e) {
-            LogManager.logException("Erreur lors de la récupération des clients", e);
+            logger.error("Erreur lors de la récupération de tous les clients", e);
             throw new DatabaseException("Erreur lors de la récupération des clients", e);
-        } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
         }
     }
 
     @Override
     public Client save(Client client) throws ValidationException, DatabaseException {
-        EntityManager em = null;
+        logger.debug("Sauvegarde d'un nouveau client");
         try {
             if (client == null) {
                 throw new ValidationException("Le client ne peut pas être null");
             }
-            em = getEntityManager();
-            em.getTransaction().begin();
-            em.persist(client);
-            em.getTransaction().commit();
+            entityManager.getTransaction().begin();
+            entityManager.persist(client);
+            entityManager.getTransaction().commit();
+            logger.info("Nouveau client sauvegardé avec succès");
             return client;
         } catch (ValidationException e) {
             LogManager.logWarning("Erreur de validation lors de la sauvegarde du client: " + e.getMessage());
             throw e;
         } catch (Exception e) {
-            if (em != null && em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
             }
-            LogManager.logException("Erreur lors de la sauvegarde du client", e);
+            logger.error("Erreur lors de la sauvegarde du client", e);
             throw new DatabaseException("Erreur lors de la sauvegarde du client", e);
-        } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
         }
     }
 
     @Override
     public Client update(Client client) throws ValidationException, ResourceNotFoundException, DatabaseException {
-        EntityManager em = null;
+        logger.debug("Mise à jour du client avec l'ID: {}", client.getIdentifiant());
         try {
             if (client == null) {
                 throw new ValidationException("Le client ne peut pas être null");
             }
-            em = getEntityManager();
-            em.getTransaction().begin();
-            Client existingClient = em.find(Client.class, client.getIdentifiant());
+            entityManager.getTransaction().begin();
+            Client existingClient = entityManager.find(Client.class, client.getIdentifiant());
             if (existingClient == null) {
                 throw new ResourceNotFoundException("Client non trouvé avec l'ID: " + client.getIdentifiant());
             }
-            Client updatedClient = em.merge(client);
-            em.getTransaction().commit();
+            Client updatedClient = entityManager.merge(client);
+            entityManager.getTransaction().commit();
+            logger.info("Client mis à jour avec succès");
             return updatedClient;
         } catch (ValidationException | ResourceNotFoundException e) {
             LogManager.logWarning("Erreur lors de la mise à jour du client: " + e.getMessage());
             throw e;
         } catch (Exception e) {
-            if (em != null && em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
             }
-            LogManager.logException("Erreur lors de la mise à jour du client", e);
+            logger.error("Erreur lors de la mise à jour du client", e);
             throw new DatabaseException("Erreur lors de la mise à jour du client", e);
-        } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
         }
     }
 
     @Override
     public void delete(Client client) throws ValidationException, ResourceNotFoundException, DatabaseException {
-        EntityManager em = null;
+        logger.debug("Suppression du client avec l'ID: {}", client.getIdentifiant());
         try {
             if (client == null) {
                 throw new ValidationException("Le client ne peut pas être null");
             }
-            em = getEntityManager();
-            em.getTransaction().begin();
-            Client existingClient = em.find(Client.class, client.getIdentifiant());
+            entityManager.getTransaction().begin();
+            Client existingClient = entityManager.find(Client.class, client.getIdentifiant());
             if (existingClient == null) {
                 throw new ResourceNotFoundException("Client non trouvé avec l'ID: " + client.getIdentifiant());
             }
-            em.remove(existingClient);
-            em.getTransaction().commit();
+            entityManager.remove(existingClient);
+            entityManager.getTransaction().commit();
+            logger.info("Client supprimé avec succès");
         } catch (ValidationException | ResourceNotFoundException e) {
             LogManager.logWarning("Erreur lors de la suppression du client: " + e.getMessage());
             throw e;
         } catch (Exception e) {
-            if (em != null && em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
             }
-            LogManager.logException("Erreur lors de la suppression du client", e);
+            logger.error("Erreur lors de la suppression du client", e);
             throw new DatabaseException("Erreur lors de la suppression du client", e);
-        } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
+        }
+    }
+
+    @Override
+    public boolean existsById(Integer id) throws ValidationException, DatabaseException {
+        logger.debug("Vérification de l'existence du client avec l'ID: {}", id);
+        try {
+            if (id == null) {
+                throw new ValidationException("L'ID ne peut pas être null");
             }
+            TypedQuery<Integer> query = entityManager.createQuery(
+                "SELECT COUNT(c) FROM Client c WHERE c.id = :id",
+                Integer.class
+            );
+            query.setParameter("id", id);
+            return query.getSingleResult() > 0;
+        } catch (ValidationException e) {
+            throw e;
+        } catch (Exception e) {
+            logger.error("Erreur lors de la vérification de l'existence du client avec l'ID: {}", id, e);
+            throw new DatabaseException("Erreur lors de la vérification de l'existence du client", e);
         }
     }
 
     @Override
     public void close() throws DatabaseException {
         try {
-            if (emf != null && emf.isOpen()) {
-                emf.close();
+            if (entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
             }
         } catch (Exception e) {
             LogManager.logException("Erreur lors de la fermeture des ressources", e);
@@ -161,13 +172,12 @@ public class ClientJpaDAO extends GenericJpaDAO<Client, Long> {
     }
 
     public List<Client> findByRaisonSociale(String raisonSociale) throws ValidationException, DatabaseException {
-        EntityManager em = null;
+        logger.debug("Recherche des clients avec la raison sociale: {}", raisonSociale);
         try {
             if (raisonSociale == null) {
                 throw new ValidationException("La raison sociale ne peut pas être null");
             }
-            em = getEntityManager();
-            TypedQuery<Client> query = em.createQuery(
+            TypedQuery<Client> query = entityManager.createQuery(
                 "SELECT c FROM Client c WHERE c.raisonSociale LIKE :raisonSociale",
                 Client.class
             );
@@ -176,37 +186,28 @@ public class ClientJpaDAO extends GenericJpaDAO<Client, Long> {
         } catch (ValidationException e) {
             throw e;
         } catch (Exception e) {
-            LogManager.logException("Erreur lors de la recherche par raison sociale", e);
-            throw new DatabaseException("Erreur lors de la recherche par raison sociale", e);
-        } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
+            logger.error("Erreur lors de la recherche des clients par raison sociale: {}", raisonSociale, e);
+            throw new DatabaseException("Erreur lors de la recherche des clients par raison sociale", e);
         }
     }
     
     public boolean existsByRaisonSociale(String raisonSociale) throws ValidationException, DatabaseException {
-        EntityManager em = null;
+        logger.debug("Vérification de l'existence des clients avec la raison sociale: {}", raisonSociale);
         try {
             if (raisonSociale == null) {
                 throw new ValidationException("La raison sociale ne peut pas être null");
             }
-            em = getEntityManager();
-            TypedQuery<Long> query = em.createQuery(
+            TypedQuery<Integer> query = entityManager.createQuery(
                 "SELECT COUNT(c) FROM Client c WHERE c.raisonSociale = :raisonSociale",
-                Long.class
+                Integer.class
             );
             query.setParameter("raisonSociale", raisonSociale);
             return query.getSingleResult() > 0;
         } catch (ValidationException e) {
             throw e;
         } catch (Exception e) {
-            LogManager.logException("Erreur lors de la vérification de l'existence", e);
-            throw new DatabaseException("Erreur lors de la vérification de l'existence", e);
-        } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
+            logger.error("Erreur lors de la vérification de l'existence des clients avec la raison sociale: {}", raisonSociale, e);
+            throw new DatabaseException("Erreur lors de la vérification de l'existence des clients", e);
         }
     }
 } 

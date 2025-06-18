@@ -11,8 +11,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.jetbrains.annotations.NotNull;
 
-import java.time.LocalDate;
-
 public final class CreationProspectsController implements ICommand {
     private final ProspectService prospectService;
 
@@ -45,7 +43,7 @@ public final class CreationProspectsController implements ICommand {
                     .deMail(request.getParameter("mail"))
                     .deCommentaires(request.getParameter("commentaires"))
                     .dAdresse(adresse)
-                    .deDateProspection(LocalDate.parse(request.getParameter("dateProspection")))
+                    .deDateProspection(request.getParameter("dateProspection"))
                     .deProspectInteresse(request.getParameter("prospectInteresse"))
                     .build();
 
