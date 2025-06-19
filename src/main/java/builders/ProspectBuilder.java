@@ -4,8 +4,6 @@ import models.Prospect;
 import models.Adresse;
 import exceptions.ValidationException;
 import utilities.Formatters;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import utilities.LogManager;
 
 import java.lang.reflect.Field;
@@ -57,8 +55,7 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
      *
      * @return new ProspectBuilder
      */
-    @Contract(" -> new")
-    public static @NotNull ProspectBuilder getNewProspectBuilder() {
+    public static ProspectBuilder getNewProspectBuilder() {
         LogManager.logInfo("Création d'un nouveau ProspectBuilder via méthode statique");
         return new ProspectBuilder();
     }

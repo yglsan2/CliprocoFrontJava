@@ -32,7 +32,7 @@ public class ContratBuilderTest {
 
         // When
         Contrat contrat = builder
-            .dIdentifiant(1L)
+            .dIdentifiant(Integer.valueOf(1))
             .deLibelle("Contrat Standard")
             .deMontant(new BigDecimal("1000.0"))
             .dIdClient(1L)
@@ -40,10 +40,10 @@ public class ContratBuilderTest {
 
         // Then
         assertNotNull(contrat);
-        assertEquals(1L, contrat.getIdentifiant());
+        assertEquals(Integer.valueOf(1), contrat.getIdentifiant());
         assertEquals("Contrat Standard", contrat.getLibelle());
         assertEquals(new BigDecimal("1000.0"), contrat.getMontant());
-        assertEquals(1L, contrat.getClient().getIdentifiant());
+        assertEquals(Integer.valueOf(1), contrat.getClient().getIdentifiant());
     }
 
     @Test
@@ -66,7 +66,7 @@ public class ContratBuilderTest {
         // When & Then
         assertThrows(ValidationException.class, () -> {
             builder
-                .dIdentifiant(1L)
+                .dIdentifiant(Integer.valueOf(1))
                 .deLibelle("Contrat Standard")
                 .deMontant(new BigDecimal("1000.0"))
                 .dIdClient(1L)
@@ -94,7 +94,7 @@ public class ContratBuilderTest {
         // When & Then
         assertThrows(ValidationException.class, () -> {
             builder
-                .dIdentifiant(1L)
+                .dIdentifiant(Integer.valueOf(1))
                 .deLibelle("Contrat Standard")
                 .deMontant(new BigDecimal("-1000.0")) // Montant négatif
                 .dIdClient(1L)
@@ -122,7 +122,7 @@ public class ContratBuilderTest {
         // When & Then
         assertThrows(ValidationException.class, () -> {
             builder
-                .dIdentifiant(1L)
+                .dIdentifiant(Integer.valueOf(1))
                 .deLibelle("") // Libellé vide
                 .deMontant(new BigDecimal("1000.0"))
                 .dIdClient(1L)

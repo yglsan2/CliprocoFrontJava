@@ -9,18 +9,11 @@ import models.Client;
 import utilities.Security;
 import utilities.LogManager;
 import exceptions.ResourceNotFoundException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import dao.IDAO;
 import dao.jpa.ClientJpaDAO;
 import dao.jpa.AdresseJpaDAO;
-
-import java.util.Set;
 
 public final class UpdateClientsController implements ICommand {
     private final ClientService clientService;
@@ -31,11 +24,8 @@ public final class UpdateClientsController implements ICommand {
         LogManager.logInfo("ClientService injecté avec succès");
     }
 
-    @Contract(pure = true)
     @Override
-    public @NotNull String execute(final HttpServletRequest request,
-                                   final HttpServletResponse response)
-            throws Exception {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         LogManager.logInfo("Début de l'exécution de UpdateClientsController");
 
         String jsp = "clients/view.jsp";
@@ -84,19 +74,10 @@ public final class UpdateClientsController implements ICommand {
                                 .build();
                         LogManager.logInfo("Client construit avec succès: " + updatedClient);
 
-                        LogManager.logInfo("Validation du client");
-                        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-                        Set<ConstraintViolation<Client>> violations = validator.validate(updatedClient);
-
-                        if (!violations.isEmpty()) {
-                            LogManager.logWarning("Violations de contraintes détectées: " + violations.size());
-                            request.setAttribute("violations", violations);
-                        } else {
-                            LogManager.logInfo("Aucune violation de contraintes, mise à jour du client");
-                            clientService.update(updatedClient);
-                            urlSuite = "redirect:?cmd=clients";
-                            LogManager.logInfo("Redirection vers: " + urlSuite);
-                        }
+                        LogManager.logInfo("Mise à jour du client");
+                        clientService.update(updatedClient);
+                        urlSuite = "redirect:?cmd=clients";
+                        LogManager.logInfo("Redirection vers: " + urlSuite);
                     } catch (Exception e) {
                         LogManager.logException("Erreur lors de la construction ou de la mise à jour du client", e);
                         throw e;

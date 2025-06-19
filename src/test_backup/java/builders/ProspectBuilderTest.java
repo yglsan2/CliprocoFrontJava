@@ -20,7 +20,7 @@ class ProspectBuilderTest {
 
         // When
         Prospect prospect = new ProspectBuilder()
-            .dIdentifiant(1L)
+            .dIdentifiant(Integer.valueOf(1))
             .deRaisonSociale("Test Company")
             .deMail("test@company.com")
             .deTelephone("0123456789")
@@ -30,7 +30,7 @@ class ProspectBuilderTest {
 
         // Then
         assertNotNull(prospect);
-        assertEquals(1L, prospect.getIdentifiant());
+        assertEquals(Integer.valueOf(1), prospect.getIdentifiant());
         assertEquals("Test Company", prospect.getRaisonSociale());
         assertEquals("test@company.com", prospect.getMail());
         assertEquals("0123456789", prospect.getTelephone());
@@ -51,7 +51,7 @@ class ProspectBuilderTest {
         // When & Then
         assertThrows(ValidationException.class, () -> {
             new ProspectBuilder()
-                .dIdentifiant(1L)
+                .dIdentifiant(Integer.valueOf(1))
                 .deRaisonSociale("Test Company")
                 .deMail("invalid-email")
                 .deTelephone("0123456789")
@@ -74,7 +74,7 @@ class ProspectBuilderTest {
         // When & Then
         assertThrows(ValidationException.class, () -> {
             new ProspectBuilder()
-                .dIdentifiant(1L)
+                .dIdentifiant(Integer.valueOf(1))
                 .deRaisonSociale("Test Company")
                 .deMail("test@company.com")
                 .deTelephone("invalid-phone")
@@ -97,7 +97,7 @@ class ProspectBuilderTest {
         // When & Then
         assertThrows(ValidationException.class, () -> {
             new ProspectBuilder()
-                .dIdentifiant(1L)
+                .dIdentifiant(Integer.valueOf(1))
                 .deRaisonSociale("Test Company")
                 .deMail("test@company.com")
                 .deTelephone("0123456789")
@@ -120,7 +120,7 @@ class ProspectBuilderTest {
         // When & Then
         assertThrows(ValidationException.class, () -> {
             new ProspectBuilder()
-                .dIdentifiant(1L)
+                .dIdentifiant(Integer.valueOf(1))
                 .deRaisonSociale("Test Company")
                 .deMail("test@company.com")
                 .deTelephone("0123456789")
@@ -134,12 +134,12 @@ class ProspectBuilderTest {
     void testBuildProspectDeNullValues() throws ValidationException {
         // Given & When
         Prospect prospect = new ProspectBuilder()
-            .dIdentifiant(1L)
+            .dIdentifiant(Integer.valueOf(1))
             .build();
 
         // Then
         assertNotNull(prospect);
-        assertEquals(1L, prospect.getIdentifiant());
+        assertEquals(Integer.valueOf(1), prospect.getIdentifiant());
         assertNull(prospect.getRaisonSociale());
         assertNull(prospect.getMail());
         assertNull(prospect.getTelephone());

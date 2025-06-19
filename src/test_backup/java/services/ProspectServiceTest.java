@@ -238,7 +238,7 @@ class ProspectServiceTest {
 
         // Then
         assertNotNull(found);
-        assertEquals(1L, found.getIdentifiant());
+        assertEquals(Integer.valueOf(1), found.getIdentifiant());
         assertEquals("Test Prospect", found.getRaisonSociale());
         assertEquals("123 Rue Test", found.getAdresse());
         assertEquals("0123456789", found.getTelephone());
@@ -332,7 +332,7 @@ class ProspectServiceTest {
 
         // Then
         assertNotNull(found);
-        assertEquals(1L, found.size());
+        assertEquals(Integer.valueOf(1), found.size());
         assertEquals("Test Prospect", found.get(0).getRaisonSociale());
         verify(prospectDAO).findByRaisonSociale("Test Prospect");
     }

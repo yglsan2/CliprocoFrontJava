@@ -1,10 +1,6 @@
 package models;
 
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 
 /**
  * Represents a company entity in the system.
@@ -20,24 +16,17 @@ public abstract class Societe {
     @Column(name = "id")
     protected Integer identifiant;
 
-    @NotNull
-    @NotBlank
     @Column(name = "raison_sociale", nullable = false, unique = true)
     protected String raisonSociale;
 
-    @NotNull
     @Valid
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "adresse_id")
     protected Adresse adresse;
 
-    @NotNull
-    @Pattern(regexp = "^(?:(?:\\+|00)33|0)\\s*[1-9](?:[\\s.-]*\\d{2}){4}")
     @Column(name = "telephone")
     protected String telephone;
 
-    @NotNull
-    @Pattern(regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     @Column(name = "email")
     protected String mail;
 

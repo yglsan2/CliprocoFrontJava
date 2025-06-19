@@ -5,10 +5,8 @@ import services.ClientService;
 import models.Client;
 import utilities.Security;
 import utilities.LogManager;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import java.util.ArrayList;
 
@@ -20,11 +18,8 @@ public final class ListeClientsController implements ICommand {
         LogManager.logInfo("ListeClientsController initialisé avec succès");
     }
 
-    @Contract(pure = true)
     @Override
-    public @NotNull String execute(final HttpServletRequest request,
-                                   final HttpServletResponse response)
-            throws Exception {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         LogManager.logInfo("Exécution de ListeClientsController");
 
         request.setAttribute("titlePage", "Liste");

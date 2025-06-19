@@ -81,7 +81,7 @@ class ContratJpaDAOTest {
         dao.save(testContrat);
         List<Contrat> contrats = dao.findByClient(testClient);
         assertFalse(contrats.isEmpty());
-        assertEquals(1L, contrats.size());
+        assertEquals(Integer.valueOf(1), contrats.size());
         assertEquals(testContrat.getIdentifiant(), contrats.get(0).getIdentifiant());
     }
 } 

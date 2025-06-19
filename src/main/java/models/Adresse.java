@@ -1,9 +1,6 @@
 package models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 
 /**
  * Represents a physical address with validation constraints.
@@ -21,33 +18,18 @@ public class Adresse {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer identifiant;
 
-    @NotBlank
-    @Pattern(regexp = "(?:\\d{0,3} +(bis|ter|quat)|\\G(?<!^))|(?:\\b\\d{0,3}"
-            + "(?:a|b)*\\b)")
     @Column(name = "numero_rue", nullable = false)
     private String numeroRue;
 
-    @NotBlank
-    @Pattern(regexp = "\\b([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*"
-            + "[a-zA-Z\\u0080-\\u024F]*(?:[0-9]+)*"
-            + "([a-zA-Z\\u0080-\\u024F])*\\b")
     @Column(name = "nom_rue", nullable = false)
     private String nomRue;
 
-    @NotBlank
-    @Size(min = 5, max = 5)
-    @Pattern(regexp = "\\b\\d{5}\\b")
     @Column(name = "code_postal", nullable = false, length = 5)
     private String codePostal;
 
-    @NotBlank
-    @Pattern(regexp = "\\b([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*"
-            + "[a-zA-Z\\u0080-\\u024F]*\\b")
     @Column(nullable = false)
     private String ville;
 
-    @NotBlank
-    @Pattern(regexp = "\\b([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*[a-zA-Z\\u0080-\\u024F]*\\b")
     @Column(nullable = false)
     private String pays;
 

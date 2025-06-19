@@ -4,13 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import org.hibernate.validator.constraints.Range;
 
 /**
  * Classe métier pour un client
@@ -28,15 +21,11 @@ public class Client extends Societe {
     /**
      * chiffre d'affaire du client
      */
-    @NotNull
-    @Max(2000000)
     private Integer chiffreAffaire;
 
     /**
      * Nombre d'employés du client
      */
-    @NotNull
-    @Max(2000000)
     private Integer nbrEmploye;
 
     /**

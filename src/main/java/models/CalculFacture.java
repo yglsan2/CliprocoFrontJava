@@ -1,8 +1,6 @@
 package models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 /**
@@ -15,22 +13,18 @@ public class CalculFacture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull
     @Positive
     @Column(name = "montant_ht", nullable = false)
     private BigDecimal montantHT;
 
-    @NotNull
     @Positive
     @Column(name = "taux_tva", nullable = false)
     private BigDecimal tauxTVA;
 
-    @NotNull
     @Positive
     @Column(name = "montant_tva", nullable = false)
     private BigDecimal montantTVA;
 
-    @NotNull
     @Positive
     @Column(name = "montant_ttc", nullable = false)
     private BigDecimal montantTTC;

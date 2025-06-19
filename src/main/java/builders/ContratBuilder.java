@@ -2,7 +2,6 @@ package builders;
 
 import models.Contrat;
 import exceptions.ValidationException;
-import org.jetbrains.annotations.NotNull;
 import java.math.BigDecimal;
 import java.lang.reflect.Field;
 import java.lang.reflect.Constructor;
@@ -42,7 +41,7 @@ public class ContratBuilder extends Builder<Contrat> {
      *
      * @return new ContratBuilder.
      */
-    public static @NotNull ContratBuilder getNewContratBuilder() {
+    public static ContratBuilder getNewContratBuilder() {
         return new ContratBuilder();
     }
 

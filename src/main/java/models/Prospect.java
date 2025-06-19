@@ -1,10 +1,6 @@
 package models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +13,6 @@ import org.slf4j.LoggerFactory;
 public class Prospect extends Societe {
     private static final Logger logger = LoggerFactory.getLogger(Prospect.class);
 
-    @NotBlank
     @Column(name = "date_prospection", nullable = false)
     private String dateProspection;
 

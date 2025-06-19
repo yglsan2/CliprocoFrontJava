@@ -13,7 +13,7 @@ class AdresseTest {
         adresse.setCodePostal("75000");
         adresse.setVille("Paris");
         adresse.setPays("France");
-        assertEquals(4L, adresse.getIdentifiant());
+        assertEquals(Integer.valueOf(4), adresse.getIdentifiant());
         assertEquals("12", adresse.getNumeroRue());
         assertEquals("Rue de Paris", adresse.getNomRue());
         assertEquals("75000", adresse.getCodePostal());

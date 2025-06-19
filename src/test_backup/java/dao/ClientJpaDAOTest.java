@@ -3,6 +3,7 @@ package dao;
 import dao.jpa.ClientJpaDAO;
 import models.Client;
 import models.Contrat;
+import models.Adresse;
 import exceptions.DatabaseException;
 import exceptions.ValidationException;
 import exceptions.ResourceNotFoundException;
@@ -28,10 +29,25 @@ class ClientJpaDAOTest {
     void setUp() throws ValidationException {
         logger.info("Initialisation du test ClientJpaDAO");
         dao = new ClientJpaDAO();
-        testClient = new Client("Test Client", "12 Rue de Paris, 75000 Paris, France", "0123456789", "client@test.com");
-        testClient.setChiffreAffaires(1000.0);
-        testClient.setNombreEmployes(10);
-        testClient.setCommentaires("Commentaire test");
+        
+        // Création d'une adresse
+        Adresse adresse = new Adresse();
+        adresse.setNumeroRue("12");
+        adresse.setNomRue("Rue de Paris");
+        adresse.setCodePostal("75000");
+        adresse.setVille("Paris");
+        adresse.setPays("France");
+        
+        // Création du client avec le bon constructeur
+        testClient = new Client();
+        testClient.setRaisonSociale("Test Client");
+        testClient.setAdresse(adresse);
+        testClient.setTelephone("0123456789");
+        testClient.setMail("client@test.com");
+        testClient.setChiffreAffaire(Integer.valueOf(1000));
+        testClient.setNbrEmploye(Integer.valueOf(10));
+        testClient.setCommentaire("Commentaire test");
+        
         testContrat = new Contrat(testClient, "Contrat Test", new BigDecimal("1000.00"));
         testContrat.setDateDebut(LocalDate.now());
         testContrat.setDateFin(LocalDate.now().plusYears(1L));
@@ -49,20 +65,20 @@ class ClientJpaDAOTest {
         dao.save(testClient);
         
         // Recherche du client
-        logger.debug("Recherche du client avec l'ID : {}", testClient.getIdentifiant());
-        Optional<Client> found = dao.findById(testClient.getIdentifiant());
+        logger.debug("Recherche du client avec l'ID : {}", testClient.getIdentifiantClient());
+        Optional<Client> found = dao.findById(testClient.getIdentifiantClient());
         
         // Vérifications
         logger.debug("Vérification des résultats");
         assertTrue(found.isPresent());
         assertEquals("Test Client", found.get().getRaisonSociale());
-        assertEquals("12 Rue de Paris, 75000 Paris, France", found.get().getAdresse());
+        assertEquals("12", found.get().getAdresse().getNumeroRue());
         assertEquals("0123456789", found.get().getTelephone());
         assertEquals("client@test.com", found.get().getMail());
-        assertEquals(1000.0, found.get().getChiffreAffaires());
-        assertEquals(0, found.get().getNombreEmployes());
-        assertEquals("Commentaire test", found.get().getCommentaires());
-        assertEquals(1L, found.get().getContrats().size());
+        assertEquals(Integer.valueOf(1000), found.get().getChiffreAffaire());
+        assertEquals(Integer.valueOf(10), found.get().getNbrEmploye());
+        assertEquals("Commentaire test", found.get().getCommentaire());
+        assertEquals(Integer.valueOf(1), Integer.valueOf(found.get().getContrats().size()));
         
         logger.info("Test réussi : Le client a été correctement sauvegardé et retrouvé");
     }
@@ -74,7 +90,7 @@ class ClientJpaDAOTest {
         
         // Recherche d'un client avec un ID inexistant
         logger.debug("Recherche d'un client avec un ID inexistant");
-        Optional<Client> found = dao.findById(9999L);
+        Optional<Client> found = dao.findById(Integer.valueOf(9999));
         
         // Vérification
         logger.debug("Vérification que le client n'est pas trouvé");
@@ -93,12 +109,12 @@ class ClientJpaDAOTest {
         dao.save(testClient);
         
         // Suppression du client
-        logger.debug("Suppression du client avec l'ID : {}", testClient.getIdentifiant());
+        logger.debug("Suppression du client avec l'ID : {}", testClient.getIdentifiantClient());
         dao.delete(testClient);
         
         // Vérification que le client n'existe plus
         logger.debug("Vérification que le client a été supprimé");
-        Optional<Client> found = dao.findById(testClient.getIdentifiant());
+        Optional<Client> found = dao.findById(testClient.getIdentifiantClient());
         assertTrue(found.isEmpty());
         
         logger.info("Test réussi : Le client a été correctement supprimé");
@@ -116,12 +132,20 @@ class ClientJpaDAOTest {
         // Modification des informations du client
         logger.debug("Modification des informations du client");
         testClient.setRaisonSociale("Client Updated");
-        testClient.setAdresse("15 Rue de Lyon, 69000 Lyon, France");
+        
+        Adresse nouvelleAdresse = new Adresse();
+        nouvelleAdresse.setNumeroRue("15");
+        nouvelleAdresse.setNomRue("Rue de Lyon");
+        nouvelleAdresse.setCodePostal("69000");
+        nouvelleAdresse.setVille("Lyon");
+        nouvelleAdresse.setPays("France");
+        testClient.setAdresse(nouvelleAdresse);
+        
         testClient.setTelephone("0987654321");
         testClient.setMail("updated@client.com");
-        testClient.setChiffreAffaires(2000.0);
-        testClient.setNombreEmployes(20);
-        testClient.setCommentaires("Commentaire mis à jour");
+        testClient.setChiffreAffaire(Integer.valueOf(2000));
+        testClient.setNbrEmploye(Integer.valueOf(20));
+        testClient.setCommentaire("Commentaire mis à jour");
         
         // Mise à jour du client
         logger.debug("Mise à jour du client : {}", testClient);
@@ -129,15 +153,15 @@ class ClientJpaDAOTest {
         
         // Vérification des modifications
         logger.debug("Vérification des modifications");
-        Optional<Client> found = dao.findById(testClient.getIdentifiant());
+        Optional<Client> found = dao.findById(testClient.getIdentifiantClient());
         assertTrue(found.isPresent());
         assertEquals("Client Updated", found.get().getRaisonSociale());
-        assertEquals("15 Rue de Lyon, 69000 Lyon, France", found.get().getAdresse());
+        assertEquals("15", found.get().getAdresse().getNumeroRue());
         assertEquals("0987654321", found.get().getTelephone());
         assertEquals("updated@client.com", found.get().getMail());
-        assertEquals(2000.0, found.get().getChiffreAffaires());
-        assertEquals(0, found.get().getNombreEmployes());
-        assertEquals("Commentaire mis à jour", found.get().getCommentaires());
+        assertEquals(Integer.valueOf(2000), found.get().getChiffreAffaire());
+        assertEquals(Integer.valueOf(20), found.get().getNbrEmploye());
+        assertEquals("Commentaire mis à jour", found.get().getCommentaire());
         
         logger.info("Test réussi : Le client a été correctement mis à jour");
     }

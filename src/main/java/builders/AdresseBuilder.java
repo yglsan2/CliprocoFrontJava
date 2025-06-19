@@ -2,8 +2,6 @@ package builders;
 
 import models.Adresse;
 import exceptions.ValidationException;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import utilities.LogManager;
 
 import java.lang.reflect.Field;
@@ -26,8 +24,7 @@ public class AdresseBuilder extends Builder<Adresse> {
      *
      * @return new AdresseBuilder
      */
-    @Contract(" -> new")
-    public static @NotNull AdresseBuilder getNewAdresseBuilder() {
+    public static AdresseBuilder getNewAdresseBuilder() {
         LogManager.logInfo("Création d'un nouveau AdresseBuilder via méthode statique");
         return new AdresseBuilder();
     }

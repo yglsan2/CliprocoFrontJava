@@ -51,7 +51,7 @@ class FactureJpaDAOTest {
         assertEquals(LocalDate.now(), found.get().getDateEmission());
         assertEquals(LocalDate.now().plusDays(30), found.get().getDateEcheance());
         assertEquals(testClient, found.get().getClient());
-        assertEquals(1L, found.get().getProduits().size());
+        assertEquals(Integer.valueOf(1), found.get().getProduits().size());
         assertEquals(testCalcul, found.get().getCalcul());
     }
 

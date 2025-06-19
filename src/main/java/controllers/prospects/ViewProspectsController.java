@@ -4,9 +4,8 @@ import controllers.ICommand;
 import models.Prospect;
 import services.ProspectService;
 import utilities.Security;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.jetbrains.annotations.NotNull;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public final class ViewProspectsController implements ICommand {
     private final ProspectService prospectService;
@@ -16,9 +15,7 @@ public final class ViewProspectsController implements ICommand {
     }
 
     @Override
-    public @NotNull String execute(final HttpServletRequest request,
-                                   final HttpServletResponse response)
-            throws Exception {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.setAttribute("titlePage", "Détails");
         request.setAttribute("titleGroup", "Prospects");
         String jsp = "prospects/view.jsp";

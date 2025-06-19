@@ -13,7 +13,7 @@ class ContratTest {
         contrat.setIdentifiant(5L);
         contrat.setDateDebut(LocalDate.now());
         contrat.setDateFin(LocalDate.now().plusDays(10));
-        assertEquals(5L, contrat.getIdentifiant());
+        assertEquals(Integer.valueOf(5), contrat.getIdentifiant());
         assertEquals(client, contrat.getClient());
         assertEquals("Contrat Test", contrat.getLibelle());
         assertEquals(new BigDecimal("1000.00"), contrat.getMontant());

@@ -1,8 +1,6 @@
 package models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -24,14 +22,12 @@ public class Contrat {
     /**
      * Label/name of the contract (non-blank).
      */
-    @NotNull
     @Column(name = "libelle", nullable = false)
     private String libelle;
 
     /**
      * Monetary value of the contract (must be ≥1).
      */
-    @NotNull
     @Positive
     @Column(name = "montant", nullable = false)
     private BigDecimal montant;

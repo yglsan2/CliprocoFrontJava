@@ -23,3 +23,12 @@
 - Toutes les autres conversions Long/Integer ont été effectuées
 - Les tests ont été supprimés et seront à recréer
 - Vérifier la compilation après chaque correction
+
+## TODO - 2025-06-19 16:58:08
+
+- Continuer la correction des erreurs de compilation restantes (surtout sur les modèles et certains builders).
+- Vérifier la compilation sans les tests (`-DskipTests` fonctionne, mais il reste des erreurs à corriger pour une compilation complète).
+- Finaliser la migration du projet pour compatibilité Tomcat 11 (suppression CDI, validation, etc.).
+- Préparer la documentation pour la nouvelle organisation du projet (architecture MVC simple, plus de CDI, plus de validation Jakarta).
+- Notifier le changement d'organisation sur le dépôt [CliprocoFrontJava](https://github.com/yglsan2/CliprocoFrontJava).
+- Faire un push sur une branche dédiée à la migration/transition.

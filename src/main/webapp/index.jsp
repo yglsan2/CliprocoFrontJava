@@ -3,11 +3,12 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>CliprocoJEE - Redirection</title>
-    <meta http-equiv="refresh" content="0;url=${pageContext.request.contextPath}/signin">
+    <title>CliprocoJEE - Test</title>
 </head>
 <body>
-    <p>Redirection vers la page de connexion...</p>
-    <p>Si vous n'êtes pas redirigé automatiquement, <a href="${pageContext.request.contextPath}/signin">cliquez ici</a>.</p>
+    <h1>CliprocoJEE - Application de test</h1>
+    <p>L'application fonctionne !</p>
+    <p>Date et heure : <%= new java.util.Date() %></p>
+    <p><a href="${pageContext.request.contextPath}/signin">Aller à la page de connexion</a></p>
 </body>
 </html> 

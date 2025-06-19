@@ -1,10 +1,6 @@
 package utilities;
 
 import exceptions.ValidationException;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import jakarta.validation.ValidatorFactory;
-import jakarta.validation.ConstraintViolation;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;

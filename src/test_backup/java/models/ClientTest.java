@@ -24,8 +24,8 @@ class ClientTest {
             "client@test.com"
         );
         client.setCommentaires("Test comment");
-        client.setChiffreAffaires(1000.0);
-        client.setNombreEmployes(10);
+        client.setChiffreAffaire(1000.0);
+        client.setNbrEmploye(10);
     }
 
     @Test
@@ -35,13 +35,13 @@ class ClientTest {
         assertEquals("0123456789", client.getTelephone());
         assertEquals("client@test.com", client.getMail());
         assertEquals("Test comment", client.getCommentaires());
-        assertEquals(1000.0, client.getChiffreAffaires());
-        assertEquals(0, client.getNombreEmployes());
+        assertEquals(1000.0, client.getChiffreAffaire());
+        assertEquals(0, client.getNbrEmploye());
 
-        client.setChiffreAffaires(2000.0);
-        client.setNombreEmployes(20);
-        assertEquals(2000.0, client.getChiffreAffaires());
-        assertEquals(0, client.getNombreEmployes());
+        client.setChiffreAffaire(2000.0);
+        client.setNbrEmploye(20);
+        assertEquals(2000.0, client.getChiffreAffaire());
+        assertEquals(0, client.getNbrEmploye());
     }
 
     @Test

@@ -10,14 +10,14 @@ public class AdresseBuilderTest {
     @Test
     void shouldBuildAdresseDeValidData() {
         Adresse adresse = new AdresseBuilder()
-            .dIdentifiant(1L)
+            .dIdentifiant(Integer.valueOf(1))
             .deNomRue("123 Rue Test")
             .deVille("Paris")
             .deCodePostal("75001")
             .build();
 
         assertNotNull(adresse);
-        assertEquals(1L, adresse.getIdentifiant());
+        assertEquals(Integer.valueOf(1), adresse.getIdentifiant());
         assertEquals("123 Rue Test", adresse.getNomRue());
         assertEquals("Paris", adresse.getVille());
         assertEquals("75001", adresse.getCodePostal());

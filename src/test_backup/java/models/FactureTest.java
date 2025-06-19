@@ -10,7 +10,7 @@ class FactureTest {
         Client client = new Client();
         Facture facture = new Facture("FACT-001", LocalDate.now(), LocalDate.now().plusDays(30), client);
         facture.setIdentifiant(6L);
-        assertEquals(6L, facture.getIdentifiant());
+        assertEquals(Integer.valueOf(6), facture.getIdentifiant());
         assertEquals("FACT-001", facture.getNumero());
         assertEquals(LocalDate.now(), facture.getDateEmission());
         assertEquals(LocalDate.now().plusDays(30), facture.getDateEcheance());

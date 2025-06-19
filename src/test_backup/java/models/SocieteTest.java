@@ -15,7 +15,7 @@ class SocieteTest {
         societe.setAdresse(adresse);
         societe.setTelephone("0112233445");
         societe.setMail("societe@test.com");
-        assertEquals(3L, societe.getIdentifiant());
+        assertEquals(Integer.valueOf(3), societe.getIdentifiant());
         assertEquals("Test Societe", societe.getRaisonSociale());
         assertEquals(adresse, societe.getAdresse());
         assertEquals("0112233445", societe.getTelephone());

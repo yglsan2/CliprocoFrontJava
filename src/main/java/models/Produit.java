@@ -1,8 +1,6 @@
 package models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 /**
@@ -15,15 +13,12 @@ public class Produit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull
     @Column(nullable = false)
     private String nom;
 
-    @NotNull
     @Column(nullable = false, length = 1000)
     private String description;
 
-    @NotNull
     @Positive
     @Column(name = "prix_unitaire", nullable = false)
     private BigDecimal prixUnitaire;

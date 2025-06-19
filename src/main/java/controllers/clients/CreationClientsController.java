@@ -8,15 +8,8 @@ import models.Adresse;
 import services.ClientService;
 import utilities.Security;
 import utilities.LogManager;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public final class CreationClientsController implements ICommand {
     private final ClientService clientService;
@@ -26,11 +19,8 @@ public final class CreationClientsController implements ICommand {
         LogManager.logInfo("Initialisation de CreationClientsController avec clientService");
     }
 
-    @Contract(pure = true)
     @Override
-    public @NotNull String execute(final @NotNull HttpServletRequest request,
-                                   final HttpServletResponse response)
-            throws Exception {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         LogManager.logInfo("Début de l'exécution de CreationClientsController");
 
         String jsp = "clients/create.jsp";
@@ -68,20 +58,11 @@ public final class CreationClientsController implements ICommand {
                             .build();
                     LogManager.logInfo("Client construit avec succès: " + client);
 
-                    // Validation du client
-                    LogManager.logInfo("Validation du client");
-                    Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-                    Set<ConstraintViolation<Client>> violations = validator.validate(client);
-
-                    if (!violations.isEmpty()) {
-                        LogManager.logWarning("Violations de contraintes détectées: " + violations.size());
-                        request.setAttribute("violations", violations);
-                    } else {
-                        LogManager.logInfo("Aucune violation de contraintes, création du client");
-                        clientService.create(client);
-                        urlSuite = "redirect:?cmd=clients";
-                        LogManager.logInfo("Redirection vers: " + urlSuite);
-                    }
+                    // Création du client
+                    LogManager.logInfo("Création du client");
+                    clientService.create(client);
+                    urlSuite = "redirect:?cmd=clients";
+                    LogManager.logInfo("Redirection vers: " + urlSuite);
                 } catch (Exception e) {
                     LogManager.logException("Erreur lors de la création du client", e);
                     throw e;

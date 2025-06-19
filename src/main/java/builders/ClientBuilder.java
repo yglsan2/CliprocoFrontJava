@@ -4,8 +4,6 @@ import models.Adresse;
 import models.Client;
 import models.Contrat;
 import exceptions.ValidationException;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import utilities.LogManager;
 
 import java.lang.reflect.Field;
@@ -54,8 +52,7 @@ public class ClientBuilder extends Builder<Client> {
      *
      * @return new ClientBuilder
      */
-    @Contract(" -> new")
-    public static @NotNull ClientBuilder getNewClientBuilder() {
+    public static ClientBuilder getNewClientBuilder() {
         LogManager.logInfo("Création d'un nouveau ClientBuilder via méthode statique");
         return new ClientBuilder();
     }

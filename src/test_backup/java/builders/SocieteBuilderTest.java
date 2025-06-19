@@ -13,7 +13,7 @@ public class SocieteBuilderTest {
     @Test
     void shouldBuildSocieteDeValidData() throws ValidationException {
         Client client = ClientBuilder.getNewClientBuilder()
-            .dIdentifiant(1L)
+            .dIdentifiant(Integer.valueOf(1))
             .deRaisonSociale("Entreprise Test")
             .deMail("test@example.com")
             .deTelephone("0123456789")
@@ -22,7 +22,7 @@ public class SocieteBuilderTest {
             .build();
 
         assertNotNull(client);
-        assertEquals(1L, client.getIdentifiant());
+        assertEquals(Integer.valueOf(1), client.getIdentifiant());
         assertEquals("Entreprise Test", client.getRaisonSociale());
         assertEquals("test@example.com", client.getMail());
         assertEquals("0123456789", client.getTelephone());

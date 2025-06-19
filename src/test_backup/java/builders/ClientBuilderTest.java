@@ -22,7 +22,7 @@ public class ClientBuilderTest {
 
         // When
         Client client = builder
-            .dIdentifiant(1L)
+            .dIdentifiant(Integer.valueOf(1))
             .deRaisonSociale("Test Company")
             .deMail("test@company.com")
             .deTelephone("0123456789")
@@ -33,12 +33,12 @@ public class ClientBuilderTest {
 
         // Then
         assertNotNull(client);
-        assertEquals(1L, client.getIdentifiant());
+        assertEquals(Integer.valueOf(1), client.getIdentifiant());
         assertEquals("Test Company", client.getRaisonSociale());
         assertEquals("test@company.com", client.getMail());
         assertEquals("0123456789", client.getTelephone());
-        assertEquals(1000.0, client.getChiffreAffaires());
-        assertEquals(0, client.getNombreEmployes());
+        assertEquals(1000.0, client.getChiffreAffaire());
+        assertEquals(0, client.getNbrEmploye());
         assertEquals(adresse, client.getAdresse());
     }
 
@@ -56,7 +56,7 @@ public class ClientBuilderTest {
         // When & Then
         assertThrows(ValidationException.class, () -> {
             builder
-                .dIdentifiant(1L)
+                .dIdentifiant(Integer.valueOf(1))
                 .deRaisonSociale("Test Company")
                 .deMail("invalid-email")
                 .deTelephone("0123456789")
@@ -81,7 +81,7 @@ public class ClientBuilderTest {
         // When & Then
         assertThrows(ValidationException.class, () -> {
             builder
-                .dIdentifiant(1L)
+                .dIdentifiant(Integer.valueOf(1))
                 .deRaisonSociale("Test Company")
                 .deMail("test@company.com")
                 .deTelephone("invalid-phone")
@@ -106,7 +106,7 @@ public class ClientBuilderTest {
         // When & Then
         assertThrows(ValidationException.class, () -> {
             builder
-                .dIdentifiant(1L)
+                .dIdentifiant(Integer.valueOf(1))
                 .deRaisonSociale("Test Company")
                 .deMail("test@company.com")
                 .deTelephone("0123456789")
@@ -121,7 +121,7 @@ public class ClientBuilderTest {
     void testBuildClient() {
         // Given
         Client client = new Client.ClientBuilder()
-            .dIdentifiant(1L)
+            .dIdentifiant(Integer.valueOf(1))
             .deRaisonSociale("Test Company")
             .deMail("test@company.com")
             .deTelephone("0123456789")
@@ -129,7 +129,7 @@ public class ClientBuilderTest {
 
         // Then
         assertNotNull(client);
-        assertEquals(1L, client.getIdentifiant());
+        assertEquals(Integer.valueOf(1), client.getIdentifiant());
         assertEquals("Test Company", client.getRaisonSociale());
         assertEquals("test@company.com", client.getMail());
         assertEquals("0123456789", client.getTelephone());
@@ -139,12 +139,12 @@ public class ClientBuilderTest {
     void testBuildClientDeNullValues() {
         // Given & When
         Client client = new Client.ClientBuilder()
-            .dIdentifiant(1L)
+            .dIdentifiant(Integer.valueOf(1))
             .build();
 
         // Then
         assertNotNull(client);
-        assertEquals(1L, client.getIdentifiant());
+        assertEquals(Integer.valueOf(1), client.getIdentifiant());
         assertNull(client.getRaisonSociale());
         assertNull(client.getMail());
         assertNull(client.getTelephone());

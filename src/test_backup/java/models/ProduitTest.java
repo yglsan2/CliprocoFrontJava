@@ -12,7 +12,7 @@ class ProduitTest {
         produit.setNom("Produit Test Modifié");
         produit.setDescription("Description modifiée");
         produit.setPrixUnitaire(new BigDecimal("200.00"));
-        assertEquals(7L, produit.getIdentifiant());
+        assertEquals(Integer.valueOf(7), produit.getIdentifiant());
         assertEquals("Produit Test Modifié", produit.getNom());
         assertEquals("Description modifiée", produit.getDescription());
         assertEquals(new BigDecimal("200.00"), produit.getPrixUnitaire());

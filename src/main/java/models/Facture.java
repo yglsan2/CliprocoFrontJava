@@ -1,7 +1,6 @@
 package models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,15 +15,12 @@ public class Facture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull
     @Column(nullable = false, unique = true)
     private String numero;
 
-    @NotNull
     @Column(name = "date_emission", nullable = false)
     private LocalDate dateEmission;
 
-    @NotNull
     @Column(name = "date_echeance", nullable = false)
     private LocalDate dateEcheance;
 
