@@ -1,3 +1,6 @@
+@use "variables" as v;
+@use "mixins" as m;
+
 // Reset et styles de base
 * {
   margin: 0;
@@ -6,11 +9,11 @@
 }
 
 body {
-  font-family: $font-family-base;
-  font-size: $font-size-base;
-  line-height: $line-height-base;
-  color: $text-color;
-  background-color: $background-color;
+  font-family: v.$font-family-base;
+  font-size: v.$font-size-base;
+  line-height: v.$line-height-base;
+  color: v.$text-color;
+  background-color: v.$background-color;
 }
 
 // Container
@@ -18,22 +21,22 @@ body {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 $container-padding;
+  padding: 0 v.$container-padding;
   
-  @include respond-to(sm) {
-    padding: 0 $spacing-unit * 3;
+  @include m.respond-to(sm) {
+    padding: 0 v.$spacing-unit * 3;
   }
 }
 
 // Grid system
 .grid {
   display: grid;
-  gap: $spacing-unit * 2;
+  gap: v.$spacing-unit * 2;
   
   &--2-cols {
     grid-template-columns: 1fr;
     
-    @include respond-to(md) {
+    @include m.respond-to(md) {
       grid-template-columns: repeat(2, 1fr);
     }
   }
@@ -41,7 +44,7 @@ body {
   &--3-cols {
     grid-template-columns: 1fr;
     
-    @include respond-to(md) {
+    @include m.respond-to(md) {
       grid-template-columns: repeat(3, 1fr);
     }
   }
@@ -49,18 +52,18 @@ body {
 
 // Sections
 .section {
-  padding: $spacing-unit * 4 0;
+  padding: v.$spacing-unit * 4 0;
   
   &--dark {
-    background-color: $primary-color;
+    background-color: v.$primary-color;
     color: white;
   }
 }
 
 // Spacing utilities
-.mt-1 { margin-top: $spacing-unit; }
-.mt-2 { margin-top: $spacing-unit * 2; }
-.mt-3 { margin-top: $spacing-unit * 3; }
-.mb-1 { margin-bottom: $spacing-unit; }
-.mb-2 { margin-bottom: $spacing-unit * 2; }
-.mb-3 { margin-bottom: $spacing-unit * 3; } 
+.mt-1 { margin-top: v.$spacing-unit; }
+.mt-2 { margin-top: v.$spacing-unit * 2; }
+.mt-3 { margin-top: v.$spacing-unit * 3; }
+.mb-1 { margin-bottom: v.$spacing-unit; }
+.mb-2 { margin-bottom: v.$spacing-unit * 2; }
+.mb-3 { margin-bottom: v.$spacing-unit * 3; } 

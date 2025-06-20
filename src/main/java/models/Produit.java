@@ -19,7 +19,6 @@ public class Produit {
     @Column(nullable = false, length = 1000)
     private String description;
 
-    @Positive
     @Column(name = "prix_unitaire", nullable = false)
     private BigDecimal prixUnitaire;
 

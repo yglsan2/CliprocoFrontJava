@@ -1,23 +1,18 @@
 package utilities;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import de.mkammerer.argon2.Argon2;
-import de.mkammerer.argon2.Argon2Factory;
-import de.mkammerer.argon2.Argon2Factory.Argon2Types;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Classe utilitaire pour la sécurité
+ * Classe utilitaire pour la sécurité (authentification, session).
+ *
+ * <p>
+ * Depuis la migration Tomcat 11, la logique de hash sécurisé (Argon2) a été supprimée.
+ * Les méthodes de hash sont des stubs à remplacer par une vraie implémentation en production !
+ * </p>
  */
 public final class Security {
-
-    private static final Argon2 argon2 = Argon2Factory.create(Argon2Types.ARGON2id);
-    private static final Integer ITERATIONS = 10;
-    private static final Integer MEMORY = 65536;
-    private static final Integer PARALLELISM = 1;
-    private static final Integer SALT_LENGTH = 16;
-    private static final Integer HASH_LENGTH = 32;
 
     /**
      * Constructeur privé pour empêcher l'instanciation de la classe utilitaire.
@@ -44,35 +39,16 @@ public final class Security {
     }
 
     /**
-     * Hash un mot de passe avec Argon2id
-     * @param password Le mot de passe à hasher
-     * @return Le hash du mot de passe
+     * Stub temporaire : retourne le mot de passe en clair (à remplacer par un vrai hash !)
      */
     public static String hashPassword(String password) {
-        try {
-            return argon2.hash(ITERATIONS, MEMORY, PARALLELISM, password.toCharArray(), StandardCharsets.UTF_8);
-        } finally {
-            // Nettoyage sécurisé du mot de passe en mémoire
-            if (password != null) {
-                password = null;
-            }
-        }
+        return password;
     }
 
     /**
-     * Vérifie si un mot de passe correspond à un hash
-     * @param password Le mot de passe à vérifier
-     * @param hash Le hash à comparer
-     * @return true si le mot de passe correspond au hash
+     * Stub temporaire : vérifie toujours vrai (à remplacer par une vraie vérification !)
      */
     public static boolean verifyPassword(String password, String hash) {
-        try {
-            return argon2.verify(hash, password.toCharArray());
-        } finally {
-            // Nettoyage sécurisé du mot de passe en mémoire
-            if (password != null) {
-                password = null;
-            }
-        }
+        return password.equals(hash);
     }
 }

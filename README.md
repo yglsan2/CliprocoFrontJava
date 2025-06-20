@@ -1,7 +1,7 @@
 # CliprocoJEE - Application de Gestion de Clients et Prospects
 
 ## 📋 Description
-CliprocoJEE est une application Java EE de gestion de clients et prospects, permettant de gérer efficacement les informations des entreprises, leurs contrats et leurs interactions.
+CliprocoJEE est une application Java web (MVC simple) de gestion de clients et prospects, permettant de gérer efficacement les informations des entreprises, leurs contrats et leurs interactions.
 
 ## 🏗 Architecture
 ```mermaid
@@ -10,7 +10,6 @@ graph TD
     B --> C[DAOs]
     C --> D[Base de données]
     E[Builders] --> F[Modèles]
-    G[Validation] --> B
     H[Logging] --> B
 ```
 
@@ -21,26 +20,26 @@ src/
 │   ├── java/
 │   │   ├── builders/      # Pattern Builder pour la création d'objets
 │   │   ├── controllers/   # Contrôleurs MVC
-│   │   ├── dao/          # Couche d'accès aux données
-│   │   ├── exceptions/   # Gestion des exceptions personnalisées
-│   │   ├── models/       # Entités JPA
-│   │   ├── services/     # Logique métier
-│   │   └── utilities/    # Utilitaires (validation, logging)
+│   │   ├── dao/           # Couche d'accès aux données
+│   │   ├── exceptions/    # Gestion des exceptions personnalisées
+│   │   ├── models/        # Entités JPA
+│   │   ├── services/      # Logique métier
+│   │   └── utilities/     # Utilitaires (validation manuelle, logging)
 │   └── resources/
-│       └── messages/     # Messages centralisés
-└── test/
-    └── java/            # Tests unitaires
+│       └── messages/      # Messages centralisés
+└── test_backup/
+    └── java/              # Tests unitaires
 ```
 
 ## 🛠 Technologies
 | Technologie | Version | Description |
 |------------|---------|-------------|
-| Java EE | 8 | Framework d'entreprise |
+| Java | 21 | Langage principal |
+| Tomcat | 11 | Serveur d'application |
 | MySQL | 8.0 | Base de données |
 | Maven | 3.8+ | Gestion des dépendances |
 | JUnit | 5 | Tests unitaires |
 | Hibernate | 6.0 | ORM |
-| Jakarta Validation | 3.0 | Validation des données |
 
 ## 🚀 Installation
 ```bash
@@ -50,18 +49,20 @@ git clone https://github.com/votre-repo/CliprocoJEE.git
 # Compiler le projet
 mvn clean package
 
-# Lancer l'application
-mvn tomcat7:run
+# Lancer l'application (Tomcat 11 requis)
+# Déployer le .war généré dans le dossier webapps de Tomcat 11
 ```
 
 ## 💡 Fonctionnalités Principales
 
 ### 1. Gestion des Clients et Prospects
 - Création, modification, suppression
-- Validation des données (email, téléphone, etc.)
+- Validation manuelle des données (email, téléphone, etc.)
 - Gestion des contrats associés
 
 ### 2. Validation des Données
+La validation Jakarta (javax/jakarta.validation) a été supprimée. Toute validation est désormais manuelle, via des utilitaires Java (regex, etc.).
+
 ```java
 // Exemple de validation d'email
 public void validateEmail(String email) {
@@ -122,44 +123,20 @@ erDiagram
 ```
 
 ## 🧪 Tests Unitaires
-```java
-@Test
-public void testCreateClient() {
-    Client client = new Client();
-    client.setRaisonSociale("Test Company");
-    client.setMail("test@company.com");
-    client.setChiffreAffaire(100000);
-    client.setNbrEmploye(10);
-    
-    Client saved = clientService.create(client);
-    assertNotNull(saved);
-    assertNotNull(saved.getId());
-}
-```
+Les tests sont à réécrire pour la nouvelle architecture. Les anciens tests sont dans `test_backup/`.
 
 ## 📝 Messages Centralisés
-Les messages d'erreur, de succès et de log sont centralisés dans `src/main/resources/messages/messages.properties` :
-```properties
-# Validation
-validation.email=Email invalide
-validation.phone=Numéro de téléphone invalide
-validation.chiffreAffaire=Le chiffre d'affaires doit être >= 250
-
-# Succès
-success.create=Création réussie
-success.update=Mise à jour réussie
-success.delete=Suppression réussie
-```
+Les messages d'erreur, de succès et de log sont centralisés dans `src/main/resources/messages/messages.properties`.
 
 ## 🔄 Workflow de Développement
 1. Création d'une entité via le Builder
-2. Validation des données
+2. Validation manuelle des données
 3. Persistance via le DAO
 4. Tests unitaires
 5. Déploiement
 
 ## 🎯 Bonnes Pratiques
-1. **Validation** : Toujours valider les entrées utilisateur
+1. **Validation** : Toujours valider les entrées utilisateur (manuellement)
 2. **Logging** : Logger toutes les opérations importantes
 3. **Exceptions** : Utiliser des exceptions personnalisées
 4. **Builders** : Utiliser le pattern Builder pour la création d'objets complexes
@@ -176,38 +153,36 @@ Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 
 ## 🙏 Remerciements
 - L'équipe de développement
-- La communauté Java EE
-- Les contributeurs open source 
+- La communauté Java
+- Les contributeurs open source
 
 ## Déploiement et configuration Maven
 
-### Pourquoi Cargo en mode remote ?
-- Il n'existe pas de plugin Maven stable pour Tomcat 10+.
-- Cargo permet de déployer sur un Tomcat 10 déjà installé (local ou distant) via l'API Tomcat Manager.
-- Ce mode est le plus proche d'un déploiement de production :
-    * Contrôle total sur la version et la configuration de Tomcat
-    * Compatible avec Jakarta EE 11 et Maven 3+
-    * Pas de dépendance à un plugin alpha ou obsolète
-    * Déploiement rapide, sans redémarrage du serveur
-    * Sécurité accrue (credentials dédiés)
+### Pourquoi Cargo ou déploiement manuel ?
+- Il n'existe pas de plugin Maven stable pour Tomcat 10+ ou 11.
+- Déployer le .war généré dans le dossier `webapps` de Tomcat 11 est la méthode recommandée.
+- Cargo peut être utilisé pour des déploiements avancés (voir pom.xml).
 
 ### Choix des versions
-- **Tomcat 10.x** : dernière version stable supportant JakartaEE 11
-- **JakartaEE 11 (web-api)** : pour profiter des dernières évolutions de la plateforme
-- **Cargo 1.10.3** : version stable, compatible Tomcat 10
+- **Tomcat 11.x** : dernière version stable supportant JakartaEE 11
+- **Java 21** : pour profiter des dernières évolutions du langage
+- **Hibernate 6.x** : ORM moderne
 - **Maven 3+** : standard de l'écosystème Java
 
-### Comment déployer ?
-1. Installer et lancer Tomcat 10 avec le manager activé
-2. Adapter les credentials dans le pom.xml si besoin
-3. Compiler et déployer :
-   ```sh
-   mvn clean package -Dmaven.test.skip=true
-   mvn cargo:deploy
-   ```
+### Dépendance MySQL (corrigée)
+```xml
+<dependency>
+    <groupId>com.mysql</groupId>
+    <artifactId>mysql-connector-j</artifactId>
+    <version>8.0.33</version>
+</dependency>
+```
 
-### Remarque
-Le mode remote est la seule méthode fiable et maintenue pour Tomcat 10+ avec Maven. Les plugins Tomcat embarqués sont obsolètes ou instables. 
+### Comment déployer ?
+1. Compiler le projet : `mvn clean package`
+2. Copier le fichier `target/CliprocoJEE.war` dans le dossier `webapps` de Tomcat 11
+3. Démarrer Tomcat 11
+4. Accéder à l'application via `http://localhost:8080/CliprocoJEE/`
 
 ## ⚙️ Documentation technique détaillée
 
@@ -353,3 +328,14 @@ mvn cargo:deploy -DskipTests
 ---
 
 **Documentation générée automatiquement suite à la migration Tomcat 11/Cargo.** 
+
+## 🔑 Identifiants MySQL locaux (développement)
+
+- Utilisateur root :
+  - login : root
+  - mot de passe : password
+- Utilisateur dev :
+  - login : yglsan
+  - mot de passe : password
+
+Ces identifiants sont valables uniquement sur ta machine de développement locale. 

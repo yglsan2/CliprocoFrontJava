@@ -4,8 +4,8 @@ import controllers.ICommand;
 import models.Prospect;
 import services.ProspectService;
 import utilities.Security;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public final class DeleteProspectsController implements ICommand {
     private final ProspectService prospectService;

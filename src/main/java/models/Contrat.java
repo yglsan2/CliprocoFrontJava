@@ -28,7 +28,6 @@ public class Contrat {
     /**
      * Monetary value of the contract (must be ≥1).
      */
-    @Positive
     @Column(name = "montant", nullable = false)
     private BigDecimal montant;
 

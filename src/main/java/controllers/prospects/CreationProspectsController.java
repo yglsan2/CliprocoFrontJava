@@ -7,8 +7,8 @@ import services.ProspectService;
 import builders.AdresseBuilder;
 import builders.ProspectBuilder;
 import utilities.Security;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public final class CreationProspectsController implements ICommand {
     private final ProspectService prospectService;

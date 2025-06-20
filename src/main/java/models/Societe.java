@@ -19,7 +19,6 @@ public abstract class Societe {
     @Column(name = "raison_sociale", nullable = false, unique = true)
     protected String raisonSociale;
 
-    @Valid
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "adresse_id")
     protected Adresse adresse;

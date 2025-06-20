@@ -13,19 +13,15 @@ public class CalculFacture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Positive
     @Column(name = "montant_ht", nullable = false)
     private BigDecimal montantHT;
 
-    @Positive
     @Column(name = "taux_tva", nullable = false)
     private BigDecimal tauxTVA;
 
-    @Positive
     @Column(name = "montant_tva", nullable = false)
     private BigDecimal montantTVA;
 
-    @Positive
     @Column(name = "montant_ttc", nullable = false)
     private BigDecimal montantTTC;
 
