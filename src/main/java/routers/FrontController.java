@@ -60,7 +60,7 @@ public class FrontController extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp").forward(request, response);
                 break;
             default:
-                doGet(request, response);
+        doGet(request, response);
                 break;
         }
     }

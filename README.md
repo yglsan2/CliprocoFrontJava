@@ -154,7 +154,7 @@ Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 ## 🙏 Remerciements
 - L'équipe de développement
 - La communauté Java
-- Les contributeurs open source
+- Les contributeurs open source 
 
 ## Déploiement et configuration Maven
 

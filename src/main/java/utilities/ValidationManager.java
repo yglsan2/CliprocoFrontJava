@@ -188,7 +188,7 @@ public final class ValidationManager {
     public static boolean isValidString(String str) throws ValidationException {
         if (str == null || str.trim().isEmpty()) {
             throw new ValidationException("La chaîne ne peut pas être vide ou nulle");
-        }
+            }
         return true;
     }
 } 
