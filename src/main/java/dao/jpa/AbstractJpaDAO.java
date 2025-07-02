@@ -140,4 +140,24 @@ public abstract class AbstractJpaDAO<T, ID> implements IDAO<T, ID> {
             throw new DatabaseException("Erreur lors de la fermeture des ressources", e);
         }
     }
+
+    @Override
+    public boolean existsById(ID id) throws ValidationException, DatabaseException {
+        try {
+            if (id == null) {
+                throw new ValidationException("L'identifiant ne peut pas être null");
+            }
+            TypedQuery<Integer> query = em.createQuery(
+                "SELECT COUNT(e) FROM " + entityClass.getSimpleName() + " e WHERE e.id = :id", 
+                Integer.class
+            );
+            query.setParameter("id", id);
+            return query.getSingleResult() > 0;
+        } catch (ValidationException e) {
+            throw e;
+        } catch (Exception e) {
+            LogManager.logException("Erreur lors de la vérification de l'existence par ID", e);
+            throw new DatabaseException("Erreur lors de la vérification de l'existence par ID", e);
+        }
+    }
 } 

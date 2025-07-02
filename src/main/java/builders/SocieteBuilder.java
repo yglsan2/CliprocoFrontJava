@@ -29,7 +29,7 @@ public abstract class SocieteBuilder<T extends Societe> extends Builder<T> {
      * @return This builder.
      * @throws ValidationException Exception set by the identifiant setter.
      */
-    public abstract SocieteBuilder<T> dIdentifiant(Long identifiant) throws ValidationException;
+    public abstract SocieteBuilder<T> dIdentifiant(Integer identifiant) throws ValidationException;
 
     /**
      * Setter identifiant.

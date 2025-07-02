@@ -1,8 +1,6 @@
 package models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 /**
@@ -13,25 +11,17 @@ import java.math.BigDecimal;
 public class CalculFacture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    @NotNull
-    @Positive
     @Column(name = "montant_ht", nullable = false)
     private BigDecimal montantHT;
 
-    @NotNull
-    @Positive
     @Column(name = "taux_tva", nullable = false)
     private BigDecimal tauxTVA;
 
-    @NotNull
-    @Positive
     @Column(name = "montant_tva", nullable = false)
     private BigDecimal montantTVA;
 
-    @NotNull
-    @Positive
     @Column(name = "montant_ttc", nullable = false)
     private BigDecimal montantTTC;
 
@@ -48,7 +38,7 @@ public class CalculFacture {
     /**
      * Creates a new invoice calculation with the specified amounts.
      *
-     * @param montantHT  Amount without tax
+     * @param montantHT  Montant sans taxe
      * @param tauxTVA   VAT rate
      * @param montantTVA VAT amount
      * @param montantTTC Total amount with tax
@@ -76,17 +66,35 @@ public class CalculFacture {
      *
      * @return The calculation ID
      */
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
     /**
-     * Gets the amount without tax.
+     * Sets the ID of this calculation.
      *
-     * @return The amount without tax
+     * @param id The calculation ID to set
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    /**
+     * Gets the amount sans taxe.
+     *
+     * @return The amount sans taxe
      */
     public BigDecimal getMontantHT() {
         return montantHT;
+    }
+
+    /**
+     * Sets the amount sans taxe.
+     *
+     * @param montantHT The amount sans taxe to set
+     */
+    public void setMontantHT(BigDecimal montantHT) {
+        this.montantHT = montantHT;
     }
 
     /**
@@ -99,6 +107,15 @@ public class CalculFacture {
     }
 
     /**
+     * Sets the VAT rate.
+     *
+     * @param tauxTVA The VAT rate to set
+     */
+    public void setTauxTVA(BigDecimal tauxTVA) {
+        this.tauxTVA = tauxTVA;
+    }
+
+    /**
      * Gets the VAT amount.
      *
      * @return The VAT amount
@@ -108,12 +125,30 @@ public class CalculFacture {
     }
 
     /**
+     * Sets the VAT amount.
+     *
+     * @param montantTVA The VAT amount to set
+     */
+    public void setMontantTVA(BigDecimal montantTVA) {
+        this.montantTVA = montantTVA;
+    }
+
+    /**
      * Gets the total amount with tax.
      *
      * @return The total amount with tax
      */
     public BigDecimal getMontantTTC() {
         return montantTTC;
+    }
+
+    /**
+     * Sets the total amount with tax.
+     *
+     * @param montantTTC The total amount with tax to set
+     */
+    public void setMontantTTC(BigDecimal montantTTC) {
+        this.montantTTC = montantTTC;
     }
 
     /**

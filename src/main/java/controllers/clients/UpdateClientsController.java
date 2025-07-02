@@ -9,18 +9,12 @@ import models.Client;
 import utilities.Security;
 import utilities.LogManager;
 import exceptions.ResourceNotFoundException;
+import exceptions.ValidationException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import dao.IDAO;
 import dao.jpa.ClientJpaDAO;
 import dao.jpa.AdresseJpaDAO;
-
-import java.util.Set;
 
 public final class UpdateClientsController implements ICommand {
     private final ClientService clientService;
@@ -31,11 +25,8 @@ public final class UpdateClientsController implements ICommand {
         LogManager.logInfo("ClientService injecté avec succès");
     }
 
-    @Contract(pure = true)
     @Override
-    public @NotNull String execute(final HttpServletRequest request,
-                                   final HttpServletResponse response)
-            throws Exception {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         LogManager.logInfo("Début de l'exécution de UpdateClientsController");
 
         String jsp = "clients/view.jsp";
@@ -51,29 +42,22 @@ public final class UpdateClientsController implements ICommand {
             LogManager.logInfo("ID du client à mettre à jour: " + clientId);
 
             try {
-                Client client = clientService.findById(Long.parseLong(clientId))
+                Client client = clientService.findById(Integer.parseInt(clientId))
                     .orElseThrow(() -> new ResourceNotFoundException("Client non trouvé avec l'ID: " + clientId));
                 LogManager.logInfo("Client trouvé: " + client);
 
                 if (request.getParameterMap().containsKey("raisonSociale")) {
                     LogManager.logInfo("Données de mise à jour reçues, construction du client");
                     Adresse adresse;
-
                     try {
-                        // Set Adresse fields from request parameters
-                        LogManager.logInfo("Construction de l'adresse");
                         adresse = AdresseBuilder.getNewAdresseBuilder()
                                 .deNumeroRue(request.getParameter("numeroRue"))
                                 .deNomRue(request.getParameter("nomRue"))
                                 .deCodePostal(request.getParameter("codePostal"))
                                 .deVille(request.getParameter("ville"))
                                 .build();
-                        LogManager.logInfo("Adresse construite avec succès: " + adresse);
-
-                        // Set Client fields
-                        LogManager.logInfo("Construction du client");
                         Client updatedClient = ClientBuilder.getNewClientBuilder()
-                                .dIdentifiant(Long.parseLong(request.getParameter("identifiant")))
+                                .dIdentifiant(Integer.parseInt(request.getParameter("identifiant")))
                                 .deRaisonSociale(request.getParameter("raisonSociale"))
                                 .deTelephone(request.getParameter("telephone"))
                                 .deMail(request.getParameter("adresseMail"))
@@ -82,31 +66,29 @@ public final class UpdateClientsController implements ICommand {
                                 .deChiffreAffaires(Double.parseDouble(request.getParameter("chiffreAffaires")))
                                 .deNombreEmployes(Integer.parseInt(request.getParameter("nbEmployes")))
                                 .build();
-                        LogManager.logInfo("Client construit avec succès: " + updatedClient);
-
-                        LogManager.logInfo("Validation du client");
-                        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-                        Set<ConstraintViolation<Client>> violations = validator.validate(updatedClient);
-
-                        if (!violations.isEmpty()) {
-                            LogManager.logWarning("Violations de contraintes détectées: " + violations.size());
-                            request.setAttribute("violations", violations);
-                        } else {
-                            LogManager.logInfo("Aucune violation de contraintes, mise à jour du client");
-                            clientService.update(updatedClient);
-                            urlSuite = "redirect:?cmd=clients";
-                            LogManager.logInfo("Redirection vers: " + urlSuite);
-                        }
+                        clientService.update(updatedClient);
+                        urlSuite = "redirect:?cmd=clients";
+                    } catch (ValidationException e) {
+                        request.setAttribute("errorValidation", e.getMessage());
+                    } catch (NumberFormatException e) {
+                        request.setAttribute("errorFormat", "Format numérique invalide : " + e.getMessage());
+                    } catch (IllegalArgumentException e) {
+                        request.setAttribute("errorArgument", "Erreur de saisie : " + e.getMessage());
                     } catch (Exception e) {
-                        LogManager.logException("Erreur lors de la construction ou de la mise à jour du client", e);
-                        throw e;
+                        LogManager.logWarning("Erreur inattendue lors de la mise à jour du client : " + e.getMessage());
+                        request.setAttribute("errorGlobal", "Une erreur inattendue est survenue. Merci de réessayer.");
+                    } finally {
+                        LogManager.logInfo("Fin de la tentative de mise à jour de client.");
                     }
                 }
-
                 request.setAttribute("client", client);
+            } catch (ResourceNotFoundException e) {
+                request.setAttribute("errorNotFound", e.getMessage());
             } catch (Exception e) {
-                LogManager.logException("Erreur lors du traitement de la mise à jour", e);
-                throw e;
+                LogManager.logWarning("Erreur inattendue lors du traitement de la mise à jour : " + e.getMessage());
+                request.setAttribute("errorGlobal", "Une erreur inattendue est survenue. Merci de réessayer.");
+            } finally {
+                LogManager.logInfo("Fin du traitement de la mise à jour de client.");
             }
         }
 

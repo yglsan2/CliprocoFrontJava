@@ -17,122 +17,65 @@
 <jsp:include page="../header.jsp"/>
 <main>
     <article>
-        <header><h1>Bienvenue</h1></header>
+        <header><h1>Liste des clients</h1></header>
         <section class="container" id="content">
-            <span class="handlewidth">sur la partie clients</span>
-            <a class="btn btn-primary float-end d-flex"
-               href="?cmd=clients/add">
+            <a class="btn btn-primary float-end d-flex" href="?cmd=clients/add">
                 <div class="material-symbols-outlined danger">Add</div>
                 <div class="handlewidth">Ajout d'un</div>&nbsp;client
             </a>
         </section>
-        <div class="hovertable">
-            <div class="hovertable-head">
-                <div class="hovertable-row">
-                    <div class="hovertable-cell smaller">#</div>
-                    <div class="hovertable-cell">Raison sociale</div>
-                    <div class="hovertable-cell longer">Adresse postale</div>
-                    <div class="hovertable-cell">Téléphone</div>
-                    <div class="hovertable-cell long">Adresse Mail</div>
-                    <div class="hovertable-cell handlewidth">
-                        Chiffre d'affaires
-                    </div>
-                    <div class="hovertable-cell handlewidth">Nb Employés</div>
-                    <div class="hovertable-cell small">Actions</div>
-                </div>
-                <div class="hovertable-row">
-                    <div class="hovertable-cell smaller">
-                        <input type="number"
-                               placeholder="..."
-                               step="1"
-                               min="1">
-                    </div>
-                    <div class="hovertable-cell">
-                        <input type="text" placeholder="...">
-                    </div>
-                    <div class="hovertable-cell longer">
-                        <input type="text" placeholder="...">
-                    </div>
-                    <div class="hovertable-cell">
-                        <input type="text" placeholder="...">
-                    </div>
-                    <div class="hovertable-cell long">
-                        <input type="text" placeholder="...">
-                    </div>
-                    <div class="hovertable-cell handlewidth">
-                        <input type="number"
-                               placeholder="..."
-                               step="0.01"
-                               min="250">
-                    </div>
-                    <div class="hovertable-cell handlewidth">
-                        <input type="number"
-                               placeholder="..."
-                               step="1"
-                               min="1">
-                    </div>
-                    <div class="hovertable-cell small"></div>
-                </div>
-            </div>
-            <div class="hovertable-body">
-                <%-- If no clients --%>
-                <c:if test="${empty clients}">
-                    No clients found.
-                </c:if>
-                <!-- Client Rows (repeated structure) -->
-                <c:forEach var="client" items="${clients}" varStatus="status">
-                    <div class="hovertable-row">
-                        <div class="hovertable-cell smaller">
-                            <c:out value="${client.identifiant}" />
-                        </div>
-                        <div class="hovertable-cell">
-                            <c:out value="${client.raisonSociale}" />
-                        </div>
-                        <div class="hovertable-cell longer">
-                            <c:out value="${client.adresse.numeroRue}
-                            ${client.adresse.nomRue}
-                            ${client.adresse.codePostal}
-                            ${client.adresse.ville}" />
-                        </div>
-                        <div class="hovertable-cell">
-                            <c:out value="${client.telephone}" />
-                        </div>
-                        <div class="hovertable-cell long">
-                            <c:out value="${client.mail}" />
-                        </div>
-                        <div class="hovertable-cell handlewidth">
-                            <c:out value="${client.chiffreAffaires}" />
-                        </div>
-                        <div class="hovertable-cell handlewidth">
-                            <c:out value="${client.nbEmployes}" />
-                        </div>
-                        <div class="hovertable-cell small">
-                            <a href="<c:url value="?cmd=clients/view">
-                                            <c:param name="clientId"
-                                            value="${client.identifiant}"
-                                            />
-                                     </c:url>" title="Consulter">
-                                <span class="material-symbols-outlined">visibility</span>
-                            </a>
-                            <a href="<c:url value="?cmd=clients/update">
-                                            <c:param name="clientId"
-                                            value="${client.identifiant}"
-                                            />
-                                     </c:url>" title="Mettre à jour">
-                                <span class="material-symbols-outlined warning">edit</span>
-                            </a>
-                            <a href="<c:url value="?cmd=clients/delete">
-                                            <c:param name="clientId"
-                                            value="${client.identifiant}"
-                                            />
-                                     </c:url>" title="Supprimer">
-                                <span class="material-symbols-outlined danger">delete</span>
-                            </a>
-                        </div>
-                    </div>
+        <table id="clientTable" class="table table-striped table-hover custom-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Raison sociale</th>
+                    <th>Adresse</th>
+                    <th>Téléphone</th>
+                    <th>Email</th>
+                    <th>Chiffre d'affaires</th>
+                    <th>Nb Employés</th>
+                    <th>Date création</th>
+                    <th>Gestionnaire</th>
+                    <th>Statut</th>
+                    <th>Commentaires</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="client" items="${clients}">
+                    <tr>
+                        <td>${client.identifiant}</td>
+                        <td>${client.nom}</td>
+                        <td>${client.prenom}</td>
+                        <td>${client.raisonSociale}</td>
+                        <td>
+                            ${client.adresse.numeroRue} ${client.adresse.nomRue},<br>
+                            ${client.adresse.codePostal} ${client.adresse.ville}
+                        </td>
+                        <td>${client.telephone}</td>
+                        <td>${client.mail}</td>
+                        <td>${client.chiffreAffaire}</td>
+                        <td>${client.nbrEmploye}</td>
+                        <td>${client.dateCreation}</td>
+                        <td>${client.gestionnaireId}</td>
+                        <td>${client.statut}</td>
+                        <td>${client.commentaires}</td>
+                        <td>
+                            <a href="?cmd=clients/view&clientId=${client.identifiant}" class="btn btn-info btn-sm">Voir</a>
+                            <a href="?cmd=clients/update&clientId=${client.identifiant}" class="btn btn-warning btn-sm">Modifier</a>
+                            <a href="?cmd=clients/delete&clientId=${client.identifiant}" class="btn btn-danger btn-sm">Supprimer</a>
+                        </td>
+                    </tr>
                 </c:forEach>
-            </div>
-        </div>
+                <c:if test="${empty clients}">
+                    <tr>
+                        <td colspan="14" class="text-center">Aucun client trouvé.</td>
+                    </tr>
+                </c:if>
+            </tbody>
+        </table>
     </article>
 </main>
 <jsp:include page="../footer.jsp"/>

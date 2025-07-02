@@ -18,20 +18,20 @@ import java.util.Optional;
  * Service pour la gestion des factures.
  */
 public class FactureService {
-    private final IDAO<Facture, Long> factureDAO;
-    private final IDAO<Produit, Long> produitDAO;
-    private final IDAO<CalculFacture, Long> calculFactureDAO;
+    private final IDAO<Facture, Integer> factureDAO;
+    private final IDAO<Produit, Integer> produitDAO;
+    private final IDAO<CalculFacture, Integer> calculFactureDAO;
 
-    public FactureService(IDAO<Facture, Long> factureDAO, 
-                         IDAO<Produit, Long> produitDAO,
-                         IDAO<CalculFacture, Long> calculFactureDAO) {
+    public FactureService(IDAO<Facture, Integer> factureDAO, 
+                         IDAO<Produit, Integer> produitDAO,
+                         IDAO<CalculFacture, Integer> calculFactureDAO) {
         this.factureDAO = factureDAO;
         this.produitDAO = produitDAO;
         this.calculFactureDAO = calculFactureDAO;
         LogManager.logInfo("FactureService initialisé avec succès");
     }
 
-    public Optional<Facture> findById(Long id) throws ValidationException, DatabaseException {
+    public Optional<Facture> findById(Integer id) throws ValidationException, DatabaseException {
         LogManager.logInfo("Recherche de la facture avec l'ID: " + id);
         try {
             if (id == null) {
@@ -62,7 +62,7 @@ public class FactureService {
         }
     }
 
-    public List<Facture> findByClientId(Long clientId) throws ValidationException, DatabaseException {
+    public List<Facture> findByClientId(Integer clientId) throws ValidationException, DatabaseException {
         LogManager.logInfo("Recherche des factures pour le client: " + clientId);
         try {
             if (clientId == null) {
@@ -160,7 +160,7 @@ public class FactureService {
         }
     }
 
-    public void delete(Long id) throws ValidationException, ResourceNotFoundException, DatabaseException {
+    public void delete(Integer id) throws ValidationException, ResourceNotFoundException, DatabaseException {
         LogManager.logInfo("Suppression de la facture avec l'ID: " + id);
         try {
             if (id == null) {

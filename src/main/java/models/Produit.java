@@ -1,8 +1,6 @@
 package models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 /**
@@ -13,18 +11,14 @@ import java.math.BigDecimal;
 public class Produit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    @NotNull
     @Column(nullable = false)
     private String nom;
 
-    @NotNull
     @Column(nullable = false, length = 1000)
     private String description;
 
-    @NotNull
-    @Positive
     @Column(name = "prix_unitaire", nullable = false)
     private BigDecimal prixUnitaire;
 
@@ -59,5 +53,68 @@ public class Produit {
      */
     void setFacture(Facture facture) {
         this.facture = facture;
+    }
+
+    /**
+     * Getter pour le nom du produit.
+     */
+    public String getNom() {
+        return nom;
+    }
+
+    /**
+     * Setter pour le nom du produit.
+     */
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    /**
+     * Getter pour l'identifiant du produit.
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * Setter pour l'identifiant du produit.
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    /**
+     * Getter pour la description du produit.
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Setter pour la description du produit.
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     * Getter pour le prix unitaire du produit.
+     */
+    public BigDecimal getPrixUnitaire() {
+        return prixUnitaire;
+    }
+
+    /**
+     * Setter pour le prix unitaire du produit.
+     */
+    public void setPrixUnitaire(BigDecimal prixUnitaire) {
+        this.prixUnitaire = prixUnitaire;
+    }
+
+    /**
+     * Getter pour la facture associée au produit.
+     */
+    public Facture getFacture() {
+        return facture;
     }
 } 

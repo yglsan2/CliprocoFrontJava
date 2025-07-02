@@ -1,67 +1,77 @@
 package services;
 
+import models.Prospect;
+import dao.jpa.ProspectJpaDAO;
 import exceptions.DatabaseException;
 import exceptions.ValidationException;
 import exceptions.ResourceNotFoundException;
-import dao.jpa.ProspectJpaDAO;
-import models.Prospect;
-import utilities.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
 
 public class ProspectService {
-    private final ProspectJpaDAO prospectDAO;
-    
+    private static final Logger logger = LoggerFactory.getLogger(ProspectService.class);
+    private final ProspectJpaDAO prospectDao;
+
     public ProspectService() {
-        this.prospectDAO = new ProspectJpaDAO();
-        LogManager.logInfo("Initialisation du ProspectService avec le DAO par défaut");
+        this.prospectDao = new ProspectJpaDAO();
+        logger.info("ProspectService initialisé avec le DAO par défaut");
     }
-    
-    public ProspectService(ProspectJpaDAO prospectDAO) {
-        this.prospectDAO = prospectDAO;
-        LogManager.logInfo("Initialisation du ProspectService avec le DAO fourni");
+
+    public ProspectService(ProspectJpaDAO prospectDao) {
+        this.prospectDao = prospectDao;
+        logger.info("ProspectService initialisé avec un DAO personnalisé");
     }
-    
-    public Prospect findById(Long id) throws DatabaseException, ValidationException, ResourceNotFoundException {
-        LogManager.logInfo("Recherche du prospect avec l'ID: " + id);
-        Optional<Prospect> prospect = prospectDAO.findById(id);
-        if (prospect.isEmpty()) {
-            LogManager.logWarning("Prospect non trouvé avec l'ID: " + id);
-            throw new ResourceNotFoundException("Prospect non trouvé avec l'ID: " + id);
+
+    public Prospect findById(Integer id) throws DatabaseException, ValidationException, ResourceNotFoundException {
+        logger.debug("Recherche du prospect avec l'ID: {}", id);
+        Optional<Prospect> prospect = prospectDao.findById(id);
+        if (prospect.isPresent()) {
+            return prospect.get();
         }
-        return prospect.get();
+        logger.warn("Aucun prospect trouvé avec l'ID: {}", id);
+        throw new ResourceNotFoundException("Prospect non trouvé avec l'ID: " + id);
     }
-    
+
     public List<Prospect> findAll() throws DatabaseException {
-        LogManager.logInfo("Récupération de tous les prospects");
-        return prospectDAO.findAll();
+        logger.debug("Récupération de tous les prospects");
+        return prospectDao.findAll();
     }
-    
+
     public List<Prospect> findByRaisonSociale(String raisonSociale) throws DatabaseException, ValidationException {
-        LogManager.logInfo("Recherche des prospects avec la raison sociale: " + raisonSociale);
-        return prospectDAO.findByRaisonSociale(raisonSociale);
+        logger.debug("Recherche des prospects avec la raison sociale: {}", raisonSociale);
+        return prospectDao.findByRaisonSociale(raisonSociale);
     }
-    
+
     public void save(Prospect prospect) throws DatabaseException, ValidationException {
-        LogManager.logInfo("Sauvegarde du prospect: " + prospect);
-        if (prospectDAO.existsByRaisonSociale(prospect.getRaisonSociale())) {
-            LogManager.logWarning("Un prospect avec cette raison sociale existe déjà: " + prospect.getRaisonSociale());
-            throw new DatabaseException("Un prospect avec cette raison sociale existe déjà");
-        }
-        prospectDAO.save(prospect);
-        LogManager.logInfo("Prospect sauvegardé avec succès");
+        logger.debug("Sauvegarde d'un nouveau prospect");
+        prospectDao.save(prospect);
+        logger.info("Nouveau prospect sauvegardé avec succès");
     }
-    
+
     public void update(Prospect prospect) throws DatabaseException, ValidationException, ResourceNotFoundException {
-        LogManager.logInfo("Mise à jour du prospect: " + prospect);
-        prospectDAO.update(prospect);
-        LogManager.logInfo("Prospect mis à jour avec succès");
+        logger.debug("Mise à jour du prospect avec l'ID: {}", prospect.getIdentifiant());
+        if (!prospectDao.existsById(prospect.getIdentifiant())) {
+            logger.warn("Tentative de mise à jour d'un prospect inexistant avec l'ID: {}", prospect.getIdentifiant());
+            throw new ResourceNotFoundException("Prospect non trouvé avec l'ID: " + prospect.getIdentifiant());
+        }
+        prospectDao.update(prospect);
+        logger.info("Prospect mis à jour avec succès");
     }
-    
+
     public void delete(Prospect prospect) throws DatabaseException, ValidationException, ResourceNotFoundException {
-        LogManager.logInfo("Suppression du prospect: " + prospect);
-        prospectDAO.delete(prospect);
-        LogManager.logInfo("Prospect supprimé avec succès");
+        logger.debug("Suppression du prospect avec l'ID: {}", prospect.getIdentifiant());
+        if (!prospectDao.existsById(prospect.getIdentifiant())) {
+            logger.warn("Tentative de suppression d'un prospect inexistant avec l'ID: {}", prospect.getIdentifiant());
+            throw new ResourceNotFoundException("Prospect non trouvé avec l'ID: " + prospect.getIdentifiant());
+        }
+        prospectDao.delete(prospect);
+        logger.info("Prospect supprimé avec succès");
+    }
+
+    public void create(Prospect prospect) throws DatabaseException, ValidationException {
+        save(prospect);
     }
 } 

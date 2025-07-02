@@ -32,7 +32,7 @@ public final class Patterns {
      *
      */
     public static final Pattern PATTERN_CODE_POSTAL =
-            Pattern.compile("\\b\\d{5}\\b");
+            Pattern.compile("^(?:0[1-9]|[1-8][0-9]|9[0-8])\\d{3}$|^97[1-8]\\d{2}$|^98[46-8]\\d{2}$");
     /**
      *
      */
@@ -41,11 +41,10 @@ public final class Patterns {
                     + "(?:. |-| |'))*[a-zA-Z\\u0080-\\u024F]*\\b");
 
     /**
-     *
+     * Numéro de téléphone français (national, international, DOM/TOM, Corse)
      */
     public static final Pattern PATTERN_TELEPHONE =
-            Pattern.compile("^(?:(?:\\+|00)33|0)\\s*[1-9]"
-                    + "(?:[\\s.-]*\\d{2}){4}");
+            Pattern.compile("^(?:(?:\\+33|0033)[1-9]|0[1-9])(?:[ .-]?\\d{2}){4}$");
 
     /**
      *

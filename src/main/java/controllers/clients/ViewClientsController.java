@@ -7,8 +7,6 @@ import utilities.Security;
 import utilities.LogManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 
 public final class ViewClientsController implements ICommand {
@@ -18,12 +16,8 @@ public final class ViewClientsController implements ICommand {
         this.clientService = clientService;
     }
 
-    @Contract(pure = true)
     @Override
-    public @NotNull String execute(final @NotNull HttpServletRequest request,
-                                   final HttpServletResponse response)
-            throws Exception {
-
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String jsp = "clients/view.jsp";
         String urlSuite = Security.estConnecte(request, jsp);
 
@@ -31,7 +25,7 @@ public final class ViewClientsController implements ICommand {
             request.setAttribute("titlePage", "Consultation");
             request.setAttribute("titleGroup", "Clients");
             String clientId = request.getParameter("clientId");
-            Optional<Client> client = clientService.findById(Long.parseLong(clientId));
+            Optional<Client> client = clientService.findById(Integer.parseInt(clientId));
             client.ifPresent(c -> request.setAttribute("client", c));
         }
 

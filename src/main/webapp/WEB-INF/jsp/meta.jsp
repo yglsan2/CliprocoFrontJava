@@ -18,10 +18,10 @@
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <!-- Leaflet CSS -->
 <link rel="stylesheet" href="css/leaflet.css">
-<!-- Custom font definitions -->
-<link rel="stylesheet" href="css/fonts.css">
 <!-- Minified application styles -->
-<link rel="stylesheet" href="css/app.min.css">
+<!-- <link rel="stylesheet" href="css/app.min.css"> -->
+<!-- Custom font definitions -->
+<!-- <link rel="stylesheet" href="css/fonts.css"> -->
 
 <title>${titlePage} | Gestion ${titleGroup}</title>
 </head>

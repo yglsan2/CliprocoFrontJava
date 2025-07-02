@@ -10,14 +10,14 @@ import exceptions.ValidationException;
 import exceptions.ResourceNotFoundException;
 import jakarta.persistence.NoResultException;
 
-public class FactureJpaDAO extends AbstractJpaDAO<Facture, Long> implements IDAO<Facture, Long> {
+public class FactureJpaDAO extends AbstractJpaDAO<Facture, Integer> implements IDAO<Facture, Integer> {
     
     public FactureJpaDAO() {
         super(Facture.class);
     }
 
     @Override
-    public Optional<Facture> findById(Long id) throws ValidationException, DatabaseException {
+    public Optional<Facture> findById(Integer id) throws ValidationException, DatabaseException {
         return super.findById(id);
     }
 
@@ -36,7 +36,7 @@ public class FactureJpaDAO extends AbstractJpaDAO<Facture, Long> implements IDAO
         super.delete(entity);
     }
 
-    public List<Facture> findByClientId(Long clientId) throws ValidationException, DatabaseException {
+    public List<Facture> findByClientId(Integer clientId) throws ValidationException, DatabaseException {
         try {
             if (clientId == null) {
                 throw new ValidationException("L'identifiant du client ne peut pas être null");

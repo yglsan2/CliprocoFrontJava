@@ -22,7 +22,7 @@
         <section class="container" id="content">
             <span class="handlewidth">Page de connexion sur Reverso.</span>
         </section>
-        <form method="post">
+        <form id="authForm" action="${pageContext.request.contextPath}/login" method="post">
             <fieldset class="row modal-dialog-centered">
                 <ul class="banner-alert" id="bannerAlert">
                     <c:forEach var="violation" items="${violations}"
@@ -65,10 +65,13 @@
                     </div>
                 </div>
                 <div class="form-group col-md-12">
-                    <button class="btn btn-primary float-end">Envoyer</button>
+                    <button type="submit" class="btn btn-primary float-end">Envoyer</button>
                 </div>
             </fieldset>
         </form>
+        <div class="mt-3 text-center">
+            <a href="?cmd=signin" class="btn btn-outline-secondary">Créer un compte</a>
+        </div>
     </article>
 </main>
 <jsp:include page="footer.jsp"/>

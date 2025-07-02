@@ -1,35 +1,99 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const prospectForm = document.getElementById('prospectForm');
+document.addEventListener("DOMContentLoaded", () => {
+    // Validation pour le formulaire prospects
+    const prospectForm = document.getElementById("prospectForm");
+    if (prospectForm) {
+        prospectForm.addEventListener('submit', (event) => {
+            event.preventDefault();
 
-    prospectForm.addEventListener('submit', (event) => {
-        event.preventDefault();
+            const nom = document.getElementById('nom')?.value || '';
+            const prenom = document.getElementById('prenom')?.value || '';
+            const adresse = document.getElementById('adresse')?.value || '';
+            const codePostal = document.getElementById('codePostal')?.value || '';
+            const ville = document.getElementById('ville')?.value || '';
+            const pays = document.getElementById('pays')?.value || '';
+            const email = document.getElementById('email')?.value || '';
+            const telephone = document.getElementById('telephone')?.value || '';
+            const interet = document.getElementById('interet')?.value || '';
+            const source = document.getElementById('source')?.value || '';
 
-        const nom = document.getElementById('prospect-nom').value;
-        const prenom = document.getElementById('prospect-prenom').value;
-        const dateNaissance = document.getElementById('prospect-dateNaissance').value;
-        const adresse = document.getElementById('prospect-adresse').value;
-        const codePostal = document.getElementById('prospect-codePostal').value;
-        const email = document.getElementById('prospect-email').value;
-        const telephone = document.getElementById('prospect-telephone').value;
-        const raisonSociale = document.getElementById('prospect-raisonSociale').value;
+            // Validation des champs obligatoires
+            if (!nom.trim()) {
+                alert("Le nom est obligatoire.");
+                return;
+            }
 
-        // Validation des champs spécifiques
-        if (!validateEmail(email)) {
-            alert("Veuillez entrer une adresse email valide.");
-            return;
-        }
+            if (!prenom.trim()) {
+                alert("Le prénom est obligatoire.");
+                return;
+            }
 
-        if (!validateTelephone(telephone)) {
-            alert("Veuillez entrer un numéro de téléphone valide (10 chiffres uniquement).");
-            return;
-        }
+            if (!validateEmail(email)) {
+                alert("Veuillez entrer une adresse email valide.");
+                return;
+            }
 
-        // Ajoutez ici d'autres validations métier comme le nombre d'employés, le chiffre d'affaires, etc.
+            if (!validateTelephone(telephone)) {
+                alert("Veuillez entrer un numéro de téléphone valide (10 chiffres uniquement).");
+                return;
+            }
 
-        // Si toutes les validations passent, soumettez le formulaire
-        alert("Formulaire soumis avec succès !");
-        prospectForm.submit();
-    });
+            if (!validateCodePostal(codePostal)) {
+                alert("Veuillez entrer un code postal valide (5 chiffres).");
+                return;
+            }
+
+            // Si toutes les validations passent, soumettez le formulaire
+            console.log("Formulaire prospect soumis avec succès !");
+            prospectForm.submit();
+        });
+    }
+
+    // Validation pour le formulaire clients
+    const clientForm = document.getElementById("clientForm");
+    if (clientForm) {
+        clientForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const nom = document.getElementById('nom')?.value || '';
+            const prenom = document.getElementById('prenom')?.value || '';
+            const adresse = document.getElementById('adresse')?.value || '';
+            const codePostal = document.getElementById('codePostal')?.value || '';
+            const ville = document.getElementById('ville')?.value || '';
+            const pays = document.getElementById('pays')?.value || '';
+            const email = document.getElementById('email')?.value || '';
+            const telephone = document.getElementById('telephone')?.value || '';
+
+            // Validation des champs obligatoires
+            if (!nom.trim()) {
+                alert("Le nom est obligatoire.");
+                return;
+            }
+
+            if (!prenom.trim()) {
+                alert("Le prénom est obligatoire.");
+                return;
+            }
+
+            if (!validateEmail(email)) {
+                alert("Veuillez entrer une adresse email valide.");
+                return;
+            }
+
+            if (!validateTelephone(telephone)) {
+                alert("Veuillez entrer un numéro de téléphone valide (10 chiffres uniquement).");
+                return;
+            }
+
+            if (!validateCodePostal(codePostal)) {
+                alert("Veuillez entrer un code postal valide (5 chiffres).");
+                return;
+            }
+
+            // Si toutes les validations passent, soumettez le formulaire
+            console.log("Formulaire client soumis avec succès !");
+            clientForm.submit();
+        });
+    }
 
     function validateEmail(email) {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -39,5 +103,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function validateTelephone(telephone) {
         const re = /^\d{10}$/;
         return re.test(telephone);
+    }
+
+    function validateCodePostal(codePostal) {
+        const re = /^\d{5}$/;
+        return re.test(codePostal);
     }
 });

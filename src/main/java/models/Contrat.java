@@ -1,8 +1,6 @@
 package models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -19,20 +17,17 @@ public class Contrat {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     /**
      * Label/name of the contract (non-blank).
      */
-    @NotNull
     @Column(name = "libelle", nullable = false)
     private String libelle;
 
     /**
      * Monetary value of the contract (must be ≥1).
      */
-    @NotNull
-    @Positive
     @Column(name = "montant", nullable = false)
     private BigDecimal montant;
 
@@ -78,7 +73,7 @@ public class Contrat {
     /**
      * @return The contract's identifier.
      */
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 

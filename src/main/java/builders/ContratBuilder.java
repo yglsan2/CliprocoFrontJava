@@ -2,7 +2,6 @@ package builders;
 
 import models.Contrat;
 import exceptions.ValidationException;
-import org.jetbrains.annotations.NotNull;
 import java.math.BigDecimal;
 import java.lang.reflect.Field;
 import java.lang.reflect.Constructor;
@@ -11,6 +10,9 @@ import java.lang.reflect.Constructor;
  * Classe constructrice Contrat.
  */
 public class ContratBuilder extends Builder<Contrat> {
+
+    private int identifiant;
+    private int idClient;
 
     /**
      * Constructor.
@@ -39,7 +41,7 @@ public class ContratBuilder extends Builder<Contrat> {
      *
      * @return new ContratBuilder.
      */
-    public static @NotNull ContratBuilder getNewContratBuilder() {
+    public static ContratBuilder getNewContratBuilder() {
         return new ContratBuilder();
     }
 
@@ -50,9 +52,8 @@ public class ContratBuilder extends Builder<Contrat> {
      * @return This builder.
      * @throws ValidationException Exception set by the identifiant setter.
      */
-    public ContratBuilder dIdentifiant(final Long identifiant)
-            throws ValidationException {
-        setField("id", identifiant);
+    public ContratBuilder dIdentifiant(final Integer identifiant) {
+        this.identifiant = identifiant;
         return this;
     }
 
@@ -63,9 +64,8 @@ public class ContratBuilder extends Builder<Contrat> {
      * @return This builder.
      * @throws ValidationException Exception set by the identifiant setter.
      */
-    public ContratBuilder dIdentifiant(@NotNull final String identifiant)
-            throws ValidationException {
-        return this.dIdentifiant(Long.parseLong(identifiant));
+    public ContratBuilder dIdentifiant(final String identifiant) {
+        return this.dIdentifiant(Integer.parseInt(identifiant));
     }
 
     /**
@@ -113,9 +113,8 @@ public class ContratBuilder extends Builder<Contrat> {
      * @return This builder.
      * @throws ValidationException Exception set by the idClient setter.
      */
-    public ContratBuilder dIdClient(final int idClient)
-            throws ValidationException {
-        setField("idClient", idClient);
+    public ContratBuilder dIdClient(final Integer idClient) {
+        this.idClient = idClient;
         return this;
     }
 
@@ -125,8 +124,7 @@ public class ContratBuilder extends Builder<Contrat> {
      * @return This builder.
      * @throws ValidationException Exception set by the idClient setter.
      */
-    public ContratBuilder dIdClient(final String idClient)
-            throws ValidationException {
+    public ContratBuilder dIdClient(final String idClient) {
         return this.dIdClient(Integer.parseInt(idClient));
     }
 

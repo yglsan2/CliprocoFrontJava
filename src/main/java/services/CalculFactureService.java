@@ -15,14 +15,14 @@ import java.util.Optional;
  * Service pour la gestion des calculs de factures.
  */
 public class CalculFactureService {
-    private final IDAO<CalculFacture, Long> calculFactureDAO;
+    private final IDAO<CalculFacture, Integer> calculFactureDAO;
 
-    public CalculFactureService(IDAO<CalculFacture, Long> calculFactureDAO) {
+    public CalculFactureService(IDAO<CalculFacture, Integer> calculFactureDAO) {
         this.calculFactureDAO = calculFactureDAO;
         LogManager.logInfo("CalculFactureService initialisé avec succès");
     }
 
-    public Optional<CalculFacture> findById(Long id) throws ValidationException, DatabaseException {
+    public Optional<CalculFacture> findById(Integer id) throws ValidationException, DatabaseException {
         LogManager.logInfo("Recherche du calcul de facture avec l'ID: " + id);
         try {
             if (id == null) {
@@ -114,7 +114,7 @@ public class CalculFactureService {
         }
     }
 
-    public void delete(Long id) throws ValidationException, ResourceNotFoundException, DatabaseException {
+    public void delete(Integer id) throws ValidationException, ResourceNotFoundException, DatabaseException {
         LogManager.logInfo("Suppression du calcul de facture avec l'ID: " + id);
         try {
             if (id == null) {

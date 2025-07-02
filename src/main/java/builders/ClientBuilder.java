@@ -4,8 +4,6 @@ import models.Adresse;
 import models.Client;
 import models.Contrat;
 import exceptions.ValidationException;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import utilities.LogManager;
 
 import java.lang.reflect.Field;
@@ -16,7 +14,7 @@ import java.util.List;
 /**
  * Classe constructrice Client.
  */
-public class ClientBuilder extends SocieteBuilder<Client> {
+public class ClientBuilder extends Builder<Client> {
 
     private Double chiffreAffaires;
     private Integer nombreEmployes;
@@ -54,8 +52,7 @@ public class ClientBuilder extends SocieteBuilder<Client> {
      *
      * @return new ClientBuilder
      */
-    @Contract(" -> new")
-    public static @NotNull ClientBuilder getNewClientBuilder() {
+    public static ClientBuilder getNewClientBuilder() {
         LogManager.logInfo("Création d'un nouveau ClientBuilder via méthode statique");
         return new ClientBuilder();
     }
@@ -67,226 +64,103 @@ public class ClientBuilder extends SocieteBuilder<Client> {
      * @return This builder.
      * @throws ValidationException Exception set by the identifiant setter.
      */
-    @Override
-    public ClientBuilder dIdentifiant(final Long identifiant)
-            throws ValidationException {
+    public ClientBuilder dIdentifiant(final Integer identifiant) throws ValidationException {
         LogManager.logInfo("Définition de l'identifiant: " + identifiant);
-        setField("id", identifiant);
+        getEntity().setIdentifiant(identifiant);
         return this;
     }
 
     /**
-     * Setter identifiant.
-     *
-     * @param identifiant Nouvel identifiant.
-     * @return This builder.
-     * @throws ValidationException Exception set by the identifiant setter.
-     */
-    @Override
-    public ClientBuilder dIdentifiant(final String identifiant)
-            throws ValidationException {
-        LogManager.logInfo("Définition de l'identifiant (String): " + identifiant);
-        setField("id", identifiant);
-        return this;
-    }
-
-    /**
-     * Setter Raison Sociale.
+     * Setter raison sociale.
      *
      * @param raisonSociale Nouvelle raison sociale.
      * @return This builder.
      * @throws ValidationException Exception set by the raisonSociale setter.
      */
-    @Override
-    public ClientBuilder deRaisonSociale(String raisonSociale) throws ValidationException {
+    public ClientBuilder deRaisonSociale(final String raisonSociale) throws ValidationException {
         LogManager.logInfo("Définition de la raison sociale: " + raisonSociale);
-        setField("raisonSociale", raisonSociale);
+        getEntity().setRaisonSociale(raisonSociale);
         return this;
     }
 
     /**
-     * Setter Adresse.
+     * Setter adresse.
      *
      * @param adresse Nouvelle adresse.
      * @return This builder.
      * @throws ValidationException Exception set by the adresse setter.
      */
-    @Override
-    public ClientBuilder dAdresse(final Adresse adresse)
-            throws ValidationException {
+    public ClientBuilder dAdresse(final Adresse adresse) throws ValidationException {
         LogManager.logInfo("Définition de l'adresse: " + adresse);
-        setField("adresse", adresse);
+        getEntity().setAdresse(adresse);
         return this;
     }
 
     /**
-     * Setter Adresse.
+     * Setter téléphone.
      *
-     * @param rue Nouvelle rue.
+     * @param telephone Nouveau téléphone.
      * @return This builder.
-     * @throws ValidationException Exception set by the rue setter.
+     * @throws ValidationException Exception set by the telephone setter.
      */
-    public ClientBuilder withRue(final String rue)
-            throws ValidationException {
-        LogManager.logInfo("Définition de la rue: " + rue);
-        Adresse adresse = (Adresse) getField("adresse");
-        if (adresse == null) {
-            LogManager.logInfo("Création d'une nouvelle adresse");
-            adresse = new Adresse();
-            setField("adresse", adresse);
-        }
-        String[] parts = rue.split(" ", 2);
-        if (parts.length > 1) {
-            LogManager.logInfo("Séparation du numéro et du nom de rue");
-            setField("numeroRue", parts[0], adresse);
-            setField("nomRue", parts[1], adresse);
-        } else {
-            LogManager.logInfo("Utilisation de la rue complète comme nom de rue");
-            setField("nomRue", rue, adresse);
-        }
-        return this;
-    }
-
-    /**
-     * Setter Adresse.
-     *
-     * @param codePostal Nouveau code postal.
-     * @return This builder.
-     * @throws ValidationException Exception set by the code postal setter.
-     */
-    public ClientBuilder withCodePostal(final String codePostal)
-            throws ValidationException {
-        LogManager.logInfo("Définition du code postal: " + codePostal);
-        if (codePostal == null || !codePostal.matches("\\b\\d{5}\\b")) {
-            LogManager.logWarning("Code postal invalide: " + codePostal);
-            throw new ValidationException("Le code postal doit être un nombre de 5 chiffres");
-        }
-        Adresse adresse = (Adresse) getField("adresse");
-        if (adresse == null) {
-            LogManager.logInfo("Création d'une nouvelle adresse");
-            adresse = new Adresse();
-            setField("adresse", adresse);
-        }
-        setField("codePostal", codePostal, adresse);
-        return this;
-    }
-
-    /**
-     * Setter Adresse.
-     *
-     * @param ville Nouvelle ville.
-     * @return This builder.
-     * @throws ValidationException Exception set by the ville setter.
-     */
-    public ClientBuilder withVille(final String ville)
-            throws ValidationException {
-        LogManager.logInfo("Définition de la ville: " + ville);
-        if (ville == null || !ville.matches("\\b([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*[a-zA-Z\\u0080-\\u024F]*\\b")) {
-            LogManager.logWarning("Ville invalide: " + ville);
-            throw new ValidationException("La ville ne peut contenir que des lettres, espaces, tirets et points");
-        }
-        Adresse adresse = (Adresse) getField("adresse");
-        if (adresse == null) {
-            LogManager.logInfo("Création d'une nouvelle adresse");
-            adresse = new Adresse();
-            setField("adresse", adresse);
-        }
-        setField("ville", ville, adresse);
-        return this;
-    }
-
-    /**
-     * Setter Adresse.
-     *
-     * @param pays Nouveau pays.
-     * @return This builder.
-     * @throws ValidationException Exception set by the pays setter.
-     */
-    public ClientBuilder withPays(final String pays)
-            throws ValidationException {
-        LogManager.logInfo("Définition du pays: " + pays);
-        if (pays == null || !pays.matches("\\b([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*[a-zA-Z\\u0080-\\u024F]*\\b")) {
-            LogManager.logWarning("Pays invalide: " + pays);
-            throw new ValidationException("Le pays ne peut contenir que des lettres, espaces, tirets et points");
-        }
-        Adresse adresse = (Adresse) getField("adresse");
-        if (adresse == null) {
-            LogManager.logInfo("Création d'une nouvelle adresse");
-            adresse = new Adresse();
-            setField("adresse", adresse);
-        }
-        setField("pays", pays, adresse);
-        return this;
-    }
-
-    /**
-     * Setter Telephone.
-     *
-     * @param telephone Nouveau numéro de téléphone.
-     * @return This builder.
-     * @throws ValidationException Exception set by telephone setter.
-     */
-    @Override
-    public ClientBuilder deTelephone(final String telephone)
-            throws ValidationException {
+    public ClientBuilder deTelephone(final String telephone) throws ValidationException {
         LogManager.logInfo("Définition du téléphone: " + telephone);
-        setField("telephone", telephone);
+        if (telephone == null || !telephone.matches("^(?:(?:\\+|00)33|0)\\s*[1-9](?:[\\s.-]*\\d{2}){4}")) {
+            LogManager.logWarning("Téléphone invalide: " + telephone);
+            throw new ValidationException("Le téléphone doit être un numéro français valide");
+        }
+        getEntity().setTelephone(telephone);
         return this;
     }
 
     /**
-     * Setter Mail.
+     * Setter mail.
      *
      * @param mail Nouveau mail.
      * @return This builder.
-     * @throws ValidationException Exception set by mail setter.
+     * @throws ValidationException Exception set by the mail setter.
      */
-    @Override
-    public ClientBuilder deMail(String mail) throws ValidationException {
+    public ClientBuilder deMail(final String mail) throws ValidationException {
         LogManager.logInfo("Définition du mail: " + mail);
-        setField("mail", mail);
+        if (mail == null || !mail.matches("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")) {
+            LogManager.logWarning("Mail invalide: " + mail);
+            throw new ValidationException("Le mail doit être une adresse email valide");
+        }
+        getEntity().setMail(mail);
         return this;
     }
 
     /**
-     * Setter Commentaires.
-     *
-     * @param commentaires Nouveaux commentaires.
-     * @return This builder.
-     * @throws ValidationException Exception set by the commentaires setter.
-     */
-    @Override
-    public ClientBuilder deCommentaires(String commentaires) throws ValidationException {
-        LogManager.logInfo("Définition des commentaires: " + commentaires);
-        setField("commentaires", commentaires);
-        return this;
-    }
-
-    /**
-     * Setter Chiffre d'affaires.
+     * Setter chiffre d'affaires.
      *
      * @param chiffreAffaires Nouveau chiffre d'affaires.
      * @return This builder.
      * @throws ValidationException Exception set by the chiffreAffaires setter.
      */
-    public ClientBuilder deChiffreAffaires(final Double chiffreAffaires)
-            throws ValidationException {
+    public ClientBuilder deChiffreAffaires(final Double chiffreAffaires) throws ValidationException {
         LogManager.logInfo("Définition du chiffre d'affaires: " + chiffreAffaires);
-        setField("chiffreAffaires", chiffreAffaires);
+        if (chiffreAffaires == null || chiffreAffaires < 250) {
+            LogManager.logWarning("Chiffre d'affaires invalide: " + chiffreAffaires);
+            throw new ValidationException("Le chiffre d'affaires doit être supérieur ou égal à 250");
+        }
+        getEntity().setChiffreAffaire(chiffreAffaires.intValue());
         return this;
     }
 
     /**
-     * Setter Nombre d'employés.
+     * Setter nombre d'employés.
      *
      * @param nombreEmployes Nouveau nombre d'employés.
      * @return This builder.
      * @throws ValidationException Exception set by the nombreEmployes setter.
      */
-    public ClientBuilder deNombreEmployes(final Integer nombreEmployes)
-            throws ValidationException {
+    public ClientBuilder deNombreEmployes(final Integer nombreEmployes) throws ValidationException {
         LogManager.logInfo("Définition du nombre d'employés: " + nombreEmployes);
-        setField("nombreEmployes", nombreEmployes);
+        if (nombreEmployes == null || nombreEmployes < 1) {
+            LogManager.logWarning("Nombre d'employés invalide: " + nombreEmployes);
+            throw new ValidationException("Le nombre d'employés doit être supérieur ou égal à 1");
+        }
+        getEntity().setNbrEmploye(nombreEmployes);
         return this;
     }
 
@@ -299,7 +173,9 @@ public class ClientBuilder extends SocieteBuilder<Client> {
      */
     public ClientBuilder deContrats(final ArrayList<Contrat> contrats) throws ValidationException {
         LogManager.logInfo("Définition des contrats: " + contrats);
-        setField("contrats", contrats);
+        for (Contrat contrat : contrats) {
+            getEntity().addContrat(contrat);
+        }
         return this;
     }
 
@@ -312,14 +188,7 @@ public class ClientBuilder extends SocieteBuilder<Client> {
      */
     public ClientBuilder ajouterContrat(final Contrat contrat) throws ValidationException {
         LogManager.logInfo("Ajout d'un contrat: " + contrat);
-        @SuppressWarnings("unchecked")
-        ArrayList<Contrat> contrats = (ArrayList<Contrat>) getField("contrats");
-        if (contrats == null) {
-            LogManager.logInfo("Création d'une nouvelle liste de contrats");
-            contrats = new ArrayList<>();
-            setField("contrats", contrats);
-        }
-        contrats.add(contrat);
+        getEntity().addContrat(contrat);
         return this;
     }
 
@@ -331,7 +200,7 @@ public class ClientBuilder extends SocieteBuilder<Client> {
     @Override
     public Client build() {
         LogManager.logInfo("Construction du client final");
-        Client client = this.getEntity();
+        Client client = getEntity();
         LogManager.logInfo("Client construit: " + client);
         return client;
     }
@@ -366,7 +235,7 @@ public class ClientBuilder extends SocieteBuilder<Client> {
      */
     private void setField(String fieldName, Object value) throws ValidationException {
         LogManager.logInfo("Définition du champ " + fieldName + " avec la valeur " + value);
-        setField(fieldName, value, this.getEntity());
+        setField(fieldName, value, getEntity());
     }
 
     /**
@@ -379,9 +248,9 @@ public class ClientBuilder extends SocieteBuilder<Client> {
     private Object getField(String fieldName) throws ValidationException {
         try {
             LogManager.logInfo("Récupération du champ " + fieldName);
-            Field field = this.getEntity().getClass().getDeclaredField(fieldName);
+            Field field = getEntity().getClass().getDeclaredField(fieldName);
             field.setAccessible(true);
-            Object value = field.get(this.getEntity());
+            Object value = field.get(getEntity());
             LogManager.logInfo("Valeur récupérée: " + value);
             return value;
         } catch (NoSuchFieldException | IllegalAccessException e) {
@@ -401,13 +270,12 @@ public class ClientBuilder extends SocieteBuilder<Client> {
      * @return This builder
      * @throws ValidationException Si une erreur survient
      */
-    @Override
     public ClientBuilder avecAdresse(String rue, String codePostal, String ville, String pays, String telephone) throws ValidationException {
         LogManager.logInfo("Configuration de l'adresse complète - rue: " + rue + ", codePostal: " + codePostal + ", ville: " + ville + ", pays: " + pays + ", telephone: " + telephone);
-        return this.withRue(rue)
-                .withCodePostal(codePostal)
-                .withVille(ville)
-                .withPays(pays)
+        return this.deNomRue(rue)
+                .deCodePostal(codePostal)
+                .deVille(ville)
+                .dePays(pays)
                 .deTelephone(telephone);
     }
 
@@ -452,16 +320,6 @@ public class ClientBuilder extends SocieteBuilder<Client> {
     }
 
     /**
-     * Getter Commentaires.
-     *
-     * @return Commentaires
-     * @throws ValidationException Si une erreur survient
-     */
-    protected String getCommentaires() throws ValidationException {
-        return (String) getField("commentaires");
-    }
-
-    /**
      * Getter Chiffre d'affaires.
      *
      * @return Chiffre d'affaires
@@ -488,8 +346,44 @@ public class ClientBuilder extends SocieteBuilder<Client> {
      * @throws ValidationException Si une erreur survient
      */
     protected List<Contrat> getContrats() throws ValidationException {
-        @SuppressWarnings("unchecked")
-        List<Contrat> contrats = (List<Contrat>) getField("contrats");
-        return contrats;
+        return (List<Contrat>) getField("contrats");
+    }
+
+    public ClientBuilder deNomRue(String rue) {
+        try {
+            getEntity().getAdresse().setNomRue(rue);
+        } catch (Exception e) {
+            LogManager.logException("Erreur lors de la définition de la rue", e);
+        }
+        return this;
+    }
+
+    public ClientBuilder deCommentaires(String commentaires) {
+        getEntity().setCommentaires(commentaires);
+        return this;
+    }
+
+    public ClientBuilder deCodePostal(String codePostal) {
+        if (getEntity().getAdresse() == null) {
+            getEntity().setAdresse(new Adresse());
+        }
+        getEntity().getAdresse().setCodePostal(codePostal);
+        return this;
+    }
+
+    public ClientBuilder deVille(String ville) {
+        if (getEntity().getAdresse() == null) {
+            getEntity().setAdresse(new Adresse());
+        }
+        getEntity().getAdresse().setVille(ville);
+        return this;
+    }
+
+    public ClientBuilder dePays(String pays) {
+        if (getEntity().getAdresse() == null) {
+            getEntity().setAdresse(new Adresse());
+        }
+        getEntity().getAdresse().setPays(pays);
+        return this;
     }
 }

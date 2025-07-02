@@ -2,8 +2,6 @@ package builders;
 
 import models.Adresse;
 import exceptions.ValidationException;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import utilities.LogManager;
 
 import java.lang.reflect.Field;
@@ -26,8 +24,7 @@ public class AdresseBuilder extends Builder<Adresse> {
      *
      * @return new AdresseBuilder
      */
-    @Contract(" -> new")
-    public static @NotNull AdresseBuilder getNewAdresseBuilder() {
+    public static AdresseBuilder getNewAdresseBuilder() {
         LogManager.logInfo("Création d'un nouveau AdresseBuilder via méthode statique");
         return new AdresseBuilder();
     }
@@ -39,7 +36,7 @@ public class AdresseBuilder extends Builder<Adresse> {
      * @return This builder.
      * @throws ValidationException Exception set by the identifiant setter.
      */
-    public AdresseBuilder dIdentifiant(final Long identifiant)
+    public AdresseBuilder dIdentifiant(final Integer identifiant)
             throws ValidationException {
         LogManager.logInfo("Définition de l'identifiant: " + identifiant);
         setField("id", identifiant);
@@ -56,8 +53,7 @@ public class AdresseBuilder extends Builder<Adresse> {
     public AdresseBuilder dIdentifiant(final String identifiant)
             throws ValidationException {
         LogManager.logInfo("Définition de l'identifiant (String): " + identifiant);
-        setField("id", identifiant);
-        return this;
+        return this.dIdentifiant(Integer.parseInt(identifiant));
     }
 
     /**

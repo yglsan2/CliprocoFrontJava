@@ -8,8 +8,8 @@
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <meta name="description" content="Application de gestion des clients et prospects avec géolocalisation et météo">
 </head>
 <body>

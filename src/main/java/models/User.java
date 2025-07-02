@@ -6,8 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
@@ -23,19 +21,17 @@ public final class User {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     /**
      * Unique username (non-nullable).
      */
-    @NotNull
     @Column(name = "username", unique = true, nullable = false)
     private String username;
 
     /**
      * User's password (non-nullable).
      */
-    @NotNull
     @Column(name = "password", nullable = false)
     private String password;
 
@@ -72,7 +68,7 @@ public final class User {
      * @param roleParam     User's role
      */
     public User(
-            final Long idParam,
+            final Integer idParam,
             final String usernameParam,
             final String passwordParam,
             final String tokenParam,
@@ -183,9 +179,9 @@ public final class User {
     /**
      * Returns the user's unique identifier.
      *
-     * @return Long identifier
+     * @return Integer identifier
      */
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -194,7 +190,7 @@ public final class User {
      *
      * @param idParam New identifier
      */
-    public void setId(final Long idParam) {
+    public void setId(final Integer idParam) {
         this.id = idParam;
     }
 

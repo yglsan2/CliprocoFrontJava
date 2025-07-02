@@ -1,6 +1,3 @@
-@use "../../../../node_modules/bootstrap/scss/functions" as *;
-@use "../../../../node_modules/bootstrap/scss/variables" as bootstrap;
-
 // Couleurs personnalisées
 $primary-color: #2c3e50;
 $secondary-color: #3498db;
@@ -8,8 +5,8 @@ $accent-color: #e74c3c;
 $background-color: #f5f6fa;
 $text-color: #2c3e50;
 
-// Variables Bootstrap personnalisées
-$font-family-base: 'Roboto', sans-serif;
+// Variables personnalisées
+$font-family-base: 'Roboto', sans-serif !default;
 $primary: $secondary-color;
 $secondary: $primary-color;
 

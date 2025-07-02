@@ -10,17 +10,21 @@ document.addEventListener('DOMContentLoaded', () => {
         rgpdBanner.style.display = 'block';
     }
 
-    acceptButton.addEventListener('click', () => {
-        localStorage.setItem('rgpdChoice', 'accepted');
-        rgpdBanner.style.display = 'none';
-        // Émettre un événement pour indiquer que le consentement a été donné
-        document.dispatchEvent(new CustomEvent('rgpdConsent', { detail: { accepted: true } }));
-    });
+    if (acceptButton) {
+        acceptButton.addEventListener('click', () => {
+            localStorage.setItem('rgpdChoice', 'accepted');
+            rgpdBanner.style.display = 'none';
+            // Émettre un événement pour indiquer que le consentement a été donné
+            document.dispatchEvent(new CustomEvent('rgpdConsent', { detail: { accepted: true } }));
+        });
+    }
 
-    refuseButton.addEventListener('click', () => {
-        localStorage.setItem('rgpdChoice', 'refused');
-        rgpdBanner.style.display = 'none';
-        // Émettre un événement pour indiquer que le consentement a été refusé
-        document.dispatchEvent(new CustomEvent('rgpdConsent', { detail: { accepted: false } }));
-    });
+    if (refuseButton) {
+        refuseButton.addEventListener('click', () => {
+            localStorage.setItem('rgpdChoice', 'refused');
+            rgpdBanner.style.display = 'none';
+            // Émettre un événement pour indiquer que le consentement a été refusé
+            document.dispatchEvent(new CustomEvent('rgpdConsent', { detail: { accepted: false } }));
+        });
+    }
 });
