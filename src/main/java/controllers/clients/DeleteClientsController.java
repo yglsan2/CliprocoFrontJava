@@ -34,10 +34,15 @@ public final class DeleteClientsController implements ICommand {
                     LogManager.logInfo("Client supprimé avec succès : " + client.get().getIdentifiant());
                 } else {
                     LogManager.logWarning("Aucun client trouvé avec l'ID : " + clientId);
+                    request.setAttribute("errorNotFound", "Aucun client trouvé avec l'ID : " + clientId);
                 }
+            } catch (NumberFormatException e) {
+                request.setAttribute("errorFormat", "Format d'ID invalide : " + e.getMessage());
             } catch (Exception e) {
-                LogManager.logException("Erreur lors de la suppression du client avec l'ID : " + clientId, e);
-                request.setAttribute("errorMessage", "Erreur lors de la suppression du client : " + e.getMessage());
+                LogManager.logWarning("Erreur inattendue lors de la suppression du client avec l'ID : " + clientId + " : " + e.getMessage());
+                request.setAttribute("errorGlobal", "Une erreur inattendue est survenue lors de la suppression. Merci de réessayer.");
+            } finally {
+                LogManager.logInfo("Fin de la tentative de suppression de client.");
             }
         }
 

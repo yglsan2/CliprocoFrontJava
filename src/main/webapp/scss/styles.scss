@@ -150,4 +150,21 @@ footer {
     // La nouvelle syntaxe permet un meilleur contrôle de l'ajustement de la luminosité
     background-color: color.adjust($secondary-color, $lightness: -10%);
   }
+}
+
+.custom-table {
+  th {
+    background-color: $primary-color;
+    color: white;
+    text-align: center;
+  }
+  td {
+    vertical-align: middle;
+  }
+  tr:hover {
+    background-color: color.adjust($secondary-color, $lightness: 40%);
+  }
+  .btn {
+    margin: 0 2px;
+  }
 } 

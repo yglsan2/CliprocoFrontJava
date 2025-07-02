@@ -17,127 +17,63 @@
 <jsp:include page="../header.jsp"/>
 <main>
     <article>
-        <header>
-            <h1>Bienvenue</h1>
-        </header>
+        <header><h1>Liste des prospects</h1></header>
         <section class="container" id="content">
-            <span class="handlewidth">sur la partie prospects</span>
-            <a class="btn btn-primary float-end d-flex"
-               href="?cmd=prospects/add">
+            <a class="btn btn-primary float-end d-flex" href="?cmd=prospects/add">
                 <div class="material-symbols-outlined danger">Add</div>
-                <div class="handlewidth">Ajout d'un</div>&nbsp;prospect</a>
+                <div class="handlewidth">Ajout d'un</div>&nbsp;prospect
+            </a>
         </section>
-        <div class="hovertable">
-            <div class="hovertable-head">
-                <div class="hovertable-row">
-                    <div class="hovertable-cell smaller">#</div>
-                    <div class="hovertable-cell ">Raison sociale</div>
-                    <div class="hovertable-cell longer">Adresse postale</div>
-                    <div class="hovertable-cell ">Téléphone</div>
-                    <div class="hovertable-cell long">Adresse Mail</div>
-                    <div class="hovertable-cell handlewidth">Date prospection
-                    </div>
-                    <div class="hovertable-cell handlewidth">Prospect
-                        intéressé
-                    </div>
-                    <div class="hovertable-cell small">Actions</div>
-                </div>
-                <div class="hovertable-row">
-                    <div class="hovertable-cell smaller">
-                        <input type="number" placeholder="..." step="1"
-                               min="1">
-                    </div>
-                    <div class="hovertable-cell ">
-                        <input type="text" placeholder="...">
-                    </div>
-                    <div class="hovertable-cell longer">
-                        <input type="text" placeholder="...">
-                    </div>
-                    <div class="hovertable-cell ">
-                        <input type="text" placeholder="...">
-                    </div>
-                    <div class="hovertable-cell long">
-                        <input type="text" placeholder="...">
-                    </div>
-                    <div class="hovertable-cell handlewidth">
-                        <input type="text" placeholder="jj/mm/aaaa">
-                    </div>
-                    <div class="hovertable-cell handlewidth">
-                        <select>
-                            <option default=""></option>
-                            <option>Oui</option>
-                            <option>Non</option>
-                        </select>
-                    </div>
-                    <div class="hovertable-cell small"></div>
-                </div>
-            </div>
-            <div class="hovertable-body">
-                <%-- If no clients --%>
-                <c:if test="${empty prospects}">
-                    No clients found.
-                </c:if>
-                <!-- Client Rows (repeated structure) -->
-                <c:forEach var="prospect" items="${prospects}"
-                           varStatus="status">
-                    <div class="hovertable-row">
-                        <div class="hovertable-cell smaller">
-                            <c:out value="${prospect.identifiant}" />
-                        </div>
-                        <div class="hovertable-cell ">
-                            <c:out value="${prospect.raisonSociale}" />
-                        </div>
-                        <div class="hovertable-cell longer">
-                            <c:out value="${prospect.adresse.numeroRue}
-                            ${prospect.adresse.nomRue}
-                            ${prospect.adresse.codePostal}
-                            ${prospect.adresse.ville}" />
-                        </div>
-                        <div class="hovertable-cell ">
-                            <c:out value="${prospect.telephone}" />
-                        </div>
-                        <div class="hovertable-cell long">
-                            <c:out value="${prospect.mail}" />
-                        </div>
-                        <div class="hovertable-cell handlewidth">
-                            <c:out value="${prospect.dateProspection}" />
-                        </div>
-                        <div class="hovertable-cell handlewidth boolean
-                        ${prospect.prospectInteresse == "oui"}">
-                            <c:out value="${prospect.prospectInteresse}" />
-                        </div>
-                        <div class="hovertable-cell small">
-                            <a href="<c:url value="?cmd=prospects/view">
-                                            <c:param name="prospectId"
-                                            value="${prospect.identifiant}"
-                                            />
-                                     </c:url>" title="Consulter">
-                            <span class="material-symbols-outlined">
-                                visibility</span>
-                            </a>
-                            <a href="<c:url value="?cmd=prospects/update">
-                                            <c:param name="prospectId"
-                                            value="${prospect.identifiant}"
-                                            />
-                                     </c:url>" title="Mettre à jour">
-                            <span class="material-symbols-outlined warning">
-                                edit
-                            </span>
-                            </a>
-                            <a href="<c:url value="?cmd=prospects/delete">
-                                            <c:param name="prospectId"
-                                            value="${prospect.identifiant}"
-                                            />
-                                     </c:url>" title="Supprimer">
-                            <span class="material-symbols-outlined danger">
-                                delete
-                            </span>
-                            </a>
-                        </div>
-                    </div>
+        <table id="prospectTable" class="table table-striped table-hover custom-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Raison sociale</th>
+                    <th>Adresse</th>
+                    <th>Téléphone</th>
+                    <th>Email</th>
+                    <th>Date prospection</th>
+                    <th>Intéressé</th>
+                    <th>Gestionnaire</th>
+                    <th>Statut</th>
+                    <th>Commentaires</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="prospect" items="${prospects}">
+                    <tr>
+                        <td>${prospect.identifiant}</td>
+                        <td>${prospect.nom}</td>
+                        <td>${prospect.prenom}</td>
+                        <td>${prospect.raisonSociale}</td>
+                        <td>
+                            ${prospect.adresse.numeroRue} ${prospect.adresse.nomRue},<br>
+                            ${prospect.adresse.codePostal} ${prospect.adresse.ville}
+                        </td>
+                        <td>${prospect.telephone}</td>
+                        <td>${prospect.mail}</td>
+                        <td>${prospect.dateProspection}</td>
+                        <td>${prospect.prospectInteresse}</td>
+                        <td>${prospect.gestionnaireId}</td>
+                        <td>${prospect.statut}</td>
+                        <td>${prospect.commentaires}</td>
+                        <td>
+                            <a href="?cmd=prospects/view&prospectId=${prospect.identifiant}" class="btn btn-info btn-sm">Afficher</a>
+                            <a href="?cmd=prospects/update&prospectId=${prospect.identifiant}" class="btn btn-warning btn-sm">Modifier</a>
+                            <a href="?cmd=prospects/delete&prospectId=${prospect.identifiant}" class="btn btn-danger btn-sm">Supprimer</a>
+                        </td>
+                    </tr>
                 </c:forEach>
-            </div>
-        </div>
+                <c:if test="${empty prospects}">
+                    <tr>
+                        <td colspan="13" class="text-center">Aucun prospect trouvé.</td>
+                    </tr>
+                </c:if>
+            </tbody>
+        </table>
     </article>
 </main>
 <jsp:include page="../footer.jsp"/>

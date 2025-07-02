@@ -70,4 +70,8 @@ public class ProspectService {
         prospectDao.delete(prospect);
         logger.info("Prospect supprimé avec succès");
     }
+
+    public void create(Prospect prospect) throws DatabaseException, ValidationException {
+        save(prospect);
+    }
 } 

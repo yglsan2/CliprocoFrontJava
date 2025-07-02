@@ -8,8 +8,8 @@
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -102,26 +102,7 @@
                         <input type="text" class="form-control" id="pays" name="pays" required>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="latitude" class="form-label">Latitude</label>
-                        <input type="text" class="form-control" id="latitude" name="latitude" readonly>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="longitude" class="form-label">Longitude</label>
-                        <input type="text" class="form-control" id="longitude" name="longitude" readonly>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="meteo" class="form-label">Météo</label>
-                        <input type="text" class="form-control" id="meteo" name="meteo" readonly>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="temperature" class="form-label">Température</label>
-                        <input type="text" class="form-control" id="temperature" name="temperature" readonly>
-                    </div>
-                </div>
+
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="interet" class="form-label">Niveau d'intérêt</label>

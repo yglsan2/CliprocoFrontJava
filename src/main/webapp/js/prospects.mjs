@@ -10,9 +10,20 @@ class Prospects {
         this.marker = null;
 
         // Références aux éléments DOM
-        this.form = document.getElementById('prospectForm');
-        this.tableElement = document.getElementById('prospectTable').querySelector('tbody');
-        this.detailsSection = document.getElementById('prospectDetails');
+        const el = document.getElementById('prospectForm'); if (!el) return;
+        this.form = el;
+        el.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (this.validateForm()) {
+                await this.saveProspect();
+            }
+        });
+
+        el = document.getElementById('prospectTable').querySelector('tbody'); if (!el) return;
+        this.tableElement = el;
+
+        el = document.getElementById('prospectDetails'); if (!el) return;
+        this.detailsSection = el;
 
         // Initialisation différée de la carte
         this.mapInitialized = false;
@@ -29,7 +40,8 @@ class Prospects {
     setupMap() {
         if (!this.mapInitialized && window.L) {
             try {
-                this.map = L.map('prospectMap').setView([46.603354, 1.888334], 5);
+                const el = document.getElementById('prospectMap'); if (!el) return;
+                this.map = L.map(el).setView([46.603354, 1.888334], 5);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(this.map);
@@ -41,14 +53,6 @@ class Prospects {
     }
 
     setupEventListeners() {
-        // Écouteur pour le formulaire
-        this.form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (this.validateForm()) {
-                await this.saveProspect();
-            }
-        });
-
         // Écouteur pour la gestion de l'état d'authentification
         document.addEventListener('authStateChanged', (e) => {
             if (!e.detail.isAuthenticated) {
@@ -61,16 +65,34 @@ class Prospects {
     }
 
     validateForm() {
-        const dateProspection = document.getElementById('prospectDateProspection');
-        const interesse = document.getElementById('prospectInteresse');
+        // Vérification des champs obligatoires
+        const requiredFields = ['nom', 'prenom', 'adresse', 'codePostal', 'ville', 'pays', 'email', 'telephone', 'interet', 'source'];
+        for (const fieldId of requiredFields) {
+            const field = document.getElementById(fieldId);
+            if (!field || !field.value.trim()) {
+                alert('Tous les champs sont obligatoires');
+                return false;
+            }
+        }
 
-        if (!dateProspection.value) {
-            alert('La date de prospection est obligatoire');
+        // Validation email
+        const email = document.getElementById('email')?.value;
+        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            alert('Veuillez entrer une adresse email valide');
             return false;
         }
 
-        if (!interesse.value) {
-            alert('Veuillez indiquer si le prospect est intéressé');
+        // Validation téléphone
+        const telephone = document.getElementById('telephone')?.value;
+        if (telephone && !/^\d{10}$/.test(telephone)) {
+            alert('Veuillez entrer un numéro de téléphone valide (10 chiffres)');
+            return false;
+        }
+
+        // Validation code postal
+        const codePostal = document.getElementById('codePostal')?.value;
+        if (codePostal && !/^\d{5}$/.test(codePostal)) {
+            alert('Veuillez entrer un code postal valide (5 chiffres)');
             return false;
         }
 
@@ -80,18 +102,16 @@ class Prospects {
     async saveProspect() {
         const prospect = {
             id: this.currentProspect ? this.currentProspect.id : Date.now(),
-            nom: document.getElementById('prospectNom').value,
-            prenom: document.getElementById('prospectPrenom').value,
-            dateNaissance: document.getElementById('prospectDateNaissance').value,
-            age: this.calculateAge(document.getElementById('prospectDateNaissance').value),
-            adresse: document.getElementById('prospectAdresse').value,
-            ville: document.getElementById('prospectVille').value,
-            codePostal: document.getElementById('prospectCodePostal').value,
-            email: document.getElementById('prospectEmail').value,
-            telephone: document.getElementById('prospectTel').value,
-            raisonSociale: document.getElementById('prospectRaisonSociale').value,
-            dateProspection: document.getElementById('prospectDateProspection').value,
-            interesse: document.getElementById('prospectInteresse').value
+            nom: document.getElementById('nom')?.value,
+            prenom: document.getElementById('prenom')?.value,
+            adresse: document.getElementById('adresse')?.value,
+            ville: document.getElementById('ville')?.value,
+            codePostal: document.getElementById('codePostal')?.value,
+            pays: document.getElementById('pays')?.value,
+            email: document.getElementById('email')?.value,
+            telephone: document.getElementById('telephone')?.value,
+            interet: document.getElementById('interet')?.value,
+            source: document.getElementById('source')?.value
         };
 
         try {
@@ -275,3 +295,11 @@ const prospects = new Prospects();
 window.prospects = prospects;
 
 export default prospects;
+
+document.addEventListener('DOMContentLoaded', () => {
+    try {
+        new Prospects();
+    } catch (e) {
+        console.error('Erreur lors de l\'initialisation des prospects :', e);
+    }
+});

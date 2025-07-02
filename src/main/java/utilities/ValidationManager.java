@@ -2,6 +2,7 @@ package utilities;
 
 import exceptions.ValidationException;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Gestionnaire centralisé des validations de l'application.
@@ -16,8 +17,8 @@ import java.util.regex.Pattern;
 public final class ValidationManager {
     // Patterns de validation
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
-    private static final Pattern PHONE_PATTERN = Pattern.compile("^(0|\\+33|0033)[1-9][0-9]{8}$");
-    private static final Pattern POSTAL_CODE_PATTERN = Pattern.compile("^[0-9]{5}$");
+    private static final Pattern PHONE_PATTERN = Patterns.PATTERN_TELEPHONE;
+    private static final Pattern POSTAL_CODE_PATTERN = Patterns.PATTERN_CODE_POSTAL;
     private static final Pattern AMOUNT_PATTERN = Pattern.compile("^[0-9]+(\\.[0-9]{1,2})?$");
     private static final Pattern NAME_PATTERN = Pattern.compile("^[a-zA-Z0-9\\s\\-']{2,50}$");
 
@@ -108,7 +109,7 @@ public final class ValidationManager {
         boolean isValid = PHONE_PATTERN.matcher(phone).matches();
         if (!isValid) {
             LogManager.logWarning("Numéro de téléphone invalide : " + phone);
-            throw new ValidationException("Le numéro de téléphone n'est pas valide");
+            throw new ValidationException("Le numéro de téléphone n'est pas valide. Exemple : 0612345678, +33612345678, 0033612345678");
         }
         return isValid;
     }
@@ -129,7 +130,7 @@ public final class ValidationManager {
         boolean isValid = POSTAL_CODE_PATTERN.matcher(postalCode).matches();
         if (!isValid) {
             LogManager.logWarning("Code postal invalide : " + postalCode);
-            throw new ValidationException("Le code postal n'est pas valide");
+            throw new ValidationException("Le code postal n'est pas valide. Exemple : 75001, 20000, 97100");
         }
         return isValid;
     }

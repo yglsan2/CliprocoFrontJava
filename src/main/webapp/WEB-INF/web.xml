@@ -16,6 +16,16 @@
         <servlet-name>FrontController</servlet-name>
         <url-pattern>/app/*</url-pattern>
     </servlet-mapping>
+    
+    <!-- Mapping pour les routes directes -->
+    <servlet-mapping>
+        <servlet-name>FrontController</servlet-name>
+        <url-pattern>/clients</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FrontController</servlet-name>
+        <url-pattern>/prospects</url-pattern>
+    </servlet-mapping>
 
     <!-- Configuration des pages d'accueil -->
     <welcome-file-list>

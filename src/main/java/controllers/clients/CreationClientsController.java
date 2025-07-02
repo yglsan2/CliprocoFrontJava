@@ -10,6 +10,7 @@ import utilities.Security;
 import utilities.LogManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import exceptions.ValidationException;
 
 public final class CreationClientsController implements ICommand {
     private final ClientService clientService;
@@ -35,18 +36,15 @@ public final class CreationClientsController implements ICommand {
             if (request.getMethod().equals("POST")) {
                 LogManager.logInfo("Méthode POST détectée, traitement des données");
                 try {
-                    // Construction de l'adresse
-                    LogManager.logInfo("Construction de l'adresse");
+                    // Validation et construction de l'adresse
                     Adresse adresse = AdresseBuilder.getNewAdresseBuilder()
                             .deNumeroRue(request.getParameter("numeroRue"))
                             .deNomRue(request.getParameter("nomRue"))
                             .deCodePostal(request.getParameter("codePostal"))
                             .deVille(request.getParameter("ville"))
                             .build();
-                    LogManager.logInfo("Adresse construite avec succès: " + adresse);
 
-                    // Construction du client
-                    LogManager.logInfo("Construction du client");
+                    // Validation et construction du client
                     Client client = ClientBuilder.getNewClientBuilder()
                             .deRaisonSociale(request.getParameter("raisonSociale"))
                             .deTelephone(request.getParameter("telephone"))
@@ -56,16 +54,25 @@ public final class CreationClientsController implements ICommand {
                             .deChiffreAffaires(Double.parseDouble(request.getParameter("chiffreAffaires")))
                             .deNombreEmployes(Integer.parseInt(request.getParameter("nbEmployes")))
                             .build();
-                    LogManager.logInfo("Client construit avec succès: " + client);
 
-                    // Création du client
-                    LogManager.logInfo("Création du client");
+                    // Ici, on peut ajouter des validations supplémentaires si besoin
+                    // ValidationManager.isValidPhone(client.getTelephone());
+                    // ValidationManager.isValidPostalCode(adresse.getCodePostal());
+                    // ValidationManager.isValidEmail(client.getMail());
+
                     clientService.create(client);
                     urlSuite = "redirect:?cmd=clients";
-                    LogManager.logInfo("Redirection vers: " + urlSuite);
+                } catch (ValidationException e) {
+                    request.setAttribute("errorValidation", e.getMessage());
+                } catch (NumberFormatException e) {
+                    request.setAttribute("errorFormat", "Format numérique invalide : " + e.getMessage());
+                } catch (IllegalArgumentException e) {
+                    request.setAttribute("errorArgument", "Erreur de saisie : " + e.getMessage());
                 } catch (Exception e) {
-                    LogManager.logException("Erreur lors de la création du client", e);
-                    throw e;
+                    LogManager.logWarning("Erreur inattendue lors de la création du client : " + e.getMessage());
+                    request.setAttribute("errorGlobal", "Une erreur inattendue est survenue. Merci de réessayer.");
+                } finally {
+                    LogManager.logInfo("Fin de la tentative de création de client.");
                 }
             }
         }

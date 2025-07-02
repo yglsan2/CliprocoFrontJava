@@ -1,0 +1,1999 @@
+Apache Maven 3.9.6 (bc0240f3c744dd6b6ec2920b3cd08dcc295161ae)
+Maven home: /home/yglsan/.m2/wrapper/dists/apache-maven-3.9.6-bin/439sdfsg2nbdob9ciift5h5nse/apache-maven-3.9.6
+Java version: 21.0.7, vendor: Arch Linux, runtime: /usr/lib/jvm/java-21-openjdk
+Default locale: fr_FR, platform encoding: UTF-8
+OS name: "linux", version: "6.15.2-arch1-1", arch: "amd64", family: "unix"
+[DEBUG] Created new class realm maven.api
+[DEBUG] Importing foreign packages into class realm maven.api
+[DEBUG]   Imported: javax.annotation.* < plexus.core
+[DEBUG]   Imported: javax.annotation.security.* < plexus.core
+[DEBUG]   Imported: javax.inject.* < plexus.core
+[DEBUG]   Imported: org.apache.maven.* < plexus.core
+[DEBUG]   Imported: org.apache.maven.artifact < plexus.core
+[DEBUG]   Imported: org.apache.maven.classrealm < plexus.core
+[DEBUG]   Imported: org.apache.maven.cli < plexus.core
+[DEBUG]   Imported: org.apache.maven.configuration < plexus.core
+[DEBUG]   Imported: org.apache.maven.exception < plexus.core
+[DEBUG]   Imported: org.apache.maven.execution < plexus.core
+[DEBUG]   Imported: org.apache.maven.execution.scope < plexus.core
+[DEBUG]   Imported: org.apache.maven.graph < plexus.core
+[DEBUG]   Imported: org.apache.maven.lifecycle < plexus.core
+[DEBUG]   Imported: org.apache.maven.model < plexus.core
+[DEBUG]   Imported: org.apache.maven.monitor < plexus.core
+[DEBUG]   Imported: org.apache.maven.plugin < plexus.core
+[DEBUG]   Imported: org.apache.maven.profiles < plexus.core
+[DEBUG]   Imported: org.apache.maven.project < plexus.core
+[DEBUG]   Imported: org.apache.maven.reporting < plexus.core
+[DEBUG]   Imported: org.apache.maven.repository < plexus.core
+[DEBUG]   Imported: org.apache.maven.rtinfo < plexus.core
+[DEBUG]   Imported: org.apache.maven.settings < plexus.core
+[DEBUG]   Imported: org.apache.maven.toolchain < plexus.core
+[DEBUG]   Imported: org.apache.maven.usability < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.* < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.authentication < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.authorization < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.events < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.observers < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.proxy < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.repository < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.resource < plexus.core
+[DEBUG]   Imported: org.codehaus.classworlds < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.* < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.classworlds < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.component < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.configuration < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.container < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.context < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.lifecycle < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.logging < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.personality < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.Xpp3Dom < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.pull.XmlPullParser < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.pull.XmlPullParserException < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.pull.XmlSerializer < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.* < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.artifact < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.collection < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.deployment < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.graph < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.impl < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.installation < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.internal.impl < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.metadata < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.repository < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.resolution < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.spi < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.transfer < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.util < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.version < plexus.core
+[DEBUG]   Imported: org.fusesource.jansi.* < plexus.core
+[DEBUG]   Imported: org.slf4j.* < plexus.core
+[DEBUG]   Imported: org.slf4j.event.* < plexus.core
+[DEBUG]   Imported: org.slf4j.helpers.* < plexus.core
+[DEBUG]   Imported: org.slf4j.spi.* < plexus.core
+[DEBUG] Populating class realm maven.api
+[DEBUG] Created adapter factory; available factories [file-lock, rwlock-local, semaphore-local, noop]; available name mappers [discriminating, file-gav, file-hgav, file-static, gav, static]
+[INFO] Error stacktraces are turned on.
+[DEBUG] Message scheme: color
+[DEBUG] Message styles: debug info warning error success failure strong mojo project
+[DEBUG] Reading global settings from /home/yglsan/.m2/wrapper/dists/apache-maven-3.9.6-bin/439sdfsg2nbdob9ciift5h5nse/apache-maven-3.9.6/conf/settings.xml
+[DEBUG] Reading user settings from /home/yglsan/.m2/settings.xml
+[DEBUG] Reading global toolchains from /home/yglsan/.m2/wrapper/dists/apache-maven-3.9.6-bin/439sdfsg2nbdob9ciift5h5nse/apache-maven-3.9.6/conf/toolchains.xml
+[DEBUG] Reading user toolchains from /home/yglsan/.m2/toolchains.xml
+[DEBUG] Using local repository at /home/yglsan/.m2/repository
+[DEBUG] Using manager EnhancedLocalRepositoryManager with priority 10.0 for /home/yglsan/.m2/repository
+[INFO] Scanning for projects...
+[DEBUG] Extension realms for project com.cliproco:CliprocoJEE:war:1.0-SNAPSHOT: (none)
+[DEBUG] Looking up lifecycle mappings for packaging war from ClassRealm[plexus.core, parent: null]
+[DEBUG] === REACTOR BUILD PLAN ================================================
+[DEBUG] Project: com.cliproco:CliprocoJEE:war:1.0-SNAPSHOT
+[DEBUG] Tasks:   [clean, package]
+[DEBUG] Style:   Regular
+[DEBUG] =======================================================================
+[INFO] 
+[INFO] ----------------------< com.cliproco:CliprocoJEE >----------------------
+[INFO] Building CliprocoJEE 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ war ]---------------------------------
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Creating adapter using nameMapper 'gav' and factory 'rwlock-local'
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] === PROJECT BUILD PLAN ================================================
+[DEBUG] Project:       com.cliproco:CliprocoJEE:1.0-SNAPSHOT
+[DEBUG] Dependencies (collect): []
+[DEBUG] Dependencies (resolve): [compile, compile+runtime, test]
+[DEBUG] Repositories (dependencies): [central (https://repo.maven.apache.org/maven2, default, releases)]
+[DEBUG] Repositories (plugins)     : [central (https://repo.maven.apache.org/maven2, default, releases)]
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean (default-clean)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <directory default-value="${project.build.directory}"/>
+  <excludeDefaultDirectories default-value="false">${maven.clean.excludeDefaultDirectories}</excludeDefaultDirectories>
+  <failOnError default-value="true">${maven.clean.failOnError}</failOnError>
+  <fast default-value="false">${maven.clean.fast}</fast>
+  <fastDir>${maven.clean.fastDir}</fastDir>
+  <fastMode default-value="background">${maven.clean.fastMode}</fastMode>
+  <followSymLinks default-value="false">${maven.clean.followSymLinks}</followSymLinks>
+  <outputDirectory default-value="${project.build.outputDirectory}"/>
+  <reportDirectory default-value="${project.build.outputDirectory}"/>
+  <retryOnError default-value="true">${maven.clean.retryOnError}</retryOnError>
+  <session default-value="${session}"/>
+  <skip default-value="false">${maven.clean.skip}</skip>
+  <testOutputDirectory default-value="${project.build.testOutputDirectory}"/>
+  <verbose>${maven.clean.verbose}</verbose>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-resources-plugin:3.3.1:resources (default-resources)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <addDefaultExcludes default-value="true"/>
+  <buildFilters default-value="${project.build.filters}"/>
+  <encoding default-value="${project.build.sourceEncoding}"/>
+  <escapeWindowsPaths default-value="true"/>
+  <fileNameFiltering default-value="false"/>
+  <includeEmptyDirs default-value="false"/>
+  <outputDirectory default-value="${project.build.outputDirectory}"/>
+  <overwrite default-value="false"/>
+  <project default-value="${project}"/>
+  <resources default-value="${project.resources}"/>
+  <session default-value="${session}"/>
+  <skip default-value="false">${maven.resources.skip}</skip>
+  <supportMultiLineFiltering default-value="false"/>
+  <useBuildFilters default-value="true"/>
+  <useDefaultDelimiters default-value="true"/>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile (default-compile)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <basedir default-value="${basedir}"/>
+  <buildDirectory default-value="${project.build.directory}"/>
+  <compilePath default-value="${project.compileClasspathElements}"/>
+  <compileSourceRoots default-value="${project.compileSourceRoots}"/>
+  <compilerId default-value="javac">${maven.compiler.compilerId}</compilerId>
+  <compilerReuseStrategy default-value="${reuseCreated}">${maven.compiler.compilerReuseStrategy}</compilerReuseStrategy>
+  <compilerVersion>${maven.compiler.compilerVersion}</compilerVersion>
+  <createMissingPackageInfoClass default-value="true">${maven.compiler.createMissingPackageInfoClass}</createMissingPackageInfoClass>
+  <debug default-value="true">${maven.compiler.debug}</debug>
+  <debugFileName default-value="javac"/>
+  <debuglevel>${maven.compiler.debuglevel}</debuglevel>
+  <enablePreview default-value="false">${maven.compiler.enablePreview}</enablePreview>
+  <encoding default-value="${project.build.sourceEncoding}">${encoding}</encoding>
+  <executable>${maven.compiler.executable}</executable>
+  <failOnError default-value="true">${maven.compiler.failOnError}</failOnError>
+  <failOnWarning default-value="false">${maven.compiler.failOnWarning}</failOnWarning>
+  <forceJavacCompilerUse default-value="false">${maven.compiler.forceJavacCompilerUse}</forceJavacCompilerUse>
+  <fork default-value="false">${maven.compiler.fork}</fork>
+  <generatedSourcesDirectory default-value="${project.build.directory}/generated-sources/annotations"/>
+  <implicit>${maven.compiler.implicit}</implicit>
+  <maxmem>${maven.compiler.maxmem}</maxmem>
+  <meminitial>${maven.compiler.meminitial}</meminitial>
+  <mojoExecution default-value="${mojoExecution}"/>
+  <optimize default-value="false">${maven.compiler.optimize}</optimize>
+  <outputDirectory default-value="${project.build.outputDirectory}"/>
+  <parameters default-value="false">${maven.compiler.parameters}</parameters>
+  <project default-value="${project}"/>
+  <projectArtifact default-value="${project.artifact}"/>
+  <release>${maven.compiler.release}</release>
+  <session default-value="${session}"/>
+  <showCompilationChanges default-value="false">${maven.compiler.showCompilationChanges}</showCompilationChanges>
+  <showDeprecation default-value="false">${maven.compiler.showDeprecation}</showDeprecation>
+  <showWarnings default-value="true">${maven.compiler.showWarnings}</showWarnings>
+  <skipMain>${maven.main.skip}</skipMain>
+  <skipMultiThreadWarning default-value="false">${maven.compiler.skipMultiThreadWarning}</skipMultiThreadWarning>
+  <source default-value="1.8">21</source>
+  <staleMillis default-value="0">${lastModGranularityMs}</staleMillis>
+  <target default-value="1.8">21</target>
+  <useIncrementalCompilation default-value="true">${maven.compiler.useIncrementalCompilation}</useIncrementalCompilation>
+  <verbose default-value="false">${maven.compiler.verbose}</verbose>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-resources-plugin:3.3.1:testResources (default-testResources)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <addDefaultExcludes default-value="true"/>
+  <buildFilters default-value="${project.build.filters}"/>
+  <encoding default-value="${project.build.sourceEncoding}"/>
+  <escapeWindowsPaths default-value="true"/>
+  <fileNameFiltering default-value="false"/>
+  <includeEmptyDirs default-value="false"/>
+  <outputDirectory default-value="${project.build.testOutputDirectory}"/>
+  <overwrite default-value="false"/>
+  <project default-value="${project}"/>
+  <resources default-value="${project.testResources}"/>
+  <session default-value="${session}"/>
+  <skip default-value="false">${maven.test.skip}</skip>
+  <supportMultiLineFiltering default-value="false"/>
+  <useBuildFilters default-value="true"/>
+  <useDefaultDelimiters default-value="true"/>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-compiler-plugin:3.11.0:testCompile (default-testCompile)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <basedir default-value="${basedir}"/>
+  <buildDirectory default-value="${project.build.directory}"/>
+  <compileSourceRoots default-value="${project.testCompileSourceRoots}"/>
+  <compilerId default-value="javac">${maven.compiler.compilerId}</compilerId>
+  <compilerReuseStrategy default-value="${reuseCreated}">${maven.compiler.compilerReuseStrategy}</compilerReuseStrategy>
+  <compilerVersion>${maven.compiler.compilerVersion}</compilerVersion>
+  <createMissingPackageInfoClass default-value="true">${maven.compiler.createMissingPackageInfoClass}</createMissingPackageInfoClass>
+  <debug default-value="true">${maven.compiler.debug}</debug>
+  <debugFileName default-value="javac-test"/>
+  <debuglevel>${maven.compiler.debuglevel}</debuglevel>
+  <enablePreview default-value="false">${maven.compiler.enablePreview}</enablePreview>
+  <encoding default-value="${project.build.sourceEncoding}">${encoding}</encoding>
+  <executable>${maven.compiler.executable}</executable>
+  <failOnError default-value="true">${maven.compiler.failOnError}</failOnError>
+  <failOnWarning default-value="false">${maven.compiler.failOnWarning}</failOnWarning>
+  <forceJavacCompilerUse default-value="false">${maven.compiler.forceJavacCompilerUse}</forceJavacCompilerUse>
+  <fork default-value="false">${maven.compiler.fork}</fork>
+  <generatedTestSourcesDirectory default-value="${project.build.directory}/generated-test-sources/test-annotations"/>
+  <implicit>${maven.compiler.implicit}</implicit>
+  <maxmem>${maven.compiler.maxmem}</maxmem>
+  <meminitial>${maven.compiler.meminitial}</meminitial>
+  <mojoExecution default-value="${mojoExecution}"/>
+  <optimize default-value="false">${maven.compiler.optimize}</optimize>
+  <outputDirectory default-value="${project.build.testOutputDirectory}"/>
+  <parameters default-value="false">${maven.compiler.parameters}</parameters>
+  <project default-value="${project}"/>
+  <release>${maven.compiler.release}</release>
+  <session default-value="${session}"/>
+  <showCompilationChanges default-value="false">${maven.compiler.showCompilationChanges}</showCompilationChanges>
+  <showDeprecation default-value="false">${maven.compiler.showDeprecation}</showDeprecation>
+  <showWarnings default-value="true">${maven.compiler.showWarnings}</showWarnings>
+  <skip>${maven.test.skip}</skip>
+  <skipMultiThreadWarning default-value="false">${maven.compiler.skipMultiThreadWarning}</skipMultiThreadWarning>
+  <source default-value="1.8">21</source>
+  <staleMillis default-value="0">${lastModGranularityMs}</staleMillis>
+  <target default-value="1.8">21</target>
+  <testPath default-value="${project.testClasspathElements}"/>
+  <testRelease>${maven.compiler.testRelease}</testRelease>
+  <testSource>${maven.compiler.testSource}</testSource>
+  <testTarget>${maven.compiler.testTarget}</testTarget>
+  <useIncrementalCompilation default-value="true">${maven.compiler.useIncrementalCompilation}</useIncrementalCompilation>
+  <useModulePath default-value="true"/>
+  <verbose default-value="false">${maven.compiler.verbose}</verbose>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-surefire-plugin:3.1.2:test (default-test)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <additionalClasspathElements>${maven.test.additionalClasspath}</additionalClasspathElements>
+  <argLine>${argLine}</argLine>
+  <basedir default-value="${basedir}"/>
+  <childDelegation default-value="false">${childDelegation}</childDelegation>
+  <classesDirectory default-value="${project.build.outputDirectory}"/>
+  <classpathDependencyExcludes>${maven.test.dependency.excludes}</classpathDependencyExcludes>
+  <debugForkedProcess>${maven.surefire.debug}</debugForkedProcess>
+  <dependenciesToScan>${dependenciesToScan}</dependenciesToScan>
+  <disableXmlReport default-value="false">${disableXmlReport}</disableXmlReport>
+  <enableAssertions default-value="true">${enableAssertions}</enableAssertions>
+  <enableProcessChecker>${surefire.enableProcessChecker}</enableProcessChecker>
+  <encoding default-value="${project.reporting.outputEncoding}">${surefire.encoding}</encoding>
+  <excludeJUnit5Engines>${surefire.excludeJUnit5Engines}</excludeJUnit5Engines>
+  <excludedEnvironmentVariables>${surefire.excludedEnvironmentVariables}</excludedEnvironmentVariables>
+  <excludedGroups>${excludedGroups}</excludedGroups>
+  <excludes>${surefire.excludes}</excludes>
+  <excludesFile>${surefire.excludesFile}</excludesFile>
+  <failIfNoSpecifiedTests default-value="true">${surefire.failIfNoSpecifiedTests}</failIfNoSpecifiedTests>
+  <failIfNoTests default-value="false">${failIfNoTests}</failIfNoTests>
+  <failOnFlakeCount default-value="0">${surefire.failOnFlakeCount}</failOnFlakeCount>
+  <forkCount default-value="1">${forkCount}</forkCount>
+  <forkNode>${surefire.forkNode}</forkNode>
+  <forkedProcessExitTimeoutInSeconds default-value="30">${surefire.exitTimeout}</forkedProcessExitTimeoutInSeconds>
+  <forkedProcessTimeoutInSeconds>${surefire.timeout}</forkedProcessTimeoutInSeconds>
+  <groups>${groups}</groups>
+  <includeJUnit5Engines>${surefire.includeJUnit5Engines}</includeJUnit5Engines>
+  <includes>${surefire.includes}</includes>
+  <includesFile>${surefire.includesFile}</includesFile>
+  <junitArtifactName default-value="junit:junit">${junitArtifactName}</junitArtifactName>
+  <jvm>${jvm}</jvm>
+  <objectFactory>${objectFactory}</objectFactory>
+  <parallel>${parallel}</parallel>
+  <parallelMavenExecution default-value="${session.parallel}"/>
+  <parallelOptimized default-value="true">${parallelOptimized}</parallelOptimized>
+  <parallelTestsTimeoutForcedInSeconds>${surefire.parallel.forcedTimeout}</parallelTestsTimeoutForcedInSeconds>
+  <parallelTestsTimeoutInSeconds>${surefire.parallel.timeout}</parallelTestsTimeoutInSeconds>
+  <perCoreThreadCount default-value="true">${perCoreThreadCount}</perCoreThreadCount>
+  <pluginArtifactMap>${plugin.artifactMap}</pluginArtifactMap>
+  <pluginDescriptor default-value="${plugin}"/>
+  <printSummary default-value="true">${surefire.printSummary}</printSummary>
+  <project default-value="${project}"/>
+  <projectArtifactMap>${project.artifactMap}</projectArtifactMap>
+  <projectBuildDirectory default-value="${project.build.directory}"/>
+  <redirectTestOutputToFile default-value="false">${maven.test.redirectTestOutputToFile}</redirectTestOutputToFile>
+  <reportFormat default-value="brief">${surefire.reportFormat}</reportFormat>
+  <reportNameSuffix default-value="">${surefire.reportNameSuffix}</reportNameSuffix>
+  <reportsDirectory default-value="${project.build.directory}/surefire-reports"/>
+  <rerunFailingTestsCount default-value="0">${surefire.rerunFailingTestsCount}</rerunFailingTestsCount>
+  <reuseForks default-value="true">${reuseForks}</reuseForks>
+  <runOrder default-value="filesystem">${surefire.runOrder}</runOrder>
+  <runOrderRandomSeed>${surefire.runOrder.random.seed}</runOrderRandomSeed>
+  <session default-value="${session}"/>
+  <shutdown default-value="exit">${surefire.shutdown}</shutdown>
+  <skip default-value="false">${maven.test.skip}</skip>
+  <skipAfterFailureCount default-value="0">${surefire.skipAfterFailureCount}</skipAfterFailureCount>
+  <skipExec>${maven.test.skip.exec}</skipExec>
+  <skipTests default-value="false">true</skipTests>
+  <suiteXmlFiles>${surefire.suiteXmlFiles}</suiteXmlFiles>
+  <systemPropertiesFile>${surefire.systemPropertiesFile}</systemPropertiesFile>
+  <tempDir default-value="surefire">${tempDir}</tempDir>
+  <test>${test}</test>
+  <testClassesDirectory default-value="${project.build.testOutputDirectory}"/>
+  <testFailureIgnore default-value="false">${maven.test.failure.ignore}</testFailureIgnore>
+  <testNGArtifactName default-value="org.testng:testng">${testNGArtifactName}</testNGArtifactName>
+  <testSourceDirectory default-value="${project.build.testSourceDirectory}"/>
+  <threadCount>${threadCount}</threadCount>
+  <threadCountClasses default-value="0">${threadCountClasses}</threadCountClasses>
+  <threadCountMethods default-value="0">${threadCountMethods}</threadCountMethods>
+  <threadCountSuites default-value="0">${threadCountSuites}</threadCountSuites>
+  <trimStackTrace default-value="false">${trimStackTrace}</trimStackTrace>
+  <useFile default-value="true">${surefire.useFile}</useFile>
+  <useManifestOnlyJar default-value="true">${surefire.useManifestOnlyJar}</useManifestOnlyJar>
+  <useModulePath default-value="true">${surefire.useModulePath}</useModulePath>
+  <useSystemClassLoader default-value="true">${surefire.useSystemClassLoader}</useSystemClassLoader>
+  <useUnlimitedThreads default-value="false">${useUnlimitedThreads}</useUnlimitedThreads>
+  <workingDirectory>${basedir}</workingDirectory>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-war-plugin:3.4.0:war (default-war)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <archiveClasses default-value="false"/>
+  <attachClasses default-value="false"/>
+  <classesClassifier default-value="classes"/>
+  <classesDirectory default-value="${project.build.outputDirectory}"/>
+  <escapedBackslashesInFilePath default-value="false"/>
+  <failOnMissingWebXml>false</failOnMissingWebXml>
+  <filteringDeploymentDescriptors default-value="false"/>
+  <includeEmptyDirectories default-value="false"/>
+  <outdatedCheckPath default-value="WEB-INF/lib/"/>
+  <outputDirectory default-value="${project.build.directory}"/>
+  <outputTimestamp default-value="${project.build.outputTimestamp}"/>
+  <primaryArtifact default-value="true"/>
+  <project default-value="${project}"/>
+  <recompressZippedFiles default-value="true"/>
+  <resourceEncoding default-value="${project.build.sourceEncoding}"/>
+  <session default-value="${session}"/>
+  <skip default-value="false">${maven.war.skip}</skip>
+  <supportMultiLineFiltering default-value="false"/>
+  <useDefaultDelimiters default-value="true"/>
+  <useJvmChmod default-value="true"/>
+  <warName default-value="${project.build.finalName}"/>
+  <warSourceDirectory default-value="${basedir}/src/main/webapp"/>
+  <warSourceIncludes default-value="**"/>
+  <webappDirectory default-value="${project.build.directory}/${project.build.finalName}"/>
+  <workDirectory default-value="${project.build.directory}/war/work"/>
+</configuration>
+[DEBUG] =======================================================================
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=607048, ConflictMarker.markTime=205432, ConflictMarker.nodeCount=49, ConflictIdSorter.graphTime=470105, ConflictIdSorter.topsortTime=409131, ConflictIdSorter.conflictIdCount=35, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=11803494, ConflictResolver.conflictItemCount=48, DfDependencyCollector.collectTime=263920166, DfDependencyCollector.transformTime=15711378}
+[DEBUG] com.cliproco:CliprocoJEE:war:1.0-SNAPSHOT
+[DEBUG]    jakarta.servlet:jakarta.servlet-api:jar:6.0.0:provided
+[DEBUG]    jakarta.servlet.jsp:jakarta.servlet.jsp-api:jar:3.1.1:provided
+[DEBUG]    jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:jar:3.0.0:compile
+[DEBUG]       jakarta.el:jakarta.el-api:jar:5.0.0:compile
+[DEBUG]    org.hibernate.orm:hibernate-core:jar:6.4.4.Final:compile
+[DEBUG]       jakarta.persistence:jakarta.persistence-api:jar:3.1.0:compile
+[DEBUG]       jakarta.transaction:jakarta.transaction-api:jar:2.0.1:compile
+[DEBUG]       org.jboss.logging:jboss-logging:jar:3.5.0.Final:runtime
+[DEBUG]       org.hibernate.common:hibernate-commons-annotations:jar:6.0.6.Final:runtime
+[DEBUG]       io.smallrye:jandex:jar:3.1.2:runtime
+[DEBUG]       com.fasterxml:classmate:jar:1.5.1:runtime
+[DEBUG]       net.bytebuddy:byte-buddy:jar:1.14.11:runtime
+[DEBUG]       jakarta.xml.bind:jakarta.xml.bind-api:jar:4.0.0:runtime
+[DEBUG]          jakarta.activation:jakarta.activation-api:jar:2.1.0:runtime
+[DEBUG]       org.glassfish.jaxb:jaxb-runtime:jar:4.0.2:runtime
+[DEBUG]          org.glassfish.jaxb:jaxb-core:jar:4.0.2:runtime
+[DEBUG]             org.eclipse.angus:angus-activation:jar:2.0.0:runtime
+[DEBUG]             org.glassfish.jaxb:txw2:jar:4.0.2:runtime
+[DEBUG]             com.sun.istack:istack-commons-runtime:jar:4.1.1:runtime
+[DEBUG]       jakarta.inject:jakarta.inject-api:jar:2.0.1:runtime
+[DEBUG]       org.antlr:antlr4-runtime:jar:4.13.0:runtime
+[DEBUG]    com.mysql:mysql-connector-j:jar:8.0.33:compile
+[DEBUG]       com.google.protobuf:protobuf-java:jar:3.21.9:compile
+[DEBUG]    org.slf4j:slf4j-api:jar:2.0.9:compile
+[DEBUG]    ch.qos.logback:logback-classic:jar:1.4.11:compile
+[DEBUG]       ch.qos.logback:logback-core:jar:1.4.11:compile
+[DEBUG]    org.junit.jupiter:junit-jupiter:jar:5.10.0:test
+[DEBUG]       org.junit.jupiter:junit-jupiter-api:jar:5.10.0:test
+[DEBUG]          org.opentest4j:opentest4j:jar:1.3.0:test
+[DEBUG]          org.junit.platform:junit-platform-commons:jar:1.10.0:test
+[DEBUG]          org.apiguardian:apiguardian-api:jar:1.1.2:test
+[DEBUG]       org.junit.jupiter:junit-jupiter-params:jar:5.10.0:test
+[DEBUG]       org.junit.jupiter:junit-jupiter-engine:jar:5.10.0:test
+[DEBUG]          org.junit.platform:junit-platform-engine:jar:1.10.0:test
+[DEBUG]    org.mindrot:jbcrypt:jar:0.4:compile
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ CliprocoJEE ---
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=25217, ConflictMarker.markTime=87653, ConflictMarker.nodeCount=3, ConflictIdSorter.graphTime=12029, ConflictIdSorter.topsortTime=15932, ConflictIdSorter.conflictIdCount=3, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=232075, ConflictResolver.conflictItemCount=3, DfDependencyCollector.collectTime=30239967, DfDependencyCollector.transformTime=392798}
+[DEBUG] org.apache.maven.plugins:maven-clean-plugin:jar:3.2.0
+[DEBUG]    org.apache.maven.shared:maven-shared-utils:jar:3.3.4:compile
+[DEBUG]       commons-io:commons-io:jar:2.6:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-clean-plugin:3.2.0
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-clean-plugin:3.2.0
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-clean-plugin:3.2.0
+[DEBUG]   Included: org.apache.maven.plugins:maven-clean-plugin:jar:3.2.0
+[DEBUG]   Included: org.apache.maven.shared:maven-shared-utils:jar:3.3.4
+[DEBUG]   Included: commons-io:commons-io:jar:2.6
+[DEBUG] Loading mojo org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-clean-plugin:3.2.0, parent: java.net.URLClassLoader@22d8cfe0]
+[DEBUG] Configuring mojo execution 'org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean:default-clean' with basic configurator -->
+[DEBUG]   (f) directory = /home/yglsan/Desktop/CliprocoJEE/target
+[DEBUG]   (f) excludeDefaultDirectories = false
+[DEBUG]   (f) failOnError = true
+[DEBUG]   (f) fast = false
+[DEBUG]   (f) fastMode = background
+[DEBUG]   (f) followSymLinks = false
+[DEBUG]   (f) outputDirectory = /home/yglsan/Desktop/CliprocoJEE/target/classes
+[DEBUG]   (f) reportDirectory = /home/yglsan/Desktop/CliprocoJEE/target/classes
+[DEBUG]   (f) retryOnError = true
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@2b59501e
+[DEBUG]   (f) skip = false
+[DEBUG]   (f) testOutputDirectory = /home/yglsan/Desktop/CliprocoJEE/target/test-classes
+[DEBUG] -- end configuration --
+[INFO] Deleting /home/yglsan/Desktop/CliprocoJEE/target
+[INFO] Deleting directory /home/yglsan/Desktop/CliprocoJEE/target/generated-sources/annotations
+[INFO] Deleting directory /home/yglsan/Desktop/CliprocoJEE/target/generated-sources
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+[INFO] Deleting directory /home/yglsan/Desktop/CliprocoJEE/target/maven-status/maven-compiler-plugin/compile/default-compile
+[INFO] Deleting directory /home/yglsan/Desktop/CliprocoJEE/target/maven-status/maven-compiler-plugin/compile
+[INFO] Deleting directory /home/yglsan/Desktop/CliprocoJEE/target/maven-status/maven-compiler-plugin
+[INFO] Deleting directory /home/yglsan/Desktop/CliprocoJEE/target/maven-status
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/builders/ClientBuilder.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/builders/AdresseBuilder.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/builders/Builder.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/builders/ProspectBuilder.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/builders/SocieteBuilder.class
+[INFO] Deleting directory /home/yglsan/Desktop/CliprocoJEE/target/classes/builders
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/routers/FrontController.class
+[INFO] Deleting directory /home/yglsan/Desktop/CliprocoJEE/target/classes/routers
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/utilities/MetricsManager.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/utilities/ValidationManager.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/utilities/JPAUtil.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/utilities/Security.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/utilities/DatabaseManager.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/utilities/Patterns.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/utilities/DatabaseConnection.class
+[INFO] Deleting directory /home/yglsan/Desktop/CliprocoJEE/target/classes/utilities
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/database.properties
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/models/Prospect.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/models/Facture.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/models/CalculFacture.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/models/Adresse.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/models/Produit.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/models/Contrat.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/models/Societe.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/models/User.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/models/Client.class
+[INFO] Deleting directory /home/yglsan/Desktop/CliprocoJEE/target/classes/models
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/messages/messages.properties
+[INFO] Deleting directory /home/yglsan/Desktop/CliprocoJEE/target/classes/messages
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/dao/UserDAO.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/dao/IDAO.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/dao/mysql/UserMySqlDAO.class
+[INFO] Deleting directory /home/yglsan/Desktop/CliprocoJEE/target/classes/dao/mysql
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/dao/jpa/ProduitJpaDAO.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/dao/jpa/AbstractJpaDAO.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/dao/jpa/ClientJpaDAO.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/dao/jpa/DatabaseConnection.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/dao/jpa/GenericJpaDAO.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/dao/jpa/ContratJpaDAO.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/dao/jpa/SocieteJpaDAO.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/dao/jpa/FactureJpaDAO.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/dao/jpa/CalculFactureJpaDAO.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/dao/jpa/AdresseJpaDAO.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/dao/jpa/ProspectJpaDAO.class
+[INFO] Deleting directory /home/yglsan/Desktop/CliprocoJEE/target/classes/dao/jpa
+[INFO] Deleting directory /home/yglsan/Desktop/CliprocoJEE/target/classes/dao
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/controllers/prospects/CreationProspectsController.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/controllers/prospects/UpdateProspectsController.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/controllers/prospects/ViewProspectsController.class
+[INFO] Deleting directory /home/yglsan/Desktop/CliprocoJEE/target/classes/controllers/prospects
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/controllers/clients/ViewClientsController.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/controllers/clients/UpdateClientsController.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/controllers/clients/ListeClientsController.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/controllers/clients/DeleteClientsController.class
+[INFO] Deleting directory /home/yglsan/Desktop/CliprocoJEE/target/classes/controllers/clients
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/controllers/ICommand.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/controllers/UpdateClientsController.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/controllers/DeconnexionController.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/controllers/RegisterController.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/controllers/SigninController.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/controllers/ConnexionController.class
+[INFO] Deleting directory /home/yglsan/Desktop/CliprocoJEE/target/classes/controllers
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/META-INF/persistence.xml
+[INFO] Deleting directory /home/yglsan/Desktop/CliprocoJEE/target/classes/META-INF
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/logs/LogFormatter.class
+[INFO] Deleting directory /home/yglsan/Desktop/CliprocoJEE/target/classes/logs
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/exceptions/BusinessException.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/exceptions/ResourceNotFoundException.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/exceptions/ValidationException.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/exceptions/ExceptionHandler.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/exceptions/ApplicationException.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/exceptions/DatabaseException.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/exceptions/AuthorizationException.class
+[INFO] Deleting directory /home/yglsan/Desktop/CliprocoJEE/target/classes/exceptions
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/services/ClientService.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/services/ContratService.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/services/SocieteService.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/services/FactureService.class
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/services/ProspectService.class
+[INFO] Deleting directory /home/yglsan/Desktop/CliprocoJEE/target/classes/services
+[INFO] Deleting file /home/yglsan/Desktop/CliprocoJEE/target/classes/schema.sql
+[INFO] Deleting directory /home/yglsan/Desktop/CliprocoJEE/target/classes
+[INFO] Deleting directory /home/yglsan/Desktop/CliprocoJEE/target
+[DEBUG] Skipping non-existing directory /home/yglsan/Desktop/CliprocoJEE/target/classes
+[DEBUG] Skipping non-existing directory /home/yglsan/Desktop/CliprocoJEE/target/test-classes
+[DEBUG] Skipping non-existing directory /home/yglsan/Desktop/CliprocoJEE/target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ CliprocoJEE ---
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=86213, ConflictMarker.markTime=97062, ConflictMarker.nodeCount=13, ConflictIdSorter.graphTime=23448, ConflictIdSorter.topsortTime=36447, ConflictIdSorter.conflictIdCount=9, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=388418, ConflictResolver.conflictItemCount=13, DfDependencyCollector.collectTime=69907276, DfDependencyCollector.transformTime=653821}
+[DEBUG] org.apache.maven.plugins:maven-resources-plugin:jar:3.3.1
+[DEBUG]    org.codehaus.plexus:plexus-interpolation:jar:1.26:runtime
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:3.5.1:compile
+[DEBUG]    org.apache.maven.shared:maven-filtering:jar:3.3.1:compile
+[DEBUG]       javax.inject:javax.inject:jar:1:compile
+[DEBUG]       org.slf4j:slf4j-api:jar:1.7.36:compile
+[DEBUG]       org.sonatype.plexus:plexus-build-api:jar:0.0.7:compile
+[DEBUG]    commons-io:commons-io:jar:2.11.0:compile
+[DEBUG]    org.apache.commons:commons-lang3:jar:3.12.0:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1
+[DEBUG]   Included: org.apache.maven.plugins:maven-resources-plugin:jar:3.3.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-interpolation:jar:1.26
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:3.5.1
+[DEBUG]   Included: org.apache.maven.shared:maven-filtering:jar:3.3.1
+[DEBUG]   Included: org.sonatype.plexus:plexus-build-api:jar:0.0.7
+[DEBUG]   Included: commons-io:commons-io:jar:2.11.0
+[DEBUG]   Included: org.apache.commons:commons-lang3:jar:3.12.0
+[DEBUG] Loading mojo org.apache.maven.plugins:maven-resources-plugin:3.3.1:resources from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1, parent: java.net.URLClassLoader@22d8cfe0]
+[DEBUG] Configuring mojo execution 'org.apache.maven.plugins:maven-resources-plugin:3.3.1:resources:default-resources' with basic configurator -->
+[DEBUG]   (f) addDefaultExcludes = true
+[DEBUG]   (f) buildFilters = []
+[DEBUG]   (f) encoding = UTF-8
+[DEBUG]   (f) escapeWindowsPaths = true
+[DEBUG]   (f) fileNameFiltering = false
+[DEBUG]   (s) includeEmptyDirs = false
+[DEBUG]   (s) outputDirectory = /home/yglsan/Desktop/CliprocoJEE/target/classes
+[DEBUG]   (s) overwrite = false
+[DEBUG]   (f) project = MavenProject: com.cliproco:CliprocoJEE:1.0-SNAPSHOT @ /home/yglsan/Desktop/CliprocoJEE/pom.xml
+[DEBUG]   (s) resources = [Resource {targetPath: null, filtering: false, FileSet {directory: /home/yglsan/Desktop/CliprocoJEE/src/main/resources, PatternSet [includes: {}, excludes: {}]}}]
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@2b59501e
+[DEBUG]   (f) skip = false
+[DEBUG]   (f) supportMultiLineFiltering = false
+[DEBUG]   (f) useBuildFilters = true
+[DEBUG]   (s) useDefaultDelimiters = true
+[DEBUG] -- end configuration --
+[DEBUG] properties used:
+[DEBUG] classworlds.conf: /home/yglsan/.m2/wrapper/dists/apache-maven-3.9.6-bin/439sdfsg2nbdob9ciift5h5nse/apache-maven-3.9.6/bin/m2.conf
+[DEBUG] env.APPDIR: /tmp/.mount_CursornOinRU
+[DEBUG] env.APPIMAGE: /home/yglsan/Prog/Cursor-0.48.9-x86_64.AppImage
+[DEBUG] env.CATALINA_BASE: /opt/tomcat11
+[DEBUG] env.CATALINA_HOME: /opt/tomcat11
+[DEBUG] env.CHROME_DESKTOP: cursor.desktop
+[DEBUG] env.COLORTERM: truecolor
+[DEBUG] env.COMPOSER_NO_INTERACTION: 1
+[DEBUG] env.CURSOR_TRACE_ID: dc021b966fee4933a3c4a561370dc0c7
+[DEBUG] env.DBUS_SESSION_BUS_ADDRESS: unix:path=/run/user/1000/bus
+[DEBUG] env.DEBUGINFOD_URLS: https://debuginfod.archlinux.org 
+[DEBUG] env.DESKTOP_SESSION: gnome
+[DEBUG] env.DISABLE_AUTO_UPDATE: true
+[DEBUG] env.DISPLAY: :0
+[DEBUG] env.FORCE_CITY: Laxou
+[DEBUG] env.GDK_BACKEND: x11
+[DEBUG] env.GDMSESSION: gnome
+[DEBUG] env.GDM_LANG: fr_FR.UTF-8
+[DEBUG] env.GIO_LAUNCHED_DESKTOP_FILE_PID: 1773555
+[DEBUG] env.GIT_ASKPASS: /tmp/.mount_CursornOinRU/usr/share/cursor/resources/app/extensions/git/dist/askpass.sh
+[DEBUG] env.GNOME_SETUP_DISPLAY: :1
+[DEBUG] env.GSETTINGS_SCHEMA_DIR: /tmp/.mount_CursornOinRU/usr/share/glib-2.0/schemas/:
+[DEBUG] env.HOME: /home/yglsan
+[DEBUG] env.INVOCATION_ID: cd52428283c14bfd9435b3f3a5736c8b
+[DEBUG] env.JAVA_HOME: /usr/lib/jvm/java-21-openjdk
+[DEBUG] env.JOURNAL_STREAM: 9:28002200
+[DEBUG] env.LANG: fr_FR.UTF-8
+[DEBUG] env.LD_LIBRARY_PATH: /tmp/.mount_CursornOinRU/usr/lib/:/tmp/.mount_CursornOinRU/usr/lib32/:/tmp/.mount_CursornOinRU/usr/lib64/:/tmp/.mount_CursornOinRU/lib/:/tmp/.mount_CursornOinRU/lib/i386-linux-gnu/:/tmp/.mount_CursornOinRU/lib/x86_64-linux-gnu/:/tmp/.mount_CursornOinRU/lib/aarch64-linux-gnu/:/tmp/.mount_CursornOinRU/lib32/:/tmp/.mount_CursornOinRU/lib64/:
+[DEBUG] env.LOGNAME: yglsan
+[DEBUG] env.MAIL: /var/spool/mail/yglsan
+[DEBUG] env.MANAGERPID: 304842
+[DEBUG] env.MAVEN_CMD_LINE_ARGS:  clean package -X
+[DEBUG] env.MAVEN_PROJECTBASEDIR: /home/yglsan/Desktop/CliprocoJEE
+[DEBUG] env.MEMORY_PRESSURE_WATCH: /sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/app-dbus\x2d:1.2\x2dorg.gnome.Nautilus.slice/dbus-:1.2-org.gnome.Nautilus@22.service/memory.pressure
+[DEBUG] env.MEMORY_PRESSURE_WRITE: c29tZSAyMDAwMDAgMjAwMDAwMAA=
+[DEBUG] env.MKLROOT: /opt/intel/oneapi/mkl/latest
+[DEBUG] env.MOTD_SHOWN: pam
+[DEBUG] env.NO_AT_BRIDGE: 1
+[DEBUG] env.NVM_BIN: /home/yglsan/.nvm/versions/node/v20.19.1/bin
+[DEBUG] env.NVM_CD_FLAGS: -q
+[DEBUG] env.NVM_DIR: /home/yglsan/.nvm
+[DEBUG] env.NVM_INC: /home/yglsan/.nvm/versions/node/v20.19.1/include/node
+[DEBUG] env.OLDPWD: /home/yglsan/Desktop/CliprocoJEE
+[DEBUG] env.ORIGINAL_XDG_CURRENT_DESKTOP: GNOME
+[DEBUG] env.OWD: /home/yglsan/Prog
+[DEBUG] env.PAGER: head -n 10000 | cat
+[DEBUG] env.PATH: /home/yglsan/.pyenv/plugins/pyenv-virtualenv/shims:/home/yglsan/.pyenv/shims:/home/yglsan/.pyenv/bin:/home/yglsan/.pyenv/plugins/pyenv-virtualenv/shims:/home/yglsan/.pyenv/bin:/home/yglsan/.nvm/versions/node/v20.19.1/bin:/tmp/.mount_CursornOinRU/usr/bin/:/tmp/.mount_CursornOinRU/usr/sbin/:/tmp/.mount_CursornOinRU/usr/games/:/tmp/.mount_CursornOinRU/bin/:/tmp/.mount_CursornOinRU/sbin/:/usr/local/bin:/usr/bin:/usr/local/sbin:/var/lib/flatpak/exports/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/yglsan/.local/bin:/opt/tomcat11/bin:/opt/tomcat11/bin:/home/yglsan/.local/bin:/opt/tomcat11/bin:/opt/tomcat11/bin
+[DEBUG] env.PERLLIB: /tmp/.mount_CursornOinRU/usr/share/perl5/:/tmp/.mount_CursornOinRU/usr/lib/perl5/:
+[DEBUG] env.PIP_NO_INPUT: true
+[DEBUG] env.PWD: /home/yglsan/Desktop/CliprocoJEE
+[DEBUG] env.PYENV_SHELL: zsh
+[DEBUG] env.PYENV_VIRTUALENV_INIT: 1
+[DEBUG] env.QT_IM_MODULE: ibus
+[DEBUG] env.QT_PLUGIN_PATH: /tmp/.mount_CursornOinRU/usr/lib/qt4/plugins/:/tmp/.mount_CursornOinRU/usr/lib/i386-linux-gnu/qt4/plugins/:/tmp/.mount_CursornOinRU/usr/lib/x86_64-linux-gnu/qt4/plugins/:/tmp/.mount_CursornOinRU/usr/lib/aarch64-linux-gnu/qt4/plugins/:/tmp/.mount_CursornOinRU/usr/lib32/qt4/plugins/:/tmp/.mount_CursornOinRU/usr/lib64/qt4/plugins/:/tmp/.mount_CursornOinRU/usr/lib/qt5/plugins/:/tmp/.mount_CursornOinRU/usr/lib/i386-linux-gnu/qt5/plugins/:/tmp/.mount_CursornOinRU/usr/lib/x86_64-linux-gnu/qt5/plugins/:/tmp/.mount_CursornOinRU/usr/lib/aarch64-linux-gnu/qt5/plugins/:/tmp/.mount_CursornOinRU/usr/lib32/qt5/plugins/:/tmp/.mount_CursornOinRU/usr/lib64/qt5/plugins/:
+[DEBUG] env.SESSION_MANAGER: local/hp2:@/tmp/.ICE-unix/304920,unix/hp2:/tmp/.ICE-unix/304920
+[DEBUG] env.SHELL: /usr/bin/zsh
+[DEBUG] env.SHLVL: 2
+[DEBUG] env.SYSTEMD_EXEC_PID: 1773486
+[DEBUG] env.TERM: xterm-256color
+[DEBUG] env.TERM_PROGRAM: vscode
+[DEBUG] env.TERM_PROGRAM_VERSION: 1.1.6
+[DEBUG] env.USER: yglsan
+[DEBUG] env.USERNAME: yglsan
+[DEBUG] env.VSCODE_GIT_ASKPASS_EXTRA_ARGS: 
+[DEBUG] env.VSCODE_GIT_ASKPASS_MAIN: /tmp/.mount_CursornOinRU/usr/share/cursor/resources/app/extensions/git/dist/askpass-main.js
+[DEBUG] env.VSCODE_GIT_ASKPASS_NODE: /tmp/.mount_CursornOinRU/usr/share/cursor/cursor
+[DEBUG] env.VSCODE_GIT_IPC_HANDLE: /run/user/1000/vscode-git-2e66dc25ff.sock
+[DEBUG] env.WAYLAND_DISPLAY: wayland-0
+[DEBUG] env.XAUTHORITY: /run/user/1000/.mutter-Xwaylandauth.H70J82
+[DEBUG] env.XDG_CURRENT_DESKTOP: GNOME
+[DEBUG] env.XDG_DATA_DIRS: /tmp/.mount_CursornOinRU/usr/share/:/usr/local/share:/usr/share:/home/yglsan/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/
+[DEBUG] env.XDG_MENU_PREFIX: gnome-
+[DEBUG] env.XDG_RUNTIME_DIR: /run/user/1000
+[DEBUG] env.XDG_SESSION_CLASS: user
+[DEBUG] env.XDG_SESSION_DESKTOP: gnome
+[DEBUG] env.XDG_SESSION_TYPE: wayland
+[DEBUG] env.XMODIFIERS: @im=ibus
+[DEBUG] env.ZEITGEIST_DATA_PATH: /home/yglsan/.local/share/zeitgeist
+[DEBUG] env.npm_config_yes: true
+[DEBUG] file.encoding: UTF-8
+[DEBUG] file.separator: /
+[DEBUG] java.class.path: /home/yglsan/Desktop/CliprocoJEE/.mvn/wrapper/maven-wrapper.jar
+[DEBUG] java.class.version: 65.0
+[DEBUG] java.home: /usr/lib/jvm/java-21-openjdk
+[DEBUG] java.io.tmpdir: /tmp
+[DEBUG] java.library.path: /tmp/.mount_CursornOinRU/usr/lib/:/tmp/.mount_CursornOinRU/usr/lib32/:/tmp/.mount_CursornOinRU/usr/lib64/:/tmp/.mount_CursornOinRU/lib/:/tmp/.mount_CursornOinRU/lib/i386-linux-gnu/:/tmp/.mount_CursornOinRU/lib/x86_64-linux-gnu/:/tmp/.mount_CursornOinRU/lib/aarch64-linux-gnu/:/tmp/.mount_CursornOinRU/lib32/:/tmp/.mount_CursornOinRU/lib64/::/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib
+[DEBUG] java.runtime.name: OpenJDK Runtime Environment
+[DEBUG] java.runtime.version: 21.0.7+6
+[DEBUG] java.specification.name: Java Platform API Specification
+[DEBUG] java.specification.vendor: Oracle Corporation
+[DEBUG] java.specification.version: 21
+[DEBUG] java.vendor: Arch Linux
+[DEBUG] java.vendor.url: https://openjdk.org/
+[DEBUG] java.vendor.url.bug: https://bugreport.java.com/bugreport/
+[DEBUG] java.version: 21.0.7
+[DEBUG] java.version.date: 2025-04-15
+[DEBUG] java.vm.compressedOopsMode: Zero based
+[DEBUG] java.vm.info: mixed mode, sharing
+[DEBUG] java.vm.name: OpenJDK 64-Bit Server VM
+[DEBUG] java.vm.specification.name: Java Virtual Machine Specification
+[DEBUG] java.vm.specification.vendor: Oracle Corporation
+[DEBUG] java.vm.specification.version: 21
+[DEBUG] java.vm.vendor: Arch Linux
+[DEBUG] java.vm.version: 21.0.7+6
+[DEBUG] jdk.debug: release
+[DEBUG] line.separator: 
+
+[DEBUG] maven.build.timestamp: 2025-07-01T09:28:44Z
+[DEBUG] maven.build.version: Apache Maven 3.9.6 (bc0240f3c744dd6b6ec2920b3cd08dcc295161ae)
+[DEBUG] maven.compiler.source: 21
+[DEBUG] maven.compiler.target: 21
+[DEBUG] maven.conf: /home/yglsan/.m2/wrapper/dists/apache-maven-3.9.6-bin/439sdfsg2nbdob9ciift5h5nse/apache-maven-3.9.6/conf
+[DEBUG] maven.home: /home/yglsan/.m2/wrapper/dists/apache-maven-3.9.6-bin/439sdfsg2nbdob9ciift5h5nse/apache-maven-3.9.6
+[DEBUG] maven.multiModuleProjectDirectory: /home/yglsan/Desktop/CliprocoJEE
+[DEBUG] maven.version: 3.9.6
+[DEBUG] native.encoding: UTF-8
+[DEBUG] os.arch: amd64
+[DEBUG] os.name: Linux
+[DEBUG] os.version: 6.15.2-arch1-1
+[DEBUG] path.separator: :
+[DEBUG] project.baseUri: file:/home/yglsan/Desktop/CliprocoJEE/
+[DEBUG] project.build.sourceEncoding: UTF-8
+[DEBUG] stderr.encoding: UTF-8
+[DEBUG] stdout.encoding: UTF-8
+[DEBUG] sun.arch.data.model: 64
+[DEBUG] sun.boot.library.path: /usr/lib/jvm/java-21-openjdk/lib
+[DEBUG] sun.cpu.endian: little
+[DEBUG] sun.io.unicode.encoding: UnicodeLittle
+[DEBUG] sun.java.command: org.apache.maven.wrapper.MavenWrapperMain clean package -X
+[DEBUG] sun.java.launcher: SUN_STANDARD
+[DEBUG] sun.jnu.encoding: UTF-8
+[DEBUG] sun.management.compiler: HotSpot 64-Bit Tiered Compilers
+[DEBUG] user.country: FR
+[DEBUG] user.dir: /home/yglsan/Desktop/CliprocoJEE
+[DEBUG] user.home: /home/yglsan
+[DEBUG] user.language: fr
+[DEBUG] user.name: yglsan
+[DEBUG] Using 'UTF-8' encoding to copy filtered resources.
+[DEBUG] Using 'UTF-8' encoding to copy filtered properties files.
+[DEBUG] resource with targetPath null
+directory /home/yglsan/Desktop/CliprocoJEE/src/main/resources
+excludes []
+includes []
+[DEBUG] ignoreDelta true
+[INFO] Copying 4 resources from src/main/resources to target/classes
+[DEBUG] Copying file schema.sql
+[DEBUG] file schema.sql has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'schema.sql'.
+[DEBUG] copy /home/yglsan/Desktop/CliprocoJEE/src/main/resources/schema.sql to /home/yglsan/Desktop/CliprocoJEE/target/classes/schema.sql
+[DEBUG] Copying file META-INF/persistence.xml
+[DEBUG] file persistence.xml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'persistence.xml'.
+[DEBUG] copy /home/yglsan/Desktop/CliprocoJEE/src/main/resources/META-INF/persistence.xml to /home/yglsan/Desktop/CliprocoJEE/target/classes/META-INF/persistence.xml
+[DEBUG] Copying file messages/messages.properties
+[DEBUG] file messages.properties has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'messages.properties'.
+[DEBUG] copy /home/yglsan/Desktop/CliprocoJEE/src/main/resources/messages/messages.properties to /home/yglsan/Desktop/CliprocoJEE/target/classes/messages/messages.properties
+[DEBUG] Copying file database.properties
+[DEBUG] file database.properties has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'database.properties'.
+[DEBUG] copy /home/yglsan/Desktop/CliprocoJEE/src/main/resources/database.properties to /home/yglsan/Desktop/CliprocoJEE/target/classes/database.properties
+[DEBUG] no user filter components
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ CliprocoJEE ---
+[DEBUG] Using mirror maven-default-http-blocker (http://0.0.0.0/) for apache.snapshots (http://repository.apache.org/snapshots).
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=170305, ConflictMarker.markTime=98308, ConflictMarker.nodeCount=17, ConflictIdSorter.graphTime=53458, ConflictIdSorter.topsortTime=25410, ConflictIdSorter.conflictIdCount=12, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=619517, ConflictResolver.conflictItemCount=17, DfDependencyCollector.collectTime=98197549, DfDependencyCollector.transformTime=998763}
+[DEBUG] org.apache.maven.plugins:maven-compiler-plugin:jar:3.11.0
+[DEBUG]    org.apache.maven.shared:maven-shared-utils:jar:3.3.4:compile
+[DEBUG]       commons-io:commons-io:jar:2.6:compile
+[DEBUG]    org.apache.maven.shared:maven-shared-incremental:jar:1.1:compile
+[DEBUG]       org.codehaus.plexus:plexus-component-annotations:jar:1.5.5:compile
+[DEBUG]    org.codehaus.plexus:plexus-java:jar:1.1.2:compile
+[DEBUG]       org.ow2.asm:asm:jar:9.4:compile
+[DEBUG]       com.thoughtworks.qdox:qdox:jar:2.0.3:compile (version managed from default)
+[DEBUG]    org.codehaus.plexus:plexus-compiler-api:jar:2.13.0:compile
+[DEBUG]       org.codehaus.plexus:plexus-utils:jar:3.5.0:compile (version managed from default)
+[DEBUG]    org.codehaus.plexus:plexus-compiler-manager:jar:2.13.0:compile
+[DEBUG]    org.codehaus.plexus:plexus-compiler-javac:jar:2.13.0:runtime
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.11.0
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.11.0
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.11.0
+[DEBUG]   Included: org.apache.maven.plugins:maven-compiler-plugin:jar:3.11.0
+[DEBUG]   Included: org.apache.maven.shared:maven-shared-utils:jar:3.3.4
+[DEBUG]   Included: commons-io:commons-io:jar:2.6
+[DEBUG]   Included: org.apache.maven.shared:maven-shared-incremental:jar:1.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-component-annotations:jar:1.5.5
+[DEBUG]   Included: org.codehaus.plexus:plexus-java:jar:1.1.2
+[DEBUG]   Included: org.ow2.asm:asm:jar:9.4
+[DEBUG]   Included: com.thoughtworks.qdox:qdox:jar:2.0.3
+[DEBUG]   Included: org.codehaus.plexus:plexus-compiler-api:jar:2.13.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:3.5.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-compiler-manager:jar:2.13.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-compiler-javac:jar:2.13.0
+[DEBUG] Loading mojo org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-compiler-plugin:3.11.0, parent: java.net.URLClassLoader@22d8cfe0]
+[DEBUG] Configuring mojo execution 'org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile:default-compile' with basic configurator -->
+[DEBUG]   (f) basedir = /home/yglsan/Desktop/CliprocoJEE
+[DEBUG]   (f) buildDirectory = /home/yglsan/Desktop/CliprocoJEE/target
+[DEBUG]   (f) compilePath = [/home/yglsan/Desktop/CliprocoJEE/target/classes, /home/yglsan/.m2/repository/jakarta/servlet/jakarta.servlet-api/6.0.0/jakarta.servlet-api-6.0.0.jar, /home/yglsan/.m2/repository/jakarta/servlet/jsp/jakarta.servlet.jsp-api/3.1.1/jakarta.servlet.jsp-api-3.1.1.jar, /home/yglsan/.m2/repository/jakarta/servlet/jsp/jstl/jakarta.servlet.jsp.jstl-api/3.0.0/jakarta.servlet.jsp.jstl-api-3.0.0.jar, /home/yglsan/.m2/repository/jakarta/el/jakarta.el-api/5.0.0/jakarta.el-api-5.0.0.jar, /home/yglsan/.m2/repository/org/hibernate/orm/hibernate-core/6.4.4.Final/hibernate-core-6.4.4.Final.jar, /home/yglsan/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar, /home/yglsan/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar, /home/yglsan/.m2/repository/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar, /home/yglsan/.m2/repository/com/google/protobuf/protobuf-java/3.21.9/protobuf-java-3.21.9.jar, /home/yglsan/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar, /home/yglsan/.m2/repository/ch/qos/logback/logback-classic/1.4.11/logback-classic-1.4.11.jar, /home/yglsan/.m2/repository/ch/qos/logback/logback-core/1.4.11/logback-core-1.4.11.jar, /home/yglsan/.m2/repository/org/mindrot/jbcrypt/0.4/jbcrypt-0.4.jar]
+[DEBUG]   (f) compileSourceRoots = [/home/yglsan/Desktop/CliprocoJEE/src/main/java]
+[DEBUG]   (f) compilerId = javac
+[DEBUG]   (f) createMissingPackageInfoClass = true
+[DEBUG]   (f) debug = true
+[DEBUG]   (f) debugFileName = javac
+[DEBUG]   (f) enablePreview = false
+[DEBUG]   (f) encoding = UTF-8
+[DEBUG]   (f) failOnError = true
+[DEBUG]   (f) failOnWarning = false
+[DEBUG]   (f) forceJavacCompilerUse = false
+[DEBUG]   (f) fork = false
+[DEBUG]   (f) generatedSourcesDirectory = /home/yglsan/Desktop/CliprocoJEE/target/generated-sources/annotations
+[DEBUG]   (f) mojoExecution = org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile {execution: default-compile}
+[DEBUG]   (f) optimize = false
+[DEBUG]   (f) outputDirectory = /home/yglsan/Desktop/CliprocoJEE/target/classes
+[DEBUG]   (f) parameters = false
+[DEBUG]   (f) project = MavenProject: com.cliproco:CliprocoJEE:1.0-SNAPSHOT @ /home/yglsan/Desktop/CliprocoJEE/pom.xml
+[DEBUG]   (f) projectArtifact = com.cliproco:CliprocoJEE:war:1.0-SNAPSHOT
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@2b59501e
+[DEBUG]   (f) showCompilationChanges = false
+[DEBUG]   (f) showDeprecation = false
+[DEBUG]   (f) showWarnings = true
+[DEBUG]   (f) skipMultiThreadWarning = false
+[DEBUG]   (f) source = 21
+[DEBUG]   (f) staleMillis = 0
+[DEBUG]   (s) target = 21
+[DEBUG]   (f) useIncrementalCompilation = true
+[DEBUG]   (f) verbose = false
+[DEBUG] -- end configuration --
+[DEBUG] Using compiler 'javac'.
+[DEBUG] Adding /home/yglsan/Desktop/CliprocoJEE/target/generated-sources/annotations to compile source roots:
+  /home/yglsan/Desktop/CliprocoJEE/src/main/java
+[DEBUG] New compile source roots:
+  /home/yglsan/Desktop/CliprocoJEE/src/main/java
+  /home/yglsan/Desktop/CliprocoJEE/target/generated-sources/annotations
+[DEBUG] CompilerReuseStrategy: reuseCreated
+[DEBUG] useIncrementalCompilation enabled
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/dao/jpa/ProspectJpaDAO.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/controllers/clients/ListeClientsController.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/builders/ClientBuilder.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/builders/SocieteBuilder.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/controllers/DeconnexionController.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/dao/mysql/UserMySqlDAO.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/builders/AdresseBuilder.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/dao/mysql/package-info.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/models/package-info.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/utilities/DatabaseManager.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/builders/ProspectBuilder.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/builders/package-info.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/dao/jpa/ClientJpaDAO.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/routers/package-info.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/models/Client.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/exceptions/package-info.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/controllers/ICommand.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/controllers/prospects/UpdateProspectsController.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/models/CalculFacture.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/controllers/UpdateClientsController.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/controllers/clients/DeleteClientsController.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/logs/LogFormatter.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/exceptions/ExceptionHandler.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/dao/jpa/FactureJpaDAO.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/utilities/ValidationManager.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/services/SocieteService.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/services/ProspectService.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/exceptions/ValidationException.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/controllers/RegisterController.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/controllers/prospects/package-info.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/controllers/prospects/ViewProspectsController.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/utilities/MetricsManager.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/dao/jpa/package-info.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/dao/package-info.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/controllers/clients/UpdateClientsController.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/exceptions/ResourceNotFoundException.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/utilities/JPAUtil.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/dao/IDAO.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/dao/jpa/AbstractJpaDAO.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/dao/jpa/AdresseJpaDAO.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/utilities/Security.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/controllers/SigninController.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/dao/jpa/CalculFactureJpaDAO.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/services/ContratService.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/utilities/DatabaseConnection.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/controllers/clients/ViewClientsController.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/controllers/prospects/CreationProspectsController.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/controllers/factures/package-info.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/models/Societe.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/controllers/clients/package-info.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/controllers/contrats/package-info.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/dao/UserDAO.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/models/Produit.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/dao/jpa/ProduitJpaDAO.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/exceptions/BusinessException.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/models/User.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/routers/FrontController.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/controllers/ConnexionController.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/dao/jpa/DatabaseConnection.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/utilities/Patterns.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/services/FactureService.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/controllers/clients/CreationClientsController.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/exceptions/ApplicationException.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/models/Prospect.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/builders/Builder.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/exceptions/AuthorizationException.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/controllers/ContactController.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/models/Adresse.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/dao/jpa/AbstractSocieteJpaDAO.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/dao/jpa/GenericJpaDAO.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/utilities/package-info.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/exceptions/DatabaseException.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/controllers/IndexController.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/dao/jpa/SocieteJpaDAO.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/services/ClientService.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/dao/jpa/UserJpaDAO.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/controllers/prospects/DeleteProspectsController.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/controllers/package-info.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/routers/FrontControllerSimple.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/services/UserService.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/dao/jpa/ContratJpaDAO.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/models/Facture.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/utilities/ValidationException.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/builders/ContratBuilder.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/logs/package-info.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/services/CalculFactureService.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/utilities/LogManager.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/filters/AuthenticationFilter.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/utilities/Formatters.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/controllers/prospects/ListeProspectsController.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/models/Contrat.java
+[DEBUG] Stale source detected: /home/yglsan/Desktop/CliprocoJEE/src/main/java/services/AdresseService.java
+[INFO] Changes detected - recompiling the module! :source
+[DEBUG] Classpath:
+[DEBUG]  /home/yglsan/Desktop/CliprocoJEE/target/classes
+[DEBUG]  /home/yglsan/.m2/repository/jakarta/servlet/jakarta.servlet-api/6.0.0/jakarta.servlet-api-6.0.0.jar
+[DEBUG]  /home/yglsan/.m2/repository/jakarta/servlet/jsp/jakarta.servlet.jsp-api/3.1.1/jakarta.servlet.jsp-api-3.1.1.jar
+[DEBUG]  /home/yglsan/.m2/repository/jakarta/servlet/jsp/jstl/jakarta.servlet.jsp.jstl-api/3.0.0/jakarta.servlet.jsp.jstl-api-3.0.0.jar
+[DEBUG]  /home/yglsan/.m2/repository/jakarta/el/jakarta.el-api/5.0.0/jakarta.el-api-5.0.0.jar
+[DEBUG]  /home/yglsan/.m2/repository/org/hibernate/orm/hibernate-core/6.4.4.Final/hibernate-core-6.4.4.Final.jar
+[DEBUG]  /home/yglsan/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar
+[DEBUG]  /home/yglsan/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar
+[DEBUG]  /home/yglsan/.m2/repository/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar
+[DEBUG]  /home/yglsan/.m2/repository/com/google/protobuf/protobuf-java/3.21.9/protobuf-java-3.21.9.jar
+[DEBUG]  /home/yglsan/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar
+[DEBUG]  /home/yglsan/.m2/repository/ch/qos/logback/logback-classic/1.4.11/logback-classic-1.4.11.jar
+[DEBUG]  /home/yglsan/.m2/repository/ch/qos/logback/logback-core/1.4.11/logback-core-1.4.11.jar
+[DEBUG]  /home/yglsan/.m2/repository/org/mindrot/jbcrypt/0.4/jbcrypt-0.4.jar
+[DEBUG] Source roots:
+[DEBUG]  /home/yglsan/Desktop/CliprocoJEE/src/main/java
+[DEBUG]  /home/yglsan/Desktop/CliprocoJEE/target/generated-sources/annotations
+[DEBUG] Command line options:
+[DEBUG] -d /home/yglsan/Desktop/CliprocoJEE/target/classes -classpath /home/yglsan/Desktop/CliprocoJEE/target/classes:/home/yglsan/.m2/repository/jakarta/servlet/jakarta.servlet-api/6.0.0/jakarta.servlet-api-6.0.0.jar:/home/yglsan/.m2/repository/jakarta/servlet/jsp/jakarta.servlet.jsp-api/3.1.1/jakarta.servlet.jsp-api-3.1.1.jar:/home/yglsan/.m2/repository/jakarta/servlet/jsp/jstl/jakarta.servlet.jsp.jstl-api/3.0.0/jakarta.servlet.jsp.jstl-api-3.0.0.jar:/home/yglsan/.m2/repository/jakarta/el/jakarta.el-api/5.0.0/jakarta.el-api-5.0.0.jar:/home/yglsan/.m2/repository/org/hibernate/orm/hibernate-core/6.4.4.Final/hibernate-core-6.4.4.Final.jar:/home/yglsan/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/home/yglsan/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/home/yglsan/.m2/repository/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar:/home/yglsan/.m2/repository/com/google/protobuf/protobuf-java/3.21.9/protobuf-java-3.21.9.jar:/home/yglsan/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar:/home/yglsan/.m2/repository/ch/qos/logback/logback-classic/1.4.11/logback-classic-1.4.11.jar:/home/yglsan/.m2/repository/ch/qos/logback/logback-core/1.4.11/logback-core-1.4.11.jar:/home/yglsan/.m2/repository/org/mindrot/jbcrypt/0.4/jbcrypt-0.4.jar: -sourcepath /home/yglsan/Desktop/CliprocoJEE/src/main/java:/home/yglsan/Desktop/CliprocoJEE/target/generated-sources/annotations: -s /home/yglsan/Desktop/CliprocoJEE/target/generated-sources/annotations -g -target 21 -source 21 -encoding UTF-8
+[DEBUG] incrementalBuildHelper#beforeRebuildExecution
+[INFO] Compiling 92 source files with javac [debug target 21] to target/classes
+[DEBUG] incrementalBuildHelper#afterRebuildExecution
+[INFO] /home/yglsan/Desktop/CliprocoJEE/src/main/java/builders/ClientBuilder.java: /home/yglsan/Desktop/CliprocoJEE/src/main/java/builders/ClientBuilder.java uses unchecked or unsafe operations.
+[INFO] /home/yglsan/Desktop/CliprocoJEE/src/main/java/builders/ClientBuilder.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ CliprocoJEE ---
+[DEBUG] Loading mojo org.apache.maven.plugins:maven-resources-plugin:3.3.1:testResources from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1, parent: java.net.URLClassLoader@22d8cfe0]
+[DEBUG] Configuring mojo execution 'org.apache.maven.plugins:maven-resources-plugin:3.3.1:testResources:default-testResources' with basic configurator -->
+[DEBUG]   (f) addDefaultExcludes = true
+[DEBUG]   (f) buildFilters = []
+[DEBUG]   (f) encoding = UTF-8
+[DEBUG]   (f) escapeWindowsPaths = true
+[DEBUG]   (f) fileNameFiltering = false
+[DEBUG]   (s) includeEmptyDirs = false
+[DEBUG]   (s) outputDirectory = /home/yglsan/Desktop/CliprocoJEE/target/test-classes
+[DEBUG]   (s) overwrite = false
+[DEBUG]   (f) project = MavenProject: com.cliproco:CliprocoJEE:1.0-SNAPSHOT @ /home/yglsan/Desktop/CliprocoJEE/pom.xml
+[DEBUG]   (s) resources = [Resource {targetPath: null, filtering: false, FileSet {directory: /home/yglsan/Desktop/CliprocoJEE/src/test/resources, PatternSet [includes: {}, excludes: {}]}}]
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@2b59501e
+[DEBUG]   (f) skip = false
+[DEBUG]   (f) supportMultiLineFiltering = false
+[DEBUG]   (f) useBuildFilters = true
+[DEBUG]   (s) useDefaultDelimiters = true
+[DEBUG] -- end configuration --
+[DEBUG] properties used:
+[DEBUG] classworlds.conf: /home/yglsan/.m2/wrapper/dists/apache-maven-3.9.6-bin/439sdfsg2nbdob9ciift5h5nse/apache-maven-3.9.6/bin/m2.conf
+[DEBUG] env.APPDIR: /tmp/.mount_CursornOinRU
+[DEBUG] env.APPIMAGE: /home/yglsan/Prog/Cursor-0.48.9-x86_64.AppImage
+[DEBUG] env.CATALINA_BASE: /opt/tomcat11
+[DEBUG] env.CATALINA_HOME: /opt/tomcat11
+[DEBUG] env.CHROME_DESKTOP: cursor.desktop
+[DEBUG] env.COLORTERM: truecolor
+[DEBUG] env.COMPOSER_NO_INTERACTION: 1
+[DEBUG] env.CURSOR_TRACE_ID: dc021b966fee4933a3c4a561370dc0c7
+[DEBUG] env.DBUS_SESSION_BUS_ADDRESS: unix:path=/run/user/1000/bus
+[DEBUG] env.DEBUGINFOD_URLS: https://debuginfod.archlinux.org 
+[DEBUG] env.DESKTOP_SESSION: gnome
+[DEBUG] env.DISABLE_AUTO_UPDATE: true
+[DEBUG] env.DISPLAY: :0
+[DEBUG] env.FORCE_CITY: Laxou
+[DEBUG] env.GDK_BACKEND: x11
+[DEBUG] env.GDMSESSION: gnome
+[DEBUG] env.GDM_LANG: fr_FR.UTF-8
+[DEBUG] env.GIO_LAUNCHED_DESKTOP_FILE_PID: 1773555
+[DEBUG] env.GIT_ASKPASS: /tmp/.mount_CursornOinRU/usr/share/cursor/resources/app/extensions/git/dist/askpass.sh
+[DEBUG] env.GNOME_SETUP_DISPLAY: :1
+[DEBUG] env.GSETTINGS_SCHEMA_DIR: /tmp/.mount_CursornOinRU/usr/share/glib-2.0/schemas/:
+[DEBUG] env.HOME: /home/yglsan
+[DEBUG] env.INVOCATION_ID: cd52428283c14bfd9435b3f3a5736c8b
+[DEBUG] env.JAVA_HOME: /usr/lib/jvm/java-21-openjdk
+[DEBUG] env.JOURNAL_STREAM: 9:28002200
+[DEBUG] env.LANG: fr_FR.UTF-8
+[DEBUG] env.LD_LIBRARY_PATH: /tmp/.mount_CursornOinRU/usr/lib/:/tmp/.mount_CursornOinRU/usr/lib32/:/tmp/.mount_CursornOinRU/usr/lib64/:/tmp/.mount_CursornOinRU/lib/:/tmp/.mount_CursornOinRU/lib/i386-linux-gnu/:/tmp/.mount_CursornOinRU/lib/x86_64-linux-gnu/:/tmp/.mount_CursornOinRU/lib/aarch64-linux-gnu/:/tmp/.mount_CursornOinRU/lib32/:/tmp/.mount_CursornOinRU/lib64/:
+[DEBUG] env.LOGNAME: yglsan
+[DEBUG] env.MAIL: /var/spool/mail/yglsan
+[DEBUG] env.MANAGERPID: 304842
+[DEBUG] env.MAVEN_CMD_LINE_ARGS:  clean package -X
+[DEBUG] env.MAVEN_PROJECTBASEDIR: /home/yglsan/Desktop/CliprocoJEE
+[DEBUG] env.MEMORY_PRESSURE_WATCH: /sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/app-dbus\x2d:1.2\x2dorg.gnome.Nautilus.slice/dbus-:1.2-org.gnome.Nautilus@22.service/memory.pressure
+[DEBUG] env.MEMORY_PRESSURE_WRITE: c29tZSAyMDAwMDAgMjAwMDAwMAA=
+[DEBUG] env.MKLROOT: /opt/intel/oneapi/mkl/latest
+[DEBUG] env.MOTD_SHOWN: pam
+[DEBUG] env.NO_AT_BRIDGE: 1
+[DEBUG] env.NVM_BIN: /home/yglsan/.nvm/versions/node/v20.19.1/bin
+[DEBUG] env.NVM_CD_FLAGS: -q
+[DEBUG] env.NVM_DIR: /home/yglsan/.nvm
+[DEBUG] env.NVM_INC: /home/yglsan/.nvm/versions/node/v20.19.1/include/node
+[DEBUG] env.OLDPWD: /home/yglsan/Desktop/CliprocoJEE
+[DEBUG] env.ORIGINAL_XDG_CURRENT_DESKTOP: GNOME
+[DEBUG] env.OWD: /home/yglsan/Prog
+[DEBUG] env.PAGER: head -n 10000 | cat
+[DEBUG] env.PATH: /home/yglsan/.pyenv/plugins/pyenv-virtualenv/shims:/home/yglsan/.pyenv/shims:/home/yglsan/.pyenv/bin:/home/yglsan/.pyenv/plugins/pyenv-virtualenv/shims:/home/yglsan/.pyenv/bin:/home/yglsan/.nvm/versions/node/v20.19.1/bin:/tmp/.mount_CursornOinRU/usr/bin/:/tmp/.mount_CursornOinRU/usr/sbin/:/tmp/.mount_CursornOinRU/usr/games/:/tmp/.mount_CursornOinRU/bin/:/tmp/.mount_CursornOinRU/sbin/:/usr/local/bin:/usr/bin:/usr/local/sbin:/var/lib/flatpak/exports/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/yglsan/.local/bin:/opt/tomcat11/bin:/opt/tomcat11/bin:/home/yglsan/.local/bin:/opt/tomcat11/bin:/opt/tomcat11/bin
+[DEBUG] env.PERLLIB: /tmp/.mount_CursornOinRU/usr/share/perl5/:/tmp/.mount_CursornOinRU/usr/lib/perl5/:
+[DEBUG] env.PIP_NO_INPUT: true
+[DEBUG] env.PWD: /home/yglsan/Desktop/CliprocoJEE
+[DEBUG] env.PYENV_SHELL: zsh
+[DEBUG] env.PYENV_VIRTUALENV_INIT: 1
+[DEBUG] env.QT_IM_MODULE: ibus
+[DEBUG] env.QT_PLUGIN_PATH: /tmp/.mount_CursornOinRU/usr/lib/qt4/plugins/:/tmp/.mount_CursornOinRU/usr/lib/i386-linux-gnu/qt4/plugins/:/tmp/.mount_CursornOinRU/usr/lib/x86_64-linux-gnu/qt4/plugins/:/tmp/.mount_CursornOinRU/usr/lib/aarch64-linux-gnu/qt4/plugins/:/tmp/.mount_CursornOinRU/usr/lib32/qt4/plugins/:/tmp/.mount_CursornOinRU/usr/lib64/qt4/plugins/:/tmp/.mount_CursornOinRU/usr/lib/qt5/plugins/:/tmp/.mount_CursornOinRU/usr/lib/i386-linux-gnu/qt5/plugins/:/tmp/.mount_CursornOinRU/usr/lib/x86_64-linux-gnu/qt5/plugins/:/tmp/.mount_CursornOinRU/usr/lib/aarch64-linux-gnu/qt5/plugins/:/tmp/.mount_CursornOinRU/usr/lib32/qt5/plugins/:/tmp/.mount_CursornOinRU/usr/lib64/qt5/plugins/:
+[DEBUG] env.SESSION_MANAGER: local/hp2:@/tmp/.ICE-unix/304920,unix/hp2:/tmp/.ICE-unix/304920
+[DEBUG] env.SHELL: /usr/bin/zsh
+[DEBUG] env.SHLVL: 2
+[DEBUG] env.SYSTEMD_EXEC_PID: 1773486
+[DEBUG] env.TERM: xterm-256color
+[DEBUG] env.TERM_PROGRAM: vscode
+[DEBUG] env.TERM_PROGRAM_VERSION: 1.1.6
+[DEBUG] env.USER: yglsan
+[DEBUG] env.USERNAME: yglsan
+[DEBUG] env.VSCODE_GIT_ASKPASS_EXTRA_ARGS: 
+[DEBUG] env.VSCODE_GIT_ASKPASS_MAIN: /tmp/.mount_CursornOinRU/usr/share/cursor/resources/app/extensions/git/dist/askpass-main.js
+[DEBUG] env.VSCODE_GIT_ASKPASS_NODE: /tmp/.mount_CursornOinRU/usr/share/cursor/cursor
+[DEBUG] env.VSCODE_GIT_IPC_HANDLE: /run/user/1000/vscode-git-2e66dc25ff.sock
+[DEBUG] env.WAYLAND_DISPLAY: wayland-0
+[DEBUG] env.XAUTHORITY: /run/user/1000/.mutter-Xwaylandauth.H70J82
+[DEBUG] env.XDG_CURRENT_DESKTOP: GNOME
+[DEBUG] env.XDG_DATA_DIRS: /tmp/.mount_CursornOinRU/usr/share/:/usr/local/share:/usr/share:/home/yglsan/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/
+[DEBUG] env.XDG_MENU_PREFIX: gnome-
+[DEBUG] env.XDG_RUNTIME_DIR: /run/user/1000
+[DEBUG] env.XDG_SESSION_CLASS: user
+[DEBUG] env.XDG_SESSION_DESKTOP: gnome
+[DEBUG] env.XDG_SESSION_TYPE: wayland
+[DEBUG] env.XMODIFIERS: @im=ibus
+[DEBUG] env.ZEITGEIST_DATA_PATH: /home/yglsan/.local/share/zeitgeist
+[DEBUG] env.npm_config_yes: true
+[DEBUG] file.encoding: UTF-8
+[DEBUG] file.separator: /
+[DEBUG] java.class.path: /home/yglsan/Desktop/CliprocoJEE/.mvn/wrapper/maven-wrapper.jar
+[DEBUG] java.class.version: 65.0
+[DEBUG] java.home: /usr/lib/jvm/java-21-openjdk
+[DEBUG] java.io.tmpdir: /tmp
+[DEBUG] java.library.path: /tmp/.mount_CursornOinRU/usr/lib/:/tmp/.mount_CursornOinRU/usr/lib32/:/tmp/.mount_CursornOinRU/usr/lib64/:/tmp/.mount_CursornOinRU/lib/:/tmp/.mount_CursornOinRU/lib/i386-linux-gnu/:/tmp/.mount_CursornOinRU/lib/x86_64-linux-gnu/:/tmp/.mount_CursornOinRU/lib/aarch64-linux-gnu/:/tmp/.mount_CursornOinRU/lib32/:/tmp/.mount_CursornOinRU/lib64/::/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib
+[DEBUG] java.runtime.name: OpenJDK Runtime Environment
+[DEBUG] java.runtime.version: 21.0.7+6
+[DEBUG] java.specification.name: Java Platform API Specification
+[DEBUG] java.specification.vendor: Oracle Corporation
+[DEBUG] java.specification.version: 21
+[DEBUG] java.vendor: Arch Linux
+[DEBUG] java.vendor.url: https://openjdk.org/
+[DEBUG] java.vendor.url.bug: https://bugreport.java.com/bugreport/
+[DEBUG] java.version: 21.0.7
+[DEBUG] java.version.date: 2025-04-15
+[DEBUG] java.vm.compressedOopsMode: Zero based
+[DEBUG] java.vm.info: mixed mode, sharing
+[DEBUG] java.vm.name: OpenJDK 64-Bit Server VM
+[DEBUG] java.vm.specification.name: Java Virtual Machine Specification
+[DEBUG] java.vm.specification.vendor: Oracle Corporation
+[DEBUG] java.vm.specification.version: 21
+[DEBUG] java.vm.vendor: Arch Linux
+[DEBUG] java.vm.version: 21.0.7+6
+[DEBUG] jdk.debug: release
+[DEBUG] line.separator: 
+
+[DEBUG] maven.build.timestamp: 2025-07-01T09:28:48Z
+[DEBUG] maven.build.version: Apache Maven 3.9.6 (bc0240f3c744dd6b6ec2920b3cd08dcc295161ae)
+[DEBUG] maven.compiler.source: 21
+[DEBUG] maven.compiler.target: 21
+[DEBUG] maven.conf: /home/yglsan/.m2/wrapper/dists/apache-maven-3.9.6-bin/439sdfsg2nbdob9ciift5h5nse/apache-maven-3.9.6/conf
+[DEBUG] maven.home: /home/yglsan/.m2/wrapper/dists/apache-maven-3.9.6-bin/439sdfsg2nbdob9ciift5h5nse/apache-maven-3.9.6
+[DEBUG] maven.multiModuleProjectDirectory: /home/yglsan/Desktop/CliprocoJEE
+[DEBUG] maven.version: 3.9.6
+[DEBUG] native.encoding: UTF-8
+[DEBUG] os.arch: amd64
+[DEBUG] os.name: Linux
+[DEBUG] os.version: 6.15.2-arch1-1
+[DEBUG] path.separator: :
+[DEBUG] project.baseUri: file:/home/yglsan/Desktop/CliprocoJEE/
+[DEBUG] project.build.sourceEncoding: UTF-8
+[DEBUG] stderr.encoding: UTF-8
+[DEBUG] stdout.encoding: UTF-8
+[DEBUG] sun.arch.data.model: 64
+[DEBUG] sun.boot.library.path: /usr/lib/jvm/java-21-openjdk/lib
+[DEBUG] sun.cpu.endian: little
+[DEBUG] sun.io.unicode.encoding: UnicodeLittle
+[DEBUG] sun.java.command: org.apache.maven.wrapper.MavenWrapperMain clean package -X
+[DEBUG] sun.java.launcher: SUN_STANDARD
+[DEBUG] sun.jnu.encoding: UTF-8
+[DEBUG] sun.management.compiler: HotSpot 64-Bit Tiered Compilers
+[DEBUG] user.country: FR
+[DEBUG] user.dir: /home/yglsan/Desktop/CliprocoJEE
+[DEBUG] user.home: /home/yglsan
+[DEBUG] user.language: fr
+[DEBUG] user.name: yglsan
+[DEBUG] Using 'UTF-8' encoding to copy filtered resources.
+[DEBUG] Using 'UTF-8' encoding to copy filtered properties files.
+[DEBUG] resource with targetPath null
+directory /home/yglsan/Desktop/CliprocoJEE/src/test/resources
+excludes []
+includes []
+[INFO] skip non existing resourceDirectory /home/yglsan/Desktop/CliprocoJEE/src/test/resources
+[DEBUG] no user filter components
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ CliprocoJEE ---
+[DEBUG] Loading mojo org.apache.maven.plugins:maven-compiler-plugin:3.11.0:testCompile from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-compiler-plugin:3.11.0, parent: java.net.URLClassLoader@22d8cfe0]
+[DEBUG] Configuring mojo execution 'org.apache.maven.plugins:maven-compiler-plugin:3.11.0:testCompile:default-testCompile' with basic configurator -->
+[DEBUG]   (f) basedir = /home/yglsan/Desktop/CliprocoJEE
+[DEBUG]   (f) buildDirectory = /home/yglsan/Desktop/CliprocoJEE/target
+[DEBUG]   (f) compileSourceRoots = [/home/yglsan/Desktop/CliprocoJEE/src/test/java]
+[DEBUG]   (f) compilerId = javac
+[DEBUG]   (f) createMissingPackageInfoClass = true
+[DEBUG]   (f) debug = true
+[DEBUG]   (f) debugFileName = javac-test
+[DEBUG]   (f) enablePreview = false
+[DEBUG]   (f) encoding = UTF-8
+[DEBUG]   (f) failOnError = true
+[DEBUG]   (f) failOnWarning = false
+[DEBUG]   (f) forceJavacCompilerUse = false
+[DEBUG]   (f) fork = false
+[DEBUG]   (f) generatedTestSourcesDirectory = /home/yglsan/Desktop/CliprocoJEE/target/generated-test-sources/test-annotations
+[DEBUG]   (f) mojoExecution = org.apache.maven.plugins:maven-compiler-plugin:3.11.0:testCompile {execution: default-testCompile}
+[DEBUG]   (f) optimize = false
+[DEBUG]   (f) outputDirectory = /home/yglsan/Desktop/CliprocoJEE/target/test-classes
+[DEBUG]   (f) parameters = false
+[DEBUG]   (f) project = MavenProject: com.cliproco:CliprocoJEE:1.0-SNAPSHOT @ /home/yglsan/Desktop/CliprocoJEE/pom.xml
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@2b59501e
+[DEBUG]   (f) showCompilationChanges = false
+[DEBUG]   (f) showDeprecation = false
+[DEBUG]   (f) showWarnings = true
+[DEBUG]   (f) skipMultiThreadWarning = false
+[DEBUG]   (f) source = 21
+[DEBUG]   (f) staleMillis = 0
+[DEBUG]   (s) target = 21
+[DEBUG]   (f) testPath = [/home/yglsan/Desktop/CliprocoJEE/target/test-classes, /home/yglsan/Desktop/CliprocoJEE/target/classes, /home/yglsan/.m2/repository/jakarta/servlet/jakarta.servlet-api/6.0.0/jakarta.servlet-api-6.0.0.jar, /home/yglsan/.m2/repository/jakarta/servlet/jsp/jakarta.servlet.jsp-api/3.1.1/jakarta.servlet.jsp-api-3.1.1.jar, /home/yglsan/.m2/repository/jakarta/servlet/jsp/jstl/jakarta.servlet.jsp.jstl-api/3.0.0/jakarta.servlet.jsp.jstl-api-3.0.0.jar, /home/yglsan/.m2/repository/jakarta/el/jakarta.el-api/5.0.0/jakarta.el-api-5.0.0.jar, /home/yglsan/.m2/repository/org/hibernate/orm/hibernate-core/6.4.4.Final/hibernate-core-6.4.4.Final.jar, /home/yglsan/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar, /home/yglsan/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar, /home/yglsan/.m2/repository/org/jboss/logging/jboss-logging/3.5.0.Final/jboss-logging-3.5.0.Final.jar, /home/yglsan/.m2/repository/org/hibernate/common/hibernate-commons-annotations/6.0.6.Final/hibernate-commons-annotations-6.0.6.Final.jar, /home/yglsan/.m2/repository/io/smallrye/jandex/3.1.2/jandex-3.1.2.jar, /home/yglsan/.m2/repository/com/fasterxml/classmate/1.5.1/classmate-1.5.1.jar, /home/yglsan/.m2/repository/net/bytebuddy/byte-buddy/1.14.11/byte-buddy-1.14.11.jar, /home/yglsan/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.0/jakarta.xml.bind-api-4.0.0.jar, /home/yglsan/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.0/jakarta.activation-api-2.1.0.jar, /home/yglsan/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.2/jaxb-runtime-4.0.2.jar, /home/yglsan/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.2/jaxb-core-4.0.2.jar, /home/yglsan/.m2/repository/org/eclipse/angus/angus-activation/2.0.0/angus-activation-2.0.0.jar, /home/yglsan/.m2/repository/org/glassfish/jaxb/txw2/4.0.2/txw2-4.0.2.jar, /home/yglsan/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.1/istack-commons-runtime-4.1.1.jar, /home/yglsan/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar, /home/yglsan/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar, /home/yglsan/.m2/repository/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar, /home/yglsan/.m2/repository/com/google/protobuf/protobuf-java/3.21.9/protobuf-java-3.21.9.jar, /home/yglsan/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar, /home/yglsan/.m2/repository/ch/qos/logback/logback-classic/1.4.11/logback-classic-1.4.11.jar, /home/yglsan/.m2/repository/ch/qos/logback/logback-core/1.4.11/logback-core-1.4.11.jar, /home/yglsan/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.0/junit-jupiter-5.10.0.jar, /home/yglsan/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.0/junit-jupiter-api-5.10.0.jar, /home/yglsan/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar, /home/yglsan/.m2/repository/org/junit/platform/junit-platform-commons/1.10.0/junit-platform-commons-1.10.0.jar, /home/yglsan/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar, /home/yglsan/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.0/junit-jupiter-params-5.10.0.jar, /home/yglsan/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.0/junit-jupiter-engine-5.10.0.jar, /home/yglsan/.m2/repository/org/junit/platform/junit-platform-engine/1.10.0/junit-platform-engine-1.10.0.jar, /home/yglsan/.m2/repository/org/mindrot/jbcrypt/0.4/jbcrypt-0.4.jar]
+[DEBUG]   (f) useIncrementalCompilation = true
+[DEBUG]   (f) useModulePath = true
+[DEBUG]   (f) verbose = false
+[DEBUG] -- end configuration --
+[DEBUG] Using compiler 'javac'.
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ CliprocoJEE ---
+[DEBUG] Using mirror maven-default-http-blocker (http://0.0.0.0/) for jboss-public-repository-group (http://repository.jboss.org/nexus/content/groups/public).
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=317549, ConflictMarker.markTime=231134, ConflictMarker.nodeCount=78, ConflictIdSorter.graphTime=163846, ConflictIdSorter.topsortTime=55456, ConflictIdSorter.conflictIdCount=39, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=2162560, ConflictResolver.conflictItemCount=76, DfDependencyCollector.collectTime=325655654, DfDependencyCollector.transformTime=2973466}
+[DEBUG] org.apache.maven.plugins:maven-surefire-plugin:jar:3.1.2
+[DEBUG]    org.apache.maven.surefire:maven-surefire-common:jar:3.1.2:compile
+[DEBUG]       org.apache.maven.surefire:surefire-api:jar:3.1.2:compile
+[DEBUG]          org.apache.maven.surefire:surefire-logger-api:jar:3.1.2:compile
+[DEBUG]       org.apache.maven.surefire:surefire-extensions-api:jar:3.1.2:compile
+[DEBUG]       org.apache.maven.surefire:surefire-booter:jar:3.1.2:compile
+[DEBUG]          org.apache.maven.surefire:surefire-extensions-spi:jar:3.1.2:compile
+[DEBUG]       org.eclipse.aether:aether-util:jar:1.0.0.v20140518:compile
+[DEBUG]          org.eclipse.aether:aether-api:jar:1.0.0.v20140518:compile
+[DEBUG]       org.apache.maven.shared:maven-common-artifact-filters:jar:3.1.1:compile (version managed from default) (exclusions managed from default)
+[DEBUG]          org.apache.maven:maven-artifact:jar:3.2.5:provided (scope managed from default) (version managed from default)
+[DEBUG]             org.codehaus.plexus:plexus-utils:jar:3.5.0:provided (version managed from default)
+[DEBUG]          org.apache.maven:maven-core:jar:3.2.5:provided (scope managed from default) (version managed from default)
+[DEBUG]             org.apache.maven:maven-settings:jar:3.2.5:provided (version managed from default)
+[DEBUG]             org.apache.maven:maven-settings-builder:jar:3.2.5:provided
+[DEBUG]             org.apache.maven:maven-repository-metadata:jar:3.2.5:provided
+[DEBUG]             org.apache.maven:maven-model-builder:jar:3.2.5:provided
+[DEBUG]             org.apache.maven:maven-aether-provider:jar:3.2.5:provided
+[DEBUG]                org.eclipse.aether:aether-spi:jar:1.0.0.v20140518:provided
+[DEBUG]             org.eclipse.aether:aether-impl:jar:1.0.0.v20140518:provided
+[DEBUG]             org.eclipse.sisu:org.eclipse.sisu.plexus:jar:0.3.5:provided (version managed from default)
+[DEBUG]                javax.annotation:javax.annotation-api:jar:1.2:provided
+[DEBUG]                javax.enterprise:cdi-api:jar:1.2:provided
+[DEBUG]                org.eclipse.sisu:org.eclipse.sisu.inject:jar:0.3.5:provided (version managed from default)
+[DEBUG]             org.sonatype.sisu:sisu-guice:jar:no_aop:3.2.3:provided
+[DEBUG]                javax.inject:javax.inject:jar:1:provided
+[DEBUG]                aopalliance:aopalliance:jar:1.0:provided
+[DEBUG]                com.google.guava:guava:jar:16.0.1:provided
+[DEBUG]             org.codehaus.plexus:plexus-interpolation:jar:1.21:provided
+[DEBUG]             org.codehaus.plexus:plexus-classworlds:jar:2.5.2:provided
+[DEBUG]             org.codehaus.plexus:plexus-component-annotations:jar:1.5.5:provided
+[DEBUG]             org.sonatype.plexus:plexus-sec-dispatcher:jar:1.3:provided
+[DEBUG]                org.sonatype.plexus:plexus-cipher:jar:1.4:provided
+[DEBUG]          org.apache.maven:maven-plugin-api:jar:3.2.5:provided (scope managed from default) (version managed from default)
+[DEBUG]          commons-io:commons-io:jar:2.12.0:compile (version managed from default)
+[DEBUG]       org.codehaus.plexus:plexus-java:jar:1.1.2:compile (version managed from default)
+[DEBUG]          org.ow2.asm:asm:jar:9.4:compile
+[DEBUG]          com.thoughtworks.qdox:qdox:jar:2.0.3:compile
+[DEBUG]       org.apache.maven.surefire:surefire-shared-utils:jar:3.1.2:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-surefire-plugin:3.1.2
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-surefire-plugin:3.1.2
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-surefire-plugin:3.1.2
+[DEBUG]   Included: org.apache.maven.plugins:maven-surefire-plugin:jar:3.1.2
+[DEBUG]   Included: org.apache.maven.surefire:maven-surefire-common:jar:3.1.2
+[DEBUG]   Included: org.apache.maven.surefire:surefire-api:jar:3.1.2
+[DEBUG]   Included: org.apache.maven.surefire:surefire-logger-api:jar:3.1.2
+[DEBUG]   Included: org.apache.maven.surefire:surefire-extensions-api:jar:3.1.2
+[DEBUG]   Included: org.apache.maven.surefire:surefire-booter:jar:3.1.2
+[DEBUG]   Included: org.apache.maven.surefire:surefire-extensions-spi:jar:3.1.2
+[DEBUG]   Included: org.apache.maven.shared:maven-common-artifact-filters:jar:3.1.1
+[DEBUG]   Included: commons-io:commons-io:jar:2.12.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-java:jar:1.1.2
+[DEBUG]   Included: org.ow2.asm:asm:jar:9.4
+[DEBUG]   Included: com.thoughtworks.qdox:qdox:jar:2.0.3
+[DEBUG]   Included: org.apache.maven.surefire:surefire-shared-utils:jar:3.1.2
+[DEBUG] Loading mojo org.apache.maven.plugins:maven-surefire-plugin:3.1.2:test from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-surefire-plugin:3.1.2, parent: java.net.URLClassLoader@22d8cfe0]
+[DEBUG] Configuring mojo execution 'org.apache.maven.plugins:maven-surefire-plugin:3.1.2:test:default-test' with basic configurator -->
+[DEBUG]   (s) additionalClasspathElements = []
+[DEBUG]   (s) basedir = /home/yglsan/Desktop/CliprocoJEE
+[DEBUG]   (s) childDelegation = false
+[DEBUG]   (f) classesDirectory = /home/yglsan/Desktop/CliprocoJEE/target/classes
+[DEBUG]   (s) classpathDependencyExcludes = []
+[DEBUG]   (s) dependenciesToScan = []
+[DEBUG]   (s) disableXmlReport = false
+[DEBUG]   (s) enableAssertions = true
+[DEBUG]   (s) excludeJUnit5Engines = []
+[DEBUG]   (f) excludedEnvironmentVariables = []
+[DEBUG]   (s) excludes = []
+[DEBUG]   (s) failIfNoSpecifiedTests = true
+[DEBUG]   (s) failIfNoTests = false
+[DEBUG]   (s) failOnFlakeCount = 0
+[DEBUG]   (f) forkCount = 1
+[DEBUG]   (s) forkedProcessExitTimeoutInSeconds = 30
+[DEBUG]   (s) includeJUnit5Engines = []
+[DEBUG]   (s) includes = []
+[DEBUG]   (s) junitArtifactName = junit:junit
+[DEBUG]   (f) parallelMavenExecution = false
+[DEBUG]   (s) parallelOptimized = true
+[DEBUG]   (s) perCoreThreadCount = true
+[DEBUG]   (s) pluginArtifactMap = {org.apache.maven.plugins:maven-surefire-plugin=org.apache.maven.plugins:maven-surefire-plugin:maven-plugin:3.1.2:, org.apache.maven.surefire:maven-surefire-common=org.apache.maven.surefire:maven-surefire-common:jar:3.1.2:compile, org.apache.maven.surefire:surefire-api=org.apache.maven.surefire:surefire-api:jar:3.1.2:compile, org.apache.maven.surefire:surefire-logger-api=org.apache.maven.surefire:surefire-logger-api:jar:3.1.2:compile, org.apache.maven.surefire:surefire-extensions-api=org.apache.maven.surefire:surefire-extensions-api:jar:3.1.2:compile, org.apache.maven.surefire:surefire-booter=org.apache.maven.surefire:surefire-booter:jar:3.1.2:compile, org.apache.maven.surefire:surefire-extensions-spi=org.apache.maven.surefire:surefire-extensions-spi:jar:3.1.2:compile, org.eclipse.aether:aether-util=org.eclipse.aether:aether-util:jar:1.0.0.v20140518:compile, org.eclipse.aether:aether-api=org.eclipse.aether:aether-api:jar:1.0.0.v20140518:compile, org.apache.maven.shared:maven-common-artifact-filters=org.apache.maven.shared:maven-common-artifact-filters:jar:3.1.1:compile, commons-io:commons-io=commons-io:commons-io:jar:2.12.0:compile, org.codehaus.plexus:plexus-java=org.codehaus.plexus:plexus-java:jar:1.1.2:compile, org.ow2.asm:asm=org.ow2.asm:asm:jar:9.4:compile, com.thoughtworks.qdox:qdox=com.thoughtworks.qdox:qdox:jar:2.0.3:compile, org.apache.maven.surefire:surefire-shared-utils=org.apache.maven.surefire:surefire-shared-utils:jar:3.1.2:compile}
+[DEBUG]   (f) pluginDescriptor = Component Descriptor: role: 'org.apache.maven.plugin.Mojo', implementation: 'org.apache.maven.plugins.maven_surefire_plugin.HelpMojo', role hint: 'org.apache.maven.plugins:maven-surefire-plugin:3.1.2:help'
+role: 'org.apache.maven.plugin.Mojo', implementation: 'org.apache.maven.plugin.surefire.SurefirePlugin', role hint: 'org.apache.maven.plugins:maven-surefire-plugin:3.1.2:test'
+---
+[DEBUG]   (s) printSummary = true
+[DEBUG]   (s) project = MavenProject: com.cliproco:CliprocoJEE:1.0-SNAPSHOT @ /home/yglsan/Desktop/CliprocoJEE/pom.xml
+[DEBUG]   (s) projectArtifactMap = {jakarta.servlet:jakarta.servlet-api=jakarta.servlet:jakarta.servlet-api:jar:6.0.0:provided, jakarta.servlet.jsp:jakarta.servlet.jsp-api=jakarta.servlet.jsp:jakarta.servlet.jsp-api:jar:3.1.1:provided, jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api=jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:jar:3.0.0:compile, jakarta.el:jakarta.el-api=jakarta.el:jakarta.el-api:jar:5.0.0:compile, org.hibernate.orm:hibernate-core=org.hibernate.orm:hibernate-core:jar:6.4.4.Final:compile, jakarta.persistence:jakarta.persistence-api=jakarta.persistence:jakarta.persistence-api:jar:3.1.0:compile, jakarta.transaction:jakarta.transaction-api=jakarta.transaction:jakarta.transaction-api:jar:2.0.1:compile, org.jboss.logging:jboss-logging=org.jboss.logging:jboss-logging:jar:3.5.0.Final:runtime, org.hibernate.common:hibernate-commons-annotations=org.hibernate.common:hibernate-commons-annotations:jar:6.0.6.Final:runtime, io.smallrye:jandex=io.smallrye:jandex:jar:3.1.2:runtime, com.fasterxml:classmate=com.fasterxml:classmate:jar:1.5.1:runtime, net.bytebuddy:byte-buddy=net.bytebuddy:byte-buddy:jar:1.14.11:runtime, jakarta.xml.bind:jakarta.xml.bind-api=jakarta.xml.bind:jakarta.xml.bind-api:jar:4.0.0:runtime, jakarta.activation:jakarta.activation-api=jakarta.activation:jakarta.activation-api:jar:2.1.0:runtime, org.glassfish.jaxb:jaxb-runtime=org.glassfish.jaxb:jaxb-runtime:jar:4.0.2:runtime, org.glassfish.jaxb:jaxb-core=org.glassfish.jaxb:jaxb-core:jar:4.0.2:runtime, org.eclipse.angus:angus-activation=org.eclipse.angus:angus-activation:jar:2.0.0:runtime, org.glassfish.jaxb:txw2=org.glassfish.jaxb:txw2:jar:4.0.2:runtime, com.sun.istack:istack-commons-runtime=com.sun.istack:istack-commons-runtime:jar:4.1.1:runtime, jakarta.inject:jakarta.inject-api=jakarta.inject:jakarta.inject-api:jar:2.0.1:runtime, org.antlr:antlr4-runtime=org.antlr:antlr4-runtime:jar:4.13.0:runtime, com.mysql:mysql-connector-j=com.mysql:mysql-connector-j:jar:8.0.33:compile, com.google.protobuf:protobuf-java=com.google.protobuf:protobuf-java:jar:3.21.9:compile, org.slf4j:slf4j-api=org.slf4j:slf4j-api:jar:2.0.9:compile, ch.qos.logback:logback-classic=ch.qos.logback:logback-classic:jar:1.4.11:compile, ch.qos.logback:logback-core=ch.qos.logback:logback-core:jar:1.4.11:compile, org.junit.jupiter:junit-jupiter=org.junit.jupiter:junit-jupiter:jar:5.10.0:test, org.junit.jupiter:junit-jupiter-api=org.junit.jupiter:junit-jupiter-api:jar:5.10.0:test, org.opentest4j:opentest4j=org.opentest4j:opentest4j:jar:1.3.0:test, org.junit.platform:junit-platform-commons=org.junit.platform:junit-platform-commons:jar:1.10.0:test, org.apiguardian:apiguardian-api=org.apiguardian:apiguardian-api:jar:1.1.2:test, org.junit.jupiter:junit-jupiter-params=org.junit.jupiter:junit-jupiter-params:jar:5.10.0:test, org.junit.jupiter:junit-jupiter-engine=org.junit.jupiter:junit-jupiter-engine:jar:5.10.0:test, org.junit.platform:junit-platform-engine=org.junit.platform:junit-platform-engine:jar:1.10.0:test, org.mindrot:jbcrypt=org.mindrot:jbcrypt:jar:0.4:compile}
+[DEBUG]   (s) projectBuildDirectory = /home/yglsan/Desktop/CliprocoJEE/target
+[DEBUG]   (s) redirectTestOutputToFile = false
+[DEBUG]   (s) reportFormat = brief
+[DEBUG]   (s) reportsDirectory = /home/yglsan/Desktop/CliprocoJEE/target/surefire-reports
+[DEBUG]   (f) rerunFailingTestsCount = 0
+[DEBUG]   (f) reuseForks = true
+[DEBUG]   (s) runOrder = filesystem
+[DEBUG]   (s) session = org.apache.maven.execution.MavenSession@2b59501e
+[DEBUG]   (f) shutdown = exit
+[DEBUG]   (s) skip = false
+[DEBUG]   (f) skipAfterFailureCount = 0
+[DEBUG]   (s) skipTests = true
+[DEBUG]   (s) suiteXmlFiles = []
+[DEBUG]   (s) tempDir = surefire
+[DEBUG]   (s) testClassesDirectory = /home/yglsan/Desktop/CliprocoJEE/target/test-classes
+[DEBUG]   (s) testFailureIgnore = false
+[DEBUG]   (s) testNGArtifactName = org.testng:testng
+[DEBUG]   (s) testSourceDirectory = /home/yglsan/Desktop/CliprocoJEE/src/test/java
+[DEBUG]   (s) threadCountClasses = 0
+[DEBUG]   (s) threadCountMethods = 0
+[DEBUG]   (s) threadCountSuites = 0
+[DEBUG]   (s) trimStackTrace = false
+[DEBUG]   (s) useFile = true
+[DEBUG]   (s) useManifestOnlyJar = true
+[DEBUG]   (f) useModulePath = true
+[DEBUG]   (s) useSystemClassLoader = true
+[DEBUG]   (s) useUnlimitedThreads = false
+[DEBUG]   (s) workingDirectory = /home/yglsan/Desktop/CliprocoJEE
+[DEBUG] -- end configuration --
+[DEBUG] Using JVM: /usr/lib/jvm/java-21-openjdk/bin/java with Java version 21.0
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- war:3.4.0:war (default-war) @ CliprocoJEE ---
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=376861, ConflictMarker.markTime=173354, ConflictMarker.nodeCount=99, ConflictIdSorter.graphTime=160525, ConflictIdSorter.topsortTime=49240, ConflictIdSorter.conflictIdCount=37, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=1840501, ConflictResolver.conflictItemCount=87, DfDependencyCollector.collectTime=301279241, DfDependencyCollector.transformTime=2669075}
+[DEBUG] org.apache.maven.plugins:maven-war-plugin:jar:3.4.0
+[DEBUG]    org.apache.maven:maven-archiver:jar:3.6.0:compile
+[DEBUG]       org.codehaus.plexus:plexus-io:jar:3.4.0:compile
+[DEBUG]    org.apache.maven.shared:maven-shared-utils:jar:3.4.2:compile
+[DEBUG]       org.slf4j:slf4j-api:jar:1.7.36:compile
+[DEBUG]    commons-io:commons-io:jar:2.13.0:compile
+[DEBUG]    org.codehaus.plexus:plexus-archiver:jar:4.7.1:compile
+[DEBUG]       javax.inject:javax.inject:jar:1:compile
+[DEBUG]       org.apache.commons:commons-compress:jar:1.23.0:compile
+[DEBUG]       org.iq80.snappy:snappy:jar:0.4:compile
+[DEBUG]       org.tukaani:xz:jar:1.9:runtime
+[DEBUG]       com.github.luben:zstd-jni:jar:1.5.5-2:runtime
+[DEBUG]    org.codehaus.plexus:plexus-interpolation:jar:1.26:compile
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:3.5.1:compile
+[DEBUG]    org.apache.maven.shared:maven-filtering:jar:3.3.1:compile
+[DEBUG]       org.sonatype.plexus:plexus-build-api:jar:0.0.7:compile
+[DEBUG]    org.apache.maven.shared:maven-mapping:jar:3.0.0:compile
+[DEBUG]       org.apache.maven:maven-core:jar:3.0:compile
+[DEBUG]          org.apache.maven:maven-model:jar:3.0:compile
+[DEBUG]          org.apache.maven:maven-settings:jar:3.2.5:provided (scope managed from default) (version managed from default)
+[DEBUG]          org.apache.maven:maven-settings-builder:jar:3.0:compile
+[DEBUG]          org.apache.maven:maven-repository-metadata:jar:3.0:compile
+[DEBUG]          org.apache.maven:maven-artifact:jar:3.0:compile
+[DEBUG]          org.apache.maven:maven-plugin-api:jar:3.0:compile
+[DEBUG]          org.apache.maven:maven-model-builder:jar:3.0:compile
+[DEBUG]          org.apache.maven:maven-aether-provider:jar:3.0:runtime
+[DEBUG]          org.sonatype.aether:aether-impl:jar:1.7:compile
+[DEBUG]             org.sonatype.aether:aether-spi:jar:1.7:compile
+[DEBUG]          org.sonatype.aether:aether-api:jar:1.7:compile
+[DEBUG]          org.sonatype.aether:aether-util:jar:1.7:compile
+[DEBUG]          org.sonatype.sisu:sisu-inject-plexus:jar:1.4.2:compile
+[DEBUG]             org.sonatype.sisu:sisu-inject-bean:jar:1.4.2:compile
+[DEBUG]                org.sonatype.sisu:sisu-guice:jar:noaop:2.1.7:compile
+[DEBUG]          org.codehaus.plexus:plexus-classworlds:jar:2.2.3:compile
+[DEBUG]          org.codehaus.plexus:plexus-component-annotations:jar:1.5.5:compile
+[DEBUG]          org.sonatype.plexus:plexus-sec-dispatcher:jar:1.3:compile
+[DEBUG]             org.sonatype.plexus:plexus-cipher:jar:1.4:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-war-plugin:3.4.0
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-war-plugin:3.4.0
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-war-plugin:3.4.0
+[DEBUG]   Included: org.apache.maven.plugins:maven-war-plugin:jar:3.4.0
+[DEBUG]   Included: org.apache.maven:maven-archiver:jar:3.6.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-io:jar:3.4.0
+[DEBUG]   Included: org.apache.maven.shared:maven-shared-utils:jar:3.4.2
+[DEBUG]   Included: commons-io:commons-io:jar:2.13.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-archiver:jar:4.7.1
+[DEBUG]   Included: org.apache.commons:commons-compress:jar:1.23.0
+[DEBUG]   Included: org.iq80.snappy:snappy:jar:0.4
+[DEBUG]   Included: org.tukaani:xz:jar:1.9
+[DEBUG]   Included: com.github.luben:zstd-jni:jar:1.5.5-2
+[DEBUG]   Included: org.codehaus.plexus:plexus-interpolation:jar:1.26
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:3.5.1
+[DEBUG]   Included: org.apache.maven.shared:maven-filtering:jar:3.3.1
+[DEBUG]   Included: org.sonatype.plexus:plexus-build-api:jar:0.0.7
+[DEBUG]   Included: org.apache.maven.shared:maven-mapping:jar:3.0.0
+[DEBUG]   Included: org.sonatype.aether:aether-util:jar:1.7
+[DEBUG]   Included: org.sonatype.sisu:sisu-inject-bean:jar:1.4.2
+[DEBUG]   Included: org.sonatype.sisu:sisu-guice:jar:noaop:2.1.7
+[DEBUG]   Included: org.codehaus.plexus:plexus-component-annotations:jar:1.5.5
+[DEBUG]   Included: org.sonatype.plexus:plexus-sec-dispatcher:jar:1.3
+[DEBUG]   Included: org.sonatype.plexus:plexus-cipher:jar:1.4
+[DEBUG] Loading mojo org.apache.maven.plugins:maven-war-plugin:3.4.0:war from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-war-plugin:3.4.0, parent: java.net.URLClassLoader@22d8cfe0]
+[DEBUG] Configuring mojo execution 'org.apache.maven.plugins:maven-war-plugin:3.4.0:war:default-war' with basic configurator -->
+[DEBUG]   (s) archiveClasses = false
+[DEBUG]   (s) attachClasses = false
+[DEBUG]   (s) classesClassifier = classes
+[DEBUG]   (s) classesDirectory = /home/yglsan/Desktop/CliprocoJEE/target/classes
+[DEBUG]   (f) escapedBackslashesInFilePath = false
+[DEBUG]   (s) failOnMissingWebXml = false
+[DEBUG]   (f) filteringDeploymentDescriptors = false
+[DEBUG]   (f) includeEmptyDirectories = false
+[DEBUG]   (f) outdatedCheckPath = WEB-INF/lib/
+[DEBUG]   (s) outputDirectory = /home/yglsan/Desktop/CliprocoJEE/target
+[DEBUG]   (s) primaryArtifact = true
+[DEBUG]   (s) project = MavenProject: com.cliproco:CliprocoJEE:1.0-SNAPSHOT @ /home/yglsan/Desktop/CliprocoJEE/pom.xml
+[DEBUG]   (f) recompressZippedFiles = true
+[DEBUG]   (f) resourceEncoding = UTF-8
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@2b59501e
+[DEBUG]   (f) skip = false
+[DEBUG]   (f) supportMultiLineFiltering = false
+[DEBUG]   (f) useDefaultDelimiters = true
+[DEBUG]   (f) useJvmChmod = true
+[DEBUG]   (s) warName = CliprocoJEE
+[DEBUG]   (s) warSourceDirectory = /home/yglsan/Desktop/CliprocoJEE/src/main/webapp
+[DEBUG]   (s) warSourceIncludes = **
+[DEBUG]   (s) webappDirectory = /home/yglsan/Desktop/CliprocoJEE/target/CliprocoJEE
+[DEBUG]   (s) workDirectory = /home/yglsan/Desktop/CliprocoJEE/target/war/work
+[DEBUG] -- end configuration --
+[INFO] Packaging webapp
+[INFO] Assembling webapp [CliprocoJEE] in [/home/yglsan/Desktop/CliprocoJEE/target/CliprocoJEE]
+[DEBUG] properties used:
+[DEBUG] classworlds.conf: /home/yglsan/.m2/wrapper/dists/apache-maven-3.9.6-bin/439sdfsg2nbdob9ciift5h5nse/apache-maven-3.9.6/bin/m2.conf
+[DEBUG] env.APPDIR: /tmp/.mount_CursornOinRU
+[DEBUG] env.APPIMAGE: /home/yglsan/Prog/Cursor-0.48.9-x86_64.AppImage
+[DEBUG] env.CATALINA_BASE: /opt/tomcat11
+[DEBUG] env.CATALINA_HOME: /opt/tomcat11
+[DEBUG] env.CHROME_DESKTOP: cursor.desktop
+[DEBUG] env.COLORTERM: truecolor
+[DEBUG] env.COMPOSER_NO_INTERACTION: 1
+[DEBUG] env.CURSOR_TRACE_ID: dc021b966fee4933a3c4a561370dc0c7
+[DEBUG] env.DBUS_SESSION_BUS_ADDRESS: unix:path=/run/user/1000/bus
+[DEBUG] env.DEBUGINFOD_URLS: https://debuginfod.archlinux.org 
+[DEBUG] env.DESKTOP_SESSION: gnome
+[DEBUG] env.DISABLE_AUTO_UPDATE: true
+[DEBUG] env.DISPLAY: :0
+[DEBUG] env.FORCE_CITY: Laxou
+[DEBUG] env.GDK_BACKEND: x11
+[DEBUG] env.GDMSESSION: gnome
+[DEBUG] env.GDM_LANG: fr_FR.UTF-8
+[DEBUG] env.GIO_LAUNCHED_DESKTOP_FILE_PID: 1773555
+[DEBUG] env.GIT_ASKPASS: /tmp/.mount_CursornOinRU/usr/share/cursor/resources/app/extensions/git/dist/askpass.sh
+[DEBUG] env.GNOME_SETUP_DISPLAY: :1
+[DEBUG] env.GSETTINGS_SCHEMA_DIR: /tmp/.mount_CursornOinRU/usr/share/glib-2.0/schemas/:
+[DEBUG] env.HOME: /home/yglsan
+[DEBUG] env.INVOCATION_ID: cd52428283c14bfd9435b3f3a5736c8b
+[DEBUG] env.JAVA_HOME: /usr/lib/jvm/java-21-openjdk
+[DEBUG] env.JOURNAL_STREAM: 9:28002200
+[DEBUG] env.LANG: fr_FR.UTF-8
+[DEBUG] env.LD_LIBRARY_PATH: /tmp/.mount_CursornOinRU/usr/lib/:/tmp/.mount_CursornOinRU/usr/lib32/:/tmp/.mount_CursornOinRU/usr/lib64/:/tmp/.mount_CursornOinRU/lib/:/tmp/.mount_CursornOinRU/lib/i386-linux-gnu/:/tmp/.mount_CursornOinRU/lib/x86_64-linux-gnu/:/tmp/.mount_CursornOinRU/lib/aarch64-linux-gnu/:/tmp/.mount_CursornOinRU/lib32/:/tmp/.mount_CursornOinRU/lib64/:
+[DEBUG] env.LOGNAME: yglsan
+[DEBUG] env.MAIL: /var/spool/mail/yglsan
+[DEBUG] env.MANAGERPID: 304842
+[DEBUG] env.MAVEN_CMD_LINE_ARGS:  clean package -X
+[DEBUG] env.MAVEN_PROJECTBASEDIR: /home/yglsan/Desktop/CliprocoJEE
+[DEBUG] env.MEMORY_PRESSURE_WATCH: /sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/app-dbus\x2d:1.2\x2dorg.gnome.Nautilus.slice/dbus-:1.2-org.gnome.Nautilus@22.service/memory.pressure
+[DEBUG] env.MEMORY_PRESSURE_WRITE: c29tZSAyMDAwMDAgMjAwMDAwMAA=
+[DEBUG] env.MKLROOT: /opt/intel/oneapi/mkl/latest
+[DEBUG] env.MOTD_SHOWN: pam
+[DEBUG] env.NO_AT_BRIDGE: 1
+[DEBUG] env.NVM_BIN: /home/yglsan/.nvm/versions/node/v20.19.1/bin
+[DEBUG] env.NVM_CD_FLAGS: -q
+[DEBUG] env.NVM_DIR: /home/yglsan/.nvm
+[DEBUG] env.NVM_INC: /home/yglsan/.nvm/versions/node/v20.19.1/include/node
+[DEBUG] env.OLDPWD: /home/yglsan/Desktop/CliprocoJEE
+[DEBUG] env.ORIGINAL_XDG_CURRENT_DESKTOP: GNOME
+[DEBUG] env.OWD: /home/yglsan/Prog
+[DEBUG] env.PAGER: head -n 10000 | cat
+[DEBUG] env.PATH: /home/yglsan/.pyenv/plugins/pyenv-virtualenv/shims:/home/yglsan/.pyenv/shims:/home/yglsan/.pyenv/bin:/home/yglsan/.pyenv/plugins/pyenv-virtualenv/shims:/home/yglsan/.pyenv/bin:/home/yglsan/.nvm/versions/node/v20.19.1/bin:/tmp/.mount_CursornOinRU/usr/bin/:/tmp/.mount_CursornOinRU/usr/sbin/:/tmp/.mount_CursornOinRU/usr/games/:/tmp/.mount_CursornOinRU/bin/:/tmp/.mount_CursornOinRU/sbin/:/usr/local/bin:/usr/bin:/usr/local/sbin:/var/lib/flatpak/exports/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/yglsan/.local/bin:/opt/tomcat11/bin:/opt/tomcat11/bin:/home/yglsan/.local/bin:/opt/tomcat11/bin:/opt/tomcat11/bin
+[DEBUG] env.PERLLIB: /tmp/.mount_CursornOinRU/usr/share/perl5/:/tmp/.mount_CursornOinRU/usr/lib/perl5/:
+[DEBUG] env.PIP_NO_INPUT: true
+[DEBUG] env.PWD: /home/yglsan/Desktop/CliprocoJEE
+[DEBUG] env.PYENV_SHELL: zsh
+[DEBUG] env.PYENV_VIRTUALENV_INIT: 1
+[DEBUG] env.QT_IM_MODULE: ibus
+[DEBUG] env.QT_PLUGIN_PATH: /tmp/.mount_CursornOinRU/usr/lib/qt4/plugins/:/tmp/.mount_CursornOinRU/usr/lib/i386-linux-gnu/qt4/plugins/:/tmp/.mount_CursornOinRU/usr/lib/x86_64-linux-gnu/qt4/plugins/:/tmp/.mount_CursornOinRU/usr/lib/aarch64-linux-gnu/qt4/plugins/:/tmp/.mount_CursornOinRU/usr/lib32/qt4/plugins/:/tmp/.mount_CursornOinRU/usr/lib64/qt4/plugins/:/tmp/.mount_CursornOinRU/usr/lib/qt5/plugins/:/tmp/.mount_CursornOinRU/usr/lib/i386-linux-gnu/qt5/plugins/:/tmp/.mount_CursornOinRU/usr/lib/x86_64-linux-gnu/qt5/plugins/:/tmp/.mount_CursornOinRU/usr/lib/aarch64-linux-gnu/qt5/plugins/:/tmp/.mount_CursornOinRU/usr/lib32/qt5/plugins/:/tmp/.mount_CursornOinRU/usr/lib64/qt5/plugins/:
+[DEBUG] env.SESSION_MANAGER: local/hp2:@/tmp/.ICE-unix/304920,unix/hp2:/tmp/.ICE-unix/304920
+[DEBUG] env.SHELL: /usr/bin/zsh
+[DEBUG] env.SHLVL: 2
+[DEBUG] env.SYSTEMD_EXEC_PID: 1773486
+[DEBUG] env.TERM: xterm-256color
+[DEBUG] env.TERM_PROGRAM: vscode
+[DEBUG] env.TERM_PROGRAM_VERSION: 1.1.6
+[DEBUG] env.USER: yglsan
+[DEBUG] env.USERNAME: yglsan
+[DEBUG] env.VSCODE_GIT_ASKPASS_EXTRA_ARGS: 
+[DEBUG] env.VSCODE_GIT_ASKPASS_MAIN: /tmp/.mount_CursornOinRU/usr/share/cursor/resources/app/extensions/git/dist/askpass-main.js
+[DEBUG] env.VSCODE_GIT_ASKPASS_NODE: /tmp/.mount_CursornOinRU/usr/share/cursor/cursor
+[DEBUG] env.VSCODE_GIT_IPC_HANDLE: /run/user/1000/vscode-git-2e66dc25ff.sock
+[DEBUG] env.WAYLAND_DISPLAY: wayland-0
+[DEBUG] env.XAUTHORITY: /run/user/1000/.mutter-Xwaylandauth.H70J82
+[DEBUG] env.XDG_CURRENT_DESKTOP: GNOME
+[DEBUG] env.XDG_DATA_DIRS: /tmp/.mount_CursornOinRU/usr/share/:/usr/local/share:/usr/share:/home/yglsan/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/
+[DEBUG] env.XDG_MENU_PREFIX: gnome-
+[DEBUG] env.XDG_RUNTIME_DIR: /run/user/1000
+[DEBUG] env.XDG_SESSION_CLASS: user
+[DEBUG] env.XDG_SESSION_DESKTOP: gnome
+[DEBUG] env.XDG_SESSION_TYPE: wayland
+[DEBUG] env.XMODIFIERS: @im=ibus
+[DEBUG] env.ZEITGEIST_DATA_PATH: /home/yglsan/.local/share/zeitgeist
+[DEBUG] env.npm_config_yes: true
+[DEBUG] file.encoding: UTF-8
+[DEBUG] file.separator: /
+[DEBUG] java.class.path: /home/yglsan/Desktop/CliprocoJEE/.mvn/wrapper/maven-wrapper.jar
+[DEBUG] java.class.version: 65.0
+[DEBUG] java.home: /usr/lib/jvm/java-21-openjdk
+[DEBUG] java.io.tmpdir: /tmp
+[DEBUG] java.library.path: /tmp/.mount_CursornOinRU/usr/lib/:/tmp/.mount_CursornOinRU/usr/lib32/:/tmp/.mount_CursornOinRU/usr/lib64/:/tmp/.mount_CursornOinRU/lib/:/tmp/.mount_CursornOinRU/lib/i386-linux-gnu/:/tmp/.mount_CursornOinRU/lib/x86_64-linux-gnu/:/tmp/.mount_CursornOinRU/lib/aarch64-linux-gnu/:/tmp/.mount_CursornOinRU/lib32/:/tmp/.mount_CursornOinRU/lib64/::/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib
+[DEBUG] java.runtime.name: OpenJDK Runtime Environment
+[DEBUG] java.runtime.version: 21.0.7+6
+[DEBUG] java.specification.name: Java Platform API Specification
+[DEBUG] java.specification.vendor: Oracle Corporation
+[DEBUG] java.specification.version: 21
+[DEBUG] java.vendor: Arch Linux
+[DEBUG] java.vendor.url: https://openjdk.org/
+[DEBUG] java.vendor.url.bug: https://bugreport.java.com/bugreport/
+[DEBUG] java.version: 21.0.7
+[DEBUG] java.version.date: 2025-04-15
+[DEBUG] java.vm.compressedOopsMode: Zero based
+[DEBUG] java.vm.info: mixed mode, sharing
+[DEBUG] java.vm.name: OpenJDK 64-Bit Server VM
+[DEBUG] java.vm.specification.name: Java Virtual Machine Specification
+[DEBUG] java.vm.specification.vendor: Oracle Corporation
+[DEBUG] java.vm.specification.version: 21
+[DEBUG] java.vm.vendor: Arch Linux
+[DEBUG] java.vm.version: 21.0.7+6
+[DEBUG] jdk.debug: release
+[DEBUG] line.separator: 
+
+[DEBUG] maven.build.version: Apache Maven 3.9.6 (bc0240f3c744dd6b6ec2920b3cd08dcc295161ae)
+[DEBUG] maven.compiler.source: 21
+[DEBUG] maven.compiler.target: 21
+[DEBUG] maven.conf: /home/yglsan/.m2/wrapper/dists/apache-maven-3.9.6-bin/439sdfsg2nbdob9ciift5h5nse/apache-maven-3.9.6/conf
+[DEBUG] maven.home: /home/yglsan/.m2/wrapper/dists/apache-maven-3.9.6-bin/439sdfsg2nbdob9ciift5h5nse/apache-maven-3.9.6
+[DEBUG] maven.multiModuleProjectDirectory: /home/yglsan/Desktop/CliprocoJEE
+[DEBUG] maven.version: 3.9.6
+[DEBUG] native.encoding: UTF-8
+[DEBUG] os.arch: amd64
+[DEBUG] os.name: Linux
+[DEBUG] os.version: 6.15.2-arch1-1
+[DEBUG] path.separator: :
+[DEBUG] project.build.sourceEncoding: UTF-8
+[DEBUG] stderr.encoding: UTF-8
+[DEBUG] stdout.encoding: UTF-8
+[DEBUG] sun.arch.data.model: 64
+[DEBUG] sun.boot.library.path: /usr/lib/jvm/java-21-openjdk/lib
+[DEBUG] sun.cpu.endian: little
+[DEBUG] sun.io.unicode.encoding: UnicodeLittle
+[DEBUG] sun.java.command: org.apache.maven.wrapper.MavenWrapperMain clean package -X
+[DEBUG] sun.java.launcher: SUN_STANDARD
+[DEBUG] sun.jnu.encoding: UTF-8
+[DEBUG] sun.management.compiler: HotSpot 64-Bit Tiered Compilers
+[DEBUG] user.country: FR
+[DEBUG] user.dir: /home/yglsan/Desktop/CliprocoJEE
+[DEBUG] user.home: /home/yglsan
+[DEBUG] user.language: fr
+[DEBUG] user.name: yglsan
+[INFO] Processing war project
+[INFO] Copying webapp resources [/home/yglsan/Desktop/CliprocoJEE/src/main/webapp]
+[DEBUG]  + index.jsp has been copied.
+[DEBUG]  + META-INF/context.xml has been copied.
+[DEBUG]  + META-INF/persistence.xml has been copied.
+[DEBUG]  + js/clients.mjs has been copied.
+[DEBUG]  + js/utilities.js has been copied.
+[DEBUG]  + js/html.mjs has been copied.
+[DEBUG]  + js/events.js has been copied.
+[DEBUG]  + js/prospects.mjs has been copied.
+[DEBUG]  + js/bootstrap.bundle.min.js has been copied.
+[DEBUG]  + js/leaflet.js has been copied.
+[DEBUG]  + js/validation.mjs has been copied.
+[DEBUG]  + js/auth.mjs has been copied.
+[DEBUG]  + js/geolocWeather.mjs has been copied.
+[DEBUG]  + js/rgpd.mjs has been copied.
+[DEBUG]  + js/main.mjs has been copied.
+[DEBUG]  + js/config.mjs has been copied.
+[DEBUG]  + scss/_mixins.scss has been copied.
+[DEBUG]  + scss/styles.scss has been copied.
+[DEBUG]  + scss/_layout.scss has been copied.
+[DEBUG]  + scss/main.scss has been copied.
+[DEBUG]  + scss/_variables.scss has been copied.
+[DEBUG]  + img/marker-icon.png has been copied.
+[DEBUG]  + img/marker-shadow.png has been copied.
+[DEBUG]  + img/Logo Cliproco.svg has been copied.
+[DEBUG]  + WEB-INF/jsp/contact.jsp has been copied.
+[DEBUG]  + WEB-INF/jsp/index.jsp has been copied.
+[DEBUG]  + WEB-INF/jsp/footer.jsp has been copied.
+[DEBUG]  + WEB-INF/jsp/connexion.jsp has been copied.
+[DEBUG]  + WEB-INF/jsp/signin.jsp has been copied.
+[DEBUG]  + WEB-INF/jsp/deconnexion.jsp has been copied.
+[DEBUG]  + WEB-INF/jsp/clients/create.jsp has been copied.
+[DEBUG]  + WEB-INF/jsp/clients/liste.jsp has been copied.
+[DEBUG]  + WEB-INF/jsp/clients/update.jsp has been copied.
+[DEBUG]  + WEB-INF/jsp/clients/view.jsp has been copied.
+[DEBUG]  + WEB-INF/jsp/prospects/create.jsp has been copied.
+[DEBUG]  + WEB-INF/jsp/prospects/liste.jsp has been copied.
+[DEBUG]  + WEB-INF/jsp/prospects/update.jsp has been copied.
+[DEBUG]  + WEB-INF/jsp/prospects/view.jsp has been copied.
+[DEBUG]  + WEB-INF/jsp/prospects.jsp has been copied.
+[DEBUG]  + WEB-INF/jsp/scripts.jsp has been copied.
+[DEBUG]  + WEB-INF/jsp/clients.jsp has been copied.
+[DEBUG]  + WEB-INF/jsp/meta.jsp has been copied.
+[DEBUG]  + WEB-INF/jsp/header.jsp has been copied.
+[DEBUG]  + WEB-INF/jsp/taglibs.jsp has been copied.
+[DEBUG]  + WEB-INF/jsp/error/404.jsp has been copied.
+[DEBUG]  + WEB-INF/jsp/error/500.jsp has been copied.
+[DEBUG]  + WEB-INF/jsp/error.jsp has been copied.
+[DEBUG]  + WEB-INF/web.xml has been copied.
+[DEBUG]  + WEB-INF/beans.xml has been copied.
+[DEBUG]  + WEB-INF/applicationContext.xml has been copied.
+[DEBUG]  + css/styles.css.map has been copied.
+[DEBUG]  + css/main.css has been copied.
+[DEBUG]  + css/styles.css has been copied.
+[DEBUG]  + css/bootstrap.min.css has been copied.
+[DEBUG]  + css/main.css.map has been copied.
+[DEBUG] Dump of the current build pathSet content -->
+[DEBUG] index.jsp
+[DEBUG] META-INF/context.xml
+[DEBUG] META-INF/persistence.xml
+[DEBUG] js/clients.mjs
+[DEBUG] js/utilities.js
+[DEBUG] js/html.mjs
+[DEBUG] js/events.js
+[DEBUG] js/prospects.mjs
+[DEBUG] js/bootstrap.bundle.min.js
+[DEBUG] js/leaflet.js
+[DEBUG] js/validation.mjs
+[DEBUG] js/auth.mjs
+[DEBUG] js/geolocWeather.mjs
+[DEBUG] js/rgpd.mjs
+[DEBUG] js/main.mjs
+[DEBUG] js/config.mjs
+[DEBUG] scss/_mixins.scss
+[DEBUG] scss/styles.scss
+[DEBUG] scss/_layout.scss
+[DEBUG] scss/main.scss
+[DEBUG] scss/_variables.scss
+[DEBUG] img/marker-icon.png
+[DEBUG] img/marker-shadow.png
+[DEBUG] img/Logo Cliproco.svg
+[DEBUG] WEB-INF/jsp/contact.jsp
+[DEBUG] WEB-INF/jsp/index.jsp
+[DEBUG] WEB-INF/jsp/footer.jsp
+[DEBUG] WEB-INF/jsp/connexion.jsp
+[DEBUG] WEB-INF/jsp/signin.jsp
+[DEBUG] WEB-INF/jsp/deconnexion.jsp
+[DEBUG] WEB-INF/jsp/clients/create.jsp
+[DEBUG] WEB-INF/jsp/clients/liste.jsp
+[DEBUG] WEB-INF/jsp/clients/update.jsp
+[DEBUG] WEB-INF/jsp/clients/view.jsp
+[DEBUG] WEB-INF/jsp/prospects/create.jsp
+[DEBUG] WEB-INF/jsp/prospects/liste.jsp
+[DEBUG] WEB-INF/jsp/prospects/update.jsp
+[DEBUG] WEB-INF/jsp/prospects/view.jsp
+[DEBUG] WEB-INF/jsp/prospects.jsp
+[DEBUG] WEB-INF/jsp/scripts.jsp
+[DEBUG] WEB-INF/jsp/clients.jsp
+[DEBUG] WEB-INF/jsp/meta.jsp
+[DEBUG] WEB-INF/jsp/header.jsp
+[DEBUG] WEB-INF/jsp/taglibs.jsp
+[DEBUG] WEB-INF/jsp/error/404.jsp
+[DEBUG] WEB-INF/jsp/error/500.jsp
+[DEBUG] WEB-INF/jsp/error.jsp
+[DEBUG] WEB-INF/web.xml
+[DEBUG] WEB-INF/beans.xml
+[DEBUG] WEB-INF/applicationContext.xml
+[DEBUG] css/styles.css.map
+[DEBUG] css/main.css
+[DEBUG] css/styles.css
+[DEBUG] css/bootstrap.min.css
+[DEBUG] css/main.css.map
+[DEBUG] -- end of dump --
+[DEBUG]  + WEB-INF/classes/schema.sql has been copied.
+[DEBUG]  + WEB-INF/classes/services/UserService.class has been copied.
+[DEBUG]  + WEB-INF/classes/services/ProspectService.class has been copied.
+[DEBUG]  + WEB-INF/classes/services/FactureService.class has been copied.
+[DEBUG]  + WEB-INF/classes/services/SocieteService.class has been copied.
+[DEBUG]  + WEB-INF/classes/services/CalculFactureService.class has been copied.
+[DEBUG]  + WEB-INF/classes/services/AdresseService.class has been copied.
+[DEBUG]  + WEB-INF/classes/services/ContratService.class has been copied.
+[DEBUG]  + WEB-INF/classes/services/ClientService.class has been copied.
+[DEBUG]  + WEB-INF/classes/exceptions/AuthorizationException.class has been copied.
+[DEBUG]  + WEB-INF/classes/exceptions/DatabaseException.class has been copied.
+[DEBUG]  + WEB-INF/classes/exceptions/ApplicationException.class has been copied.
+[DEBUG]  + WEB-INF/classes/exceptions/ExceptionHandler.class has been copied.
+[DEBUG]  + WEB-INF/classes/exceptions/ValidationException.class has been copied.
+[DEBUG]  + WEB-INF/classes/exceptions/ResourceNotFoundException.class has been copied.
+[DEBUG]  + WEB-INF/classes/exceptions/package-info.class has been copied.
+[DEBUG]  + WEB-INF/classes/exceptions/BusinessException.class has been copied.
+[DEBUG]  + WEB-INF/classes/logs/LogFormatter.class has been copied.
+[DEBUG]  + WEB-INF/classes/logs/package-info.class has been copied.
+[DEBUG]  + WEB-INF/classes/META-INF/persistence.xml has been copied.
+[DEBUG]  + WEB-INF/classes/controllers/ConnexionController.class has been copied.
+[DEBUG]  + WEB-INF/classes/controllers/SigninController.class has been copied.
+[DEBUG]  + WEB-INF/classes/controllers/RegisterController.class has been copied.
+[DEBUG]  + WEB-INF/classes/controllers/factures/package-info.class has been copied.
+[DEBUG]  + WEB-INF/classes/controllers/DeconnexionController.class has been copied.
+[DEBUG]  + WEB-INF/classes/controllers/ContactController.class has been copied.
+[DEBUG]  + WEB-INF/classes/controllers/UpdateClientsController.class has been copied.
+[DEBUG]  + WEB-INF/classes/controllers/contrats/package-info.class has been copied.
+[DEBUG]  + WEB-INF/classes/controllers/ICommand.class has been copied.
+[DEBUG]  + WEB-INF/classes/controllers/clients/CreationClientsController.class has been copied.
+[DEBUG]  + WEB-INF/classes/controllers/clients/DeleteClientsController.class has been copied.
+[DEBUG]  + WEB-INF/classes/controllers/clients/ListeClientsController.class has been copied.
+[DEBUG]  + WEB-INF/classes/controllers/clients/UpdateClientsController.class has been copied.
+[DEBUG]  + WEB-INF/classes/controllers/clients/ViewClientsController.class has been copied.
+[DEBUG]  + WEB-INF/classes/controllers/clients/package-info.class has been copied.
+[DEBUG]  + WEB-INF/classes/controllers/prospects/ViewProspectsController.class has been copied.
+[DEBUG]  + WEB-INF/classes/controllers/prospects/DeleteProspectsController.class has been copied.
+[DEBUG]  + WEB-INF/classes/controllers/prospects/ListeProspectsController.class has been copied.
+[DEBUG]  + WEB-INF/classes/controllers/prospects/UpdateProspectsController.class has been copied.
+[DEBUG]  + WEB-INF/classes/controllers/prospects/CreationProspectsController.class has been copied.
+[DEBUG]  + WEB-INF/classes/controllers/prospects/package-info.class has been copied.
+[DEBUG]  + WEB-INF/classes/controllers/IndexController.class has been copied.
+[DEBUG]  + WEB-INF/classes/controllers/package-info.class has been copied.
+[DEBUG]  + WEB-INF/classes/dao/jpa/ProspectJpaDAO.class has been copied.
+[DEBUG]  + WEB-INF/classes/dao/jpa/AdresseJpaDAO.class has been copied.
+[DEBUG]  + WEB-INF/classes/dao/jpa/CalculFactureJpaDAO.class has been copied.
+[DEBUG]  + WEB-INF/classes/dao/jpa/FactureJpaDAO.class has been copied.
+[DEBUG]  + WEB-INF/classes/dao/jpa/SocieteJpaDAO.class has been copied.
+[DEBUG]  + WEB-INF/classes/dao/jpa/ContratJpaDAO.class has been copied.
+[DEBUG]  + WEB-INF/classes/dao/jpa/GenericJpaDAO.class has been copied.
+[DEBUG]  + WEB-INF/classes/dao/jpa/DatabaseConnection.class has been copied.
+[DEBUG]  + WEB-INF/classes/dao/jpa/ClientJpaDAO.class has been copied.
+[DEBUG]  + WEB-INF/classes/dao/jpa/UserJpaDAO.class has been copied.
+[DEBUG]  + WEB-INF/classes/dao/jpa/AbstractJpaDAO.class has been copied.
+[DEBUG]  + WEB-INF/classes/dao/jpa/AbstractSocieteJpaDAO.class has been copied.
+[DEBUG]  + WEB-INF/classes/dao/jpa/package-info.class has been copied.
+[DEBUG]  + WEB-INF/classes/dao/jpa/ProduitJpaDAO.class has been copied.
+[DEBUG]  + WEB-INF/classes/dao/mysql/UserMySqlDAO.class has been copied.
+[DEBUG]  + WEB-INF/classes/dao/mysql/package-info.class has been copied.
+[DEBUG]  + WEB-INF/classes/dao/IDAO.class has been copied.
+[DEBUG]  + WEB-INF/classes/dao/UserDAO.class has been copied.
+[DEBUG]  + WEB-INF/classes/dao/package-info.class has been copied.
+[DEBUG]  + WEB-INF/classes/messages/messages.properties has been copied.
+[DEBUG]  + WEB-INF/classes/models/Client.class has been copied.
+[DEBUG]  + WEB-INF/classes/models/User.class has been copied.
+[DEBUG]  + WEB-INF/classes/models/Societe.class has been copied.
+[DEBUG]  + WEB-INF/classes/models/Contrat.class has been copied.
+[DEBUG]  + WEB-INF/classes/models/Produit.class has been copied.
+[DEBUG]  + WEB-INF/classes/models/Adresse.class has been copied.
+[DEBUG]  + WEB-INF/classes/models/CalculFacture.class has been copied.
+[DEBUG]  + WEB-INF/classes/models/Facture.class has been copied.
+[DEBUG]  + WEB-INF/classes/models/Prospect.class has been copied.
+[DEBUG]  + WEB-INF/classes/models/package-info.class has been copied.
+[DEBUG]  + WEB-INF/classes/database.properties has been copied.
+[DEBUG]  + WEB-INF/classes/utilities/DatabaseConnection.class has been copied.
+[DEBUG]  + WEB-INF/classes/utilities/Formatters.class has been copied.
+[DEBUG]  + WEB-INF/classes/utilities/Patterns.class has been copied.
+[DEBUG]  + WEB-INF/classes/utilities/LogManager.class has been copied.
+[DEBUG]  + WEB-INF/classes/utilities/DatabaseManager.class has been copied.
+[DEBUG]  + WEB-INF/classes/utilities/Security.class has been copied.
+[DEBUG]  + WEB-INF/classes/utilities/ValidationException.class has been copied.
+[DEBUG]  + WEB-INF/classes/utilities/JPAUtil.class has been copied.
+[DEBUG]  + WEB-INF/classes/utilities/ValidationManager.class has been copied.
+[DEBUG]  + WEB-INF/classes/utilities/MetricsManager.class has been copied.
+[DEBUG]  + WEB-INF/classes/utilities/package-info.class has been copied.
+[DEBUG]  + WEB-INF/classes/routers/FrontControllerSimple.class has been copied.
+[DEBUG]  + WEB-INF/classes/routers/FrontController.class has been copied.
+[DEBUG]  + WEB-INF/classes/routers/package-info.class has been copied.
+[DEBUG]  + WEB-INF/classes/builders/SocieteBuilder.class has been copied.
+[DEBUG]  + WEB-INF/classes/builders/ProspectBuilder.class has been copied.
+[DEBUG]  + WEB-INF/classes/builders/Builder.class has been copied.
+[DEBUG]  + WEB-INF/classes/builders/AdresseBuilder.class has been copied.
+[DEBUG]  + WEB-INF/classes/builders/ClientBuilder.class has been copied.
+[DEBUG]  + WEB-INF/classes/builders/ContratBuilder.class has been copied.
+[DEBUG]  + WEB-INF/classes/builders/package-info.class has been copied.
+[DEBUG] Processing: jakarta.servlet-api-6.0.0.jar
+[DEBUG] Processing: jakarta.servlet.jsp-api-3.1.1.jar
+[DEBUG] Processing: jakarta.servlet.jsp.jstl-api-3.0.0.jar
+[DEBUG]  + WEB-INF/lib/jakarta.servlet.jsp.jstl-api-3.0.0.jar has been copied.
+[DEBUG] Processing: jakarta.el-api-5.0.0.jar
+[DEBUG]  + WEB-INF/lib/jakarta.el-api-5.0.0.jar has been copied.
+[DEBUG] Processing: hibernate-core-6.4.4.Final.jar
+[DEBUG]  + WEB-INF/lib/hibernate-core-6.4.4.Final.jar has been copied.
+[DEBUG] Processing: jakarta.persistence-api-3.1.0.jar
+[DEBUG]  + WEB-INF/lib/jakarta.persistence-api-3.1.0.jar has been copied.
+[DEBUG] Processing: jakarta.transaction-api-2.0.1.jar
+[DEBUG]  + WEB-INF/lib/jakarta.transaction-api-2.0.1.jar has been copied.
+[DEBUG] Processing: jboss-logging-3.5.0.Final.jar
+[DEBUG]  + WEB-INF/lib/jboss-logging-3.5.0.Final.jar has been copied.
+[DEBUG] Processing: hibernate-commons-annotations-6.0.6.Final.jar
+[DEBUG]  + WEB-INF/lib/hibernate-commons-annotations-6.0.6.Final.jar has been copied.
+[DEBUG] Processing: jandex-3.1.2.jar
+[DEBUG]  + WEB-INF/lib/jandex-3.1.2.jar has been copied.
+[DEBUG] Processing: classmate-1.5.1.jar
+[DEBUG]  + WEB-INF/lib/classmate-1.5.1.jar has been copied.
+[DEBUG] Processing: byte-buddy-1.14.11.jar
+[DEBUG]  + WEB-INF/lib/byte-buddy-1.14.11.jar has been copied.
+[DEBUG] Processing: jakarta.xml.bind-api-4.0.0.jar
+[DEBUG]  + WEB-INF/lib/jakarta.xml.bind-api-4.0.0.jar has been copied.
+[DEBUG] Processing: jakarta.activation-api-2.1.0.jar
+[DEBUG]  + WEB-INF/lib/jakarta.activation-api-2.1.0.jar has been copied.
+[DEBUG] Processing: jaxb-runtime-4.0.2.jar
+[DEBUG]  + WEB-INF/lib/jaxb-runtime-4.0.2.jar has been copied.
+[DEBUG] Processing: jaxb-core-4.0.2.jar
+[DEBUG]  + WEB-INF/lib/jaxb-core-4.0.2.jar has been copied.
+[DEBUG] Processing: angus-activation-2.0.0.jar
+[DEBUG]  + WEB-INF/lib/angus-activation-2.0.0.jar has been copied.
+[DEBUG] Processing: txw2-4.0.2.jar
+[DEBUG]  + WEB-INF/lib/txw2-4.0.2.jar has been copied.
+[DEBUG] Processing: istack-commons-runtime-4.1.1.jar
+[DEBUG]  + WEB-INF/lib/istack-commons-runtime-4.1.1.jar has been copied.
+[DEBUG] Processing: jakarta.inject-api-2.0.1.jar
+[DEBUG]  + WEB-INF/lib/jakarta.inject-api-2.0.1.jar has been copied.
+[DEBUG] Processing: antlr4-runtime-4.13.0.jar
+[DEBUG]  + WEB-INF/lib/antlr4-runtime-4.13.0.jar has been copied.
+[DEBUG] Processing: mysql-connector-j-8.0.33.jar
+[DEBUG]  + WEB-INF/lib/mysql-connector-j-8.0.33.jar has been copied.
+[DEBUG] Processing: protobuf-java-3.21.9.jar
+[DEBUG]  + WEB-INF/lib/protobuf-java-3.21.9.jar has been copied.
+[DEBUG] Processing: slf4j-api-2.0.9.jar
+[DEBUG]  + WEB-INF/lib/slf4j-api-2.0.9.jar has been copied.
+[DEBUG] Processing: logback-classic-1.4.11.jar
+[DEBUG]  + WEB-INF/lib/logback-classic-1.4.11.jar has been copied.
+[DEBUG] Processing: logback-core-1.4.11.jar
+[DEBUG]  + WEB-INF/lib/logback-core-1.4.11.jar has been copied.
+[DEBUG] Processing: jbcrypt-0.4.jar
+[DEBUG]  + WEB-INF/lib/jbcrypt-0.4.jar has been copied.
+[DEBUG] Webapp assembled in [446 msecs]
+[DEBUG] Excluding [] from the generated webapp archive.
+[DEBUG] Including [**] in the generated webapp archive.
+[DEBUG] Build won't fail if web.xml file is missing.
+[INFO] Building war: /home/yglsan/Desktop/CliprocoJEE/target/CliprocoJEE.war
+[DEBUG] adding directory META-INF/
+[DEBUG] adding entry META-INF/MANIFEST.MF
+[DEBUG] adding directory js/
+[DEBUG] adding directory scss/
+[DEBUG] adding directory img/
+[DEBUG] adding directory WEB-INF/
+[DEBUG] adding directory WEB-INF/jsp/
+[DEBUG] adding directory WEB-INF/jsp/clients/
+[DEBUG] adding directory WEB-INF/jsp/prospects/
+[DEBUG] adding directory WEB-INF/jsp/error/
+[DEBUG] adding directory WEB-INF/classes/
+[DEBUG] adding directory WEB-INF/classes/services/
+[DEBUG] adding directory WEB-INF/classes/exceptions/
+[DEBUG] adding directory WEB-INF/classes/logs/
+[DEBUG] adding directory WEB-INF/classes/META-INF/
+[DEBUG] adding directory WEB-INF/classes/controllers/
+[DEBUG] adding directory WEB-INF/classes/controllers/factures/
+[DEBUG] adding directory WEB-INF/classes/controllers/contrats/
+[DEBUG] adding directory WEB-INF/classes/controllers/clients/
+[DEBUG] adding directory WEB-INF/classes/controllers/prospects/
+[DEBUG] adding directory WEB-INF/classes/dao/
+[DEBUG] adding directory WEB-INF/classes/dao/jpa/
+[DEBUG] adding directory WEB-INF/classes/dao/mysql/
+[DEBUG] adding directory WEB-INF/classes/messages/
+[DEBUG] adding directory WEB-INF/classes/models/
+[DEBUG] adding directory WEB-INF/classes/utilities/
+[DEBUG] adding directory WEB-INF/classes/routers/
+[DEBUG] adding directory WEB-INF/classes/builders/
+[DEBUG] adding directory WEB-INF/lib/
+[DEBUG] adding directory css/
+[DEBUG] adding entry index.jsp
+[DEBUG] adding entry META-INF/context.xml
+[DEBUG] adding entry META-INF/persistence.xml
+[DEBUG] adding entry js/clients.mjs
+[DEBUG] adding entry js/utilities.js
+[DEBUG] adding entry js/html.mjs
+[DEBUG] adding entry js/events.js
+[DEBUG] adding entry js/prospects.mjs
+[DEBUG] adding entry js/bootstrap.bundle.min.js
+[DEBUG] adding entry js/leaflet.js
+[DEBUG] adding entry js/validation.mjs
+[DEBUG] adding entry js/auth.mjs
+[DEBUG] adding entry js/geolocWeather.mjs
+[DEBUG] adding entry js/rgpd.mjs
+[DEBUG] adding entry js/main.mjs
+[DEBUG] adding entry js/config.mjs
+[DEBUG] adding entry scss/_mixins.scss
+[DEBUG] adding entry scss/styles.scss
+[DEBUG] adding entry scss/_layout.scss
+[DEBUG] adding entry scss/main.scss
+[DEBUG] adding entry scss/_variables.scss
+[DEBUG] adding entry img/marker-icon.png
+[DEBUG] adding entry img/marker-shadow.png
+[DEBUG] adding entry img/Logo Cliproco.svg
+[DEBUG] adding entry WEB-INF/jsp/contact.jsp
+[DEBUG] adding entry WEB-INF/jsp/index.jsp
+[DEBUG] adding entry WEB-INF/jsp/footer.jsp
+[DEBUG] adding entry WEB-INF/jsp/connexion.jsp
+[DEBUG] adding entry WEB-INF/jsp/signin.jsp
+[DEBUG] adding entry WEB-INF/jsp/deconnexion.jsp
+[DEBUG] adding entry WEB-INF/jsp/clients/create.jsp
+[DEBUG] adding entry WEB-INF/jsp/clients/liste.jsp
+[DEBUG] adding entry WEB-INF/jsp/clients/update.jsp
+[DEBUG] adding entry WEB-INF/jsp/clients/view.jsp
+[DEBUG] adding entry WEB-INF/jsp/prospects/create.jsp
+[DEBUG] adding entry WEB-INF/jsp/prospects/liste.jsp
+[DEBUG] adding entry WEB-INF/jsp/prospects/update.jsp
+[DEBUG] adding entry WEB-INF/jsp/prospects/view.jsp
+[DEBUG] adding entry WEB-INF/jsp/prospects.jsp
+[DEBUG] adding entry WEB-INF/jsp/scripts.jsp
+[DEBUG] adding entry WEB-INF/jsp/clients.jsp
+[DEBUG] adding entry WEB-INF/jsp/meta.jsp
+[DEBUG] adding entry WEB-INF/jsp/header.jsp
+[DEBUG] adding entry WEB-INF/jsp/taglibs.jsp
+[DEBUG] adding entry WEB-INF/jsp/error/404.jsp
+[DEBUG] adding entry WEB-INF/jsp/error/500.jsp
+[DEBUG] adding entry WEB-INF/jsp/error.jsp
+[DEBUG] adding entry WEB-INF/classes/schema.sql
+[DEBUG] adding entry WEB-INF/classes/services/UserService.class
+[DEBUG] adding entry WEB-INF/classes/services/ProspectService.class
+[DEBUG] adding entry WEB-INF/classes/services/FactureService.class
+[DEBUG] adding entry WEB-INF/classes/services/SocieteService.class
+[DEBUG] adding entry WEB-INF/classes/services/CalculFactureService.class
+[DEBUG] adding entry WEB-INF/classes/services/AdresseService.class
+[DEBUG] adding entry WEB-INF/classes/services/ContratService.class
+[DEBUG] adding entry WEB-INF/classes/services/ClientService.class
+[DEBUG] adding entry WEB-INF/classes/exceptions/AuthorizationException.class
+[DEBUG] adding entry WEB-INF/classes/exceptions/DatabaseException.class
+[DEBUG] adding entry WEB-INF/classes/exceptions/ApplicationException.class
+[DEBUG] adding entry WEB-INF/classes/exceptions/ExceptionHandler.class
+[DEBUG] adding entry WEB-INF/classes/exceptions/ValidationException.class
+[DEBUG] adding entry WEB-INF/classes/exceptions/ResourceNotFoundException.class
+[DEBUG] adding entry WEB-INF/classes/exceptions/package-info.class
+[DEBUG] adding entry WEB-INF/classes/exceptions/BusinessException.class
+[DEBUG] adding entry WEB-INF/classes/logs/LogFormatter.class
+[DEBUG] adding entry WEB-INF/classes/logs/package-info.class
+[DEBUG] adding entry WEB-INF/classes/META-INF/persistence.xml
+[DEBUG] adding entry WEB-INF/classes/controllers/ConnexionController.class
+[DEBUG] adding entry WEB-INF/classes/controllers/SigninController.class
+[DEBUG] adding entry WEB-INF/classes/controllers/RegisterController.class
+[DEBUG] adding entry WEB-INF/classes/controllers/factures/package-info.class
+[DEBUG] adding entry WEB-INF/classes/controllers/DeconnexionController.class
+[DEBUG] adding entry WEB-INF/classes/controllers/ContactController.class
+[DEBUG] adding entry WEB-INF/classes/controllers/UpdateClientsController.class
+[DEBUG] adding entry WEB-INF/classes/controllers/contrats/package-info.class
+[DEBUG] adding entry WEB-INF/classes/controllers/ICommand.class
+[DEBUG] adding entry WEB-INF/classes/controllers/clients/CreationClientsController.class
+[DEBUG] adding entry WEB-INF/classes/controllers/clients/DeleteClientsController.class
+[DEBUG] adding entry WEB-INF/classes/controllers/clients/ListeClientsController.class
+[DEBUG] adding entry WEB-INF/classes/controllers/clients/UpdateClientsController.class
+[DEBUG] adding entry WEB-INF/classes/controllers/clients/ViewClientsController.class
+[DEBUG] adding entry WEB-INF/classes/controllers/clients/package-info.class
+[DEBUG] adding entry WEB-INF/classes/controllers/prospects/ViewProspectsController.class
+[DEBUG] adding entry WEB-INF/classes/controllers/prospects/DeleteProspectsController.class
+[DEBUG] adding entry WEB-INF/classes/controllers/prospects/ListeProspectsController.class
+[DEBUG] adding entry WEB-INF/classes/controllers/prospects/UpdateProspectsController.class
+[DEBUG] adding entry WEB-INF/classes/controllers/prospects/CreationProspectsController.class
+[DEBUG] adding entry WEB-INF/classes/controllers/prospects/package-info.class
+[DEBUG] adding entry WEB-INF/classes/controllers/IndexController.class
+[DEBUG] adding entry WEB-INF/classes/controllers/package-info.class
+[DEBUG] adding entry WEB-INF/classes/dao/jpa/ProspectJpaDAO.class
+[DEBUG] adding entry WEB-INF/classes/dao/jpa/AdresseJpaDAO.class
+[DEBUG] adding entry WEB-INF/classes/dao/jpa/CalculFactureJpaDAO.class
+[DEBUG] adding entry WEB-INF/classes/dao/jpa/FactureJpaDAO.class
+[DEBUG] adding entry WEB-INF/classes/dao/jpa/SocieteJpaDAO.class
+[DEBUG] adding entry WEB-INF/classes/dao/jpa/ContratJpaDAO.class
+[DEBUG] adding entry WEB-INF/classes/dao/jpa/GenericJpaDAO.class
+[DEBUG] adding entry WEB-INF/classes/dao/jpa/DatabaseConnection.class
+[DEBUG] adding entry WEB-INF/classes/dao/jpa/ClientJpaDAO.class
+[DEBUG] adding entry WEB-INF/classes/dao/jpa/UserJpaDAO.class
+[DEBUG] adding entry WEB-INF/classes/dao/jpa/AbstractJpaDAO.class
+[DEBUG] adding entry WEB-INF/classes/dao/jpa/AbstractSocieteJpaDAO.class
+[DEBUG] adding entry WEB-INF/classes/dao/jpa/package-info.class
+[DEBUG] adding entry WEB-INF/classes/dao/jpa/ProduitJpaDAO.class
+[DEBUG] adding entry WEB-INF/classes/dao/mysql/UserMySqlDAO.class
+[DEBUG] adding entry WEB-INF/classes/dao/mysql/package-info.class
+[DEBUG] adding entry WEB-INF/classes/dao/IDAO.class
+[DEBUG] adding entry WEB-INF/classes/dao/UserDAO.class
+[DEBUG] adding entry WEB-INF/classes/dao/package-info.class
+[DEBUG] adding entry WEB-INF/classes/messages/messages.properties
+[DEBUG] adding entry WEB-INF/classes/models/Client.class
+[DEBUG] adding entry WEB-INF/classes/models/User.class
+[DEBUG] adding entry WEB-INF/classes/models/Societe.class
+[DEBUG] adding entry WEB-INF/classes/models/Contrat.class
+[DEBUG] adding entry WEB-INF/classes/models/Produit.class
+[DEBUG] adding entry WEB-INF/classes/models/Adresse.class
+[DEBUG] adding entry WEB-INF/classes/models/CalculFacture.class
+[DEBUG] adding entry WEB-INF/classes/models/Facture.class
+[DEBUG] adding entry WEB-INF/classes/models/Prospect.class
+[DEBUG] adding entry WEB-INF/classes/models/package-info.class
+[DEBUG] adding entry WEB-INF/classes/database.properties
+[DEBUG] adding entry WEB-INF/classes/utilities/DatabaseConnection.class
+[DEBUG] adding entry WEB-INF/classes/utilities/Formatters.class
+[DEBUG] adding entry WEB-INF/classes/utilities/Patterns.class
+[DEBUG] adding entry WEB-INF/classes/utilities/LogManager.class
+[DEBUG] adding entry WEB-INF/classes/utilities/DatabaseManager.class
+[DEBUG] adding entry WEB-INF/classes/utilities/Security.class
+[DEBUG] adding entry WEB-INF/classes/utilities/ValidationException.class
+[DEBUG] adding entry WEB-INF/classes/utilities/JPAUtil.class
+[DEBUG] adding entry WEB-INF/classes/utilities/ValidationManager.class
+[DEBUG] adding entry WEB-INF/classes/utilities/MetricsManager.class
+[DEBUG] adding entry WEB-INF/classes/utilities/package-info.class
+[DEBUG] adding entry WEB-INF/classes/routers/FrontControllerSimple.class
+[DEBUG] adding entry WEB-INF/classes/routers/FrontController.class
+[DEBUG] adding entry WEB-INF/classes/routers/package-info.class
+[DEBUG] adding entry WEB-INF/classes/builders/SocieteBuilder.class
+[DEBUG] adding entry WEB-INF/classes/builders/ProspectBuilder.class
+[DEBUG] adding entry WEB-INF/classes/builders/Builder.class
+[DEBUG] adding entry WEB-INF/classes/builders/AdresseBuilder.class
+[DEBUG] adding entry WEB-INF/classes/builders/ClientBuilder.class
+[DEBUG] adding entry WEB-INF/classes/builders/ContratBuilder.class
+[DEBUG] adding entry WEB-INF/classes/builders/package-info.class
+[DEBUG] adding entry WEB-INF/web.xml
+[DEBUG] adding entry WEB-INF/lib/classmate-1.5.1.jar
+[DEBUG] adding entry WEB-INF/lib/hibernate-core-6.4.4.Final.jar
+[DEBUG] adding entry WEB-INF/lib/mysql-connector-j-8.0.33.jar
+[DEBUG] adding entry WEB-INF/lib/jakarta.transaction-api-2.0.1.jar
+[DEBUG] adding entry WEB-INF/lib/jaxb-runtime-4.0.2.jar
+[DEBUG] adding entry WEB-INF/lib/hibernate-commons-annotations-6.0.6.Final.jar
+[DEBUG] adding entry WEB-INF/lib/txw2-4.0.2.jar
+[DEBUG] adding entry WEB-INF/lib/protobuf-java-3.21.9.jar
+[DEBUG] adding entry WEB-INF/lib/logback-core-1.4.11.jar
+[DEBUG] adding entry WEB-INF/lib/angus-activation-2.0.0.jar
+[DEBUG] adding entry WEB-INF/lib/jakarta.inject-api-2.0.1.jar
+[DEBUG] adding entry WEB-INF/lib/jakarta.xml.bind-api-4.0.0.jar
+[DEBUG] adding entry WEB-INF/lib/jakarta.activation-api-2.1.0.jar
+[DEBUG] adding entry WEB-INF/lib/logback-classic-1.4.11.jar
+[DEBUG] adding entry WEB-INF/lib/jbcrypt-0.4.jar
+[DEBUG] adding entry WEB-INF/lib/byte-buddy-1.14.11.jar
+[DEBUG] adding entry WEB-INF/lib/jandex-3.1.2.jar
+[DEBUG] adding entry WEB-INF/lib/jaxb-core-4.0.2.jar
+[DEBUG] adding entry WEB-INF/lib/jboss-logging-3.5.0.Final.jar
+[DEBUG] adding entry WEB-INF/lib/jakarta.el-api-5.0.0.jar
+[DEBUG] adding entry WEB-INF/lib/jakarta.servlet.jsp.jstl-api-3.0.0.jar
+[DEBUG] adding entry WEB-INF/lib/jakarta.persistence-api-3.1.0.jar
+[DEBUG] adding entry WEB-INF/lib/istack-commons-runtime-4.1.1.jar
+[DEBUG] adding entry WEB-INF/lib/slf4j-api-2.0.9.jar
+[DEBUG] adding entry WEB-INF/lib/antlr4-runtime-4.13.0.jar
+[DEBUG] adding entry WEB-INF/beans.xml
+[DEBUG] adding entry WEB-INF/applicationContext.xml
+[DEBUG] adding entry css/styles.css.map
+[DEBUG] adding entry css/main.css
+[DEBUG] adding entry css/styles.css
+[DEBUG] adding entry css/bootstrap.min.css
+[DEBUG] adding entry css/main.css.map
+[DEBUG] WEB-INF/web.xml already added, skipping
+[DEBUG] adding entry META-INF/maven/com.cliproco/CliprocoJEE/pom.xml
+[DEBUG] adding entry META-INF/maven/com.cliproco/CliprocoJEE/pom.properties
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  8.442 s
+[INFO] Finished at: 2025-07-01T11:28:52+02:00
+[INFO] ------------------------------------------------------------------------
+[DEBUG] Shutting down adapter factory; available factories [file-lock, rwlock-local, semaphore-local, noop]; available name mappers [discriminating, file-gav, file-hgav, file-static, gav, static]
+[DEBUG] Shutting down 'file-lock' factory
+[DEBUG] Shutting down 'rwlock-local' factory
+[DEBUG] Shutting down 'semaphore-local' factory
+[DEBUG] Shutting down 'noop' factory

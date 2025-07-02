@@ -35,6 +35,36 @@ public class Client extends Societe {
     private List<Contrat> contrats = new ArrayList<>();
 
     /**
+     * Nom du client
+     */
+    @Column(name = "nom")
+    private String nom;
+
+    /**
+     * Prénom du client
+     */
+    @Column(name = "prenom")
+    private String prenom;
+
+    /**
+     * Date de création du client
+     */
+    @Column(name = "date_creation")
+    private java.sql.Date dateCreation;
+
+    /**
+     * Identifiant du gestionnaire
+     */
+    @Column(name = "gestionnaire_id")
+    private Integer gestionnaireId;
+
+    /**
+     * Statut du client
+     */
+    @Column(name = "statut")
+    private String statut;
+
+    /**
      * Default constructor for JPA.
      */
     public Client() {
@@ -194,4 +224,20 @@ public class Client extends Societe {
     public void addContrat(final Contrat contrat) {
         this.contrats.add(contrat);
     }
+
+    // Getters et setters pour les nouveaux champs
+    public String getNom() { return nom; }
+    public void setNom(String nom) { this.nom = nom; }
+
+    public String getPrenom() { return prenom; }
+    public void setPrenom(String prenom) { this.prenom = prenom; }
+
+    public java.sql.Date getDateCreation() { return dateCreation; }
+    public void setDateCreation(java.sql.Date dateCreation) { this.dateCreation = dateCreation; }
+
+    public Integer getGestionnaireId() { return gestionnaireId; }
+    public void setGestionnaireId(Integer gestionnaireId) { this.gestionnaireId = gestionnaireId; }
+
+    public String getStatut() { return statut; }
+    public void setStatut(String statut) { this.statut = statut; }
 }

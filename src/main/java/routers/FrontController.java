@@ -11,8 +11,22 @@ public class FrontController extends HttpServlet {
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
+        String pathInfo = request.getPathInfo();
+        String servletPath = request.getServletPath();
         String cmd = request.getParameter("cmd");
         
+        // Gestion des routes directes
+        if ("/clients".equals(servletPath)) {
+            request.getRequestDispatcher("/WEB-INF/jsp/clients.jsp").forward(request, response);
+            return;
+        }
+        
+        if ("/prospects".equals(servletPath)) {
+            request.getRequestDispatcher("/WEB-INF/jsp/prospects.jsp").forward(request, response);
+            return;
+        }
+        
+        // Gestion des routes avec paramètre cmd
         if (cmd == null || cmd.isEmpty()) {
             cmd = "index";
         }
@@ -25,7 +39,7 @@ public class FrontController extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp").forward(request, response);
                 break;
             case "signin":
-                request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/jsp/signin.jsp").forward(request, response);
                 break;
             case "clients":
                 request.getRequestDispatcher("/WEB-INF/jsp/clients.jsp").forward(request, response);

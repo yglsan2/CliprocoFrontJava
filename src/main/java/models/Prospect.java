@@ -16,6 +16,18 @@ public class Prospect extends Societe {
     @Column(name = "date_prospection", nullable = false)
     private String dateProspection;
 
+    @Column(name = "prospect_interesse")
+    private String prospectInteresse;
+
+    @Column(name = "nom")
+    private String nom;
+
+    @Column(name = "prenom")
+    private String prenom;
+
+    @Column(name = "statut")
+    private String statut;
+
     /**
      * Constructs a Prospect avec identifiant.
      *
@@ -51,6 +63,38 @@ public class Prospect extends Societe {
 
     public void setDateProspection(String dateProspection) {
         this.dateProspection = dateProspection;
+    }
+
+    public String getProspectInteresse() {
+        return prospectInteresse;
+    }
+
+    public void setProspectInteresse(String prospectInteresse) {
+        this.prospectInteresse = prospectInteresse;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public String getStatut() {
+        return statut;
+    }
+
+    public void setStatut(String statut) {
+        this.statut = statut;
     }
 
     /**

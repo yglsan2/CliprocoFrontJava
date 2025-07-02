@@ -13,13 +13,11 @@ class Clients {
 
         // Références aux éléments DOM
         this.form = document.getElementById('clientForm');
+        if (!this.form) return;
         this.tableElement = document.getElementById('clientTable')?.querySelector('tbody');
+        if (!this.tableElement) return;
         this.detailsSection = document.getElementById('clientDetails');
-
-        if (!this.form || !this.tableElement || !this.detailsSection) {
-            console.error('Éléments DOM manquants pour l\'initialisation des clients');
-            return;
-        }
+        if (!this.detailsSection) return;
 
         // Initialisation différée de la carte
         this.mapInitialized = false;
@@ -77,35 +75,35 @@ class Clients {
     }
 
     validateForm() {
-        const caInput = document.getElementById('clientCA');
-        const employesInput = document.getElementById('clientEmployes');
-
-        if (!caInput || !employesInput) {
-            console.error('Champs du formulaire manquants');
-            return false;
-        }
-
-        const ca = Number(caInput.value);
-        const employes = Number(employesInput.value);
-
-        if (ca < 0) {
-            alert('Le chiffre d\'affaires ne peut pas être négatif');
-            return false;
-        }
-
-        if (employes < 1) {
-            alert('Le nombre d\'employés doit être au moins 1');
-            return false;
-        }
-
         // Vérification des champs obligatoires
-        const requiredFields = ['clientNom', 'clientPrenom', 'clientDateNaissance', 'clientAdresse', 'clientVille', 'clientCodePostal', 'clientEmail', 'clientTel'];
+        const requiredFields = ['nom', 'prenom', 'adresse', 'codePostal', 'ville', 'pays', 'email', 'telephone'];
         for (const fieldId of requiredFields) {
             const field = document.getElementById(fieldId);
             if (!field || !field.value.trim()) {
-                alert('Tous les champs marqués d\'un astérisque sont obligatoires');
+                alert('Tous les champs sont obligatoires');
                 return false;
             }
+        }
+
+        // Validation email
+        const email = document.getElementById('email')?.value;
+        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            alert('Veuillez entrer une adresse email valide');
+            return false;
+        }
+
+        // Validation téléphone
+        const telephone = document.getElementById('telephone')?.value;
+        if (telephone && !/^\d{10}$/.test(telephone)) {
+            alert('Veuillez entrer un numéro de téléphone valide (10 chiffres)');
+            return false;
+        }
+
+        // Validation code postal
+        const codePostal = document.getElementById('codePostal')?.value;
+        if (codePostal && !/^\d{5}$/.test(codePostal)) {
+            alert('Veuillez entrer un code postal valide (5 chiffres)');
+            return false;
         }
 
         return true;
@@ -115,18 +113,14 @@ class Clients {
         try {
             const client = {
                 id: this.currentClient ? this.currentClient.id : Date.now(),
-                nom: document.getElementById('clientNom')?.value,
-                prenom: document.getElementById('clientPrenom')?.value,
-                dateNaissance: document.getElementById('clientDateNaissance')?.value,
-                age: this.calculateAge(document.getElementById('clientDateNaissance')?.value),
-                adresse: document.getElementById('clientAdresse')?.value,
-                ville: document.getElementById('clientVille')?.value,
-                codePostal: document.getElementById('clientCodePostal')?.value,
-                email: document.getElementById('clientEmail')?.value,
-                telephone: document.getElementById('clientTel')?.value,
-                raisonSociale: document.getElementById('clientRaisonSociale')?.value,
-                ca: document.getElementById('clientCA')?.value,
-                employes: document.getElementById('clientEmployes')?.value
+                nom: document.getElementById('nom')?.value,
+                prenom: document.getElementById('prenom')?.value,
+                adresse: document.getElementById('adresse')?.value,
+                ville: document.getElementById('ville')?.value,
+                codePostal: document.getElementById('codePostal')?.value,
+                pays: document.getElementById('pays')?.value,
+                email: document.getElementById('email')?.value,
+                telephone: document.getElementById('telephone')?.value
             };
 
             // Vérifier que tous les champs requis sont remplis
@@ -165,7 +159,7 @@ class Clients {
     }
 
     validateClientData(client) {
-        const requiredFields = ['nom', 'prenom', 'dateNaissance', 'adresse', 'ville', 'codePostal', 'email', 'telephone', 'ca', 'employes'];
+        const requiredFields = ['nom', 'prenom', 'adresse', 'ville', 'codePostal', 'pays', 'email', 'telephone'];
         return requiredFields.every(field => client[field] && client[field].toString().trim() !== '');
     }
 
@@ -392,3 +386,10 @@ class Clients {
 // Exporter l'instance
 const clients = new Clients();
 export default clients; 
+document.addEventListener('DOMContentLoaded', () => {
+    try {
+        new Clients();
+    } catch (e) {
+        console.error('Erreur lors de l\'initialisation des clients :', e);
+    }
+});

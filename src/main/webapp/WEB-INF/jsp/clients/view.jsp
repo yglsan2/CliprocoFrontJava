@@ -23,7 +23,7 @@
         <header>
             <h1><c:out value="${ titlePage }" /></h1>
         </header>
-        <section class="container" id="content">
+        <section id="clientDetails" class="container" id="content">
                 <span class="handlewidth">
                     Vous consultez les données actuellement disponibles pour le client :
                 </span>

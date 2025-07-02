@@ -30,3 +30,5 @@
 <script type="module" src="${pageContext.request.contextPath}/js/validation.mjs"></script>
 <!-- HTML utilities -->
 <script type="module" src="${pageContext.request.contextPath}/js/html.mjs"></script>
+<!-- Configuration -->
+<script type="module" src="${pageContext.request.contextPath}/js/config.mjs"></script>

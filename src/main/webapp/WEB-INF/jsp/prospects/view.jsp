@@ -21,7 +21,7 @@
 <main>
     <article>
         <header><h1>Consultation</h1></header>
-        <section class="container" id="content"><span class="handlewidth">Vous consultez les données actuellement disponibles pour le prospect n°1 :</span>
+        <section id="prospectDetails" class="container" id="content"><span class="handlewidth">Vous consultez les données actuellement disponibles pour le prospect n°1 :</span>
         </section>
         <form method="post">
             <input type="hidden" name="_csrf" value="${_csrf}"/>
