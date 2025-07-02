@@ -1,9 +1,42 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_2.xsd"
-             version="3.2">
-    <persistence-unit name="default">
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    Configuration JPA pour l'application CliprocoJEE
+    ================================================
+    
+    Ce fichier définit l'unité de persistance (Persistence Unit) nommée "cliprocoUP"
+    qui gère la connexion à la base de données MySQL et la configuration Hibernate.
+    
+    Auteur: Équipe CliprocoJEE
+    Version: 1.0
+    Date: 2024
+-->
+<persistence version="3.0" 
+    xmlns="https://jakarta.ee/xml/ns/persistence"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
+    
+    <!-- 
+        Unité de Persistance (Persistence Unit) pour l'application CliprocoJEE
+        =====================================================================
+        
+        Nom: cliprocoUP (Cliproco Unit of Persistence)
+        - UP = Unit of Persistence (Unité de Persistance)
+        - Cette unité définit la configuration JPA pour la base de données MySQL
+        
+        Fonctionnalités:
+        - Gestion des entités JPA (Client, Adresse, etc.)
+        - Configuration Hibernate comme provider JPA
+        - Connexion à la base MySQL locale
+        - Gestion des transactions RESOURCE_LOCAL (non-JTA)
+        
+        Utilisation:
+        - EntityManagerFactory.createEntityManagerFactory("cliprocoUP")
+        - EntityManager em = emf.createEntityManager()
+        
+        Note: RESOURCE_LOCAL signifie que les transactions sont gérées localement
+        par l'application, pas par un serveur de transactions externe (JTA).
+    -->
+    <persistence-unit name="cliprocoUP" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         
         <!-- Classes d'entités -->
@@ -11,34 +44,26 @@
         <class>models.Prospect</class>
         <class>models.Contrat</class>
         <class>models.User</class>
+        <class>models.Adresse</class>
+        <class>models.Facture</class>
+        <class>models.Produit</class>
+        <class>models.Societe</class>
+        <class>models.CalculFacture</class>
         
-        <!-- Propriétés de connexion -->
         <properties>
+            <!-- Configuration JPA générique -->
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/cliproco?createDatabaseIfNotExist=true"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://127.0.0.1/cliprocobdd?serverTimezone=UTC"/>
             <property name="jakarta.persistence.jdbc.user" value="root"/>
-            <property name="jakarta.persistence.jdbc.password" value=""/>
+            <property name="jakarta.persistence.jdbc.password" value="root"/>
             
-            <!-- Configuration Hibernate -->
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+            <!-- Configuration spécifique Hibernate -->
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             
-            <!-- Optimisations de performance -->
-            <property name="hibernate.jdbc.batch_size" value="50"/>
-            <property name="hibernate.order_inserts" value="true"/>
-            <property name="hibernate.order_updates" value="true"/>
-            <property name="hibernate.jdbc.batch_versioned_data" value="true"/>
-            
-            <!-- Configuration du pool de connexions -->
-            <property name="hibernate.c3p0.min_size" value="5"/>
-            <property name="hibernate.c3p0.max_size" value="20"/>
-            <property name="hibernate.c3p0.timeout" value="300"/>
-            <property name="hibernate.c3p0.max_statements" value="50"/>
-            <property name="hibernate.c3p0.idle_test_period" value="3000"/>
-            
-            <!-- Sécurité -->
+            <!-- Configuration de sécurité -->
             <property name="hibernate.connection.characterEncoding" value="UTF-8"/>
             <property name="hibernate.connection.useUnicode" value="true"/>
         </properties>

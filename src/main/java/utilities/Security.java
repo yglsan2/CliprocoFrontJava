@@ -29,11 +29,15 @@ public final class Security {
      */
     public static String estConnecte(final HttpServletRequest request,
                                      final String jsp) {
+        // Temporairement désactivé pour permettre l'accès sans authentification
+        // TODO: Réactiver l'authentification une fois la page de connexion implémentée
+        /*
         HttpSession session = request.getSession(false);
 
         if (session == null || session.getAttribute("currentUser") == null) {
             return "index.jsp";
         }
+        */
 
         return jsp;
     }

@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +20,7 @@
     <article>
         <header><h1>Liste des prospects</h1></header>
         <section class="container" id="content">
-            <a class="btn btn-primary float-end d-flex" href="?cmd=prospects/add">
+            <a class="btn btn-primary float-end d-flex" href="${pageContext.request.contextPath}/app?cmd=prospects.create">
                 <div class="material-symbols-outlined danger">Add</div>
                 <div class="handlewidth">Ajout d'un</div>&nbsp;prospect
             </a>
@@ -57,13 +58,13 @@
                         <td>${prospect.mail}</td>
                         <td>${prospect.dateProspection}</td>
                         <td>${prospect.prospectInteresse}</td>
-                        <td>${prospect.gestionnaireId}</td>
+                        <td>${prospect.gestionnaireId != null ? prospect.gestionnaireId : '-'}</td>
                         <td>${prospect.statut}</td>
                         <td>${prospect.commentaires}</td>
                         <td>
-                            <a href="?cmd=prospects/view&prospectId=${prospect.identifiant}" class="btn btn-info btn-sm">Afficher</a>
-                            <a href="?cmd=prospects/update&prospectId=${prospect.identifiant}" class="btn btn-warning btn-sm">Modifier</a>
-                            <a href="?cmd=prospects/delete&prospectId=${prospect.identifiant}" class="btn btn-danger btn-sm">Supprimer</a>
+                            <a href="${pageContext.request.contextPath}/app?cmd=prospects.view&prospectId=${prospect.identifiant}" class="btn btn-info btn-sm">Afficher</a>
+                            <a href="${pageContext.request.contextPath}/app?cmd=prospects.update&prospectId=${prospect.identifiant}" class="btn btn-warning btn-sm">Modifier</a>
+                            <a href="${pageContext.request.contextPath}/app?cmd=prospects.delete&prospectId=${prospect.identifiant}" class="btn btn-danger btn-sm">Supprimer</a>
                         </td>
                     </tr>
                 </c:forEach>

@@ -20,7 +20,7 @@
     </properties>
     
     <dependencies>
-        <!-- Servlet API -->
+        <!-- Servlet API - Jakarta EE 10 -->
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
@@ -28,7 +28,7 @@
             <scope>provided</scope>
         </dependency>
         
-        <!-- JSP API -->
+        <!-- JSP API - Jakarta EE 10 -->
         <dependency>
             <groupId>jakarta.servlet.jsp</groupId>
             <artifactId>jakarta.servlet.jsp-api</artifactId>
@@ -36,18 +36,23 @@
             <scope>provided</scope>
         </dependency>
         
-        <!-- JSTL -->
+        <!-- JSTL - Jakarta EE 10 -->
         <dependency>
             <groupId>jakarta.servlet.jsp.jstl</groupId>
             <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
             <version>3.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+            <version>3.0.1</version>
+        </dependency>
         
-        <!-- Hibernate Core -->
+        <!-- Hibernate Core pour Jakarta EE 10 -->
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>6.4.4.Final</version>
+            <version>6.4.1.Final</version>
         </dependency>
         
         <!-- MySQL Connector -->

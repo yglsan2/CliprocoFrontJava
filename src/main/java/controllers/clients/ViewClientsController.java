@@ -18,7 +18,7 @@ public final class ViewClientsController implements ICommand {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String jsp = "clients/view.jsp";
+        String jsp = "/WEB-INF/jsp/clients/view.jsp";
         String urlSuite = Security.estConnecte(request, jsp);
 
         if (jsp.equals(urlSuite)) {

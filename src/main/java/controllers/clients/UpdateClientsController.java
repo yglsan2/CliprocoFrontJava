@@ -29,7 +29,7 @@ public final class UpdateClientsController implements ICommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         LogManager.logInfo("Début de l'exécution de UpdateClientsController");
 
-        String jsp = "clients/view.jsp";
+        String jsp = "/WEB-INF/jsp/clients/update.jsp";
         String urlSuite = Security.estConnecte(request, jsp);
         LogManager.logInfo("URL suite après vérification de connexion: " + urlSuite);
 

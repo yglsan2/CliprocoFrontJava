@@ -24,7 +24,7 @@ public final class ListeClientsController implements ICommand {
 
         request.setAttribute("titlePage", "Liste");
         request.setAttribute("titleGroup", "Clients");
-        String jsp = "clients/list.jsp";
+        String jsp = "/WEB-INF/jsp/clients/liste.jsp";
         LogManager.logInfo("Page JSP cible: " + jsp);
 
         String urlSuite = Security.estConnecte(request, jsp);

@@ -2,9 +2,8 @@ package dao.jpa;
 
 import dao.IDAO;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
+import routers.FrontController;
 import utilities.LogManager;
 import java.util.List;
 import java.util.Optional;
@@ -18,14 +17,12 @@ import exceptions.ResourceNotFoundException;
  * @param <ID> Le type d'identifiant
  */
 public abstract class AbstractJpaDAO<T, ID> implements IDAO<T, ID> {
-    protected EntityManagerFactory emf;
     protected EntityManager em;
     protected Class<T> entityClass;
 
     public AbstractJpaDAO(Class<T> entityClass) {
         this.entityClass = entityClass;
-        this.emf = Persistence.createEntityManagerFactory("cliproco");
-        this.em = emf.createEntityManager();
+        this.em = FrontController.getEntityManager();
     }
 
     protected EntityManager getEntityManager() {
@@ -128,17 +125,8 @@ public abstract class AbstractJpaDAO<T, ID> implements IDAO<T, ID> {
     }
 
     public void close() throws DatabaseException {
-        try {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
-            if (emf != null && emf.isOpen()) {
-                emf.close();
-            }
-        } catch (Exception e) {
-            LogManager.logException("Erreur lors de la fermeture des ressources", e);
-            throw new DatabaseException("Erreur lors de la fermeture des ressources", e);
-        }
+        // L'EntityManager est géré par le FrontController
+        // Pas besoin de le fermer ici
     }
 
     @Override

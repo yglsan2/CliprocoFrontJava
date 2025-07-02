@@ -5,7 +5,10 @@
   "scripts": {
     "sass": "sass src/main/webapp/scss/main.scss:src/main/webapp/css/main.css --watch",
     "build": "sass src/main/webapp/scss/main.scss:src/main/webapp/css/main.css --style compressed",
-    "start": "npm run sass"
+    "start": "npm run sass",
+    "copy-assets": "cp node_modules/bootstrap/dist/css/bootstrap.min.css src/main/webapp/css/ && cp node_modules/bootstrap/dist/js/bootstrap.bundle.min.js src/main/webapp/js/ && cp node_modules/leaflet/dist/leaflet.css src/main/webapp/css/ && cp node_modules/leaflet/dist/leaflet.js src/main/webapp/js/",
+    "build-all": "npm run build && npm run copy-assets",
+    "dev": "npm run copy-assets && npm run sass"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.0.0",

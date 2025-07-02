@@ -1,7 +1,7 @@
 # CliprocoJEE - Application de Gestion de Clients et Prospects
 
 ## 📋 Description
-CliprocoJEE est une application Java web (MVC simple) de gestion de clients et prospects, permettant de gérer efficacement les informations des entreprises, leurs contrats et leurs interactions.
+CliprocoJEE est une application Jakarta EE (MVC simple) de gestion de clients et prospects, permettant de gérer efficacement les informations des entreprises, leurs contrats et leurs interactions.
 
 ## 🏗 Architecture
 ```mermaid

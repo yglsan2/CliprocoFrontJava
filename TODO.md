@@ -1,34 +1,56 @@
-# TODO - 18/06/2025 17:10
+# TODO - CliprocoJEE
 
-## Corrections restantes
+## Date : 2 juillet 2025
 
-1. **Adresse.java**
-   - Corriger les annotations @Max et @Min pour utiliser des valeurs constantes primitives
-   - Lignes 38 et 40
+### ✅ Tâches accomplies
+- [x] Migration Java EE → Jakarta EE 10
+- [x] Mise à jour Tomcat 11
+- [x] Mise à jour Hibernate 6
+- [x] Correction des imports javax.persistence → jakarta.persistence
+- [x] Configuration JPA avec unité de persistance "cliprocoUP"
+- [x] Correction des mappings FrontController
+- [x] Ajout des dépendances JSTL
+- [x] Correction des chemins JSP dans les contrôleurs
+- [x] Application fonctionnelle avec navigation
+- [x] Pages Clients et Prospects affichées
 
-2. **ContratBuilder.java**
-   - Déclarer/initialiser les variables manquantes :
-     - identifiant (ligne 54)
-     - idClient (ligne 115)
+### 🔧 Tâches restantes à implémenter
 
-3. **UpdateClientsController.java**
-   - Corriger le constructeur de Client (ligne 57)
-   - Gérer la conversion double vers Integer (ligne 64)
+#### CRUD Operations
+- [ ] **Corriger les actions CRUD** (Create, Read, Update, Delete)
+  - [ ] Bouton "Voir" - Afficher les détails d'un client/prospect
+  - [ ] Bouton "Modifier" - Formulaire de modification
+  - [ ] Bouton "Supprimer" - Suppression avec gestion des contraintes FK
+  - [ ] Bouton "Ajouter" - Formulaire de création
 
-4. **MetricsManager.java**
-   - Corriger les conversions long vers Integer (lignes 13, 18, 28)
-   - Utiliser Long au lieu de Integer pour les compteurs
+#### Base de données
+- [ ] **Corriger les contraintes de clés étrangères**
+  - [ ] Problème de suppression à cause des FK entre prospects et sociétés
+  - [ ] Implémenter la suppression en cascade ou validation
 
-## Notes
-- Toutes les autres conversions Long/Integer ont été effectuées
-- Les tests ont été supprimés et seront à recréer
-- Vérifier la compilation après chaque correction
+#### Données d'exemple
+- [ ] **Remplacer les données d'exemple**
+  - [ ] Créer des entreprises factices basées en Lorraine (Laxou, Nancy)
+  - [ ] Remplacer EfluidSAS, OGMI, HappiSO par des noms plus réalistes
+  - [ ] Adresses dans la région Lorraine
 
-## TODO - 2025-06-19 16:58:08
+#### Authentification
+- [ ] **Réactiver l'authentification**
+  - [ ] Implémenter la page de connexion
+  - [ ] Gérer les sessions utilisateur
+  - [ ] Contrôler l'accès aux pages
 
-- Continuer la correction des erreurs de compilation restantes (surtout sur les modèles et certains builders).
-- Vérifier la compilation sans les tests (`-DskipTests` fonctionne, mais il reste des erreurs à corriger pour une compilation complète).
-- Finaliser la migration du projet pour compatibilité Tomcat 11 (suppression CDI, validation, etc.).
-- Préparer la documentation pour la nouvelle organisation du projet (architecture MVC simple, plus de CDI, plus de validation Jakarta).
-- Notifier le changement d'organisation sur le dépôt [CliprocoFrontJava](https://github.com/yglsan2/CliprocoFrontJava).
-- Faire un push sur une branche dédiée à la migration/transition.
+#### Interface utilisateur
+- [ ] **Améliorations UX**
+  - [ ] Messages d'erreur plus clairs
+  - [ ] Validation des formulaires côté client
+  - [ ] Confirmation avant suppression
+
+### 🚀 Prochaines étapes
+1. Tester et corriger les actions CRUD
+2. Nettoyer les données d'exemple
+3. Finaliser l'authentification
+4. Tests complets de l'application
+
+---
+*Application Jakarta EE 10 fonctionnelle avec Tomcat 11 et Hibernate 6*

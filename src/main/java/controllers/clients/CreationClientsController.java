@@ -24,7 +24,7 @@ public final class CreationClientsController implements ICommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         LogManager.logInfo("Début de l'exécution de CreationClientsController");
 
-        String jsp = "clients/create.jsp";
+        String jsp = "/WEB-INF/jsp/clients/create.jsp";
         String urlSuite = Security.estConnecte(request, jsp);
         LogManager.logInfo("URL suite après vérification de connexion: " + urlSuite);
 

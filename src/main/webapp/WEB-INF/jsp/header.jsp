@@ -40,11 +40,10 @@
                         </a>
                     </li>
 
-                    <c:if test="${not empty sessionScope.currentUser}">
                     <li class="nav-item"
                         aria-label="Partie Clients">
                         <a class="nav-link active"
-                           href="?cmd=clients">
+                           href="?cmd=clients.liste">
                             <div class="material-symbols-outlined">contact_page</div>
                             <div>Clients</div>
                         </a>
@@ -52,12 +51,11 @@
                     <li class="nav-item"
                         aria-label="Partie Prospects">
                         <a class="nav-link active"
-                           href="?cmd=prospects">
+                           href="?cmd=prospects.liste">
                             <div class="material-symbols-outlined">perm_contact_calendar</div>
                             <div>Prospects</div>
                         </a>
                     </li>
-                    </c:if>
                 </ul>
 
                 <hr>

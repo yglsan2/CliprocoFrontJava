@@ -17,8 +17,8 @@
         <div class="d-flex w-100">
             <div class="d-flex">
                 <a href="${pageContext.request.contextPath}/" class="btn btn-light">Accueil</a>
-                <a href="${pageContext.request.contextPath}/clients" class="btn btn-light">Clients</a>
-                <a href="${pageContext.request.contextPath}/prospects" class="btn btn-light active">Prospects</a>
+                <a href="${pageContext.request.contextPath}/app?cmd=clients.liste" class="btn btn-light">Clients</a>
+                <a href="${pageContext.request.contextPath}/app?cmd=prospects.liste" class="btn btn-light active">Liste Prospects</a>
             </div>
             <div class="ms-auto">
                 <button id="btnAuth" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#authModal">Connexion</button>

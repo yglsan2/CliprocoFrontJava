@@ -12,7 +12,7 @@ public class DatabaseConnection {
 
     static {
         try {
-            entityManagerFactory = Persistence.createEntityManagerFactory("cliproco");
+            entityManagerFactory = Persistence.createEntityManagerFactory("cliprocoUP");
             logger.info("EntityManagerFactory créé avec succès");
         } catch (Exception e) {
             logger.error("Erreur lors de la création de l'EntityManagerFactory", e);

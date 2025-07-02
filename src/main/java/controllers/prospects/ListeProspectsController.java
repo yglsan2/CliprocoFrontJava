@@ -20,7 +20,7 @@ public final class ListeProspectsController implements ICommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.setAttribute("titlePage", "Liste");
         request.setAttribute("titleGroup", "Prospects");
-        String jsp = "prospects/list.jsp";
+        String jsp = "/WEB-INF/jsp/prospects/liste.jsp";
         String urlSuite = Security.estConnecte(request, jsp);
 
         if (jsp.equals(urlSuite)) {

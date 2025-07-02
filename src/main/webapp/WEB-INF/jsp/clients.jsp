@@ -17,7 +17,7 @@
         <div class="d-flex w-100">
             <div class="d-flex">
                 <a href="${pageContext.request.contextPath}/" class="btn btn-light">Accueil</a>
-                <a href="${pageContext.request.contextPath}/clients" class="btn btn-light active">Clients</a>
+                <a href="${pageContext.request.contextPath}/app?cmd=clients.liste" class="btn btn-light active">Liste Clients</a>
                 <a href="${pageContext.request.contextPath}/prospects" class="btn btn-light">Prospects</a>
             </div>
             <div class="ms-auto">
