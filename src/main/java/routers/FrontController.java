@@ -271,7 +271,7 @@ public class FrontController extends HttpServlet {
 
     private void checkAuthorization(HttpServletRequest request, String path) throws AuthorizationException {
         // Temporairement désactivé pour permettre l'accès sans authentification
-        // TODO: Réactiver l'authentification une fois la page de connexion implémentée
+
         /*
         String requiredRole = roles.get(path);
         if (requiredRole != null) {

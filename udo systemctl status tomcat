@@ -1,0 +1,14 @@
+○ tomcat.service - Apache Tomcat Web Application Container
+     Loaded: loaded (]8;;file://hp2/etc/systemd/system/tomcat.service\/etc/systemd/system/tomcat.service]8;;\; [0;1;38:5:185mdisabled[0m; preset: [0;1;38:5:185mdisabled[0m)
+     Active: inactive (dead)
+
+juil. 03 01:24:21 hp2 systemd[1]: Starting Apache Tomcat Web Application Container...
+juil. 03 01:24:21 hp2 startup.sh[1290662]: Tomcat started.
+juil. 03 01:24:21 hp2 systemd[1]: Started Apache Tomcat Web Application Container.
+juil. 03 01:24:25 hp2 systemd[1]: tomcat.service: Deactivated successfully.
+juil. 03 01:24:25 hp2 systemd[1]: tomcat.service: Consumed 7.978s CPU time, 114.8M memory peak.
+juil. 03 06:33:18 hp2 systemd[1]: Starting Apache Tomcat Web Application Container...
+juil. 03 06:33:18 hp2 startup.sh[1392655]: Tomcat started.
+juil. 03 06:33:18 hp2 systemd[1]: Started Apache Tomcat Web Application Container.
+juil. 03 06:33:21 hp2 systemd[1]: tomcat.service: Deactivated successfully.
+juil. 03 06:33:21 hp2 systemd[1]: tomcat.service: Consumed 7.682s CPU time, 116.4M memory peak.

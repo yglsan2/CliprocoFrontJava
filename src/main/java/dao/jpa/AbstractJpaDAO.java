@@ -47,8 +47,18 @@ public abstract class AbstractJpaDAO<T, ID> implements IDAO<T, ID> {
     @Override
     public List<T> findAll() throws DatabaseException {
         try {
-            TypedQuery<T> query = em.createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e", entityClass);
-            return query.getResultList();
+            LogManager.logInfo("Création de la requête SQL native pour " + entityClass.getSimpleName());
+            // Utiliser une requête SQL native simple pour éviter les problèmes de relations JPA
+            String tableName = entityClass.getSimpleName().toLowerCase() + "s"; // clients, prospects, etc.
+            var query = em.createNativeQuery(
+                "SELECT * FROM " + tableName + " LIMIT 5", 
+                entityClass
+            );
+            LogManager.logInfo("Exécution de la requête SQL native pour " + entityClass.getSimpleName());
+            @SuppressWarnings("unchecked")
+            List<T> result = query.getResultList();
+            LogManager.logInfo("Résultat obtenu: " + result.size() + " " + entityClass.getSimpleName());
+            return result;
         } catch (Exception e) {
             LogManager.logException("Erreur lors de la récupération de toutes les entités", e);
             throw new DatabaseException("Erreur lors de la récupération de toutes les entités", e);

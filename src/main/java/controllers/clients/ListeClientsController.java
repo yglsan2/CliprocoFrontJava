@@ -8,7 +8,7 @@ import utilities.LogManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public final class ListeClientsController implements ICommand {
     private final ClientService clientService;
@@ -31,13 +31,14 @@ public final class ListeClientsController implements ICommand {
         LogManager.logInfo("URL de redirection après vérification de sécurité: " + urlSuite);
 
         if (jsp.equals(urlSuite)) {
-            LogManager.logInfo("Récupération de la liste des clients");
+            LogManager.logInfo("Récupération des clients depuis la base de données");
             try {
-                request.setAttribute("clients", new ArrayList<>(clientService.findAll()));
-                LogManager.logInfo("Liste des clients récupérée avec succès");
+                List<Client> clients = clientService.findAll();
+                request.setAttribute("clients", clients);
+                LogManager.logInfo("Clients récupérés avec succès: " + clients.size() + " clients");
             } catch (Exception e) {
-                LogManager.logException("Erreur lors de la récupération de la liste des clients", e);
-                throw e;
+                LogManager.logError("Erreur lors de la récupération des clients: " + e.getMessage());
+                request.setAttribute("error", "Erreur lors du chargement des clients");
             }
         } else {
             LogManager.logWarning("Accès non autorisé à la liste des clients");

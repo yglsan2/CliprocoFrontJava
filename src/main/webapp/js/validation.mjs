@@ -2,8 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Validation pour le formulaire prospects
     const prospectForm = document.getElementById("prospectForm");
     if (prospectForm) {
-        prospectForm.addEventListener('submit', (event) => {
-            event.preventDefault();
+    prospectForm.addEventListener('submit', (event) => {
+        event.preventDefault();
 
             const nom = document.getElementById('nom')?.value || '';
             const prenom = document.getElementById('prenom')?.value || '';
@@ -27,25 +27,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            if (!validateEmail(email)) {
-                alert("Veuillez entrer une adresse email valide.");
-                return;
-            }
+        if (!validateEmail(email)) {
+            alert("Veuillez entrer une adresse email valide.");
+            return;
+        }
 
-            if (!validateTelephone(telephone)) {
-                alert("Veuillez entrer un numéro de téléphone valide (10 chiffres uniquement).");
-                return;
-            }
+        if (!validateTelephone(telephone)) {
+            alert("Veuillez entrer un numéro de téléphone valide (10 chiffres uniquement).");
+            return;
+        }
 
             if (!validateCodePostal(codePostal)) {
                 alert("Veuillez entrer un code postal valide (5 chiffres).");
                 return;
             }
 
-            // Si toutes les validations passent, soumettez le formulaire
+        // Si toutes les validations passent, soumettez le formulaire
             console.log("Formulaire prospect soumis avec succès !");
-            prospectForm.submit();
-        });
+        prospectForm.submit();
+    });
     }
 
     // Validation pour le formulaire clients

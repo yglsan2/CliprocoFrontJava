@@ -20,9 +20,8 @@
     <article>
         <header><h1>Liste des clients</h1></header>
         <section class="container" id="content">
-            <a class="btn btn-primary float-end d-flex" href="${pageContext.request.contextPath}/app?cmd=clients.create">
-                <div class="material-symbols-outlined danger">Add</div>
-                <div class="handlewidth">Ajout d'un</div>&nbsp;client
+            <a class="btn btn-add float-end" href="${pageContext.request.contextPath}/app?cmd=clients.create">
+                <i class="fas fa-plus"></i> Ajouter un client
             </a>
         </section>
         <table id="clientTable" class="table table-striped table-hover custom-table">
@@ -64,9 +63,16 @@
                         <td>${client.statut}</td>
                         <td>${client.commentaires}</td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/app?cmd=clients.view&clientId=${client.identifiant}" class="btn btn-info btn-sm">Voir</a>
-                            <a href="${pageContext.request.contextPath}/app?cmd=clients.update&clientId=${client.identifiant}" class="btn btn-warning btn-sm">Modifier</a>
-                            <a href="${pageContext.request.contextPath}/app?cmd=clients.delete&clientId=${client.identifiant}" class="btn btn-danger btn-sm">Supprimer</a>
+                            <a href="${pageContext.request.contextPath}/app?cmd=clients.view&id=${client.identifiant}" class="btn btn-crud-view btn-sm">
+                                <i class="fas fa-eye"></i> Voir
+                            </a>
+                            <a href="${pageContext.request.contextPath}/app?cmd=clients.update&id=${client.identifiant}" class="btn btn-crud-edit btn-sm">
+                                <i class="fas fa-edit"></i> Modifier
+                            </a>
+                            <a href="${pageContext.request.contextPath}/app?cmd=clients.delete&id=${client.identifiant}" class="btn btn-crud-delete btn-sm" 
+                               onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce client ?')">
+                                <i class="fas fa-trash"></i> Supprimer
+                            </a>
                         </td>
                     </tr>
                 </c:forEach>

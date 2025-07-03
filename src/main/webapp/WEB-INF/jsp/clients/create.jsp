@@ -4,7 +4,8 @@
 <html>
 <head>
     <title>Création d'un client</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
 </head>
 <body>
     <div class="container mt-5">
@@ -29,7 +30,7 @@
             <div class="alert alert-danger">${errorGlobal}</div>
         </c:if>
 
-        <form id="clientForm" action="${pageContext.request.contextPath}/clients/create" method="post" class="mt-4">
+        <form id="clientForm" action="${pageContext.request.contextPath}/app?cmd=clients.create" method="post" class="mt-4">
             <div class="form-group">
                 <label for="raisonSociale">Raison Sociale</label>
                 <input type="text" class="form-control" id="raisonSociale" name="raisonSociale" required>
@@ -84,13 +85,11 @@
                 <textarea class="form-control" id="commentaire" name="commentaire" rows="3"></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary">Créer</button>
-            <a href="${pageContext.request.contextPath}/clients/liste" class="btn btn-secondary">Annuler</a>
+                            <button type="submit" class="btn btn-crud-create">Créer</button>
+            <a href="${pageContext.request.contextPath}/app?cmd=clients.liste" class="btn btn-secondary">Annuler</a>
         </form>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"></script>
 </body>
 </html> 

@@ -1,0 +1,131 @@
+juil. 02, 2025 10:25:04 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:25:04.765] [INFO] Initialisation du système de logs
+juil. 02, 2025 10:25:04 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:25:04.767] [INFO] Système de logging initialisé avec succès
+juil. 02, 2025 10:25:04 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:25:04.767] [INFO] Initialisation du FrontController terminée avec succès
+juil. 02, 2025 10:27:53 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:27:53.616] [INFO] Exécution de ListeClientsController
+juil. 02, 2025 10:27:53 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:27:53.617] [INFO] Page JSP cible: /WEB-INF/jsp/clients/liste.jsp
+juil. 02, 2025 10:27:53 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:27:53.618] [INFO] URL de redirection après vérification de sécurité: /WEB-INF/jsp/clients/liste.jsp
+juil. 02, 2025 10:27:53 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:27:53.618] [INFO] Récupération de la liste des clients
+juil. 02, 2025 10:27:54 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:27:54.083] [INFO] Liste des clients récupérée avec succès
+juil. 02, 2025 10:28:17 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:28:17.790] [INFO] Début de l'exécution de CreationClientsController
+juil. 02, 2025 10:28:17 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:28:17.790] [INFO] URL suite après vérification de connexion: /WEB-INF/jsp/clients/create.jsp
+juil. 02, 2025 10:28:17 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:28:17.791] [INFO] Utilisateur connecté, préparation de la création
+juil. 02, 2025 10:28:17 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:28:17.791] [INFO] Fin de l'exécution de CreationClientsController, URL suite: /WEB-INF/jsp/clients/create.jsp
+juil. 02, 2025 10:28:21 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:28:21.879] [INFO] Début de l'exécution de CreationClientsController
+juil. 02, 2025 10:28:21 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:28:21.880] [INFO] URL suite après vérification de connexion: /WEB-INF/jsp/clients/create.jsp
+juil. 02, 2025 10:28:21 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:28:21.881] [INFO] Utilisateur connecté, préparation de la création
+juil. 02, 2025 10:28:21 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:28:21.882] [INFO] Fin de l'exécution de CreationClientsController, URL suite: /WEB-INF/jsp/clients/create.jsp
+juil. 02, 2025 10:28:28 PM utilities.LogManager logException
+GRAVE: [2025-07-02 22:28:28.981] [ERROR] Erreur lors de l'exécution de la commande - Exception: Cannot parse null string - Stack trace: java.base/java.lang.Integer.parseInt(Integer.java:624)
+java.base/java.lang.Integer.parseInt(Integer.java:778)
+controllers.clients.ViewClientsController.execute(ViewClientsController.java:28)
+routers.FrontController.executeCommand(FrontController.java:298)
+routers.FrontController.processRequest(FrontController.java:262)
+routers.FrontController.doGet(FrontController.java:234)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:130)
+org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:109)
+org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:79)
+org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:396)
+org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1773)
+org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
+org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:59)
+java.base/java.lang.Thread.run(Thread.java:1583)
+
+juil. 02, 2025 10:28:28 PM utilities.LogManager logException
+GRAVE: [2025-07-02 22:28:28.982] [ERROR] Erreur lors du traitement de la requête - Exception: Erreur lors de l'exécution de la commande - Stack trace: routers.FrontController.executeCommand(FrontController.java:306)
+routers.FrontController.processRequest(FrontController.java:262)
+routers.FrontController.doGet(FrontController.java:234)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:130)
+org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:109)
+org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:79)
+org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:396)
+org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1773)
+org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
+org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:59)
+java.base/java.lang.Thread.run(Thread.java:1583)
+
+juil. 02, 2025 10:28:28 PM utilities.LogManager logException
+GRAVE: [2025-07-02 22:28:28.982] [ERROR] Erreur lors du traitement de la requête - Exception: Erreur lors du traitement de la requête - Stack trace: routers.FrontController.processRequest(FrontController.java:268)
+routers.FrontController.doGet(FrontController.java:234)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:130)
+org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:109)
+org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:79)
+org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:396)
+org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1773)
+org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
+org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:59)
+java.base/java.lang.Thread.run(Thread.java:1583)
+
+juil. 02, 2025 10:28:33 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:28:33.870] [INFO] Début de l'exécution de UpdateClientsController
+juil. 02, 2025 10:28:33 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:28:33.874] [INFO] URL suite après vérification de connexion: /WEB-INF/jsp/clients/update.jsp
+juil. 02, 2025 10:28:33 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:28:33.874] [INFO] Utilisateur connecté, préparation de la mise à jour
+juil. 02, 2025 10:28:33 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:28:33.875] [INFO] ID du client à mettre à jour: null
+juil. 02, 2025 10:28:33 PM utilities.LogManager logWarning
+AVERTISSEMENT: [2025-07-02 22:28:33.876] [WARNING] Erreur inattendue lors du traitement de la mise à jour : Cannot parse null string
+juil. 02, 2025 10:28:33 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:28:33.876] [INFO] Fin du traitement de la mise à jour de client.
+juil. 02, 2025 10:28:33 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:28:33.877] [INFO] Fin de l'exécution de UpdateClientsController, URL suite: /WEB-INF/jsp/clients/update.jsp
+juil. 02, 2025 11:03:03 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 23:03:03.519] [INFO] EntityManager et EntityManagerFactory fermés avec succès

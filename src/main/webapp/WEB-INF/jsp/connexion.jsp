@@ -20,7 +20,7 @@
             <h1>Connexion</h1>
         </header>
         <section class="container" id="content">
-            <span class="handlewidth">Page de connexion sur Reverso.</span>
+            <span class="handlewidth">Page de connexion Cliproco - Gestion Clients & Prospects</span>
         </section>
         <form id="authForm" action="${pageContext.request.contextPath}/login" method="post">
             <fieldset class="row modal-dialog-centered">

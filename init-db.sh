@@ -1,39 +1,82 @@
 #!/bin/bash
 
-# Détection de l'OS
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    # macOS - MAMP
-    MYSQL_PATH="/Applications/MAMP/Library/bin/mysql"
-    DB_PORT="8889"
-    DB_USER="root"
-    DB_PASS="root"
-elif [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
-    # Windows - WAMP
-    MYSQL_PATH="C:/wamp64/bin/mysql/mysql8.0.31/bin/mysql.exe"
-    DB_PORT="3306"
-    DB_USER="root"
-    DB_PASS=""
-else
-    echo "Système d'exploitation non supporté"
+# Script de réinitialisation de la base de données CliprocoJEE
+# avec les nouvelles données d'entreprises rigolotes de Lorraine
+
+echo "🔄 Réinitialisation de la base de données CliprocoJEE..."
+echo "📍 Nouvelles données d'entreprises rigolotes de Lorraine (Laxou, Nancy, Metz)"
+
+# Variables de configuration
+DB_NAME="cliprocobdd"
+DB_USER="root"
+DB_PASS="password"
+MYSQL_CMD="mysql"
+
+# Vérifier si MySQL est installé
+if ! command -v $MYSQL_CMD &> /dev/null; then
+    echo "❌ MySQL n'est pas installé ou n'est pas dans le PATH"
     exit 1
 fi
 
-DB_NAME="cliproco"
+# Demander le mot de passe MySQL si nécessaire
+if [ -z "$DB_PASS" ]; then
+    echo -n "🔐 Mot de passe MySQL (laissez vide si aucun): "
+    read -s DB_PASS
+    echo
+fi
 
-# Vérifier si MySQL est disponible
-if [ ! -f "$MYSQL_PATH" ]; then
-    echo "MySQL n'est pas trouvé. Vérifiez que MAMP/WAMP est installé."
-    echo "Chemin recherché : $MYSQL_PATH"
+# Construire la commande MySQL
+if [ -z "$DB_PASS" ]; then
+    MYSQL_CMD_FULL="$MYSQL_CMD -u $DB_USER"
+else
+    MYSQL_CMD_FULL="$MYSQL_CMD -u $DB_USER -p$DB_PASS"
+fi
+
+# Vérifier la connexion à MySQL
+echo "🔍 Test de connexion à MySQL..."
+if ! $MYSQL_CMD_FULL -e "SELECT 1;" &> /dev/null; then
+    echo "❌ Impossible de se connecter à MySQL"
+    echo "   Vérifiez que MySQL est démarré et que les identifiants sont corrects"
     exit 1
 fi
 
-# Créer la base de données et exécuter le script SQL
-echo "Initialisation de la base de données..."
-"$MYSQL_PATH" -u "$DB_USER" ${DB_PASS:+-p"$DB_PASS"} -P "$DB_PORT" < src/main/resources/schema.sql
+echo "✅ Connexion MySQL réussie"
 
-if [ $? -eq 0 ]; then
-    echo "Base de données initialisée avec succès!"
-else
-    echo "Erreur lors de l'initialisation de la base de données."
-    exit 1
-fi 
+# Supprimer la base de données existante si elle existe
+echo "🗑️  Suppression de la base de données existante..."
+$MYSQL_CMD_FULL -e "DROP DATABASE IF EXISTS $DB_NAME;"
+
+# Créer la nouvelle base de données
+echo "🏗️  Création de la nouvelle base de données..."
+$MYSQL_CMD_FULL -e "CREATE DATABASE $DB_NAME CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;"
+
+# Importer les nouvelles données
+echo "📥 Import des nouvelles données d'entreprises rigolotes..."
+$MYSQL_CMD_FULL $DB_NAME < production/mysql/cliprocobdd.sql
+
+# Vérifier l'import
+echo "🔍 Vérification de l'import..."
+CLIENT_COUNT=$($MYSQL_CMD_FULL $DB_NAME -e "SELECT COUNT(*) FROM client;" -s -N)
+PROSPECT_COUNT=$($MYSQL_CMD_FULL $DB_NAME -e "SELECT COUNT(*) FROM prospect;" -s -N)
+ADDRESS_COUNT=$($MYSQL_CMD_FULL $DB_NAME -e "SELECT COUNT(*) FROM adresses;" -s -N)
+
+echo "✅ Base de données réinitialisée avec succès !"
+echo ""
+echo "📊 Statistiques des données importées :"
+echo "   🏢 Clients : $CLIENT_COUNT entreprises rigolotes"
+echo "   👥 Prospects : $PROSPECT_COUNT prospects amusants"
+echo "   📍 Adresses : $ADDRESS_COUNT adresses en Lorraine"
+echo ""
+echo "🎉 Les nouvelles entreprises incluent :"
+echo "   • Quiche Lorraine Express (Laxou)"
+echo "   • Mirabelle & Co (Nancy)"
+echo "   • Bretzel Brothers (Metz)"
+echo "   • Choucroute Royale (Nancy)"
+echo "   • Schnaps & Schnitzel (Laxou)"
+echo "   • Et bien d'autres..."
+echo ""
+echo "🔑 Identifiants de connexion :"
+echo "   Utilisateur : benja2"
+echo "   Mot de passe : (celui configuré dans la base)"
+echo ""
+echo "🚀 Vous pouvez maintenant redémarrer l'application !" 

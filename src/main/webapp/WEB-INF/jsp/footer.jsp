@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-4">
-                Done with <a href="https://getbootstrap.com">Bootstrap</a>
+                Fait avec <a href="https://getbootstrap.com">Bootstrap</a>
             </div>
             <div class="col-4">
                 <a href="?cmd=contact">Nous contacter</a>

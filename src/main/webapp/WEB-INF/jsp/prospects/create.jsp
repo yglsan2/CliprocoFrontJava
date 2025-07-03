@@ -4,7 +4,8 @@
 <html>
 <head>
     <title>Création d'un prospect</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
 </head>
 <body>
     <div class="container mt-5">
@@ -29,7 +30,7 @@
             <div class="alert alert-danger">${errorGlobal}</div>
         </c:if>
 
-        <form id="prospectForm" action="${pageContext.request.contextPath}/prospects/create" method="post" class="mt-4">
+        <form id="prospectForm" action="${pageContext.request.contextPath}/app?cmd=prospects.create" method="post" class="mt-4">
             <div class="form-group">
                 <label for="raisonSociale">Raison Sociale</label>
                 <input type="text" class="form-control" id="raisonSociale" name="raisonSociale" required>
@@ -93,8 +94,8 @@
                 </select>
             </div>
 
-            <button type="submit" class="btn btn-primary">Créer</button>
-            <a href="${pageContext.request.contextPath}/prospects/liste" class="btn btn-secondary">Annuler</a>
+                            <button type="submit" class="btn btn-crud-create">Créer</button>
+            <a href="${pageContext.request.contextPath}/app?cmd=prospects.liste" class="btn btn-secondary">Annuler</a>
         </form>
     </div>
 

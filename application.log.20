@@ -1,0 +1,222 @@
+juil. 02, 2025 5:05:54 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:05:54.692] [INFO] Initialisation du système de logs
+juil. 02, 2025 5:05:54 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:05:54.693] [INFO] Système de logging initialisé avec succès
+juil. 02, 2025 5:05:54 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:05:54.694] [INFO] Initialisation du FrontController terminée avec succès
+juil. 02, 2025 5:05:58 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:05:58.355] [INFO] Exécution de ListeClientsController
+juil. 02, 2025 5:05:58 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:05:58.358] [INFO] Page JSP cible: /WEB-INF/jsp/clients/liste.jsp
+juil. 02, 2025 5:05:58 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:05:58.359] [INFO] URL de redirection après vérification de sécurité: /WEB-INF/jsp/clients/liste.jsp
+juil. 02, 2025 5:05:58 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:05:58.360] [INFO] Récupération de la liste des clients
+juil. 02, 2025 5:05:58 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:05:58.928] [INFO] Liste des clients récupérée avec succès
+juil. 02, 2025 5:06:07 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:06:07.789] [INFO] Début de l'exécution de UpdateClientsController
+juil. 02, 2025 5:06:07 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:06:07.790] [INFO] URL suite après vérification de connexion: clients/view.jsp
+juil. 02, 2025 5:06:07 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:06:07.790] [INFO] Utilisateur connecté, préparation de la mise à jour
+juil. 02, 2025 5:06:07 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:06:07.791] [INFO] ID du client à mettre à jour: 1
+juil. 02, 2025 5:06:07 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:06:07.793] [INFO] Client trouvé: Client{idClient=null, raisonSociale='Efluid SAS', telephone='0387543400', email='contact@efluid.fr', chiffreAffaire=null, nbrEmploye=null, adresse=null, SocieteID=1}
+juil. 02, 2025 5:06:07 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:06:07.793] [INFO] Fin du traitement de la mise à jour de client.
+juil. 02, 2025 5:06:07 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:06:07.794] [INFO] Fin de l'exécution de UpdateClientsController, URL suite: clients/view.jsp
+juil. 02, 2025 5:06:11 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:06:11.184] [INFO] Suppression du client avec l'ID : 1
+juil. 02, 2025 5:06:11 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:06:11.186] [INFO] Client trouvé, suppression en cours : 1
+juil. 02, 2025 5:06:11 PM utilities.LogManager logWarning
+AVERTISSEMENT: [2025-07-02 17:06:11.303] [WARNING] Erreur inattendue lors de la suppression du client avec l'ID : 1 : Erreur lors de la suppression du client
+juil. 02, 2025 5:06:11 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:06:11.303] [INFO] Fin de la tentative de suppression de client.
+juil. 02, 2025 5:10:59 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:10:59.525] [INFO] Exécution de ListeClientsController
+juil. 02, 2025 5:10:59 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:10:59.526] [INFO] Page JSP cible: /WEB-INF/jsp/clients/liste.jsp
+juil. 02, 2025 5:10:59 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:10:59.526] [INFO] URL de redirection après vérification de sécurité: /WEB-INF/jsp/clients/liste.jsp
+juil. 02, 2025 5:10:59 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:10:59.527] [INFO] Récupération de la liste des clients
+juil. 02, 2025 5:10:59 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:10:59.546] [INFO] Liste des clients récupérée avec succès
+juil. 02, 2025 5:11:11 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:11:11.492] [INFO] Début de l'exécution de UpdateClientsController
+juil. 02, 2025 5:11:11 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:11:11.492] [INFO] URL suite après vérification de connexion: clients/view.jsp
+juil. 02, 2025 5:11:11 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:11:11.493] [INFO] Utilisateur connecté, préparation de la mise à jour
+juil. 02, 2025 5:11:11 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:11:11.493] [INFO] ID du client à mettre à jour: 1
+juil. 02, 2025 5:11:11 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:11:11.494] [INFO] Client trouvé: Client{idClient=null, raisonSociale='Efluid SAS', telephone='0387543400', email='contact@efluid.fr', chiffreAffaire=null, nbrEmploye=null, adresse=null, SocieteID=1}
+juil. 02, 2025 5:11:11 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:11:11.494] [INFO] Fin du traitement de la mise à jour de client.
+juil. 02, 2025 5:11:11 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:11:11.494] [INFO] Fin de l'exécution de UpdateClientsController, URL suite: clients/view.jsp
+juil. 02, 2025 5:11:14 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:11:14.685] [INFO] Suppression du client avec l'ID : 1
+juil. 02, 2025 5:11:14 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:11:14.686] [INFO] Client trouvé, suppression en cours : 1
+juil. 02, 2025 5:11:14 PM utilities.LogManager logWarning
+AVERTISSEMENT: [2025-07-02 17:11:14.722] [WARNING] Erreur inattendue lors de la suppression du client avec l'ID : 1 : Erreur lors de la suppression du client
+juil. 02, 2025 5:11:14 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 17:11:14.722] [INFO] Fin de la tentative de suppression de client.
+juil. 02, 2025 8:02:39 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 20:02:39.173] [INFO] Exécution de ListeClientsController
+juil. 02, 2025 8:02:39 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 20:02:39.173] [INFO] Page JSP cible: /WEB-INF/jsp/clients/liste.jsp
+juil. 02, 2025 8:02:39 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 20:02:39.173] [INFO] URL de redirection après vérification de sécurité: /WEB-INF/jsp/clients/liste.jsp
+juil. 02, 2025 8:02:39 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 20:02:39.174] [INFO] Récupération de la liste des clients
+juil. 02, 2025 8:02:39 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 20:02:39.189] [INFO] Liste des clients récupérée avec succès
+juil. 02, 2025 9:23:04 PM utilities.LogManager logException
+GRAVE: [2025-07-02 21:23:04.300] [ERROR] Erreur lors de l'exécution de la commande - Exception: Une exception s'est produite lors du traitement de [/WEB-INF/jsp/prospects/liste.jsp] à la ligne [61]
+
+58:                         <td>${prospect.mail}</td>
+59:                         <td>${prospect.dateProspection}</td>
+60:                         <td>${prospect.prospectInteresse}</td>
+61:                         <td>${prospect.gestionnaireId != null ? prospect.gestionnaireId : '-'}</td>
+62:                         <td>${prospect.statut}</td>
+63:                         <td>${prospect.commentaires}</td>
+64:                         <td>
+
+
+Stacktrace: - Stack trace: org.apache.jasper.servlet.JspServletWrapper.handleJspException(JspServletWrapper.java:573)
+org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:464)
+org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:337)
+org.apache.jasper.servlet.JspServlet.service(JspServlet.java:288)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:130)
+org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:109)
+org.apache.catalina.core.ApplicationDispatcher.invoke(ApplicationDispatcher.java:514)
+org.apache.catalina.core.ApplicationDispatcher.processRequest(ApplicationDispatcher.java:334)
+org.apache.catalina.core.ApplicationDispatcher.forward(ApplicationDispatcher.java:263)
+routers.FrontController.executeCommand(FrontController.java:302)
+routers.FrontController.processRequest(FrontController.java:262)
+routers.FrontController.doGet(FrontController.java:234)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:130)
+org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:109)
+org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:79)
+org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:396)
+org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1773)
+org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
+org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:59)
+java.base/java.lang.Thread.run(Thread.java:1583)
+
+juil. 02, 2025 9:23:04 PM utilities.LogManager logException
+GRAVE: [2025-07-02 21:23:04.301] [ERROR] Erreur lors du traitement de la requête - Exception: Erreur lors de l'exécution de la commande - Stack trace: routers.FrontController.executeCommand(FrontController.java:306)
+routers.FrontController.processRequest(FrontController.java:262)
+routers.FrontController.doGet(FrontController.java:234)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:130)
+org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:109)
+org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:79)
+org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:396)
+org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1773)
+org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
+org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:59)
+java.base/java.lang.Thread.run(Thread.java:1583)
+
+juil. 02, 2025 9:23:04 PM utilities.LogManager logException
+GRAVE: [2025-07-02 21:23:04.301] [ERROR] Erreur lors du traitement de la requête - Exception: Erreur lors du traitement de la requête - Stack trace: routers.FrontController.processRequest(FrontController.java:268)
+routers.FrontController.doGet(FrontController.java:234)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:130)
+org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:109)
+org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:79)
+org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:396)
+org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1773)
+org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:637)
+org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:59)
+java.base/java.lang.Thread.run(Thread.java:1583)
+
+juil. 02, 2025 10:13:35 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:13:35.708] [INFO] Début de l'exécution de CreationClientsController
+juil. 02, 2025 10:13:35 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:13:35.709] [INFO] URL suite après vérification de connexion: clients/create.jsp
+juil. 02, 2025 10:13:35 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:13:35.709] [INFO] Utilisateur connecté, préparation de la création
+juil. 02, 2025 10:13:35 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:13:35.710] [INFO] Fin de l'exécution de CreationClientsController, URL suite: clients/create.jsp
+juil. 02, 2025 10:22:22 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:22:22.126] [INFO] Exécution de ListeClientsController
+juil. 02, 2025 10:22:22 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:22:22.126] [INFO] Page JSP cible: /WEB-INF/jsp/clients/liste.jsp
+juil. 02, 2025 10:22:22 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:22:22.126] [INFO] URL de redirection après vérification de sécurité: /WEB-INF/jsp/clients/liste.jsp
+juil. 02, 2025 10:22:22 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:22:22.126] [INFO] Récupération de la liste des clients
+juil. 02, 2025 10:22:22 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:22:22.132] [INFO] Liste des clients récupérée avec succès
+juil. 02, 2025 10:24:12 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:24:12.943] [INFO] Exécution de ListeClientsController
+juil. 02, 2025 10:24:12 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:24:12.943] [INFO] Page JSP cible: /WEB-INF/jsp/clients/liste.jsp
+juil. 02, 2025 10:24:12 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:24:12.944] [INFO] URL de redirection après vérification de sécurité: /WEB-INF/jsp/clients/liste.jsp
+juil. 02, 2025 10:24:12 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:24:12.944] [INFO] Récupération de la liste des clients
+juil. 02, 2025 10:24:12 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:24:12.947] [INFO] Liste des clients récupérée avec succès
+juil. 02, 2025 10:24:17 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:24:17.036] [INFO] Exécution de ListeClientsController
+juil. 02, 2025 10:24:17 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:24:17.037] [INFO] Page JSP cible: /WEB-INF/jsp/clients/liste.jsp
+juil. 02, 2025 10:24:17 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:24:17.038] [INFO] URL de redirection après vérification de sécurité: /WEB-INF/jsp/clients/liste.jsp
+juil. 02, 2025 10:24:17 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:24:17.039] [INFO] Récupération de la liste des clients
+juil. 02, 2025 10:24:17 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:24:17.046] [INFO] Liste des clients récupérée avec succès
+juil. 02, 2025 10:24:59 PM utilities.LogManager logInfo
+INFOS: [2025-07-02 22:24:59.858] [INFO] EntityManager et EntityManagerFactory fermés avec succès

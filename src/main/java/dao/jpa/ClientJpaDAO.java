@@ -51,8 +51,17 @@ public class ClientJpaDAO extends GenericJpaDAO<Client, Integer> {
     public List<Client> findAll() throws DatabaseException {
         logger.debug("Récupération de tous les clients");
         try {
-            TypedQuery<Client> query = entityManager.createQuery("SELECT c FROM Client c", Client.class);
-            return query.getResultList();
+            logger.info("Création de la requête SQL native...");
+            // Utiliser une requête SQL native simple pour éviter les problèmes de relations JPA
+            var query = entityManager.createNativeQuery(
+                "SELECT identifiant, raisonSociale, telephone, mail, commentaires, chiffreAffaires, nbEmployes, idAdresse FROM clients LIMIT 5", 
+                Client.class
+            );
+            logger.info("Exécution de la requête SQL native...");
+            @SuppressWarnings("unchecked")
+            List<Client> result = query.getResultList();
+            logger.info("Résultat obtenu: " + result.size() + " clients");
+            return result;
         } catch (Exception e) {
             logger.error("Erreur lors de la récupération de tous les clients", e);
             throw new DatabaseException("Erreur lors de la récupération des clients", e);

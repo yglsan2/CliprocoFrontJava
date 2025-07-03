@@ -95,7 +95,7 @@
                 </select>
             </div>
 
-            <button type="submit" class="btn btn-primary">Modifier</button>
+                            <button type="submit" class="btn btn-crud-edit">Modifier</button>
             <a href="${pageContext.request.contextPath}/prospects/liste" class="btn btn-secondary">Annuler</a>
         </form>
     </div>

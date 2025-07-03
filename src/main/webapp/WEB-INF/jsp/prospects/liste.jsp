@@ -20,9 +20,8 @@
     <article>
         <header><h1>Liste des prospects</h1></header>
         <section class="container" id="content">
-            <a class="btn btn-primary float-end d-flex" href="${pageContext.request.contextPath}/app?cmd=prospects.create">
-                <div class="material-symbols-outlined danger">Add</div>
-                <div class="handlewidth">Ajout d'un</div>&nbsp;prospect
+            <a class="btn btn-add float-end" href="${pageContext.request.contextPath}/app?cmd=prospects.create">
+                <i class="fas fa-plus"></i> Ajouter un prospect
             </a>
         </section>
         <table id="prospectTable" class="table table-striped table-hover custom-table">
@@ -37,7 +36,6 @@
                     <th>Email</th>
                     <th>Date prospection</th>
                     <th>Intéressé</th>
-                    <th>Gestionnaire</th>
                     <th>Statut</th>
                     <th>Commentaires</th>
                     <th>Actions</th>
@@ -58,19 +56,25 @@
                         <td>${prospect.mail}</td>
                         <td>${prospect.dateProspection}</td>
                         <td>${prospect.prospectInteresse}</td>
-                        <td>${prospect.gestionnaireId != null ? prospect.gestionnaireId : '-'}</td>
                         <td>${prospect.statut}</td>
                         <td>${prospect.commentaires}</td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/app?cmd=prospects.view&prospectId=${prospect.identifiant}" class="btn btn-info btn-sm">Afficher</a>
-                            <a href="${pageContext.request.contextPath}/app?cmd=prospects.update&prospectId=${prospect.identifiant}" class="btn btn-warning btn-sm">Modifier</a>
-                            <a href="${pageContext.request.contextPath}/app?cmd=prospects.delete&prospectId=${prospect.identifiant}" class="btn btn-danger btn-sm">Supprimer</a>
+                                                        <a href="${pageContext.request.contextPath}/app?cmd=prospects.view&id=${prospect.identifiant}" class="btn btn-crud-view btn-sm">
+                                <i class="fas fa-eye"></i> Voir
+                            </a>
+                            <a href="${pageContext.request.contextPath}/app?cmd=prospects.update&id=${prospect.identifiant}" class="btn btn-crud-edit btn-sm">
+                                <i class="fas fa-edit"></i> Modifier
+                            </a>
+                            <a href="${pageContext.request.contextPath}/app?cmd=prospects.delete&id=${prospect.identifiant}" class="btn btn-crud-delete btn-sm"
+                               onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce prospect ?')">
+                                <i class="fas fa-trash"></i> Supprimer
+                            </a>
                         </td>
                     </tr>
                 </c:forEach>
                 <c:if test="${empty prospects}">
                     <tr>
-                        <td colspan="13" class="text-center">Aucun prospect trouvé.</td>
+                        <td colspan="12" class="text-center">Aucun prospect trouvé.</td>
                     </tr>
                 </c:if>
             </tbody>

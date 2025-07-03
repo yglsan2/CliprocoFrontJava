@@ -24,7 +24,7 @@ public final class ViewClientsController implements ICommand {
         if (jsp.equals(urlSuite)) {
             request.setAttribute("titlePage", "Consultation");
             request.setAttribute("titleGroup", "Clients");
-            String clientId = request.getParameter("clientId");
+            String clientId = request.getParameter("id");
             Optional<Client> client = clientService.findById(Integer.parseInt(clientId));
             client.ifPresent(c -> request.setAttribute("client", c));
         }

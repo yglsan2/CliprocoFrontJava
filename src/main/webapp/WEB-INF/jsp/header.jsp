@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <a class="navbar-brand"
                href="?cmd=index">
-                Reverso
+                Cliproco
             </a>
             <button class="navbar-toggler"
                     aria-label="navbar-toggler"
@@ -20,7 +20,7 @@
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title"
                     id="offcanvasNavbarLabel">
-                    Reverso
+                    Cliproco
                 </h5>
                 <button class="btn-close"
                         aria-label="Close"
@@ -35,8 +35,7 @@
                         aria-label="Page d'accueil">
                         <a class="nav-link active"
                            href="?cmd=index">
-                            <div class="material-symbols-outlined">home</div>
-                            <div>Accueil</div>
+                            Accueil
                         </a>
                     </li>
 
@@ -44,16 +43,14 @@
                         aria-label="Partie Clients">
                         <a class="nav-link active"
                            href="?cmd=clients.liste">
-                            <div class="material-symbols-outlined">contact_page</div>
-                            <div>Clients</div>
+                            Clients
                         </a>
                     </li>
                     <li class="nav-item"
                         aria-label="Partie Prospects">
                         <a class="nav-link active"
                            href="?cmd=prospects.liste">
-                            <div class="material-symbols-outlined">perm_contact_calendar</div>
-                            <div>Prospects</div>
+                            Prospects
                         </a>
                     </li>
                 </ul>

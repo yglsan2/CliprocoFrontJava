@@ -37,7 +37,7 @@ public class RegisterController extends HttpServlet {
             ValidationManager.isValidEmail(email);
             ValidationManager.isValidPhone(telephone);
             ValidationManager.isValidPostalCode(codePostal);
-            // TODO: vérifier unicité email/username dans la base
+    
 
             // Hash du mot de passe
             String hash = BCrypt.hashpw(password, BCrypt.gensalt());

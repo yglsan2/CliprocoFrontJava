@@ -89,7 +89,7 @@
                 <textarea class="form-control" id="commentaire" name="commentaire" rows="3">${client.commentaire}</textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary">Modifier</button>
+                            <button type="submit" class="btn btn-crud-edit">Modifier</button>
             <a href="${pageContext.request.contextPath}/clients/liste" class="btn btn-secondary">Annuler</a>
         </form>
     </div>
