@@ -1,84 +1,189 @@
-juil. 03, 2025 1:34:41 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 01:34:41.834] [INFO] Initialisation du système de logs
-[2025-07-03 01:34:41.834] [INFO] Initialisation du système de logs
-juil. 03, 2025 1:34:41 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 01:34:41.836] [INFO] Système de logging initialisé avec succès
-[2025-07-03 01:34:41.836] [INFO] Système de logging initialisé avec succès
-juil. 03, 2025 1:34:41 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 01:34:41.837] [INFO] Initialisation du FrontController terminée avec succès
-[2025-07-03 01:34:41.837] [INFO] Initialisation du FrontController terminée avec succès
-juil. 03, 2025 1:34:51 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 01:34:51.120] [INFO] Exécution de ListeClientsController
-[2025-07-03 01:34:51.120] [INFO] Exécution de ListeClientsController
-juil. 03, 2025 1:34:51 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 01:34:51.122] [INFO] Page JSP cible: /WEB-INF/jsp/clients/liste.jsp
-[2025-07-03 01:34:51.122] [INFO] Page JSP cible: /WEB-INF/jsp/clients/liste.jsp
-juil. 03, 2025 1:34:51 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 01:34:51.124] [INFO] URL de redirection après vérification de sécurité: /WEB-INF/jsp/clients/liste.jsp
-[2025-07-03 01:34:51.124] [INFO] URL de redirection après vérification de sécurité: /WEB-INF/jsp/clients/liste.jsp
-juil. 03, 2025 1:34:51 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 01:34:51.125] [INFO] Récupération de la liste des clients
-[2025-07-03 01:34:51.125] [INFO] Récupération de la liste des clients
-juil. 03, 2025 1:34:51 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 01:34:51.729] [INFO] Liste des clients récupérée avec succès
-[2025-07-03 01:34:51.729] [INFO] Liste des clients récupérée avec succès
-juil. 03, 2025 1:35:13 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 01:35:13.393] [INFO] Exécution de ListeClientsController
-[2025-07-03 01:35:13.393] [INFO] Exécution de ListeClientsController
-juil. 03, 2025 1:35:13 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 01:35:13.394] [INFO] Page JSP cible: /WEB-INF/jsp/clients/liste.jsp
-[2025-07-03 01:35:13.394] [INFO] Page JSP cible: /WEB-INF/jsp/clients/liste.jsp
-juil. 03, 2025 1:35:13 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 01:35:13.396] [INFO] URL de redirection après vérification de sécurité: /WEB-INF/jsp/clients/liste.jsp
-[2025-07-03 01:35:13.396] [INFO] URL de redirection après vérification de sécurité: /WEB-INF/jsp/clients/liste.jsp
-juil. 03, 2025 1:35:13 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 01:35:13.397] [INFO] Récupération de la liste des clients
-[2025-07-03 01:35:13.397] [INFO] Récupération de la liste des clients
-juil. 03, 2025 1:35:13 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 01:35:13.411] [INFO] Liste des clients récupérée avec succès
-[2025-07-03 01:35:13.411] [INFO] Liste des clients récupérée avec succès
-juil. 03, 2025 1:35:16 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 01:35:16.058] [INFO] Début de l'exécution de CreationClientsController
-[2025-07-03 01:35:16.058] [INFO] Début de l'exécution de CreationClientsController
-juil. 03, 2025 1:35:16 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 01:35:16.061] [INFO] URL suite après vérification de connexion: /WEB-INF/jsp/clients/create.jsp
-[2025-07-03 01:35:16.061] [INFO] URL suite après vérification de connexion: /WEB-INF/jsp/clients/create.jsp
-juil. 03, 2025 1:35:16 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 01:35:16.062] [INFO] Utilisateur connecté, préparation de la création
-[2025-07-03 01:35:16.062] [INFO] Utilisateur connecté, préparation de la création
-juil. 03, 2025 1:35:16 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 01:35:16.063] [INFO] Fin de l'exécution de CreationClientsController, URL suite: /WEB-INF/jsp/clients/create.jsp
-[2025-07-03 01:35:16.063] [INFO] Fin de l'exécution de CreationClientsController, URL suite: /WEB-INF/jsp/clients/create.jsp
-juil. 03, 2025 6:25:14 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 06:25:14.131] [INFO] Exécution de ListeClientsController
-[2025-07-03 06:25:14.131] [INFO] Exécution de ListeClientsController
-juil. 03, 2025 6:25:14 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 06:25:14.133] [INFO] Page JSP cible: /WEB-INF/jsp/clients/liste.jsp
-[2025-07-03 06:25:14.133] [INFO] Page JSP cible: /WEB-INF/jsp/clients/liste.jsp
-juil. 03, 2025 6:25:14 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 06:25:14.134] [INFO] URL de redirection après vérification de sécurité: /WEB-INF/jsp/clients/liste.jsp
-[2025-07-03 06:25:14.134] [INFO] URL de redirection après vérification de sécurité: /WEB-INF/jsp/clients/liste.jsp
-juil. 03, 2025 6:25:14 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 06:25:14.134] [INFO] Récupération de la liste des clients
-[2025-07-03 06:25:14.134] [INFO] Récupération de la liste des clients
-juil. 03, 2025 6:25:14 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 06:25:14.139] [INFO] Liste des clients récupérée avec succès
-[2025-07-03 06:25:14.139] [INFO] Liste des clients récupérée avec succès
-juil. 03, 2025 6:26:50 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 06:26:50.069] [INFO] Exécution de ListeClientsController
-[2025-07-03 06:26:50.069] [INFO] Exécution de ListeClientsController
-juil. 03, 2025 6:26:50 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 06:26:50.070] [INFO] Page JSP cible: /WEB-INF/jsp/clients/liste.jsp
-[2025-07-03 06:26:50.070] [INFO] Page JSP cible: /WEB-INF/jsp/clients/liste.jsp
-juil. 03, 2025 6:26:50 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 06:26:50.071] [INFO] URL de redirection après vérification de sécurité: /WEB-INF/jsp/clients/liste.jsp
-[2025-07-03 06:26:50.071] [INFO] URL de redirection après vérification de sécurité: /WEB-INF/jsp/clients/liste.jsp
-juil. 03, 2025 6:26:50 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 06:26:50.071] [INFO] Récupération de la liste des clients
-[2025-07-03 06:26:50.071] [INFO] Récupération de la liste des clients
-juil. 03, 2025 6:26:50 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 06:26:50.077] [INFO] Liste des clients récupérée avec succès
-[2025-07-03 06:26:50.077] [INFO] Liste des clients récupérée avec succès
-juil. 03, 2025 6:33:21 AM utilities.LogManager logInfo
-INFOS: [2025-07-03 06:33:21.458] [INFO] EntityManager et EntityManagerFactory fermés avec succès
-[2025-07-03 06:33:21.458] [INFO] EntityManager et EntityManagerFactory fermés avec succès
+juil. 03, 2025 8:32:22 AM utilities.LogManager logInfo
+INFOS: [2025-07-03 08:32:22.508] [INFO] Initialisation du système de logs
+[2025-07-03 08:32:22.508] [INFO] Initialisation du système de logs
+juil. 03, 2025 8:32:22 AM utilities.LogManager logInfo
+INFOS: [2025-07-03 08:32:22.510] [INFO] Système de logging initialisé avec succès
+[2025-07-03 08:32:22.510] [INFO] Système de logging initialisé avec succès
+juil. 03, 2025 8:32:22 AM utilities.LogManager logInfo
+INFOS: [2025-07-03 08:32:22.511] [INFO] Initialisation du FrontController terminée avec succès
+[2025-07-03 08:32:22.511] [INFO] Initialisation du FrontController terminée avec succès
+juil. 03, 2025 8:32:51 AM utilities.LogManager logInfo
+INFOS: [2025-07-03 08:32:51.954] [INFO] Exécution de ListeClientsController
+[2025-07-03 08:32:51.954] [INFO] Exécution de ListeClientsController
+juil. 03, 2025 8:32:51 AM utilities.LogManager logInfo
+INFOS: [2025-07-03 08:32:51.958] [INFO] Page JSP cible: /WEB-INF/jsp/clients/liste.jsp
+[2025-07-03 08:32:51.958] [INFO] Page JSP cible: /WEB-INF/jsp/clients/liste.jsp
+juil. 03, 2025 8:32:51 AM utilities.LogManager logInfo
+INFOS: [2025-07-03 08:32:51.959] [INFO] URL de redirection après vérification de sécurité: /WEB-INF/jsp/clients/liste.jsp
+[2025-07-03 08:32:51.959] [INFO] URL de redirection après vérification de sécurité: /WEB-INF/jsp/clients/liste.jsp
+juil. 03, 2025 8:32:51 AM utilities.LogManager logInfo
+INFOS: [2025-07-03 08:32:51.964] [INFO] Création de données de test en dur
+[2025-07-03 08:32:51.964] [INFO] Création de données de test en dur
+juil. 03, 2025 8:32:51 AM utilities.LogManager logInfo
+INFOS: [2025-07-03 08:32:51.968] [INFO] Données de test créées: 5 clients
+[2025-07-03 08:32:51.968] [INFO] Données de test créées: 5 clients
+juil. 03, 2025 8:33:31 AM utilities.LogManager logException
+GRAVE: [2025-07-03 08:33:31.748] [ERROR] Erreur lors de l'exécution de la commande - Exception: For input string: "" - Stack trace: java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)
+java.base/java.lang.Integer.parseInt(Integer.java:672)
+java.base/java.lang.Integer.parseInt(Integer.java:778)
+controllers.clients.ViewClientsController.execute(ViewClientsController.java:28)
+routers.FrontController.executeCommand(FrontController.java:298)
+routers.FrontController.processRequest(FrontController.java:262)
+routers.FrontController.doGet(FrontController.java:234)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:619)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:716)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:141)
+org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:120)
+org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:673)
+org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:389)
+org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
+org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:636)
+org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+java.base/java.lang.Thread.run(Thread.java:1583)
+
+[2025-07-03 08:33:31.748] [ERROR] Erreur lors de l'exécution de la commande - Exception: For input string: "" - Stack trace: java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)
+java.base/java.lang.Integer.parseInt(Integer.java:672)
+java.base/java.lang.Integer.parseInt(Integer.java:778)
+controllers.clients.ViewClientsController.execute(ViewClientsController.java:28)
+routers.FrontController.executeCommand(FrontController.java:298)
+routers.FrontController.processRequest(FrontController.java:262)
+routers.FrontController.doGet(FrontController.java:234)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:619)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:716)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:141)
+org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:120)
+org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:673)
+org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:389)
+org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
+org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:636)
+org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+java.base/java.lang.Thread.run(Thread.java:1583)
+
+juil. 03, 2025 8:33:31 AM utilities.LogManager logException
+GRAVE: [2025-07-03 08:33:31.749] [ERROR] Erreur lors du traitement de la requête - Exception: Erreur lors de l'exécution de la commande - Stack trace: routers.FrontController.executeCommand(FrontController.java:306)
+routers.FrontController.processRequest(FrontController.java:262)
+routers.FrontController.doGet(FrontController.java:234)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:619)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:716)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:141)
+org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:120)
+org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:673)
+org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:389)
+org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
+org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:636)
+org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+java.base/java.lang.Thread.run(Thread.java:1583)
+
+[2025-07-03 08:33:31.749] [ERROR] Erreur lors du traitement de la requête - Exception: Erreur lors de l'exécution de la commande - Stack trace: routers.FrontController.executeCommand(FrontController.java:306)
+routers.FrontController.processRequest(FrontController.java:262)
+routers.FrontController.doGet(FrontController.java:234)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:619)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:716)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:141)
+org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:120)
+org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:673)
+org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:389)
+org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
+org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:636)
+org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+java.base/java.lang.Thread.run(Thread.java:1583)
+
+juil. 03, 2025 8:33:31 AM utilities.LogManager logException
+GRAVE: [2025-07-03 08:33:31.750] [ERROR] Erreur lors du traitement de la requête - Exception: Erreur lors du traitement de la requête - Stack trace: routers.FrontController.processRequest(FrontController.java:268)
+routers.FrontController.doGet(FrontController.java:234)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:619)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:716)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:141)
+org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:120)
+org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:673)
+org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:389)
+org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
+org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:636)
+org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+java.base/java.lang.Thread.run(Thread.java:1583)
+
+[2025-07-03 08:33:31.750] [ERROR] Erreur lors du traitement de la requête - Exception: Erreur lors du traitement de la requête - Stack trace: routers.FrontController.processRequest(FrontController.java:268)
+routers.FrontController.doGet(FrontController.java:234)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:619)
+jakarta.servlet.http.HttpServlet.service(HttpServlet.java:716)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:141)
+org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:120)
+org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:673)
+org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:389)
+org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
+org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:636)
+org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+java.base/java.lang.Thread.run(Thread.java:1583)
+

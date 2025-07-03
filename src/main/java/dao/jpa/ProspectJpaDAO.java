@@ -42,6 +42,25 @@ public class ProspectJpaDAO extends AbstractJpaDAO<Prospect, Integer> implements
     }
 
     @Override
+    public List<Prospect> findAll() throws DatabaseException {
+        logger.debug("Récupération de tous les prospects");
+        try {
+            logger.info("Création de la requête JPQL...");
+            TypedQuery<Prospect> query = entityManager.createQuery(
+                "SELECT p FROM Prospect p", 
+                Prospect.class
+            );
+            logger.info("Exécution de la requête JPQL...");
+            List<Prospect> result = query.getResultList();
+            logger.info("Résultat obtenu: " + result.size() + " prospects");
+            return result;
+        } catch (Exception e) {
+            logger.error("Erreur lors de la récupération de tous les prospects", e);
+            throw new DatabaseException("Erreur lors de la récupération des prospects", e);
+        }
+    }
+
+    @Override
     public Prospect save(Prospect entity) throws ValidationException, DatabaseException {
         logger.debug("Sauvegarde d'un nouveau prospect");
         try {
