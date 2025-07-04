@@ -18,6 +18,9 @@
                 </div>
                 <div class="card-body">
                     <form id="registerForm" action="${pageContext.request.contextPath}/register" method="post">
+                        <!-- Token CSRF pour la sécurité -->
+                        <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
+                        
                         <div class="mb-3">
                             <label class="form-label">Je m'inscris en tant que :</label><br>
                             <div class="form-check form-check-inline">

@@ -7,10 +7,12 @@ import services.ClientService;
 import services.ProspectService;
 import utilities.ValidationManager;
 import utilities.LogManager;
+import utilities.Security;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import org.mindrot.jbcrypt.BCrypt;
 import exceptions.ValidationException;
@@ -21,6 +23,19 @@ public class RegisterController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        
+        // Vérification du token CSRF
+        HttpSession session = req.getSession(false);
+        String formToken = req.getParameter("csrfToken");
+        String sessionToken = Security.getCSRFToken(session);
+        
+        if (!Security.verifyCSRFToken(sessionToken, formToken)) {
+            LogManager.logWarning("Token CSRF invalide lors de l'inscription");
+            req.setAttribute("errorGlobal", "Erreur de sécurité : token CSRF invalide");
+            req.getRequestDispatcher("/WEB-INF/jsp/signin.jsp").forward(req, resp);
+            return;
+        }
+        
         String userType = req.getParameter("userType");
         String username = req.getParameter("username");
         String email = req.getParameter("email");

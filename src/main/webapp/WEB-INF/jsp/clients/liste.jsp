@@ -66,10 +66,14 @@
                             <a href="${pageContext.request.contextPath}/app?cmd=clients.update&id=${client.identifiant}" class="btn btn-crud-edit btn-sm">
                                 <i class="fas fa-edit"></i> Modifier
                             </a>
-                            <a href="${pageContext.request.contextPath}/app?cmd=clients.delete&id=${client.identifiant}" class="btn btn-crud-delete btn-sm" 
-                               onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce client ?')">
-                                <i class="fas fa-trash"></i> Supprimer
-                            </a>
+                            <form method="post" action="${pageContext.request.contextPath}/app?cmd=clients.delete" style="display: inline;">
+                                <input type="hidden" name="id" value="${client.identifiant}">
+                                <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
+                                <button type="submit" class="btn btn-crud-delete btn-sm" 
+                                        onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce client ?')">
+                                    <i class="fas fa-trash"></i> Supprimer
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 </c:forEach>

@@ -265,6 +265,12 @@ public class FrontController extends HttpServlet {
             path = "/";
         }
 
+        // Génération du token CSRF pour les formulaires
+        HttpSession session = request.getSession();
+        if (session.getAttribute("csrfToken") == null) {
+            Security.generateAndStoreCSRFToken(session);
+        }
+
         try {
             checkAuthorization(request, path);
             executeCommand(request, response, path);
@@ -278,9 +284,6 @@ public class FrontController extends HttpServlet {
     }
 
     private void checkAuthorization(HttpServletRequest request, String path) throws AuthorizationException {
-        // Temporairement désactivé pour permettre l'accès sans authentification
-
-        /*
         String requiredRole = roles.get(path);
         if (requiredRole != null) {
             HttpSession session = request.getSession(false);
@@ -292,7 +295,6 @@ public class FrontController extends HttpServlet {
                 throw new AuthorizationException("Rôle insuffisant");
             }
         }
-        */
     }
 
     private void executeCommand(HttpServletRequest request, HttpServletResponse response, String path) throws ServletException, IOException {

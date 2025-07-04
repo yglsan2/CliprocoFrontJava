@@ -17,9 +17,9 @@ import java.util.Optional;
 
 @WebServlet(name = "ConnexionController", urlPatterns = {"/connexion"})
 public class ConnexionController extends HttpServlet {
-    private static final String LOGIN_PAGE = "/WEB-INF/views/login.jsp";
-    private static final String HOME_PAGE = "/WEB-INF/views/home.jsp";
-    private static final String ERROR_PAGE = "/WEB-INF/views/error.jsp";
+    private static final String LOGIN_PAGE = "/WEB-INF/jsp/connexion.jsp";
+    private static final String HOME_PAGE = "/WEB-INF/jsp/index.jsp";
+    private static final String ERROR_PAGE = "/WEB-INF/jsp/error.jsp";
 
     private final IDAO<User, Integer> userDAO;
 
@@ -70,6 +70,13 @@ public class ConnexionController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
+        
+        // Génération du token CSRF pour le formulaire de connexion
+        HttpSession session = request.getSession();
+        if (session.getAttribute("csrfToken") == null) {
+            Security.generateAndStoreCSRFToken(session);
+        }
+        
         request.getRequestDispatcher(LOGIN_PAGE).forward(request, response);
     }
 }

@@ -44,6 +44,8 @@
     <c:if test="${not empty client}">
         <form id="clientForm" action="${pageContext.request.contextPath}/app?cmd=clients.update" method="post" class="mt-4">
             <input type="hidden" name="id" value="${client.identifiant}">
+            <!-- Token CSRF pour la sécurité -->
+            <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
             
             <div class="row">
                 <div class="col-md-6">

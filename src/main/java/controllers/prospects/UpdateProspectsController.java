@@ -6,6 +6,8 @@ import models.Prospect;
 import models.Adresse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import utilities.Security;
 import java.util.logging.Logger;
 
 public final class UpdateProspectsController implements ICommand {
@@ -44,6 +46,18 @@ public final class UpdateProspectsController implements ICommand {
             // Si on reçoit un formulaire à traiter
             if (request.getMethod().equals("POST")) {
                 LOGGER.info("Traitement du formulaire POST de mise à jour");
+
+                // Vérification du token CSRF
+                HttpSession session = request.getSession(false);
+                String formToken = request.getParameter("csrfToken");
+                String sessionToken = Security.getCSRFToken(session);
+                
+                if (!Security.verifyCSRFToken(sessionToken, formToken)) {
+                    LOGGER.warning("Token CSRF invalide lors de la modification d'un prospect");
+                    request.setAttribute("errorGlobal", "Erreur de sécurité : token CSRF invalide");
+                    request.setAttribute("prospect", prospect);
+                    return "/WEB-INF/jsp/prospects/update.jsp";
+                }
 
                 try {
                     // Mise à jour du prospect

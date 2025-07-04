@@ -42,6 +42,9 @@
     </c:if>
 
     <form id="clientForm" action="${pageContext.request.contextPath}/app?cmd=clients.create" method="post" class="mt-4">
+        <!-- Token CSRF pour la sécurité -->
+        <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
+        
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group mb-3">

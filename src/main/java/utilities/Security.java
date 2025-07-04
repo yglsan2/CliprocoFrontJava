@@ -33,15 +33,11 @@ public final class Security {
      */
     public static String estConnecte(final HttpServletRequest request,
                                      final String jsp) {
-        // Temporairement désactivé pour permettre l'accès sans authentification
-
-        /*
         HttpSession session = request.getSession(false);
 
         if (session == null || session.getAttribute("currentUser") == null) {
             return "index.jsp";
         }
-        */
 
         return jsp;
     }
@@ -77,7 +73,7 @@ public final class Security {
             
             return salt + ":" + hashString;
         } catch (NoSuchAlgorithmException e) {
-            LogManager.logException("Erreur lors du hashage du mot de passe", e);
+            System.err.println("Erreur lors du hashage du mot de passe: " + e.getMessage());
             throw new RuntimeException("Erreur lors du hashage du mot de passe", e);
         }
     }
@@ -111,8 +107,52 @@ public final class Security {
             
             return hash.equals(computedHashString);
         } catch (NoSuchAlgorithmException e) {
-            LogManager.logException("Erreur lors de la vérification du mot de passe", e);
+            System.err.println("Erreur lors de la vérification du mot de passe: " + e.getMessage());
             return false;
         }
+    }
+
+    /**
+     * Génère un token CSRF sécurisé.
+     * @return String token CSRF
+     */
+    public static String generateCSRFToken() {
+        SecureRandom random = new SecureRandom();
+        byte[] tokenBytes = new byte[32];
+        random.nextBytes(tokenBytes);
+        return Base64.getEncoder().encodeToString(tokenBytes);
+    }
+
+    /**
+     * Vérifie si un token CSRF est valide.
+     * @param sessionToken Le token stocké en session
+     * @param formToken Le token envoyé par le formulaire
+     * @return boolean true si les tokens correspondent
+     */
+    public static boolean verifyCSRFToken(String sessionToken, String formToken) {
+        if (sessionToken == null || formToken == null) {
+            return false;
+        }
+        return sessionToken.equals(formToken);
+    }
+
+    /**
+     * Génère et stocke un token CSRF en session.
+     * @param session La session HTTP
+     * @return String le token généré
+     */
+    public static String generateAndStoreCSRFToken(HttpSession session) {
+        String token = generateCSRFToken();
+        session.setAttribute("csrfToken", token);
+        return token;
+    }
+
+    /**
+     * Récupère le token CSRF de la session.
+     * @param session La session HTTP
+     * @return String le token ou null s'il n'existe pas
+     */
+    public static String getCSRFToken(HttpSession session) {
+        return (String) session.getAttribute("csrfToken");
     }
 }

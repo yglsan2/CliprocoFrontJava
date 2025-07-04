@@ -5,6 +5,8 @@ import dao.jpa.ProspectJpaDAO;
 import models.Prospect;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import utilities.Security;
 import java.util.logging.Logger;
 
 public final class DeleteProspectsController implements ICommand {
@@ -13,6 +15,19 @@ public final class DeleteProspectsController implements ICommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOGGER.info("Exécution de DeleteProspectsController");
+
+        // Vérification du token CSRF pour les requêtes POST
+        if (request.getMethod().equals("POST")) {
+            HttpSession session = request.getSession(false);
+            String formToken = request.getParameter("csrfToken");
+            String sessionToken = Security.getCSRFToken(session);
+            
+            if (!Security.verifyCSRFToken(sessionToken, formToken)) {
+                LOGGER.warning("Token CSRF invalide lors de la suppression d'un prospect");
+                request.setAttribute("error", "Erreur de sécurité : token CSRF invalide");
+                return "redirect:?cmd=prospects.liste";
+            }
+        }
 
         // Instanciation de la DAO
         ProspectJpaDAO prospectDAO = new ProspectJpaDAO();

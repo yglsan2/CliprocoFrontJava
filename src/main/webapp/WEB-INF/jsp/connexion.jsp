@@ -23,6 +23,9 @@
             <span class="handlewidth">Page de connexion Cliproco - Gestion Clients & Prospects</span>
         </section>
         <form id="authForm" action="${pageContext.request.contextPath}/login" method="post">
+            <!-- Token CSRF pour la sécurité -->
+            <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
+            
             <fieldset class="row modal-dialog-centered">
                 <ul class="banner-alert" id="bannerAlert">
                     <c:forEach var="violation" items="${violations}"

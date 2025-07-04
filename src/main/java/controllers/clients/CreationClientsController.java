@@ -7,6 +7,8 @@ import models.Client;
 import models.Adresse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import utilities.Security;
 import java.util.logging.Logger;
 
 public final class CreationClientsController implements ICommand {
@@ -23,6 +25,17 @@ public final class CreationClientsController implements ICommand {
         // Si on reçoit un formulaire à traiter
         if (request.getMethod().equals("POST")) {
             LOGGER.info("Traitement du formulaire POST");
+
+            // Vérification du token CSRF
+            HttpSession session = request.getSession(false);
+            String formToken = request.getParameter("csrfToken");
+            String sessionToken = Security.getCSRFToken(session);
+            
+            if (!Security.verifyCSRFToken(sessionToken, formToken)) {
+                LOGGER.warning("Token CSRF invalide lors de la création d'un client");
+                request.setAttribute("errorGlobal", "Erreur de sécurité : token CSRF invalide");
+                return "/WEB-INF/jsp/clients/create.jsp";
+            }
 
             try {
                 // Vérification des paramètres obligatoires

@@ -2,10 +2,13 @@ package controllers.prospects;
 
 import controllers.ICommand;
 import dao.jpa.ProspectJpaDAO;
+import dao.jpa.AdresseJpaDAO;
 import models.Prospect;
 import models.Adresse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import utilities.Security;
 import java.util.logging.Logger;
 
 public final class CreationProspectsController implements ICommand {
@@ -17,10 +20,22 @@ public final class CreationProspectsController implements ICommand {
 
         // Instanciation de la DAO
         ProspectJpaDAO prospectDAO = new ProspectJpaDAO();
+        AdresseJpaDAO adresseDAO = new AdresseJpaDAO();
 
         // Si on reçoit un formulaire à traiter
         if (request.getMethod().equals("POST")) {
             LOGGER.info("Traitement du formulaire POST");
+
+            // Vérification du token CSRF
+            HttpSession session = request.getSession(false);
+            String formToken = request.getParameter("csrfToken");
+            String sessionToken = Security.getCSRFToken(session);
+            
+            if (!Security.verifyCSRFToken(sessionToken, formToken)) {
+                LOGGER.warning("Token CSRF invalide lors de la création d'un prospect");
+                request.setAttribute("errorGlobal", "Erreur de sécurité : token CSRF invalide");
+                return "/WEB-INF/jsp/prospects/create.jsp";
+            }
 
             try {
                 // Vérification des paramètres obligatoires

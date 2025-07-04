@@ -81,11 +81,14 @@
                                            class="btn btn-crud-edit btn-sm" title="Modifier">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a href="${pageContext.request.contextPath}/app?cmd=prospects.delete&id=${prospect.identifiant}" 
-                                           class="btn btn-crud-delete btn-sm" title="Supprimer"
-                                           onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce prospect ?')">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
+                                        <form method="post" action="${pageContext.request.contextPath}/app?cmd=prospects.delete" style="display: inline;">
+                                            <input type="hidden" name="id" value="${prospect.identifiant}">
+                                            <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
+                                            <button type="submit" class="btn btn-crud-delete btn-sm" title="Supprimer"
+                                                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce prospect ?')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>
