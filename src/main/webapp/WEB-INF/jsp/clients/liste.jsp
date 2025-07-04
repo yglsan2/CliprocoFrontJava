@@ -19,6 +19,13 @@
 <main>
     <article>
         <header><h1>Liste des clients</h1></header>
+        
+        <c:if test="${not empty error}">
+            <div class="alert alert-danger" role="alert">
+                ${error}
+            </div>
+        </c:if>
+        
         <section class="container" id="content">
             <a class="btn btn-add float-end" href="${pageContext.request.contextPath}/app?cmd=clients.create">
                 <i class="fas fa-plus"></i> Ajouter un client
@@ -28,17 +35,12 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Nom</th>
-                    <th>Prénom</th>
                     <th>Raison sociale</th>
                     <th>Adresse</th>
                     <th>Téléphone</th>
                     <th>Email</th>
                     <th>Chiffre d'affaires</th>
                     <th>Nb Employés</th>
-                    <th>Date création</th>
-                    <th>Gestionnaire</th>
-                    <th>Statut</th>
                     <th>Commentaires</th>
                     <th>Actions</th>
                 </tr>
@@ -47,8 +49,6 @@
                 <c:forEach var="client" items="${clients}">
                     <tr>
                         <td>${client.identifiant}</td>
-                        <td>${client.nom}</td>
-                        <td>${client.prenom}</td>
                         <td>${client.raisonSociale}</td>
                         <td>
                             ${client.adresse.numeroRue} ${client.adresse.nomRue},<br>
@@ -56,11 +56,8 @@
                         </td>
                         <td>${client.telephone}</td>
                         <td>${client.mail}</td>
-                        <td>${client.chiffreAffaire}</td>
-                        <td>${client.nbrEmploye}</td>
-                        <td>${client.dateCreation}</td>
-                        <td>${client.gestionnaireId}</td>
-                        <td>${client.statut}</td>
+                        <td>${client.chiffreAffaires}</td>
+                        <td>${client.nbEmployes}</td>
                         <td>${client.commentaires}</td>
                         <td>
                             <a href="${pageContext.request.contextPath}/app?cmd=clients.view&id=${client.identifiant}" class="btn btn-crud-view btn-sm">
@@ -78,7 +75,7 @@
                 </c:forEach>
                 <c:if test="${empty clients}">
                     <tr>
-                        <td colspan="14" class="text-center">Aucun client trouvé.</td>
+                        <td colspan="9" class="text-center">Aucun client trouvé.</td>
                     </tr>
                 </c:if>
             </tbody>
