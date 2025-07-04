@@ -34,6 +34,9 @@ class Clients {
     setupMap() {
         if (!this.mapInitialized && window.L) {
             try {
+                // Configuration des icônes Leaflet pour corriger les erreurs 404
+                L.Icon.Default.imagePath = '/CliprocoJEE/img/';
+                
                 this.map = L.map('clientMap').setView([46.603354, 1.888334], 5);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'

@@ -11,15 +11,51 @@ import java.util.Optional;
 
 /**
  * Service pour la gestion des utilisateurs.
+ * 
+ * <p>Cette classe fournit une couche de service pour gérer les opérations
+ * métier liées aux utilisateurs. Elle encapsule la logique de validation,
+ * la gestion des erreurs et le logging des opérations.</p>
+ * 
+ * <p>Le service utilise un DAO générique pour accéder aux données et
+ * ajoute une couche de validation et de gestion d'erreurs avant de
+ * déléguer les opérations au DAO.</p>
+ * 
+ * @author CliprocoJEE
+ * @version 1.0
+ * @since 1.0
  */
 public class UserService {
+    /**
+     * DAO pour l'accès aux données des utilisateurs.
+     * Utilise l'interface générique IDAO pour permettre différentes implémentations.
+     */
     private final IDAO<User, Integer> userDAO;
 
+    /**
+     * Constructeur du service utilisateur.
+     * 
+     * <p>Initialise le service avec le DAO fourni et enregistre
+     * l'initialisation dans les logs.</p>
+     * 
+     * @param userDAO Le DAO à utiliser pour l'accès aux données des utilisateurs
+     */
     public UserService(IDAO<User, Integer> userDAO) {
         this.userDAO = userDAO;
         LogManager.logInfo("Initialisation du UserService avec le DAO fourni");
     }
 
+    /**
+     * Recherche un utilisateur par son identifiant unique.
+     * 
+     * <p>Cette méthode valide l'identifiant fourni avant de déléguer
+     * la recherche au DAO. Elle gère les erreurs de validation et
+     * de base de données avec un logging approprié.</p>
+     * 
+     * @param id L'identifiant unique de l'utilisateur à rechercher
+     * @return Un Optional contenant l'utilisateur s'il est trouvé
+     * @throws DatabaseException Si une erreur survient lors de l'accès à la base de données
+     * @throws ValidationException Si l'identifiant fourni est invalide (null)
+     */
     public Optional<User> findById(Integer id) throws DatabaseException, ValidationException {
         LogManager.logInfo("Recherche de l'utilisateur avec l'ID: " + id);
         try {
@@ -39,6 +75,16 @@ public class UserService {
         }
     }
 
+    /**
+     * Récupère tous les utilisateurs du système.
+     * 
+     * <p>Cette méthode récupère la liste complète des utilisateurs
+     * enregistrés. Elle gère les erreurs de base de données avec
+     * un logging approprié.</p>
+     * 
+     * @return La liste de tous les utilisateurs
+     * @throws DatabaseException Si une erreur survient lors de l'accès à la base de données
+     */
     public List<User> findAll() throws DatabaseException {
         LogManager.logInfo("Récupération de tous les utilisateurs");
         try {
@@ -51,6 +97,18 @@ public class UserService {
         }
     }
 
+    /**
+     * Sauvegarde un nouvel utilisateur.
+     * 
+     * <p>Cette méthode valide l'utilisateur fourni avant de le sauvegarder.
+     * Elle vérifie que l'utilisateur n'est pas null et gère les erreurs
+     * de validation et de base de données.</p>
+     * 
+     * @param user L'utilisateur à sauvegarder
+     * @return L'utilisateur sauvegardé avec son identifiant généré
+     * @throws DatabaseException Si une erreur survient lors de l'accès à la base de données
+     * @throws ValidationException Si l'utilisateur fourni est invalide (null)
+     */
     public User save(User user) throws DatabaseException, ValidationException {
         LogManager.logInfo("Sauvegarde de l'utilisateur: " + user);
         try {
@@ -70,6 +128,19 @@ public class UserService {
         }
     }
 
+    /**
+     * Met à jour un utilisateur existant.
+     * 
+     * <p>Cette méthode valide l'utilisateur et vérifie son existence
+     * avant de procéder à la mise à jour. Elle gère les erreurs de
+     * validation, de ressource non trouvée et de base de données.</p>
+     * 
+     * @param user L'utilisateur à mettre à jour
+     * @return L'utilisateur mis à jour
+     * @throws DatabaseException Si une erreur survient lors de l'accès à la base de données
+     * @throws ValidationException Si l'utilisateur fourni est invalide
+     * @throws ResourceNotFoundException Si l'utilisateur n'existe pas
+     */
     public User update(User user) throws DatabaseException, ValidationException, ResourceNotFoundException {
         LogManager.logInfo("Mise à jour de l'utilisateur: " + user);
         try {
@@ -102,6 +173,18 @@ public class UserService {
         }
     }
 
+    /**
+     * Supprime un utilisateur du système.
+     * 
+     * <p>Cette méthode valide l'utilisateur et vérifie son existence
+     * avant de procéder à la suppression. Elle gère les erreurs de
+     * validation, de ressource non trouvée et de base de données.</p>
+     * 
+     * @param user L'utilisateur à supprimer
+     * @throws DatabaseException Si une erreur survient lors de l'accès à la base de données
+     * @throws ValidationException Si l'utilisateur fourni est invalide
+     * @throws ResourceNotFoundException Si l'utilisateur n'existe pas
+     */
     public void delete(User user) throws DatabaseException, ValidationException, ResourceNotFoundException {
         LogManager.logInfo("Suppression de l'utilisateur: " + user);
         try {
@@ -133,6 +216,18 @@ public class UserService {
         }
     }
 
+    /**
+     * Recherche un utilisateur par son nom d'utilisateur.
+     * 
+     * <p>Cette méthode recherche un utilisateur en filtrant la liste
+     * complète des utilisateurs par nom d'utilisateur. Elle valide
+     * le nom d'utilisateur fourni avant la recherche.</p>
+     * 
+     * @param username Le nom d'utilisateur à rechercher
+     * @return Un Optional contenant l'utilisateur s'il est trouvé
+     * @throws DatabaseException Si une erreur survient lors de l'accès à la base de données
+     * @throws ValidationException Si le nom d'utilisateur fourni est invalide (null ou vide)
+     */
     public Optional<User> findByUsername(String username) throws DatabaseException, ValidationException {
         LogManager.logInfo("Recherche de l'utilisateur avec le nom d'utilisateur: " + username);
         try {

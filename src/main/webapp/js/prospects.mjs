@@ -40,6 +40,9 @@ class Prospects {
     setupMap() {
         if (!this.mapInitialized && window.L) {
             try {
+                // Configuration des icônes Leaflet pour corriger les erreurs 404
+                L.Icon.Default.imagePath = '/CliprocoJEE/img/';
+                
                 const el = document.getElementById('prospectMap'); if (!el) return;
                 this.map = L.map(el).setView([46.603354, 1.888334], 5);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
