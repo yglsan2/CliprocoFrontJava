@@ -21,7 +21,18 @@
         <url-pattern>/app/*</url-pattern>
     </servlet-mapping>
     
+    <!-- Configuration JSP -->
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <include-prelude>/WEB-INF/jsp/taglibs.jsp</include-prelude>
+        </jsp-property-group>
+    </jsp-config>
 
+    <!-- Configuration de session -->
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
 
     <!-- Configuration des pages d'accueil -->
     <welcome-file-list>

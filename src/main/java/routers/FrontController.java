@@ -15,13 +15,9 @@ import controllers.prospects.DeleteProspectsController;
 import controllers.prospects.ListeProspectsController;
 import controllers.prospects.UpdateProspectsController;
 import controllers.prospects.ViewProspectsController;
-import dao.jpa.ClientJpaDAO;
-import dao.jpa.ProspectJpaDAO;
 import dao.jpa.UserJpaDAO;
 import utilities.LogManager;
-// import jakarta.annotation.Resource;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,8 +26,6 @@ import jakarta.servlet.http.HttpSession;
 import models.User;
 import utilities.Security;
 import exceptions.AuthorizationException;
-import services.ClientService;
-import services.ProspectService;
 import services.UserService;
 
 import jakarta.persistence.EntityManager;
@@ -48,35 +42,52 @@ import exceptions.DatabaseException;
 import exceptions.ValidationException;
 import exceptions.ResourceNotFoundException;
 import exceptions.BusinessException;
-import dao.jpa.AdresseJpaDAO;
 
 /**
  * Contrôleur frontal qui gère le routage des requêtes.
  * Cette classe est responsable de :
- * - L'initialisation des services et des contrôleurs
+ * - L'initialisation des contrôleurs
  * - La gestion des autorisations d'accès
  * - Le routage des requêtes vers les contrôleurs appropriés
  * - La gestion des erreurs et des exceptions
  */
+// @WebServlet("/app")
 public class FrontController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger(FrontController.class.getName());
     private Map<String, ICommand> commands;
     private Map<String, String> roles;
-    private ClientService clientService;
-    private ProspectService prospectService;
     private UserService userService;
 
-    private static EntityManagerFactory emf;
+    /**
+     * EntityManager partagé pour les opérations de base de données.
+     * 
+     * Cet EntityManager est initialisé au démarrage de l'application et partagé
+     * entre tous les contrôleurs et services pour effectuer les opérations CRUD
+     * sur les entités JPA (Client, Prospect, Societe, Adresse, User).
+     * 
+     * L'EntityManager est associé à l'unité de persistance "default" qui
+     * configure la connexion à la base de données MySQL.
+     */
     private static EntityManager em;
+
+    /**
+     * EntityManagerFactory pour créer les EntityManagers.
+     * 
+     * Cette factory est utilisée pour créer l'EntityManager partagé et peut
+     * être utilisée pour créer des EntityManagers supplémentaires si nécessaire.
+     * 
+     * L'EntityManagerFactory est associé à l'unité de persistance "default"
+     * définie dans le fichier persistence.xml.
+     */
+    private static EntityManagerFactory emf;
 
     @Override
     public void init() throws ServletException {
         try {
             LogManager.logInfo("Initialisation du FrontController");
             initializeDatabase();
-            initializeServices();
             initializeCommands();
             initializeRoles();
             initializeLogging();
@@ -87,57 +98,39 @@ public class FrontController extends HttpServlet {
         }
     }
 
-    private void initializeServices() throws DatabaseException {
-        LogManager.logInfo("Initialisation des services");
-        try {
-            // Vérifier que l'EntityManager est disponible
-            if (em == null) {
-                throw new DatabaseException("EntityManager non initialisé");
-            }
-            
-            UserJpaDAO userDAO = new UserJpaDAO();
-            userService = new UserService(userDAO);
-            clientService = new ClientService(new ClientJpaDAO(), new AdresseJpaDAO());
-            prospectService = new ProspectService(new ProspectJpaDAO());
-            LogManager.logInfo("Services initialisés avec succès");
-        } catch (Exception e) {
-            LogManager.logException("Erreur lors de l'initialisation des services", e);
-            throw new DatabaseException("Erreur lors de l'initialisation des services", e);
-        }
-    }
-
     private void initializeCommands() throws DatabaseException {
         LogManager.logInfo("Initialisation des commandes");
         commands = new HashMap<>();
         
         try {
             // Commandes pour les clients
-            commands.put("/clients", new ListeClientsController(clientService));
-            commands.put("/clients.liste", new ListeClientsController(clientService));
-            commands.put("/clients.update", new UpdateClientsController(clientService));
-            commands.put("/clients.view", new ViewClientsController(clientService));
-            commands.put("/clients.create", new CreationClientsController(clientService));
-            commands.put("/clients.delete", new DeleteClientsController(clientService));
-            commands.put("/clients/update", new UpdateClientsController(clientService));
-            commands.put("/clients/view", new ViewClientsController(clientService));
-            commands.put("/clients/create", new CreationClientsController(clientService));
-            commands.put("/clients/delete", new DeleteClientsController(clientService));
+            commands.put("/clients", new ListeClientsController());
+            commands.put("/clients.liste", new ListeClientsController());
+            commands.put("/clients.update", new UpdateClientsController());
+            commands.put("/clients.view", new ViewClientsController());
+            commands.put("/clients.create", new CreationClientsController());
+            commands.put("/clients.delete", new DeleteClientsController());
+            commands.put("/clients/update", new UpdateClientsController());
+            commands.put("/clients/view", new ViewClientsController());
+            commands.put("/clients/create", new CreationClientsController());
+            commands.put("/clients/delete", new DeleteClientsController());
 
             // Commande pour la page d'accueil
             commands.put("/", new IndexController());
             commands.put("/index", new IndexController());
+            commands.put("index", new IndexController());
             
             // Commandes pour les prospects
-            commands.put("/prospects", new ListeProspectsController(prospectService));
-            commands.put("/prospects.liste", new ListeProspectsController(prospectService));
-            commands.put("/prospects.create", new CreationProspectsController(prospectService));
-            commands.put("/prospects.update", new UpdateProspectsController(prospectService));
-            commands.put("/prospects.delete", new DeleteProspectsController(prospectService));
-            commands.put("/prospects.view", new ViewProspectsController(prospectService));
-            commands.put("/prospects/create", new CreationProspectsController(prospectService));
-            commands.put("/prospects/update", new UpdateProspectsController(prospectService));
-            commands.put("/prospects/delete", new DeleteProspectsController(prospectService));
-            commands.put("/prospects/view", new ViewProspectsController(prospectService));
+            commands.put("/prospects", new ListeProspectsController());
+            commands.put("/prospects.liste", new ListeProspectsController());
+            commands.put("/prospects.create", new CreationProspectsController());
+            commands.put("/prospects.update", new UpdateProspectsController());
+            commands.put("/prospects.delete", new DeleteProspectsController());
+            commands.put("/prospects.view", new ViewProspectsController());
+            commands.put("/prospects/create", new CreationProspectsController());
+            commands.put("/prospects/update", new UpdateProspectsController());
+            commands.put("/prospects/delete", new DeleteProspectsController());
+            commands.put("/prospects/view", new ViewProspectsController());
             LogManager.logInfo("Commandes initialisées avec succès");
         } catch (Exception e) {
             LogManager.logException("Erreur lors de l'initialisation des commandes", e);
@@ -199,15 +192,30 @@ public class FrontController extends HttpServlet {
     private void initializeDatabase() throws DatabaseException {
         LogManager.logInfo("Initialisation de la base de données avec JPA");
         try {
+            // Vérification de la présence du fichier persistence.xml
+            LogManager.logInfo("Vérification de la configuration JPA...");
+            
             // Création de l'EntityManagerFactory à partir de l'unité de persistance "cliprocoUP"
-            // UP = Unit of Persistence (Unité de Persistance)
+            LogManager.logInfo("Tentative de création de l'EntityManagerFactory pour cliprocoUP");
             emf = Persistence.createEntityManagerFactory("cliprocoUP");
+            LogManager.logInfo("EntityManagerFactory créé avec succès");
+            
+            // Affichage des propriétés de l'EntityManagerFactory
+            LogManager.logInfo("Propriétés de l'EntityManagerFactory:");
+            LogManager.logInfo("- EntityManagerFactory créé avec succès");
             
             // Création de l'EntityManager pour les opérations de base de données
+            LogManager.logInfo("Tentative de création de l'EntityManager");
             em = emf.createEntityManager();
             LogManager.logInfo("EntityManager initialisé avec succès pour l'unité cliprocoUP");
         } catch (Exception e) {
             LogManager.logException("Erreur lors de l'initialisation de l'EntityManager", e);
+            System.err.println("=== ERREUR JPA DÉTAILLÉE ===");
+            System.err.println("Message: " + e.getMessage());
+            System.err.println("Type: " + e.getClass().getName());
+            System.err.println("Stack trace complète:");
+            e.printStackTrace(System.err);
+            System.err.println("=== FIN ERREUR JPA ===");
             throw new DatabaseException("Erreur lors de l'initialisation de l'EntityManager", e);
         }
     }
@@ -215,12 +223,12 @@ public class FrontController extends HttpServlet {
     /**
      * Retourne l'EntityManager partagé pour l'unité de persistance "cliprocoUP"
      * 
-     * Cette méthode permet aux autres classes d'accéder à l'EntityManager
-     * initialisé par le FrontController. L'EntityManager est utilisé pour
-     * effectuer les opérations CRUD sur les entités JPA.
+     * Cet EntityManager est utilisé par tous les DAO et services pour effectuer
+     * les opérations de base de données. Il est initialisé au démarrage de
+     * l'application et partagé entre tous les composants.
      * 
      * L'EntityManager est associé à l'unité de persistance "cliprocoUP" qui
-     * gère la connexion à la base de données MySQL et la configuration Hibernate.
+     * configure la connexion à la base de données MySQL.
      * 
      * @return l'EntityManager partagé pour l'unité cliprocoUP
      */

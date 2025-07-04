@@ -16,21 +16,22 @@ public class Adresse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "identifiant")
     private Integer identifiant;
 
-    @Column(name = "numero_rue", nullable = false)
+    @Column(name = "numRue", nullable = false)
     private String numeroRue;
 
-    @Column(name = "nom_rue", nullable = false)
+    @Column(name = "nomRue", nullable = false)
     private String nomRue;
 
-    @Column(name = "code_postal", nullable = false, length = 5)
+    @Column(name = "codePostal", nullable = false, length = 5)
     private String codePostal;
 
-    @Column(nullable = false)
+    @Column(name = "ville", nullable = false)
     private String ville;
 
-    @Column(nullable = false)
+    @Column(name = "pays", nullable = true)
     private String pays;
 
     /**

@@ -6,30 +6,28 @@ import jakarta.persistence.*;
  * Represents a company entity in the system.
  * This abstract class serves as a base for specific types of companies.
  */
-@Entity
-@Table(name = "societes")
-@Inheritance(strategy = InheritanceType.JOINED)
+@MappedSuperclass
 public abstract class Societe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "identifiant")
     protected Integer identifiant;
 
-    @Column(name = "raison_sociale", nullable = false, unique = true)
+    @Column(name = "raisonSociale", nullable = false, unique = true)
     protected String raisonSociale;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "adresse_id")
+    @ManyToOne
+    @JoinColumn(name = "idAdresse")
     protected Adresse adresse;
 
     @Column(name = "telephone")
     protected String telephone;
 
-    @Column(name = "email")
+    @Column(name = "mail")
     protected String mail;
 
-    @Column(name = "commentaire", columnDefinition = "TEXT")
+    @Column(name = "commentaires", columnDefinition = "TEXT")
     protected String commentaires;
 
     /**

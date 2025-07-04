@@ -39,15 +39,17 @@ public class ConnexionController extends HttpServlet {
         }
 
         try {
-            Optional<User> userOpt = userDAO.findById(Integer.parseInt(email));
+            // Recherche par email au lieu d'ID
+            UserJpaDAO userJpaDAO = (UserJpaDAO) userDAO;
+            Optional<User> userOpt = userJpaDAO.findByEmail(email);
             if (userOpt.isPresent()) {
                 User user = userOpt.get();
                 if (Security.verifyPassword(password, user.getPassword())) {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
-                    session.setAttribute("role", user.getRole());
+                    session.setAttribute("username", user.getUsername());
                     LogManager.logInfo("Connexion réussie pour l'utilisateur: " + email);
-                    response.sendRedirect(request.getContextPath() + "/home");
+                    response.sendRedirect(request.getContextPath() + "/app");
                 } else {
                     LogManager.logWarning("Tentative de connexion échouée pour l'email: " + email);
                     request.setAttribute("error", "Email ou mot de passe incorrect");

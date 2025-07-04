@@ -1,30 +1,39 @@
 package models;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Represents a product in an invoice with its details and price.
+ * Classe métier pour un produit
  */
 @Entity
 @Table(name = "produits")
+@Access(AccessType.FIELD)
 public class Produit {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "id")
+    private Integer identifiant;
 
-    @Column(nullable = false)
+    @Column(name = "nom", nullable = false)
     private String nom;
 
-    @Column(nullable = false, length = 1000)
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "prix_unitaire", nullable = false)
-    private BigDecimal prixUnitaire;
+    @Column(name = "prix", nullable = false)
+    private Double prix;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "facture_id", nullable = false)
-    private Facture facture;
+    @Column(name = "stock")
+    private Integer stock;
+
+    @Column(name = "categorie")
+    private String categorie;
+
+    @Column(name = "reference")
+    private String reference;
 
     /**
      * Default constructor for JPA.
@@ -39,20 +48,10 @@ public class Produit {
      * @param description  Product description
      * @param prixUnitaire Unit price
      */
-    public Produit(String nom, String description, BigDecimal prixUnitaire) {
+    public Produit(String nom, String description, Double prixUnitaire) {
         this.nom = nom;
         this.description = description;
-        this.prixUnitaire = prixUnitaire;
-    }
-
-    /**
-     * Sets the invoice this product belongs to.
-     * Used by Facture.addProduit().
-     *
-     * @param facture The invoice to set
-     */
-    void setFacture(Facture facture) {
-        this.facture = facture;
+        this.prix = prixUnitaire;
     }
 
     /**
@@ -73,14 +72,14 @@ public class Produit {
      * Getter pour l'identifiant du produit.
      */
     public Integer getId() {
-        return id;
+        return identifiant;
     }
 
     /**
      * Setter pour l'identifiant du produit.
      */
     public void setId(Integer id) {
-        this.id = id;
+        this.identifiant = id;
     }
 
     /**
@@ -100,21 +99,56 @@ public class Produit {
     /**
      * Getter pour le prix unitaire du produit.
      */
-    public BigDecimal getPrixUnitaire() {
-        return prixUnitaire;
+    public Double getPrixUnitaire() {
+        return prix;
     }
 
     /**
      * Setter pour le prix unitaire du produit.
      */
-    public void setPrixUnitaire(BigDecimal prixUnitaire) {
-        this.prixUnitaire = prixUnitaire;
+    public void setPrixUnitaire(Double prixUnitaire) {
+        this.prix = prixUnitaire;
     }
 
     /**
-     * Getter pour la facture associée au produit.
+     * Getter pour le stock du produit.
      */
-    public Facture getFacture() {
-        return facture;
+    public Integer getStock() {
+        return stock;
+    }
+
+    /**
+     * Setter pour le stock du produit.
+     */
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
+    /**
+     * Getter pour la catégorie du produit.
+     */
+    public String getCategorie() {
+        return categorie;
+    }
+
+    /**
+     * Setter pour la catégorie du produit.
+     */
+    public void setCategorie(String categorie) {
+        this.categorie = categorie;
+    }
+
+    /**
+     * Getter pour la référence du produit.
+     */
+    public String getReference() {
+        return reference;
+    }
+
+    /**
+     * Setter pour la référence du produit.
+     */
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 } 

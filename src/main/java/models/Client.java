@@ -14,55 +14,16 @@ import jakarta.persistence.*;
 public class Client extends Societe {
 
     /**
-     * Identifiant du client
-     */
-    private Integer identifiantClient = null;
-
-    /**
      * chiffre d'affaire du client
      */
-    private Integer chiffreAffaire;
+    @Column(name = "chiffreAffaires")
+    private Double chiffreAffaires;
 
     /**
      * Nombre d'employés du client
      */
-    private Integer nbrEmploye;
-
-    /**
-     * Liste de contrats du client
-     */
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Contrat> contrats = new ArrayList<>();
-
-    /**
-     * Nom du client
-     */
-    @Column(name = "nom")
-    private String nom;
-
-    /**
-     * Prénom du client
-     */
-    @Column(name = "prenom")
-    private String prenom;
-
-    /**
-     * Date de création du client
-     */
-    @Column(name = "date_creation")
-    private java.sql.Date dateCreation;
-
-    /**
-     * Identifiant du gestionnaire
-     */
-    @Column(name = "gestionnaire_id")
-    private Integer gestionnaireId;
-
-    /**
-     * Statut du client
-     */
-    @Column(name = "statut")
-    private String statut;
+    @Column(name = "nbEmployes")
+    private Integer nbEmployes;
 
     /**
      * Default constructor for JPA.
@@ -80,19 +41,17 @@ public class Client extends Societe {
      * @param commentaire       Commentaire sur le client.
      * @param raisonSociale     Raison sociale du client.
      * @param telephone         Numéro de téléphone du client.
-     * @param chiffreAffaire    Chiffre d'affaires du client.
-     * @param nbrEmploye        Nombre d'employés du client.
-     * @param gestionnaire      L'utilisateur gérant le client
+     * @param chiffreAffaires   Chiffre d'affaires du client.
+     * @param nbEmployes        Nombre d'employés du client.
      */
     public Client(final Integer identifiantClient, final Adresse adresse,
                   final String adresseMail, final String commentaire,
                   final String raisonSociale, final String telephone,
-                  final Integer chiffreAffaire, final Integer nbrEmploye,
-                  final Integer gestionnaire) {
+                  final Double chiffreAffaires, final Integer nbEmployes) {
         super(raisonSociale, adresse, telephone, adresseMail, commentaire);
-        setIdentifiantClient(identifiantClient);
-        setChiffreAffaire(chiffreAffaire);
-        setNbrEmploye(nbrEmploye);
+        setIdentifiant(identifiantClient);
+        setChiffreAffaires(chiffreAffaires);
+        setNbEmployes(nbEmployes);
     }
 
     /**
@@ -102,36 +61,16 @@ public class Client extends Societe {
      * @param commentaire
      * @param raisonSociale
      * @param telephone
-     * @param chiffreAffaire
-     * @param nbrEmploye
-     * @param gestionnaire
+     * @param chiffreAffaires
+     * @param nbEmployes
      */
     public Client(final Adresse adresse,
                   final String adresseMail, final String commentaire,
                   final String raisonSociale, final String telephone,
-                  final Integer chiffreAffaire, final Integer nbrEmploye,
-                  final Integer gestionnaire) {
+                  final Double chiffreAffaires, final Integer nbEmployes) {
         super(raisonSociale, adresse, telephone, adresseMail, commentaire);
-        setChiffreAffaire(chiffreAffaire);
-        setNbrEmploye(nbrEmploye);
-    }
-
-    /**
-     * Définit l'identifiant spécifique du client.
-     *
-     * @param identifiantClient Identifiant du client.
-     */
-    public void setIdentifiantClient(final Integer identifiantClient) {
-        this.identifiantClient = identifiantClient;
-    }
-
-    /**
-     * Retourne l'identifiant spécifique du client.
-     *
-     * @return Identifiant du client.
-     */
-    public Integer getIdentifiantClient() {
-        return identifiantClient;
+        setChiffreAffaires(chiffreAffaires);
+        setNbEmployes(nbEmployes);
     }
 
     /**
@@ -139,17 +78,17 @@ public class Client extends Societe {
      *
      * @return Chiffre d'affaires.
      */
-    public Integer getChiffreAffaire() {
-        return chiffreAffaire;
+    public Double getChiffreAffaires() {
+        return chiffreAffaires;
     }
 
     /**
      * Définit le chiffre d'affaires du client après validation.
      *
-     * @param chiffreAffaire Chiffre d'affaires à définir.
+     * @param chiffreAffaires Chiffre d'affaires à définir.
      */
-    public void setChiffreAffaire(final Integer chiffreAffaire)  {
-        this.chiffreAffaire = chiffreAffaire;
+    public void setChiffreAffaires(final Double chiffreAffaires)  {
+        this.chiffreAffaires = chiffreAffaires;
     }
 
     /**
@@ -157,17 +96,17 @@ public class Client extends Societe {
      *
      * @return Nombre d'employés.
      */
-    public Integer getNbrEmploye() {
-        return nbrEmploye;
+    public Integer getNbEmployes() {
+        return nbEmployes;
     }
 
     /**
      * Définit le nombre d'employés du client après validation.
      *
-     * @param nbrEmploye Nombre d'employés à définir.
+     * @param nbEmployes Nombre d'employés à définir.
      */
-    public void setNbrEmploye(final Integer nbrEmploye) {
-        this.nbrEmploye = nbrEmploye;
+    public void setNbEmployes(final Integer nbEmployes) {
+        this.nbEmployes = nbEmployes;
     }
 
     /**
@@ -179,8 +118,8 @@ public class Client extends Societe {
     public String toString() {
         return "Client{"
                 +
-                "idClient="
-                + getIdentifiantClient()
+                "identifiant="
+                + getIdentifiant()
                 +
                 ", raisonSociale='"
                 + getRaisonSociale()
@@ -194,50 +133,15 @@ public class Client extends Societe {
                 + getMail()
                 + '\''
                 +
-                ", chiffreAffaire="
-                + getChiffreAffaire()
+                ", chiffreAffaires="
+                + getChiffreAffaires()
                 +
-                ", nbrEmploye="
-                + getNbrEmploye()
+                ", nbEmployes="
+                + getNbEmployes()
                 +
                 ", adresse="
                 + (getAdresse() != null ? getAdresse().toString() : "null")
                 +
-                ", SocieteID="
-                + (getIdentifiant())
-                +
                 '}';
     }
-
-    /**
-     * Récupère la liste des contrats
-     * @return une liste de contrats
-     */
-    public List<Contrat> getContrats() {
-        return contrats;
-    }
-
-    /**
-     * Ajoute un contrat au client
-     * @param contrat Un objet Contrat
-     */
-    public void addContrat(final Contrat contrat) {
-        this.contrats.add(contrat);
-    }
-
-    // Getters et setters pour les nouveaux champs
-    public String getNom() { return nom; }
-    public void setNom(String nom) { this.nom = nom; }
-
-    public String getPrenom() { return prenom; }
-    public void setPrenom(String prenom) { this.prenom = prenom; }
-
-    public java.sql.Date getDateCreation() { return dateCreation; }
-    public void setDateCreation(java.sql.Date dateCreation) { this.dateCreation = dateCreation; }
-
-    public Integer getGestionnaireId() { return gestionnaireId; }
-    public void setGestionnaireId(Integer gestionnaireId) { this.gestionnaireId = gestionnaireId; }
-
-    public String getStatut() { return statut; }
-    public void setStatut(String statut) { this.statut = statut; }
 }

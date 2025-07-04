@@ -62,8 +62,7 @@
                     <c:if test="${empty sessionScope.currentUser}">
                         <li class="nav-item" aria-label="Page de connexion">
                             <a class="nav-link active" href="?cmd=connexion">
-                                <div class="material-symbols-outlined">login</div>
-                                <div>Connexion</div>
+                                Connexion
                             </a>
                         </li>
                     </c:if>
@@ -71,8 +70,7 @@
                     <c:if test="${not empty sessionScope.currentUser}">
                         <li class="nav-item" aria-label="Page de déconnexion">
                             <a class="nav-link active" href="?cmd=deconnexion">
-                                <div class="material-symbols-outlined">logout</div>
-                                <div>Deconnexion</div>
+                                Deconnexion
                             </a>
                         </li>
                     </c:if>

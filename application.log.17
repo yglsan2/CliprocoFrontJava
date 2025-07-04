@@ -1,8 +1,0 @@
-juil. 02, 2025 4:46:03 PM utilities.LogManager logInfo
-INFOS: [2025-07-02 16:46:03.738] [INFO] Initialisation du système de logs
-juil. 02, 2025 4:46:03 PM utilities.LogManager logInfo
-INFOS: [2025-07-02 16:46:03.739] [INFO] Système de logging initialisé avec succès
-juil. 02, 2025 4:46:03 PM utilities.LogManager logInfo
-INFOS: [2025-07-02 16:46:03.739] [INFO] Initialisation du FrontController terminée avec succès
-juil. 02, 2025 4:58:33 PM utilities.LogManager logInfo
-INFOS: [2025-07-02 16:58:33.909] [INFO] EntityManager et EntityManagerFactory fermés avec succès

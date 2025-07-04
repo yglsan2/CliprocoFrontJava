@@ -1,83 +1,136 @@
 package controllers.clients;
 
-import builders.AdresseBuilder;
-import builders.ClientBuilder;
 import controllers.ICommand;
+import dao.jpa.ClientJpaDAO;
+import dao.jpa.AdresseJpaDAO;
 import models.Client;
 import models.Adresse;
-import services.ClientService;
-import utilities.Security;
-import utilities.LogManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import exceptions.ValidationException;
+import java.util.logging.Logger;
 
 public final class CreationClientsController implements ICommand {
-    private final ClientService clientService;
-
-    public CreationClientsController(ClientService clientService) {
-        this.clientService = clientService;
-        LogManager.logInfo("Initialisation de CreationClientsController avec clientService");
-    }
+    private static final Logger LOGGER = Logger.getLogger(CreationClientsController.class.getName());
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        LogManager.logInfo("Début de l'exécution de CreationClientsController");
+        LOGGER.info("Exécution de CreationClientsController");
 
-        String jsp = "/WEB-INF/jsp/clients/create.jsp";
-        String urlSuite = Security.estConnecte(request, jsp);
-        LogManager.logInfo("URL suite après vérification de connexion: " + urlSuite);
+        // Instanciation des DAO
+        ClientJpaDAO clientDAO = new ClientJpaDAO();
+        AdresseJpaDAO adresseDAO = new AdresseJpaDAO();
 
-        if (jsp.equals(urlSuite)) {
-            LogManager.logInfo("Utilisateur connecté, préparation de la création");
-            request.setAttribute("titlePage", "Création");
-            request.setAttribute("titleGroup", "Clients");
+        // Si on reçoit un formulaire à traiter
+        if (request.getMethod().equals("POST")) {
+            LOGGER.info("Traitement du formulaire POST");
 
-            if (request.getMethod().equals("POST")) {
-                LogManager.logInfo("Méthode POST détectée, traitement des données");
-                try {
-                    // Validation et construction de l'adresse
-                    Adresse adresse = AdresseBuilder.getNewAdresseBuilder()
-                            .deNumeroRue(request.getParameter("numeroRue"))
-                            .deNomRue(request.getParameter("nomRue"))
-                            .deCodePostal(request.getParameter("codePostal"))
-                            .deVille(request.getParameter("ville"))
-                            .build();
-
-                    // Validation et construction du client
-                    Client client = ClientBuilder.getNewClientBuilder()
-                            .deRaisonSociale(request.getParameter("raisonSociale"))
-                            .deTelephone(request.getParameter("telephone"))
-                            .deMail(request.getParameter("adresseMail"))
-                            .deCommentaires(request.getParameter("commentaires"))
-                            .dAdresse(adresse)
-                            .deChiffreAffaires(Double.parseDouble(request.getParameter("chiffreAffaires")))
-                            .deNombreEmployes(Integer.parseInt(request.getParameter("nbEmployes")))
-                            .build();
-
-                    // Ici, on peut ajouter des validations supplémentaires si besoin
-                    // ValidationManager.isValidPhone(client.getTelephone());
-                    // ValidationManager.isValidPostalCode(adresse.getCodePostal());
-                    // ValidationManager.isValidEmail(client.getMail());
-
-                    clientService.create(client);
-                    urlSuite = "redirect:?cmd=clients";
-                } catch (ValidationException e) {
-                    request.setAttribute("errorValidation", e.getMessage());
-                } catch (NumberFormatException e) {
-                    request.setAttribute("errorFormat", "Format numérique invalide : " + e.getMessage());
-                } catch (IllegalArgumentException e) {
-                    request.setAttribute("errorArgument", "Erreur de saisie : " + e.getMessage());
-                } catch (Exception e) {
-                    LogManager.logWarning("Erreur inattendue lors de la création du client : " + e.getMessage());
-                    request.setAttribute("errorGlobal", "Une erreur inattendue est survenue. Merci de réessayer.");
-                } finally {
-                    LogManager.logInfo("Fin de la tentative de création de client.");
+            try {
+                // Vérification des paramètres obligatoires
+                String raisonSociale = request.getParameter("raisonSociale");
+                String telephone = request.getParameter("telephone");
+                String mail = request.getParameter("mail");
+                String numeroRue = request.getParameter("numeroRue");
+                String nomRue = request.getParameter("nomRue");
+                String codePostal = request.getParameter("codePostal");
+                String ville = request.getParameter("ville");
+                String chiffreAffairesStr = request.getParameter("chiffreAffaires");
+                String nbEmployesStr = request.getParameter("nbEmployes");
+                String commentaires = request.getParameter("commentaires");
+                
+                // Validation des paramètres obligatoires
+                if (raisonSociale == null || raisonSociale.trim().isEmpty() ||
+                    telephone == null || telephone.trim().isEmpty() ||
+                    mail == null || mail.trim().isEmpty() ||
+                    numeroRue == null || numeroRue.trim().isEmpty() ||
+                    nomRue == null || nomRue.trim().isEmpty() ||
+                    codePostal == null || codePostal.trim().isEmpty() ||
+                    ville == null || ville.trim().isEmpty() ||
+                    chiffreAffairesStr == null || chiffreAffairesStr.trim().isEmpty() ||
+                    nbEmployesStr == null || nbEmployesStr.trim().isEmpty()) {
+                    request.setAttribute("errorValidation", "Tous les champs obligatoires doivent être remplis");
+                    return "/WEB-INF/jsp/clients/create.jsp";
                 }
+                
+                // Instanciation d'un client après réception du formulaire
+                Client client = new Client(
+                    new Adresse(
+                        numeroRue.trim(),
+                        nomRue.trim(),
+                        codePostal.trim(),
+                        ville.trim()
+                    ),
+                    mail.trim(),
+                    commentaires != null ? commentaires.trim() : "",
+                    raisonSociale.trim(),
+                    telephone.trim(),
+                    Double.parseDouble(chiffreAffairesStr.trim()),
+                    Integer.parseInt(nbEmployesStr.trim())
+                );
+
+                // Vérification des données saisies
+                String validation = validationClient(client);
+                if (validation.isEmpty()) {
+                    // Si la saisie ne contient aucune erreur, elle est enregistrée dans la base de données
+                    clientDAO.save(client);
+                    LOGGER.info("Client créé avec succès: " + client.getRaisonSociale());
+                    return "redirect:?cmd=clients.liste";
+                } else {
+                    // Si les saisies ne sont pas valides, on affiche les corrections à effectuer
+                    request.setAttribute("errorValidation", validation);
+                }
+
+            } catch (NumberFormatException e) {
+                request.setAttribute("errorFormat", "Le chiffre d'affaires et le nombre d'employés doivent être des nombres valides");
+            } catch (Exception e) {
+                LOGGER.severe("Erreur lors de la création du client: " + e.getMessage());
+                request.setAttribute("errorGlobal", "Erreur lors de la création du client: " + e.getMessage());
             }
         }
 
-        LogManager.logInfo("Fin de l'exécution de CreationClientsController, URL suite: " + urlSuite);
-        return urlSuite;
+        return "/WEB-INF/jsp/clients/create.jsp";
+    }
+
+    /**
+     * Méthode vérifiant la validité des attributs d'une instance de client
+     * et renvoyant une chaine de caractères contenant toutes les erreurs.
+     * Si la chaine retournée est vide, le client est valide.
+     *
+     * @param client Le client à valider
+     * @return String - Les erreurs de validations
+     */
+    private String validationClient(Client client) {
+        StringBuilder msg = new StringBuilder();
+        
+        // Validation basique des champs obligatoires
+        if (client.getRaisonSociale() == null || client.getRaisonSociale().trim().isEmpty()) {
+            msg.append("- La raison sociale est obligatoire<br>");
+        }
+        
+        if (client.getTelephone() == null || client.getTelephone().trim().isEmpty()) {
+            msg.append("- Le numéro de téléphone est obligatoire<br>");
+        }
+        
+        if (client.getMail() == null || client.getMail().trim().isEmpty()) {
+            msg.append("- L'adresse email est obligatoire<br>");
+        }
+        
+        if (client.getAdresse() == null) {
+            msg.append("- L'adresse est obligatoire<br>");
+        } else {
+            if (client.getAdresse().getVille() == null || client.getAdresse().getVille().trim().isEmpty()) {
+                msg.append("- La ville est obligatoire<br>");
+            }
+            if (client.getAdresse().getCodePostal() == null || client.getAdresse().getCodePostal().trim().isEmpty()) {
+                msg.append("- Le code postal est obligatoire<br>");
+            }
+            if (client.getAdresse().getNumeroRue() == null || client.getAdresse().getNumeroRue().trim().isEmpty()) {
+                msg.append("- Le numéro de rue est obligatoire<br>");
+            }
+            if (client.getAdresse().getNomRue() == null || client.getAdresse().getNomRue().trim().isEmpty()) {
+                msg.append("- Le nom de rue est obligatoire<br>");
+            }
+        }
+
+        return msg.toString();
     }
 }

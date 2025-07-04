@@ -51,39 +51,31 @@ public class RegisterController extends HttpServlet {
                 String raisonSociale = req.getParameter("raisonSociale");
                 String chiffreAffaireStr = req.getParameter("chiffreAffaire");
                 String nbrEmployeStr = req.getParameter("nbrEmploye");
-                Integer chiffreAffaire = chiffreAffaireStr != null && !chiffreAffaireStr.isEmpty() ? Integer.parseInt(chiffreAffaireStr) : null;
+                Double chiffreAffaire = chiffreAffaireStr != null && !chiffreAffaireStr.isEmpty() ? Double.parseDouble(chiffreAffaireStr) : null;
                 Integer nbrEmploye = nbrEmployeStr != null && !nbrEmployeStr.isEmpty() ? Integer.parseInt(nbrEmployeStr) : null;
 
                 Client client = new Client();
-                client.setNom(nom);
-                client.setPrenom(prenom);
                 client.setRaisonSociale(raisonSociale);
                 client.setMail(email);
                 client.setTelephone(telephone);
                 client.setAdresse(adresse);
-                client.setChiffreAffaire(chiffreAffaire);
-                client.setNbrEmploye(nbrEmploye);
-                client.setStatut("actif");
+                client.setChiffreAffaires(chiffreAffaire);
+                client.setNbEmployes(nbrEmploye);
                 client.setCommentaires("");
-                // Stocke le hash du mot de passe dans un champ dédié si besoin
-                // client.setPasswordHash(hash);
                 clientService.create(client);
             } else {
+                String raisonSociale = req.getParameter("raisonSociale");
                 String dateProspection = req.getParameter("dateProspection");
                 String prospectInteresse = req.getParameter("prospectInteresse");
 
                 Prospect prospect = new Prospect();
-                prospect.setNom(nom);
-                prospect.setPrenom(prenom);
-                prospect.setRaisonSociale("");
+                prospect.setRaisonSociale(raisonSociale);
                 prospect.setMail(email);
                 prospect.setTelephone(telephone);
                 prospect.setAdresse(adresse);
-                prospect.setDateProspection(dateProspection);
-                prospect.setProspectInteresse(prospectInteresse);
-                prospect.setStatut("actif");
+                prospect.setDateProspection(java.sql.Date.valueOf(dateProspection));
+                prospect.setProspectInteresse(Boolean.valueOf(prospectInteresse));
                 prospect.setCommentaires("");
-                // prospect.setPasswordHash(hash);
                 prospectService.create(prospect);
             }
             req.setAttribute("success", "Compte créé avec succès. Vous pouvez vous connecter.");

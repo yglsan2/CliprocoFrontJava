@@ -2,7 +2,6 @@ package builders;
 
 import models.Adresse;
 import models.Client;
-import models.Contrat;
 import exceptions.ValidationException;
 import utilities.LogManager;
 
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Classe constructrice Client.
+ * Builder pour la classe Client
  */
 public class ClientBuilder extends Builder<Client> {
 
@@ -143,7 +142,7 @@ public class ClientBuilder extends Builder<Client> {
             LogManager.logWarning("Chiffre d'affaires invalide: " + chiffreAffaires);
             throw new ValidationException("Le chiffre d'affaires doit être supérieur ou égal à 250");
         }
-        getEntity().setChiffreAffaire(chiffreAffaires.intValue());
+        getEntity().setChiffreAffaires(chiffreAffaires);
         return this;
     }
 
@@ -160,35 +159,7 @@ public class ClientBuilder extends Builder<Client> {
             LogManager.logWarning("Nombre d'employés invalide: " + nombreEmployes);
             throw new ValidationException("Le nombre d'employés doit être supérieur ou égal à 1");
         }
-        getEntity().setNbrEmploye(nombreEmployes);
-        return this;
-    }
-
-    /**
-     * Setter Contrats.
-     *
-     * @param contrats Nouveaux contrats.
-     * @return This builder.
-     * @throws ValidationException Exception set by the contrats setter.
-     */
-    public ClientBuilder deContrats(final ArrayList<Contrat> contrats) throws ValidationException {
-        LogManager.logInfo("Définition des contrats: " + contrats);
-        for (Contrat contrat : contrats) {
-            getEntity().addContrat(contrat);
-        }
-        return this;
-    }
-
-    /**
-     * Ajoute un contrat.
-     *
-     * @param contrat Contrat à ajouter.
-     * @return This builder.
-     * @throws ValidationException Exception set by the contrat setter.
-     */
-    public ClientBuilder ajouterContrat(final Contrat contrat) throws ValidationException {
-        LogManager.logInfo("Ajout d'un contrat: " + contrat);
-        getEntity().addContrat(contrat);
+        getEntity().setNbEmployes(nombreEmployes);
         return this;
     }
 
@@ -337,16 +308,6 @@ public class ClientBuilder extends Builder<Client> {
      */
     protected Integer getNombreEmployes() throws ValidationException {
         return (Integer) getField("nombreEmployes");
-    }
-
-    /**
-     * Getter Contrats.
-     *
-     * @return Contrats
-     * @throws ValidationException Si une erreur survient
-     */
-    protected List<Contrat> getContrats() throws ValidationException {
-        return (List<Contrat>) getField("contrats");
     }
 
     public ClientBuilder deNomRue(String rue) {

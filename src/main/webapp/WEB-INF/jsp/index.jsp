@@ -1,29 +1,51 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion Clients & Prospects</title>
-
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Essential meta tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Theme and site identification -->
+    <meta name="theme-color" content="#000000">
     <meta name="description" content="Application de gestion des clients et prospects avec géolocalisation et météo">
+    
+    <!-- Stylesheets -->
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/leaflet.css">
+    <!-- FontAwesome CSS -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/fontawesome.min.css">
+    <!-- Main application styles -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+    
+    <title>Gestion Clients & Prospects | CliProCo</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <div class="d-flex w-100">
-            <div class="d-flex">
-                <a href="${pageContext.request.contextPath}/" class="btn btn-light active">Accueil</a>
-                <a href="${pageContext.request.contextPath}/app?cmd=clients.liste" class="btn btn-light">Clients</a>
-                <a href="${pageContext.request.contextPath}/app?cmd=prospects.liste" class="btn btn-light">Prospects</a>
-            </div>
-            <div class="ms-auto">
-                <button id="btnAuth" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#authModal">Connexion</button>
-            </div>
+        <a class="navbar-brand" href="${pageContext.request.contextPath}/">
+            <img src="${pageContext.request.contextPath}/img/Logo Cliproco.svg" alt="Logo" width="40" height="40" class="d-inline-block align-text-top">
+            CliProCo
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="${pageContext.request.contextPath}/">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/app?cmd=clients.liste">Clients</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/app?cmd=prospects.liste">Prospects</a>
+                </li>
+            </ul>
+            <button id="btnAuth" class="btn btn-outline-light ms-auto" data-bs-toggle="modal" data-bs-target="#authModal">Connexion</button>
         </div>
     </div>
 </nav>

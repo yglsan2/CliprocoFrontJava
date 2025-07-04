@@ -20,14 +20,11 @@ public abstract class GenericJpaDAO<T, ID> implements IDAO<T, ID> {
     protected final Class<T> entityClass;
     
     /**
-     * Constructeur générique pour les DAO JPA
+     * Constructeur par défaut qui initialise l'EntityManagerFactory pour l'unité de persistance
+     * "default" et détermine automatiquement le type d'entité à partir de la classe générique.
      * 
-     * Ce constructeur initialise l'EntityManagerFactory pour l'unité de persistance
-     * "cliprocoUP" (Cliproco Unit of Persistance) et détermine automatiquement
-     * la classe d'entité à partir des paramètres de type générique.
-     * 
-     * L'unité de persistance "cliprocoUP" est définie dans persistence.xml et
-     * contient la configuration pour la base de données MySQL et les entités JPA.
+     * L'unité de persistance "default" est définie dans persistence.xml et
+     * configure la connexion à la base de données MySQL.
      */
     @SuppressWarnings("unchecked")
     public GenericJpaDAO() {
@@ -35,22 +32,18 @@ public abstract class GenericJpaDAO<T, ID> implements IDAO<T, ID> {
         this.entityClass = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[0];
         
-        // Création de l'EntityManagerFactory pour l'unité de persistance "cliprocoUP"
-        // UP = Unit of Persistence (Unité de Persistance)
-        this.emf = Persistence.createEntityManagerFactory("cliprocoUP");
+        // Création de l'EntityManagerFactory pour l'unité de persistance "default"
+        this.emf = Persistence.createEntityManagerFactory("default");
     }
     
     /**
-     * Crée et retourne un nouvel EntityManager pour l'unité de persistance "cliprocoUP"
+     * Crée et retourne un nouvel EntityManager pour l'unité de persistance "default"
      * 
-     * Cette méthode crée un nouvel EntityManager à partir de l'EntityManagerFactory
-     * associé à l'unité de persistance "cliprocoUP". Chaque appel crée une nouvelle
-     * instance d'EntityManager qui doit être fermée après utilisation.
+     * Cette méthode crée un nouvel EntityManager qui sera
+     * associé à l'unité de persistance "default". Chaque appel crée une nouvelle
+     * instance d'EntityManager.
      * 
-     * L'EntityManager est utilisé pour effectuer les opérations de base de données
-     * (CRUD) sur les entités JPA associées à l'unité de persistance.
-     * 
-     * @return un nouvel EntityManager pour l'unité cliprocoUP
+     * @return un nouvel EntityManager pour l'unité default
      */
     protected EntityManager getEntityManager() {
         return emf.createEntityManager();

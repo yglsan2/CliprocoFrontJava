@@ -56,8 +56,8 @@ $MYSQL_CMD_FULL $DB_NAME < production/mysql/cliprocobdd.sql
 
 # Vérifier l'import
 echo "🔍 Vérification de l'import..."
-CLIENT_COUNT=$($MYSQL_CMD_FULL $DB_NAME -e "SELECT COUNT(*) FROM client;" -s -N)
-PROSPECT_COUNT=$($MYSQL_CMD_FULL $DB_NAME -e "SELECT COUNT(*) FROM prospect;" -s -N)
+CLIENT_COUNT=$($MYSQL_CMD_FULL $DB_NAME -e "SELECT COUNT(*) FROM clients;" -s -N)
+PROSPECT_COUNT=$($MYSQL_CMD_FULL $DB_NAME -e "SELECT COUNT(*) FROM prospects;" -s -N)
 ADDRESS_COUNT=$($MYSQL_CMD_FULL $DB_NAME -e "SELECT COUNT(*) FROM adresses;" -s -N)
 
 echo "✅ Base de données réinitialisée avec succès !"

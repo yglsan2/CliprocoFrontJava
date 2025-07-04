@@ -20,7 +20,7 @@ import java.util.logging.SimpleFormatter;
  */
 public class LogManager {
     private static final Logger LOGGER = Logger.getLogger(LogManager.class.getName());
-    private static final String LOG_FILE = "application.log";
+    private static String LOG_FILE;
     private static FileHandler fileHandler;
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
 
@@ -30,6 +30,16 @@ public class LogManager {
      */
     public static void run() {
         try {
+            // Déterminer le chemin du fichier de log
+            String webappPath = System.getProperty("catalina.home") + "/webapps/CliprocoJEE";
+            LOG_FILE = webappPath + "/application.log";
+            
+            // Créer le répertoire s'il n'existe pas
+            File webappDir = new File(webappPath);
+            if (!webappDir.exists()) {
+                webappDir.mkdirs();
+            }
+            
             if (fileExists()) {
                 deleteFile();
             }
@@ -106,7 +116,7 @@ public class LogManager {
      * @return true si le fichier existe, false sinon
      */
     private static boolean fileExists() {
-        return Files.exists(Paths.get(LOG_FILE));
+        return LOG_FILE != null && Files.exists(Paths.get(LOG_FILE));
     }
 
     /**
@@ -114,8 +124,10 @@ public class LogManager {
      */
     private static void deleteFile() {
         try {
-            Files.deleteIfExists(Paths.get(LOG_FILE));
-            System.out.println("Ancien fichier de log supprimé");
+            if (LOG_FILE != null) {
+                Files.deleteIfExists(Paths.get(LOG_FILE));
+                System.out.println("Ancien fichier de log supprimé");
+            }
         } catch (IOException e) {
             System.err.println("Erreur lors de la suppression du fichier de log : " + e.getMessage());
         }
@@ -127,9 +139,11 @@ public class LogManager {
      */
     private static void writeToFile(String message) {
         try {
-            Path path = Paths.get(LOG_FILE);
-            Files.write(path, (message + System.lineSeparator()).getBytes(),
-                    StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            if (LOG_FILE != null) {
+                Path path = Paths.get(LOG_FILE);
+                Files.write(path, (message + System.lineSeparator()).getBytes(),
+                        StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            }
         } catch (IOException e) {
             System.err.println("Erreur lors de l'écriture dans le fichier de log : " + e.getMessage());
         }

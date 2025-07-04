@@ -39,16 +39,13 @@
     <persistence-unit name="cliprocoUP" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         
-        <!-- Classes d'entités -->
+        <!-- Classes d'entités existantes -->
         <class>models.Client</class>
         <class>models.Prospect</class>
-        <class>models.Contrat</class>
+        <class>models.Societe</class>
         <class>models.User</class>
         <class>models.Adresse</class>
-        <class>models.Facture</class>
         <class>models.Produit</class>
-        <class>models.Societe</class>
-        <class>models.CalculFacture</class>
         
         <properties>
             <!-- Configuration JPA générique -->

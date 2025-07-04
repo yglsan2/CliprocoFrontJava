@@ -13,20 +13,11 @@ import org.slf4j.LoggerFactory;
 public class Prospect extends Societe {
     private static final Logger logger = LoggerFactory.getLogger(Prospect.class);
 
-    @Column(name = "date_prospection", nullable = false)
-    private String dateProspection;
+    @Column(name = "dateProspection", nullable = false)
+    private java.sql.Date dateProspection;
 
-    @Column(name = "prospect_interesse")
-    private String prospectInteresse;
-
-    @Column(name = "nom")
-    private String nom;
-
-    @Column(name = "prenom")
-    private String prenom;
-
-    @Column(name = "statut")
-    private String statut;
+    @Column(name = "prospectInteresse")
+    private Boolean prospectInteresse;
 
     /**
      * Constructs a Prospect avec identifiant.
@@ -36,7 +27,7 @@ public class Prospect extends Societe {
      * @param telephone    Contact number
      * @param mail         Email address
      * @param commentaires Additional comments
-     * @param dateProsp    Prospection date (past)
+     * @param dateProsp    Prospection date
      */
     public Prospect(
             final String raisonSoc,
@@ -44,7 +35,7 @@ public class Prospect extends Societe {
             final String telephone,
             final String mail,
             final String commentaires,
-            final String dateProsp) {
+            final java.sql.Date dateProsp) {
         super(raisonSoc, adresse, telephone, mail, commentaires);
         this.dateProspection = dateProsp;
     }
@@ -57,44 +48,20 @@ public class Prospect extends Societe {
         logger.debug("Création d'un nouveau prospect");
     }
 
-    public String getDateProspection() {
+    public java.sql.Date getDateProspection() {
         return dateProspection;
     }
 
-    public void setDateProspection(String dateProspection) {
+    public void setDateProspection(java.sql.Date dateProspection) {
         this.dateProspection = dateProspection;
     }
 
-    public String getProspectInteresse() {
+    public Boolean getProspectInteresse() {
         return prospectInteresse;
     }
 
-    public void setProspectInteresse(String prospectInteresse) {
+    public void setProspectInteresse(Boolean prospectInteresse) {
         this.prospectInteresse = prospectInteresse;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
-
-    public String getStatut() {
-        return statut;
-    }
-
-    public void setStatut(String statut) {
-        this.statut = statut;
     }
 
     /**
@@ -104,8 +71,14 @@ public class Prospect extends Societe {
     @Override
     public String toString() {
         return "Prospect{" +
-                super.toString() +
+                "identifiant=" + getIdentifiant() +
+                ", raisonSociale='" + getRaisonSociale() + '\'' +
+                ", adresse=" + getAdresse() +
+                ", telephone='" + getTelephone() + '\'' +
+                ", mail='" + getMail() + '\'' +
+                ", commentaires='" + getCommentaires() + '\'' +
                 ", dateProspection='" + dateProspection + '\'' +
+                ", prospectInteresse=" + prospectInteresse +
                 '}';
     }
 }
