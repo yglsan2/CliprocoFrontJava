@@ -1,10 +1,26 @@
 package utilities;
 
-public class ValidationException extends Exception {
-    public ValidationException(String message) {
+/**
+ * Exception levée lors d'une erreur de validation.
+ */
+public class ValidationException extends RuntimeException {
+    
+    /**
+     * Constructeur avec message.
+     * 
+     * @param message Message d'erreur
+     */
+    public ValidationException(final String message) {
         super(message);
     }
-    public ValidationException(String message, Throwable cause) {
+    
+    /**
+     * Constructeur avec message et cause.
+     * 
+     * @param message Message d'erreur
+     * @param cause Cause de l'exception
+     */
+    public ValidationException(final String message, final Throwable cause) {
         super(message, cause);
     }
 } 

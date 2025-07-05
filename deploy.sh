@@ -4,7 +4,7 @@ echo "=== Déploiement de CliprocoJEE ==="
 
 # Arrêt de Tomcat
 echo "1. Arrêt de Tomcat..."
-tomcat stop
+sudo systemctl stop tomcat
 sleep 3
 
 # Build du projet
@@ -21,7 +21,7 @@ sudo cp target/CliprocoJEE.war /opt/tomcat11/webapps/
 
 # Démarrage de Tomcat
 echo "5. Démarrage de Tomcat..."
-tomcat start
+sudo systemctl start tomcat
 
 echo "6. Attente du déploiement..."
 sleep 10

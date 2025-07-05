@@ -2,7 +2,6 @@ package builders;
 
 import models.Adresse;
 import exceptions.ValidationException;
-import utilities.LogManager;
 
 import java.lang.reflect.Field;
 
@@ -16,7 +15,7 @@ public class AdresseBuilder extends Builder<Adresse> {
      */
     public AdresseBuilder() {
         super(new Adresse());
-        LogManager.logInfo("Initialisation d'un nouveau AdresseBuilder");
+        System.out.println("Initialisation d'un nouveau AdresseBuilder");
     }
 
     /**
@@ -25,7 +24,7 @@ public class AdresseBuilder extends Builder<Adresse> {
      * @return new AdresseBuilder
      */
     public static AdresseBuilder getNewAdresseBuilder() {
-        LogManager.logInfo("Création d'un nouveau AdresseBuilder via méthode statique");
+        System.out.println("Création d'un nouveau AdresseBuilder via méthode statique");
         return new AdresseBuilder();
     }
 
@@ -38,8 +37,8 @@ public class AdresseBuilder extends Builder<Adresse> {
      */
     public AdresseBuilder dIdentifiant(final Integer identifiant)
             throws ValidationException {
-        LogManager.logInfo("Définition de l'identifiant: " + identifiant);
-        setField("id", identifiant);
+        System.out.println("Définition de l'identifiant: " + identifiant);
+        setField("identifiant", identifiant);
         return this;
     }
 
@@ -52,7 +51,7 @@ public class AdresseBuilder extends Builder<Adresse> {
      */
     public AdresseBuilder dIdentifiant(final String identifiant)
             throws ValidationException {
-        LogManager.logInfo("Définition de l'identifiant (String): " + identifiant);
+        System.out.println("Définition de l'identifiant (String): " + identifiant);
         return this.dIdentifiant(Integer.parseInt(identifiant));
     }
 
@@ -65,7 +64,7 @@ public class AdresseBuilder extends Builder<Adresse> {
      */
     public AdresseBuilder deNumeroRue(final String numeroRue)
             throws ValidationException {
-        LogManager.logInfo("Définition du numéro de rue: " + numeroRue);
+        System.out.println("Définition du numéro de rue: " + numeroRue);
         setField("numeroRue", numeroRue);
         return this;
     }
@@ -79,7 +78,7 @@ public class AdresseBuilder extends Builder<Adresse> {
      */
     public AdresseBuilder deNomRue(final String nomRue)
             throws ValidationException {
-        LogManager.logInfo("Définition du nom de rue: " + nomRue);
+        System.out.println("Définition du nom de rue: " + nomRue);
         setField("nomRue", nomRue);
         return this;
     }
@@ -93,9 +92,9 @@ public class AdresseBuilder extends Builder<Adresse> {
      */
     public AdresseBuilder deCodePostal(final String codePostal)
             throws ValidationException {
-        LogManager.logInfo("Définition du code postal: " + codePostal);
+        System.out.println("Définition du code postal: " + codePostal);
         if (codePostal == null || !codePostal.matches("\\b\\d{5}\\b")) {
-            LogManager.logWarning("Code postal invalide: " + codePostal);
+            System.out.println("Code postal invalide: " + codePostal);
             throw new ValidationException("Le code postal doit être un nombre de 5 chiffres");
         }
         setField("codePostal", codePostal);
@@ -111,9 +110,9 @@ public class AdresseBuilder extends Builder<Adresse> {
      */
     public AdresseBuilder deVille(final String ville)
             throws ValidationException {
-        LogManager.logInfo("Définition de la ville: " + ville);
+        System.out.println("Définition de la ville: " + ville);
         if (ville == null || !ville.matches("\\b([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*[a-zA-Z\\u0080-\\u024F]*\\b")) {
-            LogManager.logWarning("Ville invalide: " + ville);
+            System.out.println("Ville invalide: " + ville);
             throw new ValidationException("La ville ne peut contenir que des lettres, espaces, tirets et points");
         }
         setField("ville", ville);
@@ -129,9 +128,9 @@ public class AdresseBuilder extends Builder<Adresse> {
      */
     public AdresseBuilder dePays(final String pays)
             throws ValidationException {
-        LogManager.logInfo("Définition du pays: " + pays);
+        System.out.println("Définition du pays: " + pays);
         if (pays == null || !pays.matches("\\b([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*[a-zA-Z\\u0080-\\u024F]*\\b")) {
-            LogManager.logWarning("Pays invalide: " + pays);
+            System.out.println("Pays invalide: " + pays);
             throw new ValidationException("Le pays ne peut contenir que des lettres, espaces, tirets et points");
         }
         setField("pays", pays);
@@ -145,9 +144,9 @@ public class AdresseBuilder extends Builder<Adresse> {
      */
     @Override
     public Adresse build() {
-        LogManager.logInfo("Construction de l'adresse final");
+        System.out.println("Construction de l'adresse final");
         Adresse adresse = this.getEntity();
-        LogManager.logInfo("Adresse construite: " + adresse);
+        System.out.println("Adresse construite: " + adresse);
         return adresse;
     }
 
@@ -158,16 +157,16 @@ public class AdresseBuilder extends Builder<Adresse> {
      * @param value Valeur à définir
      * @throws ValidationException Si une erreur survient
      */
-    private void setField(String fieldName, Object value) throws ValidationException {
+    protected void setField(String fieldName, Object value) {
         try {
-            LogManager.logInfo("Définition du champ " + fieldName + " avec la valeur " + value);
+            System.out.println("Définition du champ " + fieldName + " avec la valeur " + value);
             Field field = this.getEntity().getClass().getDeclaredField(fieldName);
             field.setAccessible(true);
             field.set(this.getEntity(), value);
-            LogManager.logInfo("Champ défini avec succès");
+            System.out.println("Champ défini avec succès");
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            LogManager.logException("Erreur lors de la définition du champ " + fieldName, e);
-            throw new ValidationException("Erreur lors de la définition du champ " + fieldName, e);
+            e.printStackTrace();
+            throw new RuntimeException("Erreur lors de la définition du champ " + fieldName, e);
         }
     }
 }

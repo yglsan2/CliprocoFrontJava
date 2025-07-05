@@ -22,6 +22,11 @@ public class RegisterController extends HttpServlet {
     private ProspectService prospectService = new ProspectService();
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/WEB-INF/jsp/signin.jsp").forward(req, resp);
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
         // Vérification du token CSRF
@@ -49,9 +54,15 @@ public class RegisterController extends HttpServlet {
 
         try {
             // Validation de base (unicité, format, etc.)
-            ValidationManager.isValidEmail(email);
-            ValidationManager.isValidPhone(telephone);
-            ValidationManager.isValidPostalCode(codePostal);
+            if (!ValidationManager.isValidEmail(email)) {
+                throw new ValidationException("L'adresse email n'est pas valide");
+            }
+            if (!ValidationManager.isValidPhone(telephone)) {
+                throw new ValidationException("Le numéro de téléphone n'est pas valide. Exemple : 0612345678, +33612345678, 0033612345678");
+            }
+            if (!ValidationManager.isValidPostalCode(codePostal)) {
+                throw new ValidationException("Le code postal n'est pas valide");
+            }
     
 
             // Hash du mot de passe

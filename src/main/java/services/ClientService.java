@@ -34,7 +34,7 @@ public class ClientService {
         logger.info("ClientService initialisé avec un DAO personnalisé");
     }
 
-    public Optional<Client> findById(Integer id) throws ValidationException, DatabaseException {
+    public Optional<Client> findById(Integer id) throws ValidationException, ResourceNotFoundException, DatabaseException {
         logger.debug("Recherche du client avec l'ID: {}", id);
         try {
             if (id == null) {
@@ -48,8 +48,8 @@ public class ClientService {
             }
             logger.warn("Client non trouvé avec l'ID: {}", id);
             throw new ResourceNotFoundException("Client non trouvé avec l'ID: " + id);
-        } catch (ValidationException e) {
-            logger.warn("Erreur de validation lors de la recherche du client: " + e.getMessage());
+        } catch (ValidationException | ResourceNotFoundException e) {
+            logger.warn("Erreur lors de la recherche du client: " + e.getMessage());
             throw e;
         } catch (Exception e) {
             logger.error("Erreur lors de la recherche du client", e);
@@ -151,7 +151,7 @@ public class ClientService {
             
             if (client.getAdresse() != null) {
                 logger.info("Suppression de l'adresse associée au client");
-                clientDAO.delete(client);
+                adresseDAO.delete(client.getAdresse());
             }
             
             logger.info("Suppression du client de la base de données");
@@ -202,15 +202,81 @@ public class ClientService {
     }
 
     public boolean existsByRaisonSociale(String raisonSociale) throws DatabaseException {
-        logger.debug("Vérification de l'existence d'un client avec la raison sociale: {}", raisonSociale);
+        logger.debug("Vérification de l'existence du client avec la raison sociale: {}", raisonSociale);
         try {
             boolean exists = clientDAO.findAll().stream()
                 .anyMatch(client -> raisonSociale.equals(client.getRaisonSociale()));
-            logger.info("Client {} avec cette raison sociale", exists ? "existe" : "n'existe pas");
+            logger.info("Existence du client avec la raison sociale {}: {}", raisonSociale, exists);
             return exists;
         } catch (Exception e) {
             logger.error("Erreur lors de la vérification de l'existence du client", e);
             throw new DatabaseException("Erreur lors de la vérification de l'existence du client", e);
+        }
+    }
+
+    /**
+     * Recherche des clients par raison sociale (recherche partielle)
+     */
+    public List<Client> searchByRaisonSociale(String searchTerm) throws DatabaseException {
+        logger.debug("Recherche des clients avec le terme: {}", searchTerm);
+        try {
+            if (searchTerm == null || searchTerm.trim().isEmpty()) {
+                logger.warn("Terme de recherche vide");
+                return List.of();
+            }
+            
+            String lowerSearchTerm = searchTerm.toLowerCase();
+            List<Client> clients = clientDAO.findAll().stream()
+                .filter(client -> client.getRaisonSociale() != null && 
+                                client.getRaisonSociale().toLowerCase().contains(lowerSearchTerm))
+                .toList();
+            logger.info("Nombre de clients trouvés: {}", clients.size());
+            return clients;
+        } catch (Exception e) {
+            logger.error("Erreur lors de la recherche des clients", e);
+            throw new DatabaseException("Erreur lors de la recherche des clients", e);
+        }
+    }
+
+    /**
+     * Valide les données métier d'un client
+     */
+    private void validateClient(Client client) throws ValidationException {
+        if (client == null) {
+            throw new ValidationException("Le client ne peut pas être null");
+        }
+        
+        if (client.getChiffreAffaires() != null && client.getChiffreAffaires() < 0) {
+            throw new ValidationException("Le chiffre d'affaires ne peut pas être négatif");
+        }
+        
+        if (client.getNbEmployes() != null && client.getNbEmployes() < 0) {
+            throw new ValidationException("Le nombre d'employés ne peut pas être négatif");
+        }
+        
+        if (client.getMail() != null && !client.getMail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            throw new ValidationException("Format d'email invalide");
+        }
+        
+        if (client.getTelephone() != null && !client.getTelephone().matches("^[0-9]{10}$")) {
+            throw new ValidationException("Format de téléphone invalide (10 chiffres requis)");
+        }
+    }
+
+    /**
+     * Création avec validation métier
+     */
+    public Client createWithValidation(Client client) throws ValidationException, DatabaseException {
+        logger.debug("Création d'un nouveau client avec validation: {}", client);
+        try {
+            validateClient(client);
+            return create(client);
+        } catch (ValidationException e) {
+            logger.warn("Erreur de validation lors de la création du client: " + e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            logger.error("Erreur lors de la création du client", e);
+            throw new DatabaseException("Erreur lors de la création du client", e);
         }
     }
 } 

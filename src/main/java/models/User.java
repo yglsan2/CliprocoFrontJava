@@ -34,6 +34,7 @@ public final class User {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "identifiant")
     private Integer id;
 
     /**

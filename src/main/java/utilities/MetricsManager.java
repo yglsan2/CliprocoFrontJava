@@ -1,44 +1,66 @@
 package utilities;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * Gestionnaire des métriques de l'application.
+ * Gestionnaire de métriques pour l'application.
+ * Fournit des méthodes pour collecter et analyser les métriques de performance.
  */
-public class MetricsManager {
-    private static final Map<String, Integer> metrics = new HashMap<>();
-
-    public static void incrementMetric(String metricName) {
-        metrics.merge(metricName, 1, Integer::sum);
-        LogManager.logInfo("Métrique incrémentée : " + metricName);
+public final class MetricsManager {
+    
+    private static final ConcurrentHashMap<String, AtomicLong> METRICS = new ConcurrentHashMap<>();
+    
+    /**
+     * Constructeur privé pour empêcher l'instanciation.
+     */
+    private MetricsManager() {
+        // Classe utilitaire, pas d'instanciation
     }
-
-    public static void decrementMetric(String metricName) {
-        metrics.merge(metricName, -1, Integer::sum);
-        LogManager.logInfo("Métrique décrémentée : " + metricName);
+    
+    /**
+     * Incrémente un compteur de métrique.
+     * 
+     * @param metricName Nom de la métrique
+     */
+    public static void incrementCounter(final String metricName) {
+        METRICS.computeIfAbsent(metricName, k -> new AtomicLong()).incrementAndGet();
     }
-
-    public static void setMetric(String metricName, Integer value) {
-        metrics.put(metricName, value);
-        LogManager.logInfo("Métrique définie : " + metricName + " = " + value);
+    
+    /**
+     * Définit la valeur d'une métrique.
+     * 
+     * @param metricName Nom de la métrique
+     * @param value Valeur à définir
+     */
+    public static void setValue(final String metricName, final long value) {
+        METRICS.computeIfAbsent(metricName, k -> new AtomicLong()).set(value);
     }
-
-    public static Integer getMetric(String metricName) {
-        return metrics.getOrDefault(metricName, 0);
+    
+    /**
+     * Récupère la valeur d'une métrique.
+     * 
+     * @param metricName Nom de la métrique
+     * @return Valeur de la métrique ou 0 si non trouvée
+     */
+    public static long getValue(final String metricName) {
+        AtomicLong metric = METRICS.get(metricName);
+        return metric != null ? metric.get() : 0;
     }
-
-    public static void resetMetric(String metricName) {
-        metrics.remove(metricName);
-        LogManager.logInfo("Métrique réinitialisée : " + metricName);
+    
+    /**
+     * Réinitialise toutes les métriques.
+     */
+    public static void reset() {
+        METRICS.clear();
     }
-
-    public static void resetAllMetrics() {
-        metrics.clear();
-        LogManager.logInfo("Toutes les métriques ont été réinitialisées");
-    }
-
-    public static Map<String, Integer> getAllMetrics() {
-        return new HashMap<>(metrics);
+    
+    /**
+     * Récupère toutes les métriques.
+     * 
+     * @return Copie des métriques actuelles
+     */
+    public static ConcurrentHashMap<String, AtomicLong> getAllMetrics() {
+        return new ConcurrentHashMap<>(METRICS);
     }
 } 

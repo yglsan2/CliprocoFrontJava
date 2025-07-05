@@ -105,8 +105,10 @@ public class LogManager {
      */
     public static void logException(String message, Exception e) {
         String timestamp = LocalDateTime.now().format(DATE_FORMAT);
+        String exceptionMessage = (e != null) ? e.getMessage() : "null";
+        String stackTrace = (e != null) ? getStackTraceAsString(e) : "null";
         String logMessage = String.format("[%s] [ERROR] %s - Exception: %s - Stack trace: %s",
-                timestamp, message, e.getMessage(), getStackTraceAsString(e));
+                timestamp, message, exceptionMessage, stackTrace);
         LOGGER.severe(logMessage);
         writeToFile(logMessage);
     }

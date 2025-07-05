@@ -186,17 +186,21 @@ CREATE TABLE IF NOT EXISTS `users` (
   `identifiant` int NOT NULL AUTO_INCREMENT,
   `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'USER',
   `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `expire` datetime DEFAULT NULL,
-  PRIMARY KEY (`identifiant`)
+  PRIMARY KEY (`identifiant`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`identifiant`, `username`, `password`, `token`, `expire`) VALUES
-(2, 'benja2', '$argon2i$v=19$m=65536,t=2,p=1$BjNdGWSkGXEDhBbuGBsWKg$QuzeVfrtxolZ8F3Zp1PHTwnEq8FAlD+Enwm+V/h1rfE', '86c0cc71-4bc4-4c97-9788-9c885afb5223', '2025-04-02 00:00:00');
+INSERT INTO `users` (`identifiant`, `username`, `password`, `email`, `role`, `token`, `expire`) VALUES
+(2, 'benja2', '$argon2i$v=19$m=65536,t=2,p=1$BjNdGWSkGXEDhBbuGBsWKg$QuzeVfrtxolZ8F3Zp1PHTwnEq8FAlD+Enwm+V/h1rfE', 'benja2@example.com', 'USER', '86c0cc71-4bc4-4c97-9788-9c885afb5223', '2025-04-02 00:00:00');
 
 --
 -- Contraintes pour les tables déchargées

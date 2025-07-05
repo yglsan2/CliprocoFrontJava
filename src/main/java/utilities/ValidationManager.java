@@ -1,195 +1,144 @@
 package utilities;
 
-import exceptions.ValidationException;
 import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 /**
- * Gestionnaire centralisé des validations de l'application.
- *
- * <p>
- * Depuis la migration Tomcat 11, il n'y a plus de Jakarta Validation (javax/jakarta.validation) :
- * toute validation est désormais manuelle (regex, contrôles Java purs).
- * </p>
- *
- * Fournit des méthodes utilitaires pour valider les emails, téléphones, codes postaux, etc.
+ * Gestionnaire de validation pour l'application.
+ * Fournit des méthodes de validation pour différents types de données.
  */
 public final class ValidationManager {
-    // Patterns de validation
-    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
-    private static final Pattern PHONE_PATTERN = Patterns.PATTERN_TELEPHONE;
-    private static final Pattern POSTAL_CODE_PATTERN = Patterns.PATTERN_CODE_POSTAL;
-    private static final Pattern AMOUNT_PATTERN = Pattern.compile("^[0-9]+(\\.[0-9]{1,2})?$");
-    private static final Pattern NAME_PATTERN = Pattern.compile("^[a-zA-Z0-9\\s\\-']{2,50}$");
-
+    
+    private static final String EMAIL_PATTERN = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+    private static final String PHONE_PATTERN = "^[0-9]{10}$";
+    private static final String POSTAL_CODE_PATTERN = "^[0-9]{5}$";
+    private static final String NAME_PATTERN = "^[a-zA-ZÀ-ÿ\\s'-]+$";
+    
+    private static final Pattern emailPattern = Pattern.compile(EMAIL_PATTERN);
+    private static final Pattern phonePattern = Pattern.compile(PHONE_PATTERN);
+    private static final Pattern postalCodePattern = Pattern.compile(POSTAL_CODE_PATTERN);
+    private static final Pattern namePattern = Pattern.compile(NAME_PATTERN);
+    
+    /**
+     * Constructeur privé pour empêcher l'instanciation.
+     */
     private ValidationManager() {
-        throw new IllegalStateException("Classe utilitaire, ne pas instancier");
-    }
-
-    /**
-     * Valide un objet et retourne true si valide.
-     *
-     * @param object l'objet à valider
-     * @return true si l'objet est valide
-     * @throws ValidationException si une erreur survient lors de la validation
-     */
-    public static <T> boolean isValid(T object) throws ValidationException {
-        try {
-            return true; // Placeholder, as the original method is not provided in the new implementation
-        } catch (Exception e) {
-            LogManager.logException("Erreur lors de la vérification de la validité de l'objet", e);
-            throw new ValidationException("Erreur lors de la vérification de la validité de l'objet", e);
-        }
-    }
-
-    /**
-     * Valide un objet et retourne les messages d'erreur.
-     *
-     * @param object l'objet à valider
-     * @return une chaîne contenant tous les messages d'erreur, ou null si l'objet est valide
-     * @throws ValidationException si une erreur survient lors de la validation
-     */
-    public static <T> String getValidationMessages(T object) throws ValidationException {
-        try {
-            return null; // Placeholder, as the original method is not provided in the new implementation
-        } catch (Exception e) {
-            LogManager.logException("Erreur lors de la récupération des messages de validation", e);
-            throw new ValidationException("Erreur lors de la récupération des messages de validation", e);
-        }
-    }
-
-    /**
-     * Valide un objet et lance une exception si des violations sont trouvées.
-     *
-     * @param object l'objet à valider
-     * @throws ValidationException si l'objet n'est pas valide ou si une erreur survient
-     */
-    public static <T> void validateAndThrow(T object) throws ValidationException {
-        try {
-            // Placeholder, as the original method is not provided in the new implementation
-        } catch (Exception e) {
-            LogManager.logException("Erreur lors de la validation de l'objet", e);
-            throw new ValidationException("Erreur lors de la validation de l'objet", e);
-        }
-    }
-
-    /**
-     * Vérifie si une adresse email est valide.
-     * 
-     * @param email L'adresse email à valider
-     * @return true si l'email est valide
-     * @throws ValidationException si l'email est invalide
-     * @throws IllegalArgumentException si l'email est null
-     */
-    public static boolean isValidEmail(String email) throws ValidationException {
-        if (email == null) {
-            throw new IllegalArgumentException("L'email ne peut pas être null");
-        }
-        boolean isValid = EMAIL_PATTERN.matcher(email).matches();
-        if (!isValid) {
-            LogManager.logWarning("Email invalide : " + email);
-            throw new ValidationException("L'adresse email n'est pas valide");
-        }
-        return isValid;
+        // Classe utilitaire, pas d'instanciation
     }
     
     /**
-     * Vérifie si un numéro de téléphone est valide.
-     * Accepte les formats : 0XXXXXXXXX, +33XXXXXXXXX, 0033XXXXXXXXX
+     * Valide si un objet n'est pas null.
      * 
-     * @param phone Le numéro de téléphone à valider
-     * @return true si le numéro est valide
-     * @throws ValidationException si le numéro est invalide
-     * @throws IllegalArgumentException si le numéro est null
+     * @param <T> Type de l'objet à valider
+     * @param object Objet à valider
+     * @return true si l'objet n'est pas null, false sinon
      */
-    public static boolean isValidPhone(String phone) throws ValidationException {
-        if (phone == null) {
-            throw new IllegalArgumentException("Le numéro de téléphone ne peut pas être null");
-        }
-        boolean isValid = PHONE_PATTERN.matcher(phone).matches();
-        if (!isValid) {
-            LogManager.logWarning("Numéro de téléphone invalide : " + phone);
-            throw new ValidationException("Le numéro de téléphone n'est pas valide. Exemple : 0612345678, +33612345678, 0033612345678");
-        }
-        return isValid;
+    public static <T> boolean isNotNull(final T object) {
+        return object != null;
     }
     
     /**
-     * Vérifie si un code postal est valide.
-     * Doit être composé de 5 chiffres.
+     * Valide si une chaîne n'est pas vide ou null.
      * 
-     * @param postalCode Le code postal à valider
-     * @return true si le code postal est valide
-     * @throws ValidationException si le code postal est invalide
-     * @throws IllegalArgumentException si le code postal est null
+     * @param <T> Type de l'objet à valider
+     * @param object Objet à valider
+     * @return true si l'objet n'est pas null et non vide, false sinon
      */
-    public static boolean isValidPostalCode(String postalCode) throws ValidationException {
-        if (postalCode == null) {
-            throw new IllegalArgumentException("Le code postal ne peut pas être null");
+    public static <T> boolean isNotEmpty(final T object) {
+        if (object == null) {
+            return false;
         }
-        boolean isValid = POSTAL_CODE_PATTERN.matcher(postalCode).matches();
-        if (!isValid) {
-            LogManager.logWarning("Code postal invalide : " + postalCode);
-            throw new ValidationException("Le code postal n'est pas valide. Exemple : 75001, 20000, 97100");
+        if (object instanceof String) {
+            return !((String) object).trim().isEmpty();
         }
-        return isValid;
-    }
-    
-    /**
-     * Vérifie si un montant est valide.
-     * Doit être un nombre positif avec au maximum 2 décimales.
-     * 
-     * @param amount Le montant à valider
-     * @return true si le montant est valide
-     * @throws ValidationException si le montant est invalide
-     * @throws IllegalArgumentException si le montant est null
-     */
-    public static boolean isValidAmount(String amount) throws ValidationException {
-        if (amount == null) {
-            throw new IllegalArgumentException("Le montant ne peut pas être null");
-        }
-        boolean isValid = AMOUNT_PATTERN.matcher(amount).matches();
-        if (!isValid) {
-            LogManager.logWarning("Montant invalide : " + amount);
-            throw new ValidationException("Le montant n'est pas valide");
-        }
-        return isValid;
-    }
-    
-    /**
-     * Vérifie si un nom ou une raison sociale est valide.
-     * Doit contenir entre 2 et 50 caractères alphanumériques, espaces, tirets et apostrophes.
-     * 
-     * @param name Le nom à valider
-     * @return true si le nom est valide
-     * @throws ValidationException si le nom est invalide
-     * @throws IllegalArgumentException si le nom est null
-     */
-    public static boolean isValidName(String name) throws ValidationException {
-        if (name == null) {
-            throw new IllegalArgumentException("Le nom ne peut pas être null");
-        }
-        boolean isValid = NAME_PATTERN.matcher(name).matches();
-        if (!isValid) {
-            LogManager.logWarning("Nom invalide : " + name);
-            throw new ValidationException("Le nom n'est pas valide");
-        }
-        return isValid;
-    }
-    
-    /**
-     * Vérifie si une chaîne de caractères est valide.
-     * Ne doit pas être null, vide ou composée uniquement d'espaces.
-     * 
-     * @param str La chaîne à valider
-     * @return true si la chaîne est valide
-     * @throws ValidationException si la chaîne est invalide
-     * @throws IllegalArgumentException si la chaîne est null
-     */
-    public static boolean isValidString(String str) throws ValidationException {
-        if (str == null || str.trim().isEmpty()) {
-            throw new ValidationException("La chaîne ne peut pas être vide ou nulle");
-            }
         return true;
+    }
+    
+    /**
+     * Valide si une chaîne est vide ou null.
+     * 
+     * @param <T> Type de l'objet à valider
+     * @param object Objet à valider
+     * @return true si l'objet est null ou vide, false sinon
+     */
+    public static <T> boolean isEmpty(final T object) {
+        return !isNotEmpty(object);
+    }
+    
+    /**
+     * Valide le format d'un email.
+     * 
+     * @param email Email à valider
+     * @return true si l'email est valide, false sinon
+     */
+    public static boolean isValidEmail(final String email) {
+        if (email == null || email.trim().isEmpty()) {
+            return false;
+        }
+        return emailPattern.matcher(email.trim()).matches();
+    }
+    
+    /**
+     * Valide le format d'un numéro de téléphone français.
+     * 
+     * @param phone Numéro de téléphone à valider
+     * @return true si le numéro est valide, false sinon
+     */
+    public static boolean isValidPhone(final String phone) {
+        if (phone == null || phone.trim().isEmpty()) {
+            return false;
+        }
+        return phonePattern.matcher(phone.trim()).matches();
+    }
+    
+    /**
+     * Valide le format d'un code postal français.
+     * 
+     * @param postalCode Code postal à valider
+     * @return true si le code postal est valide, false sinon
+     */
+    public static boolean isValidPostalCode(final String postalCode) {
+        if (postalCode == null || postalCode.trim().isEmpty()) {
+            return false;
+        }
+        return postalCodePattern.matcher(postalCode.trim()).matches();
+    }
+    
+    /**
+     * Valide si un montant est positif.
+     * 
+     * @param amount Montant à valider
+     * @return true si le montant est positif, false sinon
+     */
+    public static boolean isPositiveAmount(final Number amount) {
+        if (amount == null) {
+            return false;
+        }
+        return amount.doubleValue() > 0;
+    }
+    
+    /**
+     * Valide le format d'un nom (lettres, espaces, tirets, apostrophes).
+     * 
+     * @param name Nom à valider
+     * @return true si le nom est valide, false sinon
+     */
+    public static boolean isValidName(final String name) {
+        if (name == null || name.trim().isEmpty()) {
+            return false;
+        }
+        return namePattern.matcher(name.trim()).matches();
+    }
+    
+    /**
+     * Valide si une chaîne contient uniquement des caractères alphanumériques.
+     * 
+     * @param str Chaîne à valider
+     * @return true si la chaîne est alphanumérique, false sinon
+     */
+    public static boolean isAlphanumeric(final String str) {
+        if (str == null || str.trim().isEmpty()) {
+            return false;
+        }
+        return str.matches("^[a-zA-Z0-9]+$");
     }
 } 

@@ -70,6 +70,10 @@ public class ProspectJpaDAO implements IDAO<Prospect, Integer> {
             if (prospect == null) {
                 throw new ValidationException("Le prospect ne peut pas être null");
             }
+            
+            // Validation des champs
+            validateProspect(prospect);
+            
             entityManager.getTransaction().begin();
             entityManager.persist(prospect);
             entityManager.getTransaction().commit();
@@ -88,11 +92,15 @@ public class ProspectJpaDAO implements IDAO<Prospect, Integer> {
 
     @Override
     public Prospect update(Prospect prospect) throws ValidationException, ResourceNotFoundException, DatabaseException {
-        logger.info("Mise à jour du prospect avec l'ID: " + prospect.getIdentifiant());
         try {
             if (prospect == null) {
                 throw new ValidationException("Le prospect ne peut pas être null");
             }
+            logger.info("Mise à jour du prospect avec l'ID: " + prospect.getIdentifiant());
+            
+            // Validation des champs
+            validateProspect(prospect);
+            
             entityManager.getTransaction().begin();
             Prospect existingProspect = entityManager.find(Prospect.class, prospect.getIdentifiant());
             if (existingProspect == null) {
@@ -115,11 +123,12 @@ public class ProspectJpaDAO implements IDAO<Prospect, Integer> {
 
     @Override
     public void delete(Prospect prospect) throws ValidationException, ResourceNotFoundException, DatabaseException {
-        logger.info("Suppression du prospect avec l'ID: " + prospect.getIdentifiant());
         try {
             if (prospect == null) {
                 throw new ValidationException("Le prospect ne peut pas être null");
             }
+            logger.info("Suppression du prospect avec l'ID: " + prospect.getIdentifiant());
+            
             entityManager.getTransaction().begin();
             Prospect existingProspect = entityManager.find(Prospect.class, prospect.getIdentifiant());
             if (existingProspect == null) {
@@ -185,6 +194,32 @@ public class ProspectJpaDAO implements IDAO<Prospect, Integer> {
         } catch (Exception e) {
             logger.severe("Erreur lors de la recherche des prospects par raison sociale: " + e.getMessage());
             throw new DatabaseException("Erreur lors de la recherche des prospects par raison sociale", e);
+        }
+    }
+
+    /**
+     * Valide les champs d'un prospect.
+     * @param prospect Le prospect à valider
+     * @throws ValidationException Si la validation échoue
+     */
+    private void validateProspect(Prospect prospect) throws ValidationException {
+        if (prospect.getRaisonSociale() == null || prospect.getRaisonSociale().trim().isEmpty()) {
+            throw new ValidationException("La raison sociale ne peut pas être vide");
+        }
+        if (prospect.getRaisonSociale().length() > 255) {
+            throw new ValidationException("La raison sociale ne peut pas dépasser 255 caractères");
+        }
+        if (prospect.getMail() != null && !prospect.getMail().matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+            throw new ValidationException("L'adresse email n'est pas valide");
+        }
+        if (prospect.getTelephone() != null && !prospect.getTelephone().matches("^[0-9]{10}$")) {
+            throw new ValidationException("Le numéro de téléphone doit contenir 10 chiffres");
+        }
+        if (prospect.getAdresse() == null) {
+            throw new ValidationException("L'adresse ne peut pas être null");
+        }
+        if (prospect.getCommentaires() != null && prospect.getCommentaires().length() > 1000) {
+            throw new ValidationException("Les commentaires ne peuvent pas dépasser 1000 caractères");
         }
     }
 } 

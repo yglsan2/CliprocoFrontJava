@@ -153,6 +153,9 @@ public final class Security {
      * @return String le token ou null s'il n'existe pas
      */
     public static String getCSRFToken(HttpSession session) {
+        if (session == null) {
+            return null;
+        }
         return (String) session.getAttribute("csrfToken");
     }
 }
