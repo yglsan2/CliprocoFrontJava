@@ -48,9 +48,12 @@ null/webapps/CliprocoJEE/application.log*
 ### Build artifacts ###
 out/
 target/
-*.jar
 *.war
 *.ear
+
+### Releases ###
+# Keep release JARs
+!releases/*.jar
 
 ### Maven ###
 pom.xml.tag
