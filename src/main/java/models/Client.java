@@ -40,15 +40,17 @@ public class Client extends Societe {
      * @param adresseMail       Adresse e-mail du client.
      * @param commentaire       Commentaire sur le client.
      * @param raisonSociale     Raison sociale du client.
+     * @param nom               Nom du contact principal.
+     * @param prenom            Prénom du contact principal.
      * @param telephone         Numéro de téléphone du client.
      * @param chiffreAffaires   Chiffre d'affaires du client.
      * @param nbEmployes        Nombre d'employés du client.
      */
     public Client(final Integer identifiantClient, final Adresse adresse,
                   final String adresseMail, final String commentaire,
-                  final String raisonSociale, final String telephone,
-                  final Double chiffreAffaires, final Integer nbEmployes) {
-        super(raisonSociale, adresse, telephone, adresseMail, commentaire);
+                  final String raisonSociale, final String nom, final String prenom,
+                  final String telephone, final Double chiffreAffaires, final Integer nbEmployes) {
+        super(raisonSociale, nom, prenom, adresse, telephone, adresseMail, commentaire);
         setIdentifiant(identifiantClient);
         setChiffreAffaires(chiffreAffaires);
         setNbEmployes(nbEmployes);
@@ -60,15 +62,17 @@ public class Client extends Societe {
      * @param adresseMail
      * @param commentaire
      * @param raisonSociale
+     * @param nom
+     * @param prenom
      * @param telephone
      * @param chiffreAffaires
      * @param nbEmployes
      */
     public Client(final Adresse adresse,
                   final String adresseMail, final String commentaire,
-                  final String raisonSociale, final String telephone,
-                  final Double chiffreAffaires, final Integer nbEmployes) {
-        super(raisonSociale, adresse, telephone, adresseMail, commentaire);
+                  final String raisonSociale, final String nom, final String prenom,
+                  final String telephone, final Double chiffreAffaires, final Integer nbEmployes) {
+        super(raisonSociale, nom, prenom, adresse, telephone, adresseMail, commentaire);
         setChiffreAffaires(chiffreAffaires);
         setNbEmployes(nbEmployes);
     }

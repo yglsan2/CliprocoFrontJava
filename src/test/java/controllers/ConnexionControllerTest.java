@@ -5,6 +5,7 @@ import dao.jpa.UserJpaDAO;
 import models.User;
 import services.UserService;
 import utilities.Security;
+import controllers.ConnexionController;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

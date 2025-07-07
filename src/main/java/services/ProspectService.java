@@ -193,12 +193,16 @@ public class ProspectService {
             throw new ValidationException("La date de prospection ne peut pas être dans le futur");
         }
         
-        if (prospect.getMail() != null && !prospect.getMail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+        if (prospect.getMail() != null && !utilities.ValidationManager.isValidEmail(prospect.getMail())) {
             throw new ValidationException("Format d'email invalide");
         }
         
-        if (prospect.getTelephone() != null && !prospect.getTelephone().matches("^[0-9]{10}$")) {
-            throw new ValidationException("Format de téléphone invalide (10 chiffres requis)");
+        if (prospect.getTelephone() != null && !utilities.ValidationManager.isValidPhone(prospect.getTelephone())) {
+            throw new ValidationException("Format de téléphone invalide. Formats acceptés : 0612345678, +33612345678, 0033612345678");
+        }
+        
+        if (prospect.getRaisonSociale() != null && !utilities.ValidationManager.isValidCompanyName(prospect.getRaisonSociale())) {
+            throw new ValidationException("Format de raison sociale invalide");
         }
         
         if (prospect.getProspectInteresse() == null) {

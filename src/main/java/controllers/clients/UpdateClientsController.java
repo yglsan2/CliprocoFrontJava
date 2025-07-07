@@ -63,6 +63,8 @@ public final class UpdateClientsController implements ICommand {
                 try {
                     // Mise à jour du client
                     client.setRaisonSociale(request.getParameter("raisonSociale") != null ? request.getParameter("raisonSociale").trim() : "");
+                    client.setNom(request.getParameter("nom") != null ? request.getParameter("nom").trim() : "");
+                    client.setPrenom(request.getParameter("prenom") != null ? request.getParameter("prenom").trim() : "");
                     client.setTelephone(request.getParameter("telephone") != null ? request.getParameter("telephone").trim() : "");
                     client.setMail(request.getParameter("mail") != null ? request.getParameter("mail").trim() : "");
                     client.setCommentaires(request.getParameter("commentaires") != null ? request.getParameter("commentaires").trim() : "");
@@ -137,6 +139,14 @@ public final class UpdateClientsController implements ICommand {
         // Validation basique des champs obligatoires
         if (client.getRaisonSociale() == null || client.getRaisonSociale().trim().isEmpty()) {
             msg.append("- La raison sociale est obligatoire<br>");
+        }
+        
+        if (client.getNom() == null || client.getNom().trim().isEmpty()) {
+            msg.append("- Le nom du contact est obligatoire<br>");
+        }
+        
+        if (client.getPrenom() == null || client.getPrenom().trim().isEmpty()) {
+            msg.append("- Le prénom du contact est obligatoire<br>");
         }
         
         if (client.getTelephone() == null || client.getTelephone().trim().isEmpty()) {

@@ -75,6 +75,14 @@ public class ProspectJpaDAO implements IDAO<Prospect, Integer> {
             validateProspect(prospect);
             
             entityManager.getTransaction().begin();
+            
+            // Persister l'adresse en premier si elle n'a pas d'ID
+            if (prospect.getAdresse() != null && prospect.getAdresse().getIdentifiant() == null) {
+                entityManager.persist(prospect.getAdresse());
+                logger.info("Adresse persistée avec l'ID: " + prospect.getAdresse().getIdentifiant());
+            }
+            
+            // Persister le prospect
             entityManager.persist(prospect);
             entityManager.getTransaction().commit();
             logger.info("Nouveau prospect sauvegardé avec succès");

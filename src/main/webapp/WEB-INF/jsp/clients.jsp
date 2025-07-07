@@ -166,7 +166,7 @@
     </div>
 </div>
 
-<script src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"></script>
+
 <script type="module" src="${pageContext.request.contextPath}/js/auth.mjs"></script>
 <script type="module" src="${pageContext.request.contextPath}/js/clients.mjs"></script>
 <script type="module" src="${pageContext.request.contextPath}/js/rgpd.mjs"></script>

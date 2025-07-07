@@ -40,6 +40,18 @@ build/
 ### Node.js ###
 node_modules/
 
+### Logs ###
+*.log
+*.log.*
+null/webapps/CliprocoJEE/application.log*
+
+### Build artifacts ###
+out/
+target/
+*.jar
+*.war
+*.ear
+
 ### Maven ###
 pom.xml.tag
 pom.xml.releaseBackup

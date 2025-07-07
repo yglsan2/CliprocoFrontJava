@@ -3,6 +3,7 @@ package services;
 import dao.jpa.ProspectJpaDAO;
 import models.Adresse;
 import models.Prospect;
+import services.ProspectService;
 import exceptions.ValidationException;
 import exceptions.DatabaseException;
 import exceptions.ResourceNotFoundException;

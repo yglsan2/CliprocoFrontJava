@@ -1,0 +1,76 @@
+@use "variables" as *;
+
+// Styles des formulaires - Reproduction exacte du design actuel
+.form-control {
+  border-radius: $border-radius-sm;
+  border: 1px solid $form-border-color;
+  padding: $spacing-sm;
+  
+  &:focus {
+    border-color: $form-focus-color;
+    box-shadow: 0 0 0 0.2rem $form-focus-shadow;
+  }
+}
+
+// Modal Bootstrap personnalisée
+.modal-content {
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-md;
+}
+
+// Styles généraux du body
+body {
+  font-family: "Roboto", sans-serif;
+  line-height: 1.6;
+  color: $text-color;
+  background-color: $accent-color;
+}
+
+// Container principal
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $spacing-xl;
+}
+
+// Logo
+.logo {
+  max-width: 300px;
+  margin-bottom: $spacing-xl;
+}
+
+// Titre de bienvenue
+.welcome-title {
+  color: $text-color;
+  margin-bottom: $spacing-md;
+}
+
+// Section météo
+.weather {
+  background-color: $text-light;
+  padding: $spacing-md;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-sm;
+  margin: $spacing-xl 0;
+}
+
+// Carte
+#map {
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-sm;
+}
+
+// Media queries pour la responsivité
+@media (max-width: 768px) {
+  .container {
+    padding: $spacing-md;
+  }
+  
+  .logo {
+    max-width: 200px;
+  }
+  
+  #map {
+    height: 400px;
+  }
+} 

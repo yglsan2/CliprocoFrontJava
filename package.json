@@ -1,0 +1,29 @@
+{
+  "name": "cliprocojee",
+  "version": "1.0.0",
+  "description": "Application Jakarta EE Cliproco avec gestion CSS via Sass",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run build-all",
+    "build-css": "sass src/main/webapp/scss/main.scss src/main/webapp/css/main.css",
+    "watch-css": "sass --watch src/main/webapp/scss/main.scss src/main/webapp/css/main.css",
+    "build-bootstrap": "sass node_modules/bootstrap/scss/bootstrap.scss src/main/webapp/css/bootstrap.min.css --style compressed",
+    "build-all": "npm run build-bootstrap && npm run build-css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "jakarta-ee",
+    "sass",
+    "bootstrap",
+    "cliproco"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "sass": "^1.69.0"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.7.2",
+    "bootstrap": "^5.3.5"
+  }
+}

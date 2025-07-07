@@ -1,0 +1,51 @@
+@use "variables" as *;
+
+// ========================================
+// BUTTON STYLES - CLIPROCO APPLICATION
+// ========================================
+
+// Styles des boutons CRUD - Classes Bootstrap standard orchestrées par npm
+// Les couleurs Bootstrap sont appliquées via les classes HTML (btn-info, btn-warning, etc.)
+// Ce fichier ne contient que les styles personnalisés (radius, ombre, etc.)
+.btn-crud,
+.btn-crud-delete,
+.btn-crud-view,
+.btn-crud-edit,
+.btn-crud-create,
+.btn-add,
+.btn-delete,
+.btn-edit,
+.btn-view {
+    border-radius: $border-radius-md;
+    font-weight: 500;
+    padding: 0.375rem 0.75rem;
+    transition: all $transition-normal;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0 2px;
+    
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: $shadow-lg;
+    }
+}
+
+// Bouton primaire Bootstrap personnalisé
+.btn-primary {
+    background-color: $primary;
+    border-color: $primary;
+    
+    &:hover {
+        background-color: darken($primary, 10%);
+        border-color: darken($primary, 10%);
+    }
+}
+
+// Responsive boutons
+@media (max-width: $breakpoint-md) {
+    .btn-crud {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+        margin: 1px;
+    }
+} 

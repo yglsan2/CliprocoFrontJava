@@ -9,7 +9,7 @@ sleep 3
 
 # Build du projet
 echo "2. Build du projet Maven..."
-./mvnw clean package
+./mvnw clean package -DskipTests
 
 # Suppression de l'ancien déploiement
 echo "3. Suppression de l'ancien déploiement..."

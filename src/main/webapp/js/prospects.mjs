@@ -8,22 +8,16 @@ class Prospects {
         this.currentProspect = null;
         this.map = null;
         this.marker = null;
+        this.weatherCache = new Map(); // Cache pour les données météo
+        this.coordinatesCache = new Map(); // Cache pour les coordonnées
 
         // Références aux éléments DOM
-        const el = document.getElementById('prospectForm'); if (!el) return;
-        this.form = el;
-        el.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (this.validateForm()) {
-                await this.saveProspect();
-            }
-        });
-
-        el = document.getElementById('prospectTable').querySelector('tbody'); if (!el) return;
-        this.tableElement = el;
-
-        el = document.getElementById('prospectDetails'); if (!el) return;
-        this.detailsSection = el;
+        this.form = document.getElementById('prospectForm');
+        if (!this.form) return;
+        this.tableElement = document.getElementById('prospectsTable')?.querySelector('tbody');
+        if (!this.tableElement) return;
+        this.detailsSection = document.getElementById('prospectDetails');
+        if (!this.detailsSection) return;
 
         // Initialisation différée de la carte
         this.mapInitialized = false;
@@ -43,8 +37,7 @@ class Prospects {
                 // Configuration des icônes Leaflet pour corriger les erreurs 404
                 L.Icon.Default.imagePath = '/CliprocoJEE/img/';
                 
-                const el = document.getElementById('prospectMap'); if (!el) return;
-                this.map = L.map(el).setView([46.603354, 1.888334], 5);
+                this.map = L.map('prospectMap').setView([46.603354, 1.888334], 5);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(this.map);
@@ -56,6 +49,14 @@ class Prospects {
     }
 
     setupEventListeners() {
+        // Écouteur pour le formulaire
+        this.form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (this.validateForm()) {
+                await this.saveProspect();
+            }
+        });
+
         // Écouteur pour la gestion de l'état d'authentification
         document.addEventListener('authStateChanged', (e) => {
             if (!e.detail.isAuthenticated) {
@@ -69,7 +70,7 @@ class Prospects {
 
     validateForm() {
         // Vérification des champs obligatoires
-        const requiredFields = ['nom', 'prenom', 'adresse', 'codePostal', 'ville', 'pays', 'email', 'telephone', 'interet', 'source'];
+        const requiredFields = ['nom', 'prenom', 'raisonSociale', 'telephone', 'mail'];
         for (const fieldId of requiredFields) {
             const field = document.getElementById(fieldId);
             if (!field || !field.value.trim()) {
@@ -79,7 +80,7 @@ class Prospects {
         }
 
         // Validation email
-        const email = document.getElementById('email')?.value;
+        const email = document.getElementById('mail')?.value;
         if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             alert('Veuillez entrer une adresse email valide');
             return false;
@@ -92,82 +93,144 @@ class Prospects {
             return false;
         }
 
-        // Validation code postal
-        const codePostal = document.getElementById('codePostal')?.value;
-        if (codePostal && !/^\d{5}$/.test(codePostal)) {
-            alert('Veuillez entrer un code postal valide (5 chiffres)');
-            return false;
-        }
-
         return true;
     }
 
     async saveProspect() {
-        const prospect = {
-            id: this.currentProspect ? this.currentProspect.id : Date.now(),
-            nom: document.getElementById('nom')?.value,
-            prenom: document.getElementById('prenom')?.value,
-            adresse: document.getElementById('adresse')?.value,
-            ville: document.getElementById('ville')?.value,
-            codePostal: document.getElementById('codePostal')?.value,
-            pays: document.getElementById('pays')?.value,
-            email: document.getElementById('email')?.value,
-            telephone: document.getElementById('telephone')?.value,
-            interet: document.getElementById('interet')?.value,
-            source: document.getElementById('source')?.value
-        };
-
         try {
-            const address = `${prospect.adresse}, ${prospect.codePostal} ${prospect.ville}`;
-            prospect.coordinates = await getCoordinates(address);
+            const prospect = {
+                id: this.currentProspect ? this.currentProspect.id : Date.now(),
+                nom: document.getElementById('nom')?.value,
+                prenom: document.getElementById('prenom')?.value,
+                raisonSociale: document.getElementById('raisonSociale')?.value,
+                telephone: document.getElementById('telephone')?.value,
+                mail: document.getElementById('mail')?.value,
+                commentaires: document.getElementById('commentaires')?.value || '',
+                numeroRue: document.getElementById('numeroRue')?.value,
+                nomRue: document.getElementById('nomRue')?.value,
+                codePostal: document.getElementById('codePostal')?.value,
+                ville: document.getElementById('ville')?.value
+            };
+
+            // Vérifier que tous les champs requis sont remplis
+            if (!this.validateProspectData(prospect)) {
+                throw new Error('Tous les champs requis doivent être remplis');
+            }
+
+            // Récupérer les coordonnées
+            const address = `${prospect.numeroRue} ${prospect.nomRue}, ${prospect.codePostal} ${prospect.ville}`;
+            const coordinates = await this.getCoordinates(prospect.codePostal, prospect.ville);
+            prospect.coordinates = coordinates;
 
             if (this.currentProspect) {
                 const index = this.prospects.findIndex(p => p.id === this.currentProspect.id);
-                this.prospects[index] = prospect;
+                if (index !== -1) {
+                    this.prospects[index] = prospect;
+                }
             } else {
                 this.prospects.push(prospect);
+                // Garder uniquement les 100 derniers prospects
+                if (this.prospects.length > this.maxProspects) {
+                    this.prospects = this.prospects.slice(-this.maxProspects);
+                }
             }
 
             localStorage.setItem('prospects', JSON.stringify(this.prospects));
             this.updateProspectsList();
             this.clearForm();
             this.currentProspect = null;
+
+            console.log('Prospect sauvegardé avec succès:', prospect);
         } catch (error) {
             console.error('Erreur lors de la sauvegarde du prospect:', error);
-            alert('Erreur lors de la sauvegarde du prospect. Vérifiez l\'adresse.');
+            alert('Erreur lors de la sauvegarde du prospect. Vérifiez l\'adresse et réessayez.');
         }
     }
 
-    calculateAge(dateNaissance) {
-        if (!dateNaissance) return 0;
-        const birthDate = new Date(dateNaissance);
-        const today = new Date();
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const monthDifference = today.getMonth() - birthDate.getMonth();
-        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
+    validateProspectData(prospect) {
+        const requiredFields = ['nom', 'prenom', 'raisonSociale', 'telephone', 'mail'];
+        return requiredFields.every(field => prospect[field] && prospect[field].toString().trim() !== '');
+    }
+
+    async getCoordinates(codePostal, ville) {
+        const cacheKey = `${codePostal}-${ville}`;
+        
+        // Vérifier le cache
+        if (this.coordinatesCache.has(cacheKey)) {
+            return this.coordinatesCache.get(cacheKey);
         }
-        return age;
+
+        const encodedAddress = encodeURIComponent(`${codePostal} ${ville}`);
+        const response = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodedAddress}`);
+        const data = await response.json();
+
+        if (data.features && data.features.length > 0) {
+            const [lng, lat] = data.features[0].geometry.coordinates;
+            const coordinates = { lat, lng };
+            
+            // Mettre en cache
+            this.coordinatesCache.set(cacheKey, coordinates);
+            
+            return coordinates;
+        }
+        throw new Error('Adresse non trouvée');
+    }
+
+    async getWeather(coordinates) {
+        const cacheKey = `${coordinates.lat}-${coordinates.lng}`;
+        const now = Date.now();
+        
+        // Vérifier le cache (validité : 1 heure)
+        if (this.weatherCache.has(cacheKey)) {
+            const cached = this.weatherCache.get(cacheKey);
+            if (now - cached.timestamp < 3600000) { // 1 heure
+                return cached.data;
+            }
+        }
+
+        const weatherData = await fetchWeather(coordinates.lat, coordinates.lng);
+        
+        // Mettre en cache avec timestamp
+        this.weatherCache.set(cacheKey, {
+            data: weatherData,
+            timestamp: now
+        });
+
+        return weatherData;
+    }
+
+    async displayWeather(coordinates) {
+        const weatherContainer = document.getElementById('prospectWeather');
+        if (!weatherContainer) return;
+
+        try {
+            const weatherData = await this.getWeather(coordinates);
+            weatherContainer.innerHTML = formatWeatherDisplay(weatherData);
+        } catch (error) {
+            console.error('Erreur météo:', error);
+            weatherContainer.innerHTML = `
+                <div class="card-body">
+                    <p class="text-danger">Erreur lors de la récupération de la météo</p>
+                </div>
+            `;
+        }
     }
 
     updateProspectsList() {
+        if (!this.tableElement) return;
+        
         this.tableElement.innerHTML = '';
         this.prospects.forEach(prospect => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${prospect.nom}</td>
-                <td>${prospect.prenom}</td>
-                <td>${prospect.dateNaissance}</td>
-                <td>${prospect.adresse}</td>
-                <td>${prospect.ville}</td>
-                <td>${prospect.codePostal}</td>
-                <td>${prospect.email}</td>
-                <td>${prospect.telephone}</td>
-                <td>${prospect.raisonSociale || '-'}</td>
-                <td>${prospect.dateProspection}</td>
-                <td>${prospect.interesse}</td>
+                <td>${prospect.nom || ''}</td>
+                <td>${prospect.prenom || ''}</td>
+                <td>${prospect.mail || ''}</td>
+                <td>${prospect.telephone || ''}</td>
+                <td>${prospect.numeroRue || ''} ${prospect.nomRue || ''}, ${prospect.codePostal || ''} ${prospect.ville || ''}</td>
+                <td>${prospect.commentaires || ''}</td>
                 <td>
-                    <button class="btn btn-info btn-sm" onclick="prospects.showProspect(${prospect.id})">
+                    <button class="btn btn-info btn-sm" onclick="prospects.viewProspect(${prospect.id})">
                         <i class="fas fa-eye"></i>
                     </button>
                     <button class="btn btn-warning btn-sm" onclick="prospects.editProspect(${prospect.id})">
@@ -205,12 +268,12 @@ class Prospects {
         }
     }
 
-    async showProspect(id) {
-        const prospect = this.prospects.find(p => p.id === id);
+    async viewProspect(prospectId) {
+        const prospect = this.prospects.find(p => p.id === prospectId);
         if (!prospect) return;
 
         document.getElementById('prospectName').textContent = `${prospect.prenom} ${prospect.nom}`;
-        document.getElementById('prospectAddress').textContent = `${prospect.adresse}, ${prospect.codePostal} ${prospect.ville}`;
+        document.getElementById('prospectAddress').textContent = `${prospect.numeroRue} ${prospect.nomRue}, ${prospect.codePostal} ${prospect.ville}`;
         
         this.detailsSection.style.display = 'block';
         
@@ -218,7 +281,7 @@ class Prospects {
         this.setupMap();
         
         try {
-            const address = `${prospect.adresse}, ${prospect.codePostal} ${prospect.ville}`;
+            const address = `${prospect.numeroRue} ${prospect.nomRue}, ${prospect.codePostal} ${prospect.ville}`;
             console.log("Recherche des coordonnées pour:", address);
             
             // Obtenir les coordonnées via l'API de géocodage
@@ -253,24 +316,23 @@ class Prospects {
         }
     }
 
-    editProspect(id) {
-        const prospect = this.prospects.find(p => p.id === id);
+    editProspect(prospectId) {
+        const prospect = this.prospects.find(p => p.id === prospectId);
         if (!prospect) return;
 
         this.currentProspect = prospect;
         
         // Remplir le formulaire avec les données du prospect
-        document.getElementById('prospectNom').value = prospect.nom;
-        document.getElementById('prospectPrenom').value = prospect.prenom;
-        document.getElementById('prospectDateNaissance').value = prospect.dateNaissance;
-        document.getElementById('prospectAdresse').value = prospect.adresse;
-        document.getElementById('prospectVille').value = prospect.ville;
-        document.getElementById('prospectCodePostal').value = prospect.codePostal;
-        document.getElementById('prospectEmail').value = prospect.email;
-        document.getElementById('prospectTel').value = prospect.telephone;
-        document.getElementById('prospectRaisonSociale').value = prospect.raisonSociale || '';
-        document.getElementById('prospectDateProspection').value = prospect.dateProspection;
-        document.getElementById('prospectInteresse').value = prospect.interesse;
+        document.getElementById('nom').value = prospect.nom;
+        document.getElementById('prenom').value = prospect.prenom;
+        document.getElementById('raisonSociale').value = prospect.raisonSociale;
+        document.getElementById('telephone').value = prospect.telephone;
+        document.getElementById('mail').value = prospect.mail;
+        document.getElementById('commentaires').value = prospect.commentaires || '';
+        document.getElementById('numeroRue').value = prospect.numeroRue;
+        document.getElementById('nomRue').value = prospect.nomRue;
+        document.getElementById('codePostal').value = prospect.codePostal;
+        document.getElementById('ville').value = prospect.ville;
     }
 
     clearForm() {
@@ -293,12 +355,7 @@ class Prospects {
 
 // Exporter l'instance
 const prospects = new Prospects();
-
-// Rendre l'instance accessible globalement
-window.prospects = prospects;
-
-export default prospects;
-
+export default prospects; 
 document.addEventListener('DOMContentLoaded', () => {
     try {
         new Prospects();

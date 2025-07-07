@@ -254,12 +254,16 @@ public class ClientService {
             throw new ValidationException("Le nombre d'employés ne peut pas être négatif");
         }
         
-        if (client.getMail() != null && !client.getMail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+        if (client.getMail() != null && !utilities.ValidationManager.isValidEmail(client.getMail())) {
             throw new ValidationException("Format d'email invalide");
         }
         
-        if (client.getTelephone() != null && !client.getTelephone().matches("^[0-9]{10}$")) {
-            throw new ValidationException("Format de téléphone invalide (10 chiffres requis)");
+        if (client.getTelephone() != null && !utilities.ValidationManager.isValidPhone(client.getTelephone())) {
+            throw new ValidationException("Format de téléphone invalide. Formats acceptés : 0612345678, +33612345678, 0033612345678");
+        }
+        
+        if (client.getRaisonSociale() != null && !utilities.ValidationManager.isValidCompanyName(client.getRaisonSociale())) {
+            throw new ValidationException("Format de raison sociale invalide");
         }
     }
 

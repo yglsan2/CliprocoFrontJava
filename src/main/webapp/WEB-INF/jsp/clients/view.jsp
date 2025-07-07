@@ -50,6 +50,14 @@
                                         <td>${client.raisonSociale}</td>
                                     </tr>
                                     <tr>
+                                        <th>Nom :</th>
+                                        <td>${client.nom}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Prénom :</th>
+                                        <td>${client.prenom}</td>
+                                    </tr>
+                                    <tr>
                                         <th>Téléphone :</th>
                                         <td>${client.telephone}</td>
                                     </tr>

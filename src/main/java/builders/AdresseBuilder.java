@@ -93,9 +93,9 @@ public class AdresseBuilder extends Builder<Adresse> {
     public AdresseBuilder deCodePostal(final String codePostal)
             throws ValidationException {
         System.out.println("Définition du code postal: " + codePostal);
-        if (codePostal == null || !codePostal.matches("\\b\\d{5}\\b")) {
+        if (!utilities.ValidationManager.isValidPostalCode(codePostal)) {
             System.out.println("Code postal invalide: " + codePostal);
-            throw new ValidationException("Le code postal doit être un nombre de 5 chiffres");
+            throw new ValidationException("Le code postal doit être un code postal français valide (01xxx à 95xxx, 2Axxx, 2Bxxx, 97xxx à 99xxx)");
         }
         setField("codePostal", codePostal);
         return this;
@@ -111,9 +111,9 @@ public class AdresseBuilder extends Builder<Adresse> {
     public AdresseBuilder deVille(final String ville)
             throws ValidationException {
         System.out.println("Définition de la ville: " + ville);
-        if (ville == null || !ville.matches("\\b([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*[a-zA-Z\\u0080-\\u024F]*\\b")) {
+        if (!utilities.ValidationManager.isValidCity(ville)) {
             System.out.println("Ville invalide: " + ville);
-            throw new ValidationException("La ville ne peut contenir que des lettres, espaces, tirets et points");
+            throw new ValidationException("La ville ne peut contenir que des lettres, espaces, tirets et apostrophes");
         }
         setField("ville", ville);
         return this;
@@ -129,9 +129,9 @@ public class AdresseBuilder extends Builder<Adresse> {
     public AdresseBuilder dePays(final String pays)
             throws ValidationException {
         System.out.println("Définition du pays: " + pays);
-        if (pays == null || !pays.matches("\\b([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*[a-zA-Z\\u0080-\\u024F]*\\b")) {
+        if (!utilities.ValidationManager.isValidCountry(pays)) {
             System.out.println("Pays invalide: " + pays);
-            throw new ValidationException("Le pays ne peut contenir que des lettres, espaces, tirets et points");
+            throw new ValidationException("Le pays ne peut contenir que des lettres, espaces, tirets et apostrophes");
         }
         setField("pays", pays);
         return this;

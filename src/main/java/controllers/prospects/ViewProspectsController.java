@@ -87,6 +87,10 @@ public final class ViewProspectsController implements ICommand {
             msg.append("- L'adresse email est obligatoire<br>");
         }
         
+        if (prospect.getDateProspection() == null) {
+            msg.append("- La date de prospection est obligatoire<br>");
+        }
+        
         if (prospect.getAdresse() == null) {
             msg.append("- L'adresse est obligatoire<br>");
         } else {

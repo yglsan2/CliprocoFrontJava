@@ -1,0 +1,97 @@
+@use "variables" as *;
+
+// ========================================
+// NAVBAR STYLES - CLIPROCO APPLICATION
+// ========================================
+
+.navbar {
+    background-color: $primary-color;
+    padding: $spacing-md;
+    
+    .btn-light {
+        margin-right: $spacing-md;
+        
+        &:hover {
+            background-color: $secondary-color;
+            color: $text-light;
+        }
+    }
+    
+    .navbar-brand {
+        color: $text-light;
+        
+        &:hover {
+            color: $secondary-color;
+        }
+    }
+    
+    .navbar-nav {
+        .nav-link {
+            color: rgba($text-light, 0.65);
+            
+            &:hover,
+            &:focus {
+                color: rgba($text-light, 0.8);
+            }
+            
+            &.active {
+                color: $text-light;
+            }
+        }
+    }
+    
+    .navbar-toggler {
+        border-color: rgba($text-light, 0.1);
+        
+        &:focus {
+            box-shadow: 0 0 0 0.25rem rgba($text-light, 0.25);
+        }
+    }
+}
+
+.offcanvas {
+    background-color: $navbar-bg;
+    
+    .offcanvas-header {
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        
+        .offcanvas-title {
+            color: white;
+            font-weight: 600;
+        }
+        
+        .btn-close {
+            filter: invert(1);
+        }
+    }
+    
+    .offcanvas-body {
+        .navbar-nav {
+            .nav-item {
+                margin-bottom: 0.5rem;
+                
+                .nav-link {
+                    color: rgba(255,255,255,0.8) !important;
+                    padding: 0.75rem 1rem;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    
+                    &:hover {
+                        color: white !important;
+                        background-color: rgba(255,255,255,0.1);
+                    }
+                    
+                    &.active {
+                        color: white !important;
+                        background-color: rgba(255,255,255,0.2);
+                    }
+                }
+            }
+        }
+        
+        hr {
+            border-color: rgba(255,255,255,0.2);
+            margin: 1rem 0;
+        }
+    }
+} 

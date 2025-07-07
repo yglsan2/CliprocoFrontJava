@@ -38,6 +38,20 @@ public abstract class Societe {
     protected String raisonSociale;
 
     /**
+     * Nom du contact principal de la société.
+     * Représente le nom de la personne de contact.
+     */
+    @Column(name = "nom")
+    protected String nom;
+
+    /**
+     * Prénom du contact principal de la société.
+     * Représente le prénom de la personne de contact.
+     */
+    @Column(name = "prenom")
+    protected String prenom;
+
+    /**
      * Adresse physique de la société.
      * Relation Many-to-One avec l'entité Adresse.
      * Une société peut avoir une seule adresse, mais une adresse peut être partagée.
@@ -75,6 +89,8 @@ public abstract class Societe {
      * initialiser leurs propriétés communes.</p>
      *
      * @param raisonSoc Raison sociale (nom légal) de la société
+     * @param nom       Nom du contact principal
+     * @param prenom    Prénom du contact principal
      * @param adr       Adresse physique de la société
      * @param tel       Numéro de téléphone de contact
      * @param email     Adresse email de contact
@@ -82,11 +98,15 @@ public abstract class Societe {
      */
     public Societe(
             final String raisonSoc,
+            final String nom,
+            final String prenom,
             final Adresse adr,
             final String tel,
             final String email,
             final String comment) {
         this.raisonSociale = raisonSoc;
+        this.nom = nom;
+        this.prenom = prenom;
         this.adresse = adr;
         this.telephone = tel;
         this.mail = email;
@@ -193,6 +213,42 @@ public abstract class Societe {
     }
 
     /**
+     * Retourne le nom du contact principal de la société.
+     * 
+     * @return Le nom du contact principal
+     */
+    public String getNom() {
+        return nom;
+    }
+
+    /**
+     * Définit le nom du contact principal de la société.
+     *
+     * @param nom Nouveau nom du contact à définir
+     */
+    public void setNom(final String nom) {
+        this.nom = nom;
+    }
+
+    /**
+     * Retourne le prénom du contact principal de la société.
+     * 
+     * @return Le prénom du contact principal
+     */
+    public String getPrenom() {
+        return prenom;
+    }
+
+    /**
+     * Définit le prénom du contact principal de la société.
+     *
+     * @param prenom Nouveau prénom du contact à définir
+     */
+    public void setPrenom(final String prenom) {
+        this.prenom = prenom;
+    }
+
+    /**
      * Retourne l'identifiant unique de la société.
      * 
      * @return L'identifiant unique de la société
@@ -227,6 +283,8 @@ public abstract class Societe {
         return "Societe{" +
                 "identifiant=" + getIdentifiant() +
                 ", raisonSociale='" + getRaisonSociale() + '\'' +
+                ", nom='" + getNom() + '\'' +
+                ", prenom='" + getPrenom() + '\'' +
                 ", adresse=" + getAdresse() +
                 ", telephone='" + getTelephone() + '\'' +
                 ", mail='" + getMail() + '\'' +

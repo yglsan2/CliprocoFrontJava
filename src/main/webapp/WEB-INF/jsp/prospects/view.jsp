@@ -50,6 +50,14 @@
                                         <td>${prospect.raisonSociale}</td>
                                     </tr>
                                     <tr>
+                                        <th>Nom :</th>
+                                        <td>${prospect.nom}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Prénom :</th>
+                                        <td>${prospect.prenom}</td>
+                                    </tr>
+                                    <tr>
                                         <th>Téléphone :</th>
                                         <td>${prospect.telephone}</td>
                                     </tr>

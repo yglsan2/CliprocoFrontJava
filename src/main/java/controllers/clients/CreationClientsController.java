@@ -40,6 +40,8 @@ public final class CreationClientsController implements ICommand {
             try {
                 // Vérification des paramètres obligatoires
                 String raisonSociale = request.getParameter("raisonSociale");
+                String nom = request.getParameter("nom");
+                String prenom = request.getParameter("prenom");
                 String telephone = request.getParameter("telephone");
                 String mail = request.getParameter("mail");
                 String numeroRue = request.getParameter("numeroRue");
@@ -52,6 +54,8 @@ public final class CreationClientsController implements ICommand {
                 
                 // Validation des paramètres obligatoires
                 if (raisonSociale == null || raisonSociale.trim().isEmpty() ||
+                    nom == null || nom.trim().isEmpty() ||
+                    prenom == null || prenom.trim().isEmpty() ||
                     telephone == null || telephone.trim().isEmpty() ||
                     mail == null || mail.trim().isEmpty() ||
                     numeroRue == null || numeroRue.trim().isEmpty() ||
@@ -75,6 +79,8 @@ public final class CreationClientsController implements ICommand {
                     mail.trim(),
                     commentaires != null ? commentaires.trim() : "",
                     raisonSociale.trim(),
+                    nom.trim(),
+                    prenom.trim(),
                     telephone.trim(),
                     Double.parseDouble(chiffreAffairesStr.trim()),
                     Integer.parseInt(nbEmployesStr.trim())
@@ -111,7 +117,7 @@ public final class CreationClientsController implements ICommand {
      * @param client Le client à valider
      * @return String - Les erreurs de validations
      */
-    private String validationClient(Client client) {
+        private String validationClient(Client client) {
         StringBuilder msg = new StringBuilder();
         
         // Validation basique des champs obligatoires
@@ -119,10 +125,20 @@ public final class CreationClientsController implements ICommand {
             msg.append("- La raison sociale est obligatoire<br>");
         }
         
+        if (client.getNom() == null || client.getNom().trim().isEmpty()) {
+            msg.append("- Le nom du contact est obligatoire<br>");
+        }
+        
+        if (client.getPrenom() == null || client.getPrenom().trim().isEmpty()) {
+            msg.append("- Le prénom du contact est obligatoire<br>");
+        }
+        
+        // Validation basique du téléphone
         if (client.getTelephone() == null || client.getTelephone().trim().isEmpty()) {
             msg.append("- Le numéro de téléphone est obligatoire<br>");
         }
         
+        // Validation basique de l'email
         if (client.getMail() == null || client.getMail().trim().isEmpty()) {
             msg.append("- L'adresse email est obligatoire<br>");
         }
@@ -130,15 +146,18 @@ public final class CreationClientsController implements ICommand {
         if (client.getAdresse() == null) {
             msg.append("- L'adresse est obligatoire<br>");
         } else {
-            if (client.getAdresse().getVille() == null || client.getAdresse().getVille().trim().isEmpty()) {
-                msg.append("- La ville est obligatoire<br>");
-            }
             if (client.getAdresse().getCodePostal() == null || client.getAdresse().getCodePostal().trim().isEmpty()) {
                 msg.append("- Le code postal est obligatoire<br>");
             }
+            
+            if (client.getAdresse().getVille() == null || client.getAdresse().getVille().trim().isEmpty()) {
+                msg.append("- La ville est obligatoire<br>");
+            }
+            
             if (client.getAdresse().getNumeroRue() == null || client.getAdresse().getNumeroRue().trim().isEmpty()) {
                 msg.append("- Le numéro de rue est obligatoire<br>");
             }
+            
             if (client.getAdresse().getNomRue() == null || client.getAdresse().getNomRue().trim().isEmpty()) {
                 msg.append("- Le nom de rue est obligatoire<br>");
             }

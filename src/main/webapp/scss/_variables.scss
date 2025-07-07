@@ -1,30 +1,99 @@
-// Couleurs personnalisées
-$primary-color: #2c3e50;
-$secondary-color: #3498db;
-$accent-color: #e74c3c;
-$background-color: #f5f6fa;
-$text-color: #2c3e50;
+// ========================================
+// VARIABLES SCSS - CLIPROCO APPLICATION
+// ========================================
 
-// Variables personnalisées
-$font-family-base: 'Roboto', sans-serif !default;
-$primary: $secondary-color;
-$secondary: $primary-color;
+// Variables de couleurs - Charte graphique Cliproco
+$primary-color: #2c3e50;      // Bleu foncé principal
+$secondary-color: #3498db;    // Bleu clair secondaire
+$accent-color: #f5f6fa;       // Gris très clair pour le fond
+
+// Couleurs des boutons CRUD
+$btn-success-color: #28a745;  // Vert pour créer/ajouter
+$btn-success-hover: #218838;
+$btn-warning-color: #ffc107;  // Jaune pour modifier
+$btn-warning-hover: #e0a800;
+$btn-danger-color: #dc3545;   // Rouge pour supprimer
+$btn-danger-hover: #c82333;
+$btn-info-color: #17a2b8;     // Bleu pour voir
+$btn-info-hover: #138496;
+
+// Couleurs des formulaires
+$form-border-color: #ddd;
+$form-focus-color: #3498db;
+$form-focus-shadow: rgba(52, 152, 219, 0.25);
+
+// Couleurs du texte
+$text-color: #2c3e50;
+$text-light: #fff;
+
+// Couleurs des tableaux
+$table-header-bg: $primary-color;
+$table-header-color: $text-light;
+$table-stripe-bg: rgba(52, 152, 219, 0.05);
+$table-hover-bg: rgba(52, 152, 219, 0.1);
+
+// Espacements
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+$spacing-xxl: 3rem;
+
+// Bordures
+$border-radius-sm: 4px;
+$border-radius-md: 6px;
+$border-radius-lg: 8px;
+
+// Ombres
+$shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+$shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 6px 12px rgba(0, 0, 0, 0.2);
+
+// Transitions
+$transition-fast: 0.15s ease-in-out;
+$transition-normal: 0.3s ease;
+
+// Couleurs principales de l'application
+$primary: #2c3e50;      // Bleu foncé (navbar)
+$secondary: #3498db;    // Bleu clair
+$success: #27ae60;      // Vert
+$danger: #e74c3c;       // Rouge
+$warning: #f39c12;      // Orange
+$info: #17a2b8;         // Bleu info
+$light: #ecf0f1;        // Gris clair
+$dark: #2c3e50;         // Gris foncé
+
+// Couleurs personnalisées
+$navbar-bg: $primary;
+$footer-bg: $dark;
+
+// Typographie
+$font-family-base: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+$font-size-base: 1rem;
+$line-height-base: 1.5;
+
+// Espacements
+$spacer: 1rem;
+$navbar-height: 76px;
+
+// Breakpoints
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+// Boutons CRUD
+$btn-crud-border-radius: 6px;
+$btn-crud-transition: all 0.3s ease;
+$btn-crud-hover-transform: translateY(-2px);
+$btn-crud-hover-shadow: 0 6px 12px rgba(0,0,0,0.2);
 
 // Autres variables
 $border-radius: 8px;
 $box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 $transition-base: all 0.3s ease;
 
-// Typographie
-$font-size-base: 16px;
-$line-height-base: 1.5;
-
 // Espacements
 $spacing-unit: 8px;
-$container-padding: $spacing-unit * 2;
-
-// Breakpoints
-$breakpoint-sm: 576px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 992px;
-$breakpoint-xl: 1200px; 
+$container-padding: $spacing-unit * 2; 

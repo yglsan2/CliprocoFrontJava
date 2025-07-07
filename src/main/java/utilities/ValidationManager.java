@@ -1,22 +1,11 @@
 package utilities;
 
-import java.util.regex.Pattern;
-
 /**
  * Gestionnaire de validation pour l'application.
  * Fournit des méthodes de validation pour différents types de données.
+ * Utilise RegexUtils pour les validations regex.
  */
 public final class ValidationManager {
-    
-    private static final String EMAIL_PATTERN = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
-    private static final String PHONE_PATTERN = "^[0-9]{10}$";
-    private static final String POSTAL_CODE_PATTERN = "^[0-9]{5}$";
-    private static final String NAME_PATTERN = "^[a-zA-ZÀ-ÿ\\s'-]+$";
-    
-    private static final Pattern emailPattern = Pattern.compile(EMAIL_PATTERN);
-    private static final Pattern phonePattern = Pattern.compile(PHONE_PATTERN);
-    private static final Pattern postalCodePattern = Pattern.compile(POSTAL_CODE_PATTERN);
-    private static final Pattern namePattern = Pattern.compile(NAME_PATTERN);
     
     /**
      * Constructeur privé pour empêcher l'instanciation.
@@ -33,7 +22,7 @@ public final class ValidationManager {
      * @return true si l'objet n'est pas null, false sinon
      */
     public static <T> boolean isNotNull(final T object) {
-        return object != null;
+        return RegexUtils.isNotNull(object);
     }
     
     /**
@@ -44,13 +33,7 @@ public final class ValidationManager {
      * @return true si l'objet n'est pas null et non vide, false sinon
      */
     public static <T> boolean isNotEmpty(final T object) {
-        if (object == null) {
-            return false;
-        }
-        if (object instanceof String) {
-            return !((String) object).trim().isEmpty();
-        }
-        return true;
+        return RegexUtils.isNotEmpty(object);
     }
     
     /**
@@ -61,46 +44,45 @@ public final class ValidationManager {
      * @return true si l'objet est null ou vide, false sinon
      */
     public static <T> boolean isEmpty(final T object) {
-        return !isNotEmpty(object);
+        return RegexUtils.isEmpty(object);
     }
     
     /**
-     * Valide le format d'un email.
+     * Valide le format d'un email selon RFC 5322.
      * 
      * @param email Email à valider
      * @return true si l'email est valide, false sinon
      */
     public static boolean isValidEmail(final String email) {
-        if (email == null || email.trim().isEmpty()) {
-            return false;
-        }
-        return emailPattern.matcher(email.trim()).matches();
+        return RegexUtils.isValidEmail(email);
     }
     
     /**
      * Valide le format d'un numéro de téléphone français.
+     * Accepte les formats :
+     * - 0612345678 (format national)
+     * - +33612345678 (format international)
+     * - 0033612345678 (format international)
      * 
      * @param phone Numéro de téléphone à valider
      * @return true si le numéro est valide, false sinon
      */
     public static boolean isValidPhone(final String phone) {
-        if (phone == null || phone.trim().isEmpty()) {
-            return false;
-        }
-        return phonePattern.matcher(phone.trim()).matches();
+        return RegexUtils.isValidPhone(phone);
     }
     
     /**
      * Valide le format d'un code postal français.
+     * Accepte :
+     * - Codes métropolitains : 01xxx à 95xxx (sauf 20xxx)
+     * - Corse : 2Axxx et 2Bxxx
+     * - DOM-TOM : 97xxx, 98xxx, 99xxx
      * 
      * @param postalCode Code postal à valider
      * @return true si le code postal est valide, false sinon
      */
     public static boolean isValidPostalCode(final String postalCode) {
-        if (postalCode == null || postalCode.trim().isEmpty()) {
-            return false;
-        }
-        return postalCodePattern.matcher(postalCode.trim()).matches();
+        return RegexUtils.isValidPostalCode(postalCode);
     }
     
     /**
@@ -110,35 +92,76 @@ public final class ValidationManager {
      * @return true si le montant est positif, false sinon
      */
     public static boolean isPositiveAmount(final Number amount) {
-        if (amount == null) {
-            return false;
-        }
-        return amount.doubleValue() > 0;
+        return RegexUtils.isPositiveAmount(amount);
     }
     
     /**
-     * Valide le format d'un nom (lettres, espaces, tirets, apostrophes).
+     * Valide le format d'un nom de personne (lettres, espaces, tirets, apostrophes).
      * 
      * @param name Nom à valider
      * @return true si le nom est valide, false sinon
      */
     public static boolean isValidName(final String name) {
-        if (name == null || name.trim().isEmpty()) {
-            return false;
-        }
-        return namePattern.matcher(name.trim()).matches();
+        return RegexUtils.isValidName(name);
     }
     
     /**
-     * Valide si une chaîne contient uniquement des caractères alphanumériques.
+     * Valide le format d'une raison sociale.
+     * 
+     * @param companyName Raison sociale à valider
+     * @return true si la raison sociale est valide, false sinon
+     */
+    public static boolean isValidCompanyName(final String companyName) {
+        return RegexUtils.isValidCompanyName(companyName);
+    }
+    
+    /**
+     * Valide le format d'une adresse.
+     * 
+     * @param address Adresse à valider
+     * @return true si l'adresse est valide, false sinon
+     */
+    public static boolean isValidAddress(final String address) {
+        return RegexUtils.isValidAddress(address);
+    }
+    
+    /**
+     * Valide le format d'une ville.
+     * 
+     * @param city Ville à valider
+     * @return true si la ville est valide, false sinon
+     */
+    public static boolean isValidCity(final String city) {
+        return RegexUtils.isValidCity(city);
+    }
+    
+    /**
+     * Valide le format d'un pays.
+     * 
+     * @param country Pays à valider
+     * @return true si le pays est valide, false sinon
+     */
+    public static boolean isValidCountry(final String country) {
+        return RegexUtils.isValidCountry(country);
+    }
+    
+    /**
+     * Valide si une chaîne est alphanumérique.
      * 
      * @param str Chaîne à valider
      * @return true si la chaîne est alphanumérique, false sinon
      */
     public static boolean isAlphanumeric(final String str) {
-        if (str == null || str.trim().isEmpty()) {
-            return false;
-        }
-        return str.matches("^[a-zA-Z0-9]+$");
+        return RegexUtils.isAlphanumeric(str);
+    }
+    
+    /**
+     * Valide le format d'un numéro de rue.
+     * 
+     * @param streetNumber Numéro de rue à valider
+     * @return true si le numéro est valide, false sinon
+     */
+    public static boolean isValidStreetNumber(final String streetNumber) {
+        return RegexUtils.isValidStreetNumber(streetNumber);
     }
 } 

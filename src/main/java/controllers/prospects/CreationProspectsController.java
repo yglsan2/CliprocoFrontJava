@@ -18,7 +18,7 @@ public final class CreationProspectsController implements ICommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOGGER.info("Exécution de CreationProspectsController");
 
-        // Instanciation de la DAO
+        // Instanciation des DAO
         ProspectJpaDAO prospectDAO = new ProspectJpaDAO();
         AdresseJpaDAO adresseDAO = new AdresseJpaDAO();
 
@@ -40,6 +40,8 @@ public final class CreationProspectsController implements ICommand {
             try {
                 // Vérification des paramètres obligatoires
                 String raisonSociale = request.getParameter("raisonSociale");
+                String nom = request.getParameter("nom");
+                String prenom = request.getParameter("prenom");
                 String telephone = request.getParameter("telephone");
                 String mail = request.getParameter("mail");
                 String numeroRue = request.getParameter("numeroRue");
@@ -50,22 +52,20 @@ public final class CreationProspectsController implements ICommand {
                 String commentaires = request.getParameter("commentaires");
                 String prospectInteresseStr = request.getParameter("prospectInteresse");
                 
-                // Validation des paramètres obligatoires
-                if (raisonSociale == null || raisonSociale.trim().isEmpty() ||
-                    telephone == null || telephone.trim().isEmpty() ||
-                    mail == null || mail.trim().isEmpty() ||
-                    numeroRue == null || numeroRue.trim().isEmpty() ||
-                    nomRue == null || nomRue.trim().isEmpty() ||
-                    codePostal == null || codePostal.trim().isEmpty() ||
-                    ville == null || ville.trim().isEmpty() ||
-                    dateProspectionStr == null || dateProspectionStr.trim().isEmpty()) {
-                    request.setAttribute("errorValidation", "Tous les champs obligatoires doivent être remplis");
+                // Traitement de la date de prospection
+                java.sql.Date dateProspection;
+                try {
+                    dateProspection = java.sql.Date.valueOf(dateProspectionStr.trim());
+                } catch (IllegalArgumentException e) {
+                    request.setAttribute("errorFormat", "Format de date invalide. Utilisez le format YYYY-MM-DD");
                     return "/WEB-INF/jsp/prospects/create.jsp";
                 }
                 
                 // Instanciation d'un prospect après réception du formulaire
                 Prospect prospect = new Prospect(
                     raisonSociale.trim(),
+                    nom.trim(),
+                    prenom.trim(),
                     new Adresse(
                         numeroRue.trim(),
                         nomRue.trim(),
@@ -75,7 +75,7 @@ public final class CreationProspectsController implements ICommand {
                     telephone.trim(),
                     mail.trim(),
                     commentaires != null ? commentaires.trim() : "",
-                    java.sql.Date.valueOf(dateProspectionStr.trim())
+                    dateProspection
                 );
 
                 // Gestion du champ prospectInteresse
@@ -120,6 +120,14 @@ public final class CreationProspectsController implements ICommand {
             msg.append("- La raison sociale est obligatoire<br>");
         }
         
+        if (prospect.getNom() == null || prospect.getNom().trim().isEmpty()) {
+            msg.append("- Le nom du contact est obligatoire<br>");
+        }
+        
+        if (prospect.getPrenom() == null || prospect.getPrenom().trim().isEmpty()) {
+            msg.append("- Le prénom du contact est obligatoire<br>");
+        }
+        
         if (prospect.getTelephone() == null || prospect.getTelephone().trim().isEmpty()) {
             msg.append("- Le numéro de téléphone est obligatoire<br>");
         }
@@ -128,18 +136,25 @@ public final class CreationProspectsController implements ICommand {
             msg.append("- L'adresse email est obligatoire<br>");
         }
         
+        if (prospect.getDateProspection() == null) {
+            msg.append("- La date de prospection est obligatoire<br>");
+        }
+        
         if (prospect.getAdresse() == null) {
             msg.append("- L'adresse est obligatoire<br>");
         } else {
-            if (prospect.getAdresse().getVille() == null || prospect.getAdresse().getVille().trim().isEmpty()) {
-                msg.append("- La ville est obligatoire<br>");
-            }
             if (prospect.getAdresse().getCodePostal() == null || prospect.getAdresse().getCodePostal().trim().isEmpty()) {
                 msg.append("- Le code postal est obligatoire<br>");
             }
+            
+            if (prospect.getAdresse().getVille() == null || prospect.getAdresse().getVille().trim().isEmpty()) {
+                msg.append("- La ville est obligatoire<br>");
+            }
+            
             if (prospect.getAdresse().getNumeroRue() == null || prospect.getAdresse().getNumeroRue().trim().isEmpty()) {
                 msg.append("- Le numéro de rue est obligatoire<br>");
             }
+            
             if (prospect.getAdresse().getNomRue() == null || prospect.getAdresse().getNomRue().trim().isEmpty()) {
                 msg.append("- Le nom de rue est obligatoire<br>");
             }
@@ -147,4 +162,4 @@ public final class CreationProspectsController implements ICommand {
 
         return msg.toString();
     }
-}
+} 

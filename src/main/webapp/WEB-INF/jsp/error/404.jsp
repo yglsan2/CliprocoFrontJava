@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>404 - Page non trouvée</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>

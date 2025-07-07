@@ -2,6 +2,7 @@ package dao.jpa;
 
 import models.Prospect;
 import models.Adresse;
+import dao.jpa.ProspectJpaDAO;
 import exceptions.DatabaseException;
 import exceptions.ValidationException;
 import exceptions.ResourceNotFoundException;

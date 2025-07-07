@@ -70,7 +70,16 @@ public class ClientJpaDAO implements IDAO<Client, Integer> {
             if (client == null) {
                 throw new ValidationException("Le client ne peut pas être null");
             }
+            
             entityManager.getTransaction().begin();
+            
+            // Persister l'adresse en premier si elle n'a pas d'ID
+            if (client.getAdresse() != null && client.getAdresse().getIdentifiant() == null) {
+                entityManager.persist(client.getAdresse());
+                logger.info("Adresse persistée avec l'ID: " + client.getAdresse().getIdentifiant());
+            }
+            
+            // Persister le client
             entityManager.persist(client);
             entityManager.getTransaction().commit();
             logger.info("Nouveau client sauvegardé avec succès");

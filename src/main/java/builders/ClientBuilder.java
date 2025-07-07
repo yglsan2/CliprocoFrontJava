@@ -79,7 +79,7 @@ public class ClientBuilder extends Builder<Client> {
      */
     public ClientBuilder deTelephone(final String telephone) throws ValidationException {
         System.out.println("Définition du téléphone: " + telephone);
-        if (telephone == null || !telephone.matches("^(?:(?:\\+|00)33|0)\\s*[1-9](?:[\\s.-]*\\d{2}){4}")) {
+        if (!utilities.ValidationManager.isValidPhone(telephone)) {
             System.out.println("Téléphone invalide: " + telephone);
             throw new ValidationException("Le téléphone doit être un numéro français valide");
         }
@@ -96,7 +96,7 @@ public class ClientBuilder extends Builder<Client> {
      */
     public ClientBuilder deMail(final String mail) throws ValidationException {
         System.out.println("Définition du mail: " + mail);
-        if (mail == null || !mail.matches("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")) {
+        if (!utilities.ValidationManager.isValidEmail(mail)) {
             System.out.println("Mail invalide: " + mail);
             throw new ValidationException("Le mail doit être une adresse email valide");
         }
@@ -188,27 +188,47 @@ public class ClientBuilder extends Builder<Client> {
         return this;
     }
 
-    public ClientBuilder deCodePostal(String codePostal) {
+    public ClientBuilder deCodePostal(String codePostal) throws ValidationException {
         if (getEntity().getAdresse() == null) {
-            getEntity().setAdresse(new Adresse());
+            getEntity().setAdresse(new models.Adresse());
+        }
+        if (!utilities.ValidationManager.isValidPostalCode(codePostal)) {
+            throw new ValidationException("Le code postal doit être un code postal français valide (01xxx à 95xxx, 2Axxx, 2Bxxx, 97xxx à 99xxx)");
         }
         getEntity().getAdresse().setCodePostal(codePostal);
         return this;
     }
 
-    public ClientBuilder deVille(String ville) {
+    public ClientBuilder deVille(String ville) throws ValidationException {
         if (getEntity().getAdresse() == null) {
-            getEntity().setAdresse(new Adresse());
+            getEntity().setAdresse(new models.Adresse());
+        }
+        if (!utilities.ValidationManager.isValidCity(ville)) {
+            throw new ValidationException("La ville ne peut contenir que des lettres, espaces, tirets et apostrophes");
         }
         getEntity().getAdresse().setVille(ville);
         return this;
     }
 
-    public ClientBuilder dePays(String pays) {
+    public ClientBuilder dePays(String pays) throws ValidationException {
         if (getEntity().getAdresse() == null) {
-            getEntity().setAdresse(new Adresse());
+            getEntity().setAdresse(new models.Adresse());
+        }
+        if (!utilities.ValidationManager.isValidCountry(pays)) {
+            throw new ValidationException("Le pays ne peut contenir que des lettres, espaces, tirets et apostrophes");
         }
         getEntity().getAdresse().setPays(pays);
+        return this;
+    }
+
+    public ClientBuilder deNumeroRue(String numeroRue) throws ValidationException {
+        if (getEntity().getAdresse() == null) {
+            getEntity().setAdresse(new models.Adresse());
+        }
+        if (!utilities.ValidationManager.isValidStreetNumber(numeroRue)) {
+            throw new ValidationException("Le numéro de rue est invalide");
+        }
+        getEntity().getAdresse().setNumeroRue(numeroRue);
         return this;
     }
 

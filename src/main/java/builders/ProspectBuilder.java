@@ -5,6 +5,7 @@ import models.Adresse;
 import exceptions.ValidationException;
 import utilities.Formatters;
 import utilities.LogManager;
+import utilities.ValidationManager;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Constructor;
@@ -154,12 +155,11 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
      * @return This builder.
      * @throws ValidationException Exception set by the code postal setter.
      */
-    public ProspectBuilder deCodePostal(final String codePostal)
-            throws ValidationException {
+    public ProspectBuilder deCodePostal(final String codePostal) throws ValidationException {
         LogManager.logInfo("Définition du code postal: " + codePostal);
-        if (codePostal == null || !codePostal.matches("\\b\\d{5}\\b")) {
+        if (!ValidationManager.isValidPostalCode(codePostal)) {
             LogManager.logWarning("Code postal invalide: " + codePostal);
-            throw new ValidationException("Le code postal doit être un nombre de 5 chiffres");
+            throw new ValidationException("Le code postal doit être un code français valide");
         }
         Adresse adresse = (Adresse) getField("adresse");
         if (adresse == null) {
@@ -178,12 +178,11 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
      * @return This builder.
      * @throws ValidationException Exception set by the ville setter.
      */
-    public ProspectBuilder deVille(final String ville)
-            throws ValidationException {
+    public ProspectBuilder deVille(final String ville) throws ValidationException {
         LogManager.logInfo("Définition de la ville: " + ville);
-        if (ville == null || !ville.matches("\\b([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*[a-zA-Z\\u0080-\\u024F]*\\b")) {
+        if (!ValidationManager.isValidCity(ville)) {
             LogManager.logWarning("Ville invalide: " + ville);
-            throw new ValidationException("La ville ne peut contenir que des lettres, espaces, tirets et points");
+            throw new ValidationException("La ville doit contenir uniquement des lettres, espaces et tirets");
         }
         Adresse adresse = (Adresse) getField("adresse");
         if (adresse == null) {
@@ -202,12 +201,11 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
      * @return This builder.
      * @throws ValidationException Exception set by the pays setter.
      */
-    public ProspectBuilder dePays(final String pays)
-            throws ValidationException {
+    public ProspectBuilder dePays(final String pays) throws ValidationException {
         LogManager.logInfo("Définition du pays: " + pays);
-        if (pays == null || !pays.matches("\\b([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*[a-zA-Z\\u0080-\\u024F]*\\b")) {
+        if (!ValidationManager.isValidCountry(pays)) {
             LogManager.logWarning("Pays invalide: " + pays);
-            throw new ValidationException("Le pays ne peut contenir que des lettres, espaces, tirets et points");
+            throw new ValidationException("Le pays doit contenir uniquement des lettres, espaces et tirets");
         }
         Adresse adresse = (Adresse) getField("adresse");
         if (adresse == null) {
@@ -227,9 +225,12 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
      * @throws ValidationException Exception set by telephone setter.
      */
     @Override
-    public ProspectBuilder deTelephone(final String telephone)
-            throws ValidationException {
+    public ProspectBuilder deTelephone(final String telephone) throws ValidationException {
         LogManager.logInfo("Définition du téléphone: " + telephone);
+        if (!ValidationManager.isValidPhone(telephone)) {
+            LogManager.logWarning("Téléphone invalide: " + telephone);
+            throw new ValidationException("Le téléphone doit être un numéro français valide");
+        }
         setField("telephone", telephone);
         return this;
     }
@@ -244,6 +245,10 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
     @Override
     public ProspectBuilder deMail(String mail) throws ValidationException {
         LogManager.logInfo("Définition du mail: " + mail);
+        if (!ValidationManager.isValidEmail(mail)) {
+            LogManager.logWarning("Email invalide: " + mail);
+            throw new ValidationException("L'email doit être au format valide");
+        }
         setField("mail", mail);
         return this;
     }
@@ -386,5 +391,15 @@ public class ProspectBuilder extends SocieteBuilder<Prospect> {
                 .deVille(ville)
                 .dePays(pays)
                 .deTelephone(telephone);
+    }
+
+    public ProspectBuilder deNumeroRue(final String numeroRue) throws ValidationException {
+        LogManager.logInfo("Définition du numéro de rue: " + numeroRue);
+        if (!ValidationManager.isValidStreetNumber(numeroRue)) {
+            LogManager.logWarning("Numéro de rue invalide: " + numeroRue);
+            throw new ValidationException("Le numéro de rue doit être au format valide");
+        }
+        setField("numeroRue", numeroRue);
+        return this;
     }
 }

@@ -12,13 +12,10 @@
     <meta name="description" content="Application de gestion des clients et prospects avec géolocalisation et météo">
     
     <!-- Stylesheets -->
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
+
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/leaflet.css">
-    <!-- FontAwesome CSS -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/fontawesome.min.css">
-    <!-- Main application styles -->
+    <!-- Main application styles (includes FontAwesome) -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
     
     <title>Gestion Clients & Prospects | CliProCo</title>

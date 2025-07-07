@@ -1,5 +1,6 @@
 package utilities;
 
+import utilities.Security;
 import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

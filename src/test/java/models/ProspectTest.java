@@ -1,5 +1,7 @@
 package models;
 
+import models.Prospect;
+import models.Adresse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,10 +38,12 @@ class ProspectTest {
     
     private static final Integer VALID_ID = 1;
     private static final String VALID_RAISON_SOCIALE = "Prospect Test";
+    private static final String VALID_NOM = "Martin";
+    private static final String VALID_PRENOM = "Pierre";
     private static final String VALID_TELEPHONE = "0123456789";
     private static final String VALID_MAIL = "contact@prospect-test.com";
     private static final String VALID_COMMENTAIRES = "Prospect intéressé par nos services";
-    private static final Date VALID_DATE_PROSPECTION = Date.valueOf(LocalDate.now());
+    private static final java.sql.Date VALID_DATE_PROSPECTION = java.sql.Date.valueOf("2024-01-15");
     private static final Boolean VALID_PROSPECT_INTERESSE = true;
 
     @BeforeEach
@@ -72,28 +76,31 @@ class ProspectTest {
         @Test
         @DisplayName("Constructeur avec paramètres de base doit initialiser correctement")
         void testBasicConstructor() {
-            Prospect basicProspect = new Prospect(VALID_RAISON_SOCIALE, adresse, 
-                                                VALID_TELEPHONE, VALID_MAIL, 
-                                                VALID_COMMENTAIRES, VALID_DATE_PROSPECTION);
+            Prospect basicProspect = new Prospect(VALID_RAISON_SOCIALE, VALID_NOM, VALID_PRENOM,
+                                                 adresse, VALID_TELEPHONE, VALID_MAIL, 
+                                                 VALID_COMMENTAIRES, VALID_DATE_PROSPECTION);
             
             assertNotNull(basicProspect);
             assertEquals(VALID_RAISON_SOCIALE, basicProspect.getRaisonSociale());
+            assertEquals(VALID_NOM, basicProspect.getNom());
+            assertEquals(VALID_PRENOM, basicProspect.getPrenom());
             assertEquals(adresse, basicProspect.getAdresse());
             assertEquals(VALID_TELEPHONE, basicProspect.getTelephone());
             assertEquals(VALID_MAIL, basicProspect.getMail());
             assertEquals(VALID_COMMENTAIRES, basicProspect.getCommentaires());
             assertEquals(VALID_DATE_PROSPECTION, basicProspect.getDateProspection());
-            assertNull(basicProspect.getProspectInteresse()); // Non défini dans ce constructeur
             assertNull(basicProspect.getIdentifiant()); // Généré par la base de données
         }
 
         @Test
         @DisplayName("Constructeur avec paramètres null doit être accepté")
         void testConstructorWithNullValues() {
-            Prospect nullProspect = new Prospect(null, null, null, null, null, null);
+            Prospect nullProspect = new Prospect(null, null, null, null, null, null, null, null);
             
             assertNotNull(nullProspect);
             assertNull(nullProspect.getRaisonSociale());
+            assertNull(nullProspect.getNom());
+            assertNull(nullProspect.getPrenom());
             assertNull(nullProspect.getAdresse());
             assertNull(nullProspect.getTelephone());
             assertNull(nullProspect.getMail());
@@ -371,8 +378,8 @@ class ProspectTest {
         @DisplayName("Prospect doit être mutable")
         void testProspectMutability() {
             // Création d'un prospect complet
-            Prospect originalProspect = new Prospect(VALID_RAISON_SOCIALE, adresse, 
-                                                   VALID_TELEPHONE, VALID_MAIL, 
+            Prospect originalProspect = new Prospect(VALID_RAISON_SOCIALE, VALID_NOM, VALID_PRENOM,
+                                                   adresse, VALID_TELEPHONE, VALID_MAIL, 
                                                    VALID_COMMENTAIRES, VALID_DATE_PROSPECTION);
 
             // Modification de tous les champs
@@ -380,6 +387,8 @@ class ProspectTest {
             newAdresse.setPays("France");
             originalProspect.setIdentifiant(999);
             originalProspect.setRaisonSociale("Prospect Modifié");
+            originalProspect.setNom("Nouveau");
+            originalProspect.setPrenom("Contact");
             originalProspect.setAdresse(newAdresse);
             originalProspect.setTelephone("0987654321");
             originalProspect.setMail("nouveau@prospect.com");
@@ -390,6 +399,8 @@ class ProspectTest {
             // Vérification des modifications
             assertEquals(Integer.valueOf(999), originalProspect.getIdentifiant());
             assertEquals("Prospect Modifié", originalProspect.getRaisonSociale());
+            assertEquals("Nouveau", originalProspect.getNom());
+            assertEquals("Contact", originalProspect.getPrenom());
             assertEquals(newAdresse, originalProspect.getAdresse());
             assertEquals("0987654321", originalProspect.getTelephone());
             assertEquals("nouveau@prospect.com", originalProspect.getMail());

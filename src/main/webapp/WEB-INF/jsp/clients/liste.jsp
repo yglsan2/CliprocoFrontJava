@@ -36,12 +36,13 @@
                 <tr>
                     <th>ID</th>
                     <th>Raison sociale</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
                     <th>Adresse</th>
                     <th>Téléphone</th>
                     <th>Email</th>
                     <th>Chiffre d'affaires</th>
                     <th>Nb Employés</th>
-                    <th>Commentaires</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -50,6 +51,8 @@
                     <tr>
                         <td>${client.identifiant}</td>
                         <td>${client.raisonSociale}</td>
+                        <td class="lorraine-name">${client.nom}</td>
+                        <td class="lorraine-firstname">${client.prenom}</td>
                         <td>
                             ${client.adresse.numeroRue} ${client.adresse.nomRue},<br>
                             ${client.adresse.codePostal} ${client.adresse.ville}
@@ -58,7 +61,6 @@
                         <td>${client.mail}</td>
                         <td>${client.chiffreAffaires}</td>
                         <td>${client.nbEmployes}</td>
-                        <td>${client.commentaires}</td>
                         <td>
                             <a href="${pageContext.request.contextPath}/app?cmd=clients.view&id=${client.identifiant}" class="btn btn-crud-view btn-sm">
                                 <i class="fas fa-eye"></i> Voir
@@ -79,7 +81,7 @@
                 </c:forEach>
                 <c:if test="${empty clients}">
                     <tr>
-                        <td colspan="9" class="text-center">Aucun client trouvé.</td>
+                        <td colspan="10" class="text-center">Aucun client trouvé.</td>
                     </tr>
                 </c:if>
             </tbody>

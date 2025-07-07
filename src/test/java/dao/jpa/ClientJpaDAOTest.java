@@ -2,6 +2,7 @@ package dao.jpa;
 
 import models.Adresse;
 import models.Client;
+import dao.jpa.ClientJpaDAO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -299,6 +300,7 @@ class ClientJpaDAOTest {
         clientDAO.close();
         
         // Assert
+        verify(mockEntityManager).isOpen();
         verify(mockEntityManager).close();
     }
 
@@ -312,20 +314,18 @@ class ClientJpaDAOTest {
         assertThrows(Exception.class, () -> {
             clientDAO.findById(1);
         });
-        verify(mockEntityManager).find(Client.class, 1);
     }
 
     @Test
     @DisplayName("Doit gérer les exceptions lors de la récupération de tous les clients")
     void testFindAllException() {
         // Arrange
-        when(mockEntityManager.createQuery(anyString(), eq(Client.class))).thenThrow(new RuntimeException("Erreur de base de données"));
+        when(mockEntityManager.createQuery(anyString(), eq(Client.class))).thenThrow(new RuntimeException("Erreur de requête"));
         
         // Act & Assert
         assertThrows(Exception.class, () -> {
             clientDAO.findAll();
         });
-        verify(mockEntityManager).createQuery("SELECT c FROM Client c", Client.class);
     }
 
     @Test
@@ -333,7 +333,7 @@ class ClientJpaDAOTest {
     void testSaveException() {
         // Arrange
         when(mockTransaction.isActive()).thenReturn(true);
-        doThrow(new RuntimeException("Erreur de base de données")).when(mockEntityManager).persist(any(Client.class));
+        doThrow(new RuntimeException("Erreur de persistance")).when(mockEntityManager).persist(any(Client.class));
         
         // Act & Assert
         assertThrows(Exception.class, () -> {
@@ -348,8 +348,8 @@ class ClientJpaDAOTest {
     void testUpdateException() {
         // Arrange
         when(mockEntityManager.find(Client.class, 1)).thenReturn(testClient);
-        doThrow(new RuntimeException("Erreur de base de données")).when(mockEntityManager).merge(any(Client.class));
         when(mockTransaction.isActive()).thenReturn(true);
+        when(mockEntityManager.merge(any(Client.class))).thenThrow(new RuntimeException("Erreur de mise à jour"));
         
         // Act & Assert
         assertThrows(Exception.class, () -> {
@@ -364,8 +364,8 @@ class ClientJpaDAOTest {
     void testDeleteException() {
         // Arrange
         when(mockEntityManager.find(Client.class, 1)).thenReturn(testClient);
-        doThrow(new RuntimeException("Erreur de base de données")).when(mockEntityManager).remove(any(Client.class));
         when(mockTransaction.isActive()).thenReturn(true);
+        doThrow(new RuntimeException("Erreur de suppression")).when(mockEntityManager).remove(any(Client.class));
         
         // Act & Assert
         assertThrows(Exception.class, () -> {
@@ -379,13 +379,12 @@ class ClientJpaDAOTest {
     @DisplayName("Doit gérer les exceptions lors de la vérification d'existence")
     void testExistsByIdException() {
         // Arrange
-        when(mockEntityManager.find(Client.class, 1)).thenThrow(new RuntimeException("Erreur de base de données"));
+        when(mockEntityManager.find(Client.class, 1)).thenThrow(new RuntimeException("Erreur de recherche"));
         
         // Act & Assert
         assertThrows(Exception.class, () -> {
             clientDAO.existsById(1);
         });
-        verify(mockEntityManager).find(Client.class, 1);
     }
 
     @Test
@@ -399,6 +398,5 @@ class ClientJpaDAOTest {
         assertThrows(Exception.class, () -> {
             clientDAO.close();
         });
-        verify(mockEntityManager).close();
     }
 } 

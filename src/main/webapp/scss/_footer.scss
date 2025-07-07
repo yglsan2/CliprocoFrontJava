@@ -1,0 +1,76 @@
+@use "variables" as *;
+
+// ========================================
+// FOOTER STYLES - CLIPROCO APPLICATION
+// ========================================
+
+.footer {
+    background-color: $footer-bg;
+    color: white;
+    padding: 2rem 0;
+    margin-top: 3rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    
+    .container-fluid {
+        .row {
+            align-items: center;
+            
+            .col-4 {
+                text-align: center;
+                
+                a {
+                    color: rgba(255,255,255,0.8);
+                    text-decoration: none;
+                    transition: color 0.3s ease;
+                    
+                    &:hover {
+                        color: white;
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Responsive footer
+@media (max-width: $breakpoint-md) {
+    .footer {
+        .container-fluid {
+            .row {
+                .col-4 {
+                    margin-bottom: 1rem;
+                    
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Styles du footer - Reproduction exacte du design actuel
+footer {
+  background-color: $primary-color;
+  color: $text-light;
+  padding: $spacing-xxl 0;
+  margin-top: $spacing-xl;
+  
+  a {
+    color: $text-light;
+    text-decoration: none;
+    
+    &:hover {
+      color: $secondary-color;
+    }
+  }
+  
+  .social-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-md;
+    margin-top: $spacing-md;
+  }
+} 

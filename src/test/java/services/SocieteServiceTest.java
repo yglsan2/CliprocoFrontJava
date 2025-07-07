@@ -3,6 +3,7 @@ package services;
 import models.Societe;
 import models.Adresse;
 import dao.jpa.SocieteJpaDAO;
+import services.SocieteService;
 import exceptions.DatabaseException;
 import exceptions.ValidationException;
 import exceptions.ResourceNotFoundException;
@@ -39,8 +40,8 @@ class SocieteServiceTest {
             super();
         }
         
-        public TestSociete(String raisonSociale, Adresse adresse, String telephone, String mail, String commentaires) {
-            super(raisonSociale, adresse, telephone, mail, commentaires);
+        public TestSociete(String raisonSociale, String nom, String prenom, Adresse adresse, String telephone, String mail, String commentaires) {
+            super(raisonSociale, nom, prenom, adresse, telephone, mail, commentaires);
         }
     }
 
@@ -290,8 +291,6 @@ class SocieteServiceTest {
         assertTrue(true);
     }
 
-
-
     @Test
     @DisplayName("Doit utiliser le constructeur par défaut")
     void testDefaultConstructor() {
@@ -301,4 +300,6 @@ class SocieteServiceTest {
         // Assert
         assertNotNull(defaultService);
     }
+
+
 } 

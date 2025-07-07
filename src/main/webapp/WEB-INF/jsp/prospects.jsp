@@ -131,7 +131,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-striped">
+                <table class="table table-striped" id="prospectsTable">
                     <thead>
                     <tr>
                         <th>Nom</th>

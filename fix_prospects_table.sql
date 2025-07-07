@@ -19,8 +19,8 @@ CREATE TABLE prospects (
   dateProspection DATE NOT NULL,
   prospectInteresse TINYINT(1) NOT NULL,
   idAdresse INT NOT NULL,
-  nom VARCHAR(255),
-  prenom VARCHAR(255),
+  nom VARCHAR(50),
+  prenom VARCHAR(50),
   statut VARCHAR(255),
   FOREIGN KEY (idAdresse) REFERENCES adresses(identifiant)
 );
@@ -40,3 +40,62 @@ INSERT INTO prospects (raisonSociale, telephone, mail, commentaires, dateProspec
 
 -- Vérification
 SELECT COUNT(*) as nombre_prospects FROM prospects;
+
+-- Script pour ajouter les colonnes nom et prénom aux tables clients et prospects
+-- À exécuter pour mettre à jour la base de données existante
+
+USE gestionclients;
+
+-- Ajout des colonnes nom et prénom à la table clients
+ALTER TABLE clients ADD COLUMN IF NOT EXISTS nom VARCHAR(100);
+ALTER TABLE clients ADD COLUMN IF NOT EXISTS prenom VARCHAR(100);
+
+-- Ajout des colonnes nom et prénom à la table prospects
+ALTER TABLE prospects ADD COLUMN IF NOT EXISTS nom VARCHAR(100);
+ALTER TABLE prospects ADD COLUMN IF NOT EXISTS prenom VARCHAR(100);
+
+-- Mettre à jour les données existantes avec des noms lorrains
+UPDATE clients SET 
+    nom = CASE 
+        WHEN identifiant = 1 THEN 'Muller'
+        WHEN identifiant = 2 THEN 'Weber'
+        WHEN identifiant = 3 THEN 'Schneider'
+        WHEN identifiant = 4 THEN 'Fischer'
+        WHEN identifiant = 5 THEN 'Meyer'
+        ELSE 'Dupont'
+    END,
+    prenom = CASE 
+        WHEN identifiant = 1 THEN 'Jean-Pierre'
+        WHEN identifiant = 2 THEN 'Marie-Claude'
+        WHEN identifiant = 3 THEN 'François'
+        WHEN identifiant = 4 THEN 'Anne-Sophie'
+        WHEN identifiant = 5 THEN 'Pierre'
+        ELSE 'Michel'
+    END
+WHERE nom IS NULL OR nom = '';
+
+UPDATE prospects SET 
+    nom = CASE 
+        WHEN identifiant = 1 THEN 'Martin'
+        WHEN identifiant = 2 THEN 'Bernard'
+        WHEN identifiant = 3 THEN 'Thomas'
+        WHEN identifiant = 4 THEN 'Petit'
+        WHEN identifiant = 5 THEN 'Robert'
+        ELSE 'Richard'
+    END,
+    prenom = CASE 
+        WHEN identifiant = 1 THEN 'Claude'
+        WHEN identifiant = 2 THEN 'Guy'
+        WHEN identifiant = 3 THEN 'Michel'
+        WHEN identifiant = 4 THEN 'Jean'
+        WHEN identifiant = 5 THEN 'Philippe'
+        ELSE 'Daniel'
+    END
+WHERE nom IS NULL OR nom = '';
+
+-- Afficher les résultats pour vérification
+SELECT 'Clients mis à jour:' as info;
+SELECT identifiant, raisonSociale, nom, prenom FROM clients;
+
+SELECT 'Prospects mis à jour:' as info;
+SELECT identifiant, raisonSociale, nom, prenom FROM prospects;

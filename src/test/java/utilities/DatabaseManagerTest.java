@@ -1,5 +1,6 @@
 package utilities;
 
+import utilities.DatabaseManager;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.AfterEach;

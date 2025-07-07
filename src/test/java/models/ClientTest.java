@@ -1,5 +1,7 @@
 package models;
 
+import models.Client;
+import models.Adresse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,6 +35,8 @@ class ClientTest {
     
     private static final Integer VALID_ID = 1;
     private static final String VALID_RAISON_SOCIALE = "Entreprise Test";
+    private static final String VALID_NOM = "Dupont";
+    private static final String VALID_PRENOM = "Jean";
     private static final String VALID_TELEPHONE = "0123456789";
     private static final String VALID_MAIL = "contact@entreprise-test.com";
     private static final String VALID_COMMENTAIRES = "Client fidèle depuis 5 ans";
@@ -70,14 +74,16 @@ class ClientTest {
         @DisplayName("Constructeur avec paramètres de base doit initialiser correctement")
         void testBasicConstructor() {
             Client basicClient = new Client(adresse, VALID_MAIL, VALID_COMMENTAIRES, 
-                                          VALID_RAISON_SOCIALE, VALID_TELEPHONE, 
-                                          VALID_CHIFFRE_AFFAIRES, VALID_NB_EMPLOYES);
+                                          VALID_RAISON_SOCIALE, VALID_NOM, VALID_PRENOM,
+                                          VALID_TELEPHONE, VALID_CHIFFRE_AFFAIRES, VALID_NB_EMPLOYES);
             
             assertNotNull(basicClient);
             assertEquals(adresse, basicClient.getAdresse());
             assertEquals(VALID_MAIL, basicClient.getMail());
             assertEquals(VALID_COMMENTAIRES, basicClient.getCommentaires());
             assertEquals(VALID_RAISON_SOCIALE, basicClient.getRaisonSociale());
+            assertEquals(VALID_NOM, basicClient.getNom());
+            assertEquals(VALID_PRENOM, basicClient.getPrenom());
             assertEquals(VALID_TELEPHONE, basicClient.getTelephone());
             assertEquals(VALID_CHIFFRE_AFFAIRES, basicClient.getChiffreAffaires());
             assertEquals(VALID_NB_EMPLOYES, basicClient.getNbEmployes());
@@ -89,8 +95,8 @@ class ClientTest {
         void testFullConstructor() {
             Client fullClient = new Client(VALID_ID, adresse, VALID_MAIL, 
                                          VALID_COMMENTAIRES, VALID_RAISON_SOCIALE, 
-                                         VALID_TELEPHONE, VALID_CHIFFRE_AFFAIRES, 
-                                         VALID_NB_EMPLOYES);
+                                         VALID_NOM, VALID_PRENOM, VALID_TELEPHONE, 
+                                         VALID_CHIFFRE_AFFAIRES, VALID_NB_EMPLOYES);
             
             assertNotNull(fullClient);
             assertEquals(VALID_ID, fullClient.getIdentifiant());
@@ -98,6 +104,8 @@ class ClientTest {
             assertEquals(VALID_MAIL, fullClient.getMail());
             assertEquals(VALID_COMMENTAIRES, fullClient.getCommentaires());
             assertEquals(VALID_RAISON_SOCIALE, fullClient.getRaisonSociale());
+            assertEquals(VALID_NOM, fullClient.getNom());
+            assertEquals(VALID_PRENOM, fullClient.getPrenom());
             assertEquals(VALID_TELEPHONE, fullClient.getTelephone());
             assertEquals(VALID_CHIFFRE_AFFAIRES, fullClient.getChiffreAffaires());
             assertEquals(VALID_NB_EMPLOYES, fullClient.getNbEmployes());
@@ -106,13 +114,15 @@ class ClientTest {
         @Test
         @DisplayName("Constructeur avec paramètres null doit être accepté")
         void testConstructorWithNullValues() {
-            Client nullClient = new Client(null, null, null, null, null, null, null);
+            Client nullClient = new Client(null, null, null, null, null, null, null, null, null);
             
             assertNotNull(nullClient);
             assertNull(nullClient.getAdresse());
             assertNull(nullClient.getMail());
             assertNull(nullClient.getCommentaires());
             assertNull(nullClient.getRaisonSociale());
+            assertNull(nullClient.getNom());
+            assertNull(nullClient.getPrenom());
             assertNull(nullClient.getTelephone());
             assertNull(nullClient.getChiffreAffaires());
             assertNull(nullClient.getNbEmployes());
@@ -407,8 +417,8 @@ class ClientTest {
             // Création d'un client complet
             Client originalClient = new Client(VALID_ID, adresse, VALID_MAIL, 
                                              VALID_COMMENTAIRES, VALID_RAISON_SOCIALE, 
-                                             VALID_TELEPHONE, VALID_CHIFFRE_AFFAIRES, 
-                                             VALID_NB_EMPLOYES);
+                                             VALID_NOM, VALID_PRENOM, VALID_TELEPHONE, 
+                                             VALID_CHIFFRE_AFFAIRES, VALID_NB_EMPLOYES);
 
             // Modification de tous les champs
             Adresse newAdresse = new Adresse("456", "Avenue des Champs", "69000", "Lyon");

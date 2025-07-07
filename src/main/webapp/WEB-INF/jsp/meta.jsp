@@ -14,8 +14,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
 <!-- Leaflet CSS -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/leaflet.css">
-<!-- FontAwesome CSS -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/fontawesome.min.css">
+
 <!-- Main application styles -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
 

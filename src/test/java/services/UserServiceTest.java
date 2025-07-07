@@ -2,6 +2,7 @@ package services;
 
 import dao.IDAO;
 import models.User;
+import services.UserService;
 import exceptions.DatabaseException;
 import exceptions.ValidationException;
 import exceptions.ResourceNotFoundException;

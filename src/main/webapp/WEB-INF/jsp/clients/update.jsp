@@ -5,7 +5,7 @@
 <head>
     <jsp:include page="../meta.jsp"/>
     <title>Modification d'un client</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
 </head>
 <body>
@@ -53,6 +53,28 @@
                         <label for="raisonSociale" class="form-label">Raison Sociale *</label>
                         <input type="text" class="form-control" id="raisonSociale" name="raisonSociale" 
                                value="${client.raisonSociale}" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="nom" class="form-label">Nom *</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="nom" name="nom" value="${client.nom}" required pattern="^[A-Za-zÀ-ÖØ-öø-ÿ' -]{2,40}$" title="Lettres, espaces, tirets, apostrophes uniquement" data-validate="name">
+                            <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" 
+                                  title="Lettres, espaces, tirets, apostrophes uniquement. Ex: Dupont, O'Connor, Jean-Pierre">
+                                <i class="fas fa-info-circle"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="prenom" class="form-label">Prénom *</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="prenom" name="prenom" value="${client.prenom}" required pattern="^[A-Za-zÀ-ÖØ-öø-ÿ' -]{2,40}$" title="Lettres, espaces, tirets, apostrophes uniquement" data-validate="name">
+                            <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" 
+                                  title="Lettres, espaces, tirets, apostrophes uniquement. Ex: Jean, Marie-Claire, François">
+                                <i class="fas fa-info-circle"></i>
+                            </span>
+                        </div>
                     </div>
 
                     <div class="form-group mb-3">

@@ -62,13 +62,20 @@ public final class UpdateProspectsController implements ICommand {
                 try {
                     // Mise à jour du prospect
                     prospect.setRaisonSociale(request.getParameter("raisonSociale") != null ? request.getParameter("raisonSociale").trim() : "");
+                    prospect.setNom(request.getParameter("nom") != null ? request.getParameter("nom").trim() : "");
+                    prospect.setPrenom(request.getParameter("prenom") != null ? request.getParameter("prenom").trim() : "");
                     prospect.setTelephone(request.getParameter("telephone") != null ? request.getParameter("telephone").trim() : "");
                     prospect.setMail(request.getParameter("mail") != null ? request.getParameter("mail").trim() : "");
                     prospect.setCommentaires(request.getParameter("commentaires") != null ? request.getParameter("commentaires").trim() : "");
                     
                     String dateProspectionStr = request.getParameter("dateProspection");
                     if (dateProspectionStr != null && !dateProspectionStr.trim().isEmpty()) {
-                        prospect.setDateProspection(java.sql.Date.valueOf(dateProspectionStr.trim()));
+                        try {
+                            prospect.setDateProspection(java.sql.Date.valueOf(dateProspectionStr.trim()));
+                        } catch (IllegalArgumentException e) {
+                            LOGGER.warning("Format de date invalide: " + dateProspectionStr);
+                            request.setAttribute("errorFormat", "Format de date invalide. Utilisez le format YYYY-MM-DD");
+                        }
                     }
 
                     String prospectInteresseStr = request.getParameter("prospectInteresse");
@@ -136,12 +143,24 @@ public final class UpdateProspectsController implements ICommand {
             msg.append("- La raison sociale est obligatoire<br>");
         }
         
+        if (prospect.getNom() == null || prospect.getNom().trim().isEmpty()) {
+            msg.append("- Le nom du contact est obligatoire<br>");
+        }
+        
+        if (prospect.getPrenom() == null || prospect.getPrenom().trim().isEmpty()) {
+            msg.append("- Le prénom du contact est obligatoire<br>");
+        }
+        
         if (prospect.getTelephone() == null || prospect.getTelephone().trim().isEmpty()) {
             msg.append("- Le numéro de téléphone est obligatoire<br>");
         }
         
         if (prospect.getMail() == null || prospect.getMail().trim().isEmpty()) {
             msg.append("- L'adresse email est obligatoire<br>");
+        }
+        
+        if (prospect.getDateProspection() == null) {
+            msg.append("- La date de prospection est obligatoire<br>");
         }
         
         if (prospect.getAdresse() == null) {

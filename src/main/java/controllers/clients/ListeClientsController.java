@@ -16,12 +16,21 @@ public final class ListeClientsController implements ICommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOGGER.info("Exécution de ListeClientsController");
 
-        // Récupération des clients depuis la base de données
-        ClientJpaDAO clientDAO = new ClientJpaDAO();
-        List<Client> clients = clientDAO.findAll();
+        try {
+            // Récupération des clients depuis la base de données
+            ClientJpaDAO clientDAO = new ClientJpaDAO();
+            List<Client> clients = clientDAO.findAll();
+            
+            LOGGER.info("Nombre de clients trouvés: " + clients.size());
+            
+            request.setAttribute("clients", clients);
+            LOGGER.info("Clients ajoutés aux attributs de la requête");
+            
+        } catch (Exception e) {
+            LOGGER.severe("Erreur lors de la récupération des clients: " + e.getMessage());
+            request.setAttribute("error", "Erreur lors du chargement des clients.");
+        }
         
-        request.setAttribute("clients", clients);
-        LOGGER.info("Clients récupérés depuis la base: " + clients.size());
         return "/WEB-INF/jsp/clients/liste.jsp";
     }
 }

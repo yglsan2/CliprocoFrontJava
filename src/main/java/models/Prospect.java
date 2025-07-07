@@ -49,6 +49,8 @@ public class Prospect extends Societe {
      * héritées de Societe et ses informations spécifiques de prospection.</p>
      *
      * @param raisonSoc    Raison sociale du prospect
+     * @param nom          Nom du contact principal
+     * @param prenom       Prénom du contact principal
      * @param adresse      Adresse complète du prospect
      * @param telephone    Numéro de téléphone de contact
      * @param mail         Adresse email de contact
@@ -57,12 +59,14 @@ public class Prospect extends Societe {
      */
     public Prospect(
             final String raisonSoc,
+            final String nom,
+            final String prenom,
             final Adresse adresse,
             final String telephone,
             final String mail,
             final String commentaires,
             final java.sql.Date dateProsp) {
-        super(raisonSoc, adresse, telephone, mail, commentaires);
+        super(raisonSoc, nom, prenom, adresse, telephone, mail, commentaires);
         this.dateProspection = dateProsp;
     }
 
@@ -126,6 +130,8 @@ public class Prospect extends Societe {
         return "Prospect{" +
                 "identifiant=" + getIdentifiant() +
                 ", raisonSociale='" + getRaisonSociale() + '\'' +
+                ", nom='" + getNom() + '\'' +
+                ", prenom='" + getPrenom() + '\'' +
                 ", adresse=" + getAdresse() +
                 ", telephone='" + getTelephone() + '\'' +
                 ", mail='" + getMail() + '\'' +

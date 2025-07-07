@@ -94,14 +94,14 @@ document.addEventListener("DOMContentLoaded", function () {
         const form = document.querySelector("form");
         if(form !== null) {
             form.addEventListener("submit", function (e) {
-                e.preventDefault();
-
                 if (form.querySelector("button").innerText === "Sauvegarder") {
                     console.warn(Object.fromEntries(Array.from(form.querySelectorAll("input, textarea"))
                         .map(el => [el.id, el.value])));
-                    form.submit();
+                    // Ne pas empêcher la soumission normale pour les formulaires de sauvegarde
+                    return true;
 
                 } else if (form.querySelector("button").innerText === "Supprimer") {
+                    e.preventDefault();
                     if (confirm("Confirmez vous la suppression ?")) {
                         console.warn("Société supprimée!");
                         form.submit();
